@@ -125,11 +125,11 @@ Install npm packages: `npm i --save express body-parser cors mongoose` - DONE �
 Start your MongoDB server by running `mongod` from the command line. - OKAY √
   - not working
   - USING: `mongod --dbpath data` ?????
-Implement the following routes but have them utilize a database to achieve data persistence.
-* [POST] `/users` This route should save a new user to the server.
-* [GET] `/users` This route will return an array of all users.
-* [GET] `/users/:id` This route will return the user with the matching `id` (`_id` on the db document) property.
-* [DELETE] `/users/:id` This route should delete the specified user.
+Implement the following routes but have them utilize a database to achieve data persistence. - DONE √
+* [POST] `/users` This route should save a new user to the server. - DONE √
+* [GET] `/users` This route will return an array of all users. - DONE √
+* [GET] `/users/:id` This route will return the user with the matching `id` (`_id` on the db document) property. - DONE √
+* [DELETE] `/users/:id` This route should delete the specified user. - DONE √
 
 ## Extra Credit
 
