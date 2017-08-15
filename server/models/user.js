@@ -3,7 +3,12 @@ const mongoose = require('mongoose');
 const UserSchema = new mongoose.Schema({
   username: {
     type: String
+  },
+  blogPosts: {
+    type: Array,
   }
 });
 
-module.exports = mongoose.model('Users', UserSchema);
+let User = mongoose.model('User', UserSchema);
+
+module.exports = { User };
