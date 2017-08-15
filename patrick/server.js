@@ -49,16 +49,30 @@ server.get('/users/:id', (req, res) => {
   });
 });
 
+// // FIND BY ID AND REMOVE
+// server.delete('/users/:id', (req, res) => {
+//   const { id } = req.params;
+//   User.findByIdAndRemove(id, (err, user) => {
+//     if (err) {
+//       res.status(STATUS_SERVER_ERROR);
+//       res.json({ error: `There is no '${err.value}' to DELETE: ${err}` });
+//     } else if (user === null) {
+//       res.json({ error: `There's no user to DELETE at id: ${id} >>> ${user}.` });
+//     } else {
+//       res.json({ error: `'${user.name}' has been deleted.` });
+//     }
+//   });
+// });
+
+// REMOVE Method
 server.delete('/users/:id', (req, res) => {
-  const { id } = req.params;
-  User.findByIdAndRemove(id, (err, user) => {
+  const id = req.params;
+  User.remove({ _id: id }, (err, delUser) => {
     if (err) {
       res.status(STATUS_SERVER_ERROR);
-      res.json({ error: `There is no '${err.value}' to DELETE.\n${err}` });
-    } else if (user === null) {
-      res.json({ error: `There's no user to DELETE at id: ${id} >>> ${user}.` });
+      res.json({ error: `There is no '${err.value}' to DELETE: ${err}` });
     } else {
-      res.json({ error: `'${user.name}' has been deleted.` });
+      res.json(delUser);
     }
   });
 });
