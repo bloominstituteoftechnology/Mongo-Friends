@@ -2,7 +2,7 @@ const bodyParser = require('body-parser');
 const express = require('express');
 const mongoose = require('mongoose');
 
-const User = require('./models');
+const { User, BlogPost } = require('./models');
 
 const STATUS_USER_ERROR = 422;
 const STATUS_SERVER_ERROR = 500;
@@ -34,34 +34,64 @@ server.post('/users', (req, res) => {
   });
 });
 
-// server.get('/users', (req, res) => {
-//   // .find() is a method you can use to read all the documents from the
-//   // collection.
-//   User.find({}, (err, users) => {
-//     if (err) {
-//       res.status(STATUS_SERVER_ERROR);
-//       res.json(err);
-//     } else {
-//       res.json(users);
-//     }
-//   });
-// });
+server.get('/users', (req, res) => {
+  User.find({}, (err, users) => {
+    if (err) {
+      res.status(STATUS_SERVER_ERROR);
+      res.json(err);
+    } else {
+      res.json(users);
+    }
+  });
+});
 
-// server.get('/users/:id', (req, res) => {
-//   const { id } = req.params;
-//   Bear.findById(id, (err, bear) => {
-//     if (err) {
-//       res.status(STATUS_SERVER_ERROR);
-//       res.json(err);
-//     } else {
-//       res.json(bear);
-//     }
-//   });
-// });
+server.get('/users/:id', (req, res) => {
+  const { id } = req.params;
+  User.findById(id, (err, user) => {
+    if (err) {
+      res.status(STATUS_SERVER_ERROR);
+      res.json(err);
+    } else {
+      res.json(user);
+    }
+  });
+});
 
+server.delete('/users/:id', (req, res) => {
+  const { id } = req.params;
+  User.remove({_id: id,}, (err, user) => {
+    if (err) {
+      res.status(STATUS_SERVER_ERROR);
+      res.json(err);
+    } else {
+      res.json({ success: 'User deleted!' });
+    }
+  })
+});
 
+server.post('/posts', (req, res) => {
+  const { title, contents } = req.body;
+  if (!title) {
+    res.status(STATUS_USER_ERROR);
+    res.json({ error: 'Must provide title' });
+    return;
+  }
+  if (!contents) {
+    res.status(STATUS_USER_ERROR);
+    res.json({ error: 'Must provide contents' });
+    return;
+  }
 
-
+  const post = new BlogPost({ title, contents });
+  post.save((err) => {
+    if (err) {
+      res.status(STATUS_SERVER_ERROR);
+      res.json(err);
+    } else {
+      res.json(post);
+    }
+  });
+});
 
 
 
@@ -71,7 +101,7 @@ server.post('/users', (req, res) => {
 
 mongoose.Promise = global.Promise;
 const connect = mongoose.connect(
-  'mongodb://localhost/users',
+  'mongodb://localhost/MongoISprint',
   { useMongoClient: true }
 );
 

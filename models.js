@@ -20,4 +20,18 @@ const UserSchema = new mongoose.Schema({
   },
 });
 
-module.exports = mongoose.model('User', UserSchema);
+const BlogSchema = new mongoose.Schema ({
+  title: {
+    type: String,
+  },
+  contents: {
+    type: String,
+  },
+});
+
+const User = mongoose.model('User', UserSchema);
+const BlogPost = mongoose.model('BlogPost', BlogSchema);
+module.exports = {
+  User,
+  BlogPost
+}
