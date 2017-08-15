@@ -129,7 +129,7 @@ Implement the following routes but have them utilize a database to achieve data 
 * [POST] `/users` This route should save a new user to the server. - DONE √
 * [GET] `/users` This route will return an array of all users. - DONE √
 * [GET] `/users/:id` This route will return the user with the matching `id` (`_id` on the db document) property. - DONE √
-* [DELETE] `/users/:id` This route should delete the specified user. - DONE √
+* [DELETE] `/users/:id` This route should delete the specified user. - DONE & DONER √
 
 ## Extra Credit
 
