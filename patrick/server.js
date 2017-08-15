@@ -42,10 +42,22 @@ server.get('/users/:id', (req, res) => {
   User.findById(id, (err, user) => {
     if (err) {
       res.status(STATUS_SERVER_ERROR);
-      res.json(err.message);
+      res.json({ error: `There is no record of the id: ${err.value}` });
+    } else {
+      res.json(user);
+    }
+  });
+});
+
+server.delete('/users/:id', (req, res) => {
+  const { id } = req.params;
+  User.findByIdAndRemove(id, (err, user) => {
+    if (err) {
+      res.status(STATUS_SERVER_ERROR);
+      res.json(err);
     } else {
       if (user === null) res.json({ error: 'user not found' });
-      res.json(user);
+      res.json({ error: `${user.name} has been deleted` });
     }
   });
 });
