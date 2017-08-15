@@ -30,6 +30,7 @@ server.get('/users/:id', (req, res) => {
       res.status(STATUS_SERVER_ERROR);
       res.json(err);
     } else {
+      if (user === null) res.json({ error: 'user doesn\'t exist'}); return;
       res.json(user);
     } 
   });
@@ -56,7 +57,7 @@ server.post('/users', (req, res) => {
 server.delete('/users/:id', (req, res) => {
   const { id } = req.params;
   User.remove({
-   _id: id,   
+    _id: id,   
   }, (err, removedUser) => {
     if (err) {
       res.status(STATUS_SERVER_ERROR);
