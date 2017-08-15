@@ -42,7 +42,7 @@ server.get('/users/:id', (req, res) => {
   User.findById(id, (err, user) => {
     if (err) {
       res.status(STATUS_SERVER_ERROR);
-      res.json({ error: `There is no record of the id: ${err.value}` });
+      res.json({ error: `There is no record of the id: ${err.value}. ${err}` });
     } else {
       res.json(user);
     }
@@ -54,11 +54,11 @@ server.delete('/users/:id', (req, res) => {
   User.findByIdAndRemove(id, (err, user) => {
     if (err) {
       res.status(STATUS_SERVER_ERROR);
-      res.json({ error: `There is no: ${err.value}` });
+      res.json({ error: `There is no '${err.value}' to DELETE.\n${err}` });
     } else if (user === null) {
-      res.json({ error: 'user not found' });
+      res.json({ error: `There's no user to DELETE at id: ${id} >>> ${user}.` });
     } else {
-      res.json({ error: `${user.name} has been deleted` });
+      res.json({ error: `'${user.name}' has been deleted.` });
     }
   });
 });
