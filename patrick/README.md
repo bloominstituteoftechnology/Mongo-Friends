@@ -23,6 +23,18 @@
 ## Assignment
 
 Download MongoDB.  https://www.mongodb.com/download-center - DONE √
+  ```console
+  $  mongo --version
+      MongoDB shell version v3.4.7
+      git version: cf38c1b8a0a8dca4a11737581beafef4fe120bcd
+      OpenSSL version: OpenSSL 1.0.2l  25 May 2017
+      allocator: system
+      modules: none
+      build environment:
+          distarch: x86_64
+          target_arch: x86_64
+  ```
+
 Create a new folder and run `npm init` to create your `package.json` file. - DONE √
   ```console
   $  npm init
@@ -77,6 +89,7 @@ Create a new folder and run `npm init` to create your `package.json` file. - DON
         + express@4.15.4
         added 81 packages in 10.865s
   ```
+
 Install npm packages: `npm i --save express body-parser cors mongoose` - DONE √
   ```console
   $  npm i --save express body-parser cors mongoose
@@ -86,6 +99,19 @@ Install npm packages: `npm i --save express body-parser cors mongoose` - DONE �
       + mongoose@4.11.7
       updated 4 packages in 5.624s
   ```
+
+  ```console
+  $  npm i --save mongodb
+      + mongodb@2.2.31
+      updated 1 package in 5.294s
+  ```
+
+  ```console
+  $ mkdir data
+  ```
+
+
+
 Start your MongoDB server by running `mongod` from the command line. - OKAY √
   - not working
   - USING: `mongod --dbpath data` ?????
