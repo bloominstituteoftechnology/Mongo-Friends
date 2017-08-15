@@ -26,6 +26,17 @@ server.post('/users', (req, res) => {
   });
 });
 
+server.get('/users', (req, res) => {
+  User.find({}, (err, users) => {
+    if (err) {
+      res.status(STATUS_USER_ERROR);
+      res.json(err);
+    } else {
+      res.json(users)
+    }
+  })
+})
+
 mongoose.Promise = global.Promise;
 const connect = mongoose.connect(
   'mongodb://localhost/users',
