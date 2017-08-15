@@ -1,8 +1,7 @@
 const bodyParser = require('body-parser');
 const express = require('express');
 const mongoose = require('mongoose');
-const User = require('./models/userModel.js');
-const Blog = require('./models/blogModel.js');
+const User = require('./models.js');
 
 const STATUS_USER_ERROR = 422;
 const STATUS_SERVER_ERROR = 500;
@@ -66,7 +65,7 @@ server.get('/users/:id', (req, res) => {
 // });
 
 
-// // FIND & REMOVE Method
+// // REMOVE Method
 // // per: http://mongoosejs.com/docs/api.html#query_Query-remove
 // server.delete('/users/:id', (req, res) => {
 //   const id = req.params.id;
@@ -94,17 +93,29 @@ server.get('/users/:id', (req, res) => {
 
 
 // REMOVE Method
+// per: http://mongoosejs.com/docs/api.html#query_Query-remove
 server.delete('/users/:id', (req, res) => {
+  // const id = req.params.id;
   const { id } = req.params;
+  // console.log(id);
+
+  // const query = User.find({ _id: id });
+
+  // per README.md: \_id ???
+  // query.remove({ _id: id }, (err, delUser) => {
   User.remove({ _id: id }, (err, delUser) => {
+    // console.log(delUser);
     if (err) {
       res.status(STATUS_SERVER_ERROR);
-      // res.json(err);
-      res.json({ error: `There is no '${err.value}' to DELETE` });
+      res.json(err);
+      // res.json({ error: `There is no '${err.value}' to DELETE: ${err}` });
     } else if (delUser.result.n === 0) {
       res.json({ error: 'There is nothing to delete' });
     } else {
+      // console.log(delUser);
+      // delUser is whatever the callBack is returning
       res.json(delUser);
+      // res.json({ error: `'${delUser.name}' has been deleted.` });
     }
   });
 });
