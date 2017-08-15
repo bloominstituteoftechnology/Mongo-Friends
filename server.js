@@ -1,6 +1,10 @@
 const bodyParser = require('body-parser');
 const express = require('express');
 const mongoose = require('mongoose');
+const Model = require('./models');
+const User = Model.User;
+const Post = Model.Post;
+
 
 const STATUS_USER_ERRROR = 422;
 const STATUS_SERVER_ERROR = 500;
@@ -14,27 +18,8 @@ server.post('/users', (req, res) => {
     res.status(422);
     res.json({ error: "Make sure to input username and password" });
   }
-  const user = new Users({ username, password });
+  const user = new User({ username, password });
   user.save((err) => {
-    if (err) {
-      res.status(500);
-      res.json({ error: "Server error"})
-    }
-    res.json(user);
-  })
-})
-server.get('/users', (req, res) => {
-  Users.find({}, (err, data) => {
-    if (err) {
-      res.status(500);
-      res.status({ error: "Server errror"})
-    }
-    res.json(data);
-  })
-})
-server.get('/users/:id', (req, res) => {
-  const { id } = req.params;
-  Users.findById(id, (err, bear) => {
     if (err) {
       res.status(500);
       res.json({ error: "Server error" })
@@ -42,9 +27,28 @@ server.get('/users/:id', (req, res) => {
     res.json(user);
   })
 })
+server.get('/users', (req, res) => {
+  User.find({}, (err, data) => {
+    if (err) {
+      res.status(500);
+      res.json({ error: "Server error" })
+    }
+    res.json(data);
+  })
+})
+server.get('/users/:id', (req, res) => {
+  const { id } = req.params;
+  User.findById(id, (err, user) => {
+    if (err) {
+      res.status(500);
+      res.json({ error: "Server error" });
+    }
+    res.json(user);
+  })
+})
 server.delete('/users/:id', (req, res) => {
   const { id } = req.params;
-  Users.findByIdAndRemove(id, (err, bear) => {
+  User.findByIdAndRemove(id, (err, user) => {
     if (err) {
       res.status(500);
       res.json({ error: "Server error" })
@@ -53,6 +57,51 @@ server.delete('/users/:id', (req, res) => {
   })
 })
 
+server.post('/posts', (req, res) => {
+  const { username, comment } = req.body;
+  if (!username || !comment) {
+    res.status(422);
+    res.json({ error: "Input proper data"})
+  }
+  const post = new Post({ username, comment });
+  post.save((err) => {
+    if (err) {
+      res.status(500);
+      res.json({ error: "Server error" })
+    }
+    res.json(post);
+  })
+
+})
+server.get('/posts', (req, res) => {
+  Post.find({}, (err, data) => {
+    if (err) {
+      res.status(500);
+      res.json({ errror: "Server error" });
+    }
+    res.json(data);
+  })
+})
+server.get('/posts/:id', (req, res) => {
+  const { id } = req.params;
+  Post.findById(id, (err, post) => {
+    if (err) {
+      res.status(500);
+      res.json({ error: "Server error"});
+    };
+    res.json(post);
+  })
+})
+server.delete('/posts/:id', (req, res) => {
+  const { id } = req.params;
+  Post.findByIdAndRemove(id, (err, post) => {
+    if (err) {
+      res.status(500);
+      res.json({ error: "Status error" });
+    }
+    res.json(post);
+  })
+})
 
 mongoose.Promise = global.Promise;
 const connect = mongoose.connect(
