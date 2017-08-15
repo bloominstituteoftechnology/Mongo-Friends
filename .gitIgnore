@@ -1,4 +1,3 @@
-/node_modules
+data
 .DS_Store
-package-lock.json
-/patrick/data
+node_modules
