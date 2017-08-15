@@ -9,6 +9,22 @@ const server = express();
 
 server.use(bodyParser.json());
 
+server.post('/users', (req, res) => {
+  const { name } = req.body;
+  if (!name) {
+    res.status(STATUS_USER_ERROR);
+    res.json({ error: 'Please entaer a NAME.' });
+    return
+  }
+  const user = new User({ name });
+  user.save((err) => {
+    if (err) {
+      res.json(err);
+    } else {
+      res.json(user);
+    }
+  });
+});
 
 mongoose.Promise = global.Promise;
 const connect = mongoose.connect(
@@ -16,7 +32,6 @@ const connect = mongoose.connect(
   { useMongoClient: true }
 );
 
-/* eslint no-console: 0 */
 connect.then(() => {
   const port = 3000;
   server.listen(port);
