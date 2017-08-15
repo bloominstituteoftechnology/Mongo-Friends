@@ -2,7 +2,8 @@ const bodyParser = require('body-parser');
 const express = require('express');
 const mongoose = require('mongoose');
 
-const User = require('./models');
+const {Blog, User} = require('./models');
+// const User = require('./models');
 
 const STATUS_USER_ERROR = 422;
 const STATUS_SERVER_ERROR = 500;
@@ -10,6 +11,61 @@ const server = express();
 
 // allow server to parse JSON bodies from POST/PUT/DELETE requests
 server.use(bodyParser.json());
+// BLOGPOSTS server code
+server.post('/posts', (req, res) => {
+  const { author, title, body } = req.body;
+  if (!author || !title || !body) {
+    res.status(STATUS_USER_ERROR);
+    res.json({ error: 'Must provide author, title, and body' });
+    return;
+  }
+  const blog = new Blog({ author, title, body });
+  blog.save((err) => {
+    if (err) {
+      res.status(STATUS_SERVER_ERROR);
+      res.json(err);
+    } else {
+      res.json(blog);
+    }
+  });
+});
+
+server.get('/posts', (req, res) => {
+  Blog.find({}, (err, blogs) => {
+    if (err) {
+      res.status(STATUS_SERVER_ERROR);
+      res.json(err);
+    } else {
+      res.json(blogs);
+    }
+  });
+});
+
+server.get('/posts/:id', (req, res) => {
+  const { id } = req.params;
+  Blog.findById(id, (err, blog) => {
+    if (err) {
+      res.status(STATUS_SERVER_ERROR);
+      res.json(err);
+    } else {
+      res.json(blog);
+    }
+  });
+});
+
+server.delete('/posts/:id', (req, res) => {
+  const { id } = req.params;
+  Blog.remove({
+    _id: id,
+  }, (err, removedBlog) => {
+    if (err) {
+      res.status(STATUS_SERVER_ERROR);
+      res.json(err);
+    } else {
+      res.json(removedBlog);
+    }
+  });
+});
 
 // TODO: write your server code here
 server.get('/users', (req, res) => {
@@ -30,9 +86,8 @@ server.get('/users/:id', (req, res) => {
       res.status(STATUS_SERVER_ERROR);
       res.json(err);
     } else {
-      if (user === null) res.json({ error: 'user doesn\'t exist'}); return;
       res.json(user);
-    } 
+    }
   });
 });
 
@@ -46,7 +101,7 @@ server.post('/users', (req, res) => {
   const user = new User({ firstName, lastName, username, password });
   user.save((err) => {
     if(err) {
-      res.status(STATUS_SERVER_ERROR);
+      res.status(STATUS_SERVER_ERROR); // there is a database issue
       res.json(err);
     } else {
       res.json(user);

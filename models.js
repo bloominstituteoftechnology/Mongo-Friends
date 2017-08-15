@@ -20,4 +20,24 @@ const UserSchema = new mongoose.Schema({
   },
 });
 
-module.exports = mongoose.model('User', UserSchema);
+const User = mongoose.model('User', UserSchema);
+
+const BlogPosts = new mongoose.Schema({
+  author: {
+    type: String,
+  },
+  title: {
+    type: String,
+  },
+  body: {
+    type: String,
+  },
+    createdAt: {
+    type: Date,
+    default: Date.now,
+  },  
+});
+
+const Blog = mongoose.model('Blog', BlogPosts);
+
+module.exports = {User, Blog};
