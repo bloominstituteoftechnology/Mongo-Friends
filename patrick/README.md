@@ -100,6 +100,7 @@ Install npm packages: `npm i --save express body-parser cors mongoose` - DONE âˆ
       updated 4 packages in 5.624s
   ```
 
+- Not using this:
   ```console
   $  npm i --save mongodb
       + mongodb@2.2.31
