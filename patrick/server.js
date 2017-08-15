@@ -54,9 +54,10 @@ server.delete('/users/:id', (req, res) => {
   User.findByIdAndRemove(id, (err, user) => {
     if (err) {
       res.status(STATUS_SERVER_ERROR);
-      res.json(err);
+      res.json({ error: `There is no: ${err.value}` });
+    } else if (user === null) {
+      res.json({ error: 'user not found' });
     } else {
-      if (user === null) res.json({ error: 'user not found' });
       res.json({ error: `${user.name} has been deleted` });
     }
   });
