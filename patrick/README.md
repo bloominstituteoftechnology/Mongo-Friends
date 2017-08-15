@@ -8,7 +8,7 @@
 * MongoDB
 * Mongoose
 * ORM
-* `mongod`
+* `mongod` vs `mongod --dbpath data` ???
 * Mongoose.connect
 * Mongoose.Schema
 * Mongoose.model
