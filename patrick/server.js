@@ -14,7 +14,7 @@ server.post('/users', (req, res) => {
   if (!name) {
     res.status(STATUS_USER_ERROR);
     res.json({ error: 'Please entaer a NAME.' });
-    return
+    return;
   }
   const user = new User({ name });
   user.save((err) => {
@@ -32,10 +32,10 @@ server.get('/users', (req, res) => {
       res.status(STATUS_USER_ERROR);
       res.json(err);
     } else {
-      res.json(users)
+      res.json(users);
     }
-  })
-})
+  });
+});
 
 server.get('/users/:id', (req, res) => {
   const { id } = req.params;
