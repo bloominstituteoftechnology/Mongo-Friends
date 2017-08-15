@@ -65,6 +65,7 @@ server.get('/users/:id', (req, res) => {
 // });
 
 // REMOVE Method
+// per: http://mongoosejs.com/docs/api.html#query_Query-remove
 server.delete('/users/:id', (req, res) => {
   const id = req.params;
   User.remove({ _id: id }, (err, delUser) => {
