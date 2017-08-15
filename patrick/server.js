@@ -68,12 +68,18 @@ server.get('/users/:id', (req, res) => {
 // per: http://mongoosejs.com/docs/api.html#query_Query-remove
 server.delete('/users/:id', (req, res) => {
   const id = req.params;
-  User.remove({ _id: id }, (err, delUser) => {
+
+  const query = User.find().remove({ _id: id });
+
+  // per README.md: \_id ???
+  query.remove({ _id: id }, (err, delUser) => {
+  // User.remove({ _id: id }, (err, delUser) => {
     if (err) {
       res.status(STATUS_SERVER_ERROR);
-      res.json({ error: `There is no '${err.value}' to DELETE: ${err}` });
+      res.json(err);
+      // res.json({ error: `There is no '${err.value}' to DELETE: ${err}` });
     } else {
-      res.json(delUser);
+      res.json({ error: `'${delUser.name}' has been deleted.` });
     }
   });
 });
