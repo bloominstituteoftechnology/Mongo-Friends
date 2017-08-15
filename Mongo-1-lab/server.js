@@ -1,27 +1,46 @@
 const bodyParser = require('body-parser');
 const express = require('express');
 const mongoose = require('mongoose');
-const Users = require('./models.js');
+const Users = require('./model.js');
+
+const STATUS_USER_ERROR = 422;
+const STATUS_SERVER_ERROR = 500;
+const server = express();
 
 server.use(bodyParser.json());
 
 server.post('/users', (req, res) => {
-    //
+  const name = req.body.name;
+  console.log('happy');
+  if (!name) {
+    res.status(STATUS_USER_ERROR);
+    res.json({ error: 'these are not present' })
+    return;
+  }
+  const users = new Users({ name });
+  users.save((err) => {
+    if (err) {
+      res.status (STATUS_SERVER_ERROR);
+      res.json(err);
+    } else {
+      res.json(users);
+    }
+  });
+
 });
 
 server.get('/users', (req, res) => {
     //
 });
 
-server.get('/users', (req, res) => {
+server.get('/users/:id', (req, res) => {
     //
 });
 
-server.delete('/users', (req, res) => {
+server.delete('/users:id', (req, res) => {
     //
 });
 
-const users = new Users({});
 
 
 
