@@ -2,8 +2,8 @@ const express = require('express');
 const bodyParser = require('body-parser');
 
 const { mongoose, connect } = require('./db/mongoose');
-const { User } = require('./models/user');
-// const { Post } = require('./models/post');
+const User = require('./models/user');
+const BlogPost = require('./models/post');
 
 const STATUS_USER_ERROR = 422;
 const STATUS_SERVER_ERROR = 500;
@@ -11,6 +11,71 @@ const STATUS_SERVER_ERROR = 500;
 const server = express();
 
 server.use(bodyParser.json());
+
+/*
+[GET] /posts This route will return an array of all blog posts.
+[GET] /posts/:id This route will return the blog post with the matching id property.
+[DELETE] /posts/:id This route should delete the specified blog post. Your user objects can take any form.
+*/
+
+// POST posts route
+server.post('/posts', (req, res) => {
+  const { title, text } = req.body;
+  console.log(req.body);
+  if (!title || !text) {
+    res.status(STATUS_USER_ERROR);
+    res.json({ error: 'Must provide "title" and "text"' });
+    return;
+  }
+  const post = new BlogPost({ title, text });
+  post.save((err) => {
+    if (err) {
+      res.status(STATUS_SERVER_ERROR);
+      res.json(err);
+    } else {
+      res.json(post);
+    }
+  });
+});
+
+// GET posts route *
+server.get('/posts', (req, res) => {
+  BlogPost.find({}, (err, posts) => {
+    if (err) {
+      res.status(STATUS_SERVER_ERROR);
+      res.json(err);
+    } else {
+      res.json(posts);
+    }
+  });
+});
+
+// GET posts by id route *
+server.get('/posts/:id', (req, res) => {
+  const { id } = req.params;
+  BlogPost.findById(id, (err, post) => {
+    if (err) {
+      res.status(STATUS_SERVER_ERROR);
+      res.json(err);
+    } else {
+      res.json(post);
+    }
+  });
+});
+
+// DELETE post by id route *
+server.delete('/posts/:id', (req, res) => {
+  const { id } = req.params;
+  BlogPost.findByIdAndRemove(id, (err, post) => {
+    if (err) {
+      res.status(STATUS_SERVER_ERROR);
+      res.json(err);
+    } else {
+      res.json({ message: 'Post has been deleted', id });
+    }
+  });
+});
+
 
 // POST users route
 server.post('/users', (req, res) => {
