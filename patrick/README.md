@@ -110,6 +110,16 @@ Install npm packages: `npm i --save express body-parser cors mongoose` - DONE âˆ
   $ mkdir data
   ```
 
+  - some changes to package.json
+  ```json
+  "test": "echo \"Error: no test specified\" && exit 1"
+  "test": "eslint *.js && nodemon server.js"
+
+  "babel-preset-es2015": "^6.24.0",
+  "eslint": "^3.17.1",
+  "eslint-config-airbnb": "^14.1.0",
+  "eslint-plugin-import": "^2.2.0"
+  ```
 
 
 Start your MongoDB server by running `mongod` from the command line. - OKAY âˆš
