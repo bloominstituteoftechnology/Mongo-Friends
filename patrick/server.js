@@ -37,6 +37,19 @@ server.get('/users', (req, res) => {
   })
 })
 
+server.get('/users/:id', (req, res) => {
+  const { id } = req.params;
+  User.findById(id, (err, user) => {
+    if (err) {
+      res.status(STATUS_SERVER_ERROR);
+      res.json(err.message);
+    } else {
+      if (user === null) res.json({ error: 'user not found' });
+      res.json(user);
+    }
+  });
+});
+
 mongoose.Promise = global.Promise;
 const connect = mongoose.connect(
   'mongodb://localhost/users',
