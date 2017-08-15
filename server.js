@@ -1,7 +1,8 @@
 const bodyParser = require('body-parser');
 const express = require('express');
 const mongoose = require('mongoose');
-const User = require('./models');
+const User = require('./users');
+const Post = require('./posts');
 
 const STATUS_USER_ERROR = 422;
 const STATUS_SERVER_ERROR = 500;
@@ -11,6 +12,53 @@ const server = express();
 
 server.use(bodyParser.json());
 
+server.post('/posts', (req, res) => {
+  const { title, content }  = req.body;
+  if (!content || !title ) {
+    res.status(STATUS_USER_ERROR);
+    res.json({ error: "Must enter title and content for post." });
+    return;
+  }
+  const post = new Post({ title, content });
+  post.save(() => {
+    res.status(STATUS_OK);
+    res.json(post);
+  });
+});
+
+server.get('/posts', (req, res) => {
+  Post.find({}, (err, posts) => {
+    res.status(STATUS_OK);
+    res.json(posts);
+  });
+});
+
+server.get('/posts/:id', (req, res) => {
+  const { id } = req.params;
+  Post.findById(id, (err, post) => {
+    if (err) {
+      res.status(STATUS_USER_ERROR);
+      res.json(err);
+      return;
+    }
+    res.status(STATUS_OK);
+    res.json(post);
+  });
+});
+
+server.delete('/posts/:id', (req, res) => {
+  const { id } = req.params;
+  Post.findByIdAndRemove(id, (err, post) => {
+    if (err) {
+      res.status(STATUS_USER_ERROR);
+      res.json(err);
+      return;
+    }
+    res.status(STATUS_OK);
+    res.json(post);
+  });
+});
+
 server.post('/users', (req, res) => {
   const { name, age } = req.body;
   if (!name || !age) {
@@ -18,6 +66,7 @@ server.post('/users', (req, res) => {
     res.json({ error: "Must enter name and age for user." });
     return;
   }
+
   const user = new User({ name, age });
   user.save(() => {
     res.status(STATUS_OK);
