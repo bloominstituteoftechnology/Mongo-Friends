@@ -55,52 +55,19 @@ server.post('/users', (req, res) => {
 
 server.delete('/users/:id', (req, res) => {
   const { id } = req.params;
-  const query = User.where({ id: id });
-  // query.findOne((err, removedUser) => {
-  //   if (err) {
-  //     res.status(STATUS_SERVER_ERROR);
-  //     res.json(err);
-  //   }
-  //   if (removedUser) {
-  //     User.remove(query,
-  //       res.json({ success: true })
-  //     )
-  //   }
-  // )
   if (!id) {
     res.status(STATUS_USER_ERROR);
     res.json({ error: 'Must provide an id' });
     return;
   }
-  User.findByIdAndRemove({
-    __id: id,
-  }, (err, removedUser) => {
+  User.remove({ _id: id }, (err, removedUser) => {
     if (err) {
       res.status(STATUS_SERVER_ERROR);
       res.json(err);
     } else {
-      res.json({ success: true });
+    res.json(removedUser);
     }
   });
-//   User.findByIdAndRemove(id, (err, user) => {
-//     if (err) {
-//       res.status(STATUS_SERVER_ERROR);
-//       res.json(err);
-//     } else {
-//       res.json({ success: true });
-//       db.close();
-//     }
-//   });
-// server.delete('/users/:id', (req, res) => {
-//   const { id } = req.params;
-//   User.findByIdAndRemove(id, (err, user) => {
-//     if (err) {
-//       res.status(STATUS_SERVER_ERROR);
-//       res.json(err);
-//     } else {
-//       res.json({ message: 'User has been deleted', id });
-//     }
-//   })
 });
 
 
