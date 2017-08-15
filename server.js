@@ -3,6 +3,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 
 const User = require('./model');
+const BlogPost = require('./model');
 
 const STATUS_USER_ERROR = 422;
 const STATUS_SERVER_ERROR = 500;
@@ -10,6 +11,7 @@ const server = express();
 
 server.use(bodyParser.json());
 
+// GET /users
 server.get('/users', (req, res) => {
   User.find({}, (err, users) => {
     if (err) {
@@ -21,6 +23,7 @@ server.get('/users', (req, res) => {
   });
 });
 
+// GET /users/:id
 server.get('/users/:id', (req, res) => {
   const { id } = req.params;
   User.findById(id, (err, user) => {
@@ -35,6 +38,7 @@ server.get('/users/:id', (req, res) => {
   });
 });
 
+// POST /users
 server.post('/users', (req, res) => {
   const { username, password } = req.body;
   if (!username || !password) {
@@ -53,6 +57,7 @@ server.post('/users', (req, res) => {
   });
 });
 
+// DELETE /USERS/:id
 server.delete('/users/:id', (req, res) => {
   const { id } = req.params;
   if (!id) {
@@ -65,11 +70,72 @@ server.delete('/users/:id', (req, res) => {
       res.status(STATUS_SERVER_ERROR);
       res.json(err);
     } else {
-    res.json(removedUser);
+    res.json({ success: true });
     }
   });
 });
 
+// GET /posts
+server.get('/posts', (req, res) => {
+  BlogPost.find({}, (err, posts) => {
+    if (err) {
+      res.status(STATUS_SERVER_ERROR);
+      res.json(err);
+    } else {
+      res.json(posts);
+    }
+  });
+});
+
+// GET /posts/:id
+server.get('/posts/:id', (req, res) => {
+  const { id } = req.params;
+  BlogPost.findById(id, (err, posts) => {
+    if (err) {
+      res.status(STATUS_SERVER_ERROR);
+      res.json(err);
+    } else {
+      res.json(posts);
+    }
+  });
+});
+
+// POST /posts
+server.post('/posts', (req, res) => {
+  const { title, content, username } = req.body;
+  if (!title || !content || !username) {
+    res.status(STATUS_USER_ERROR);
+    res.json({ error: 'Please provide title, contents, and username' });
+    return;
+  }
+  const post = new BlogPost({ title, content, username });
+  post.save((err) => {
+    if (err) {
+      res.status(STATUS_SERVER_ERROR);
+      res.json(err);
+    } else {
+      res.json(post);
+    }
+  });
+});
+
+// DELETE /posts/:id
+server.delete('/posts/:id', (req, res) => {
+  const { id } = req.params;
+  if (!id) {
+    res.status(STATUS_USER_ERROR);
+    res.json({ error: 'Please provide an id' });
+    return;
+  }
+  BlogPost.remove({ _id: id }, (err, removedPost) => {
+    if (err) {
+      res.status(STATUS_SERVER_ERROR);
+      res.json(err);
+    } else {
+      res.json({ success: true });
+    }
+  });
+});
 
 mongoose.Promise = global.Promise;
 const connect = mongoose.connect(
