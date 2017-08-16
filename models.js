@@ -15,4 +15,18 @@ const UserSchema = new mongoose.Schema({
   },
 });
 
+// const PostSchema = new mongoose.Schema({
+//   title: {
+//     type: String,
+//   },
+//   post: {
+//     type: String,
+//   },
+//   createOn: {
+//     type: Date,
+//     default: Date.now,
+//   },
+// });
+
+// module.exports = { Users: UserSchema, Posts: PostSchema };
 module.exports = mongoose.model('Users', UserSchema);

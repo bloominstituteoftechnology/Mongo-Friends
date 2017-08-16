@@ -61,6 +61,36 @@ server.delete('/users/:id', (req, res) => {
   });
 });
 
+// Put: /users should update the users info
+server.put('/users/:id', (req, res) => {
+  const { id } = req.params;
+  const { species, planet } = req.body;
+  if (!id) {
+    res.status(STATUS_SERVER_ERROR);
+    res.json({ error: 'Must provide a user id'} );
+    return;
+  }
+  if (!species) {
+    res.status(STATUS_SERVER_ERROR);
+    res.json({ error: 'Must provide a species'} );
+    return;
+  }
+  if (!planet) {
+    res.status(STATUS_SERVER_ERROR);
+    res.json({ error: 'Must provide a planet'} );
+    return;
+  }
+  // update the user object directly || replac it in the array
+  const user = UserSchema.findByIdAndUpdate(id, {species, planet}, (err, user) => {
+    if (!user) {
+      res.status(STATUS_SERVER_ERROR);
+      res.json({ error: `Couldn't find user with id ${id}` });
+      return;
+    }
+    res.json(user);
+  });
+});
+
 // GET '/posts' return an array of blog posts
 server.get('/blogPosts', (req, res) => {
   PostSchema.find({}, (err, posts) => {
@@ -111,7 +141,11 @@ server.delete('/blogPosts/:id', (req, res) => {
 
 mongoose.Promise = global.Promise;
 const connect = mongoose.connect(
-  // 'mongodb://localhost/users',
+  'mongodb://localhost/users',
+  { useMongoClient: true }
+);
+
+const connectBlogPosts = mongoose.connect(
   'mongodb://localhost/blogPosts',
   { useMongoClient: true }
 );
