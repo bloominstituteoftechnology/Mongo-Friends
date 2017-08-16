@@ -124,11 +124,6 @@ server.put('/posts/:id', (req, res) => {
     res.json({ error: 'Please modify the CONTENTS too.' });
     return;
   }
-  if (!id) {
-    res.status(STATUS_USER_ERROR);
-    res.json({ error: 'Please use an ID to identify the post.' });
-    return;
-  }
   Blog.updateOne({ _id: id }, updates, (err) => {
     if (err) {
       res.status(STATUS_SERVER_ERROR);
