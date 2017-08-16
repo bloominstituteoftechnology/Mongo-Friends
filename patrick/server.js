@@ -3,8 +3,6 @@ const express = require('express');
 const mongoose = require('mongoose');
 const User = require('./models/userModel.js');
 const Blog = require('./models/blogModel.js');
-// const userRouter = require('./routes/userRoute.js');
-// const blogRouter = require('./routes/blogRoute.js');
 
 const STATUS_USER_ERROR = 422;
 const STATUS_SERVER_ERROR = 500;
