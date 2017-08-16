@@ -106,6 +106,10 @@ server.get('/posts/:id', (req, res) => {
   });
 });
 
+server.put('/posts', (req, res) => {
+  res.json({ error: 'Please append an ID# to /posts/#.' });
+});
+
 server.put('/posts/:id', (req, res) => {
   const { id } = req.params;
   const { title, contents } = req.body;
@@ -125,19 +129,6 @@ server.put('/posts/:id', (req, res) => {
     res.json({ error: 'Please use an ID to identify the post.' });
     return;
   }
-
-  // for (let i = 0; i < posts.length; i++) {
-  //   if (id === posts[i].id) {
-  //     posts[i] = req.body;
-  //     res.status(STATUS_AWESOME);
-  //     res.json(req.body);
-  //     return;
-  //   }
-  // }
-  // res.status(STATUS_USER_ERROR);
-  // res.json({ error: 'That ID is not in the array.' });
-  // return;
-
   Blog.updateOne({ _id: id }, updates, (err) => {
     if (err) {
       res.status(STATUS_SERVER_ERROR);
