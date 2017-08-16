@@ -58,7 +58,7 @@ server.delete('/users/:id', (req, res) => {
   User.remove({ _id: id }, (err, delUser) => {
     if (err) {
       res.status(STATUS_SERVER_ERROR);
-      res.json(err);
+      res.json(`There is no: ${err.value}`);
     } else if (delUser.result.n === 0) {
       res.json({ error: 'There is nothing to delete' });
     } else {
@@ -114,7 +114,7 @@ server.delete('/posts/:id', (req, res) => {
   Blog.remove({ _id: id }, (err, delBlog) => {
     if (err) {
       res.status(STATUS_SERVER_ERROR);
-      res.json(err);
+      res.json(`There is no: ${err.value}`);
     } else if (delBlog.result.n === 0) {
       res.json({ error: 'There is nothing to delete' });
     } else {
