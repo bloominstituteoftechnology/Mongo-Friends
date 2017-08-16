@@ -133,9 +133,9 @@ Implement the following routes but have them utilize a database to achieve data 
 
 ## Extra Credit
 
-Implement a second collection called `BlogPosts`.  Implement the following routes:
-* [POST] `/posts` This route should save a new blog post to the server.
-* [GET] `/posts` This route will return an array of all blog posts.
-* [GET] `/posts/:id` This route will return the blog post with the matching `id` property.
-* [DELETE] `/posts/:id` This route should delete the specified blog post.
+Implement a second collection called `BlogPosts`.  Implement the following routes: - DONE √
+* [POST] `/posts` This route should save a new blog post to the server. - DONE √
+* [GET] `/posts` This route will return an array of all blog posts. - DONE √
+* [GET] `/posts/:id` This route will return the blog post with the matching `id` property. - DONE √
+* [DELETE] `/posts/:id` This route should delete the specified blog post. - DONE √
 Your user objects can take any form.
