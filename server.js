@@ -57,6 +57,43 @@ server.get('/users/:id', (req, res) => {
   });
 });
 
+server.put('/users', (req, res) => {
+  const id = req.body.id;
+  const userName = req.body.userName;
+  const fullName = req.body.fullName;
+  const updatedUser = {id, userName, fullName};
+  if (!userName) {
+    res.status(STATUS_USER_ERROR);
+    res.json({ error: 'Must provide username' });
+    return;
+  }
+  if (!fullName) {
+    res.status(STATUS_USER_ERROR);
+    res.json({ error: 'Must provide full name' });
+    return;
+  }
+  // for (let i = 0; i < User.length; i++) {
+  //   if (User[i] === id) {
+  //     User[i] = updatedUser;
+  //     res.json(updatedUser);
+  //   } else {
+  //     res.status(STATUS_USER_ERROR);
+  //     res.json({ error: 'Must provide valid id' });
+  //   }
+  // }
+  User.findById(id, (err, user) => {
+    if (err) {
+      res.status(STATUS_SERVER_ERROR);
+      res.json(err);
+    } else {
+      // user.userName = userName;
+      // user.fullName = fullName;
+      user = updatedUser;
+      res.json(user);
+    }
+  });
+});
+
 server.delete('/users/:id', (req, res) => {
   const { id } = req.params;
   User.remove({_id: id,}, (err, user) => {
