@@ -106,9 +106,50 @@ server.get('/posts/:id', (req, res) => {
   });
 });
 
+server.put('/posts/:id', (req, res) => {
+  const { id } = req.params;
+  const { title, contents } = req.body;
+  const updates = { title, contents };
+  if (!title) {
+    res.status(STATUS_USER_ERROR);
+    res.json({ error: 'Please modify the TITLE.' });
+    return;
+  }
+  if (!contents) {
+    res.status(STATUS_USER_ERROR);
+    res.json({ error: 'Please modify the CONTENTS too.' });
+    return;
+  }
+  if (!id) {
+    res.status(STATUS_USER_ERROR);
+    res.json({ error: 'Please use an ID to identify the post.' });
+    return;
+  }
+
+  // for (let i = 0; i < posts.length; i++) {
+  //   if (id === posts[i].id) {
+  //     posts[i] = req.body;
+  //     res.status(STATUS_AWESOME);
+  //     res.json(req.body);
+  //     return;
+  //   }
+  // }
+  // res.status(STATUS_USER_ERROR);
+  // res.json({ error: 'That ID is not in the array.' });
+  // return;
+
+  Blog.updateOne({ _id: id }, updates, (err) => {
+    if (err) {
+      res.status(STATUS_SERVER_ERROR);
+      res.json(`There is no: ${err.value}`);
+    } else {
+      res.json(updates);
+    }
+  });
+});
+
 server.delete('/posts/:id', (req, res) => {
   const { id } = req.params;
-
   Blog.remove({ _id: id }, (err, delBlog) => {
     if (err) {
       res.status(STATUS_SERVER_ERROR);
