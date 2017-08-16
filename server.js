@@ -35,7 +35,7 @@ server.get('/users', (req, res) => {
       res.status(STATUS_SERVER_ERROR);
       res.json(err);
     } else {
-      res.json(user);
+      res.json(users);
     }
   });
 });
@@ -51,6 +51,21 @@ server.delete('/users/:id', (req, res) => {
       res.json(err);
     } else {
      res.json('user sucessfully deleted');
+    }
+  });
+});
+
+server.get('/users/:id', (req, res) => {
+  const { id } = req.params;  // we can't check for id in the normal way because if no id is sent the
+                              // route won't match and then there is no point writing code like if (!id)
+                              // as it won't be ran
+
+  User.findById(id, (err, user) => {
+    if (err) {
+      res.status(STATUS_SERVER_ERROR);
+      res.json(err);
+    } else {
+     res.json(user);
     }
   });
 });
