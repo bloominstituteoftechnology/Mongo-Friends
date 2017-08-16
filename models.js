@@ -9,5 +9,23 @@ const UserSchema = new mongoose.Schema({
     default: Date.now,
   },
 });
+const PostSchema = new mongoose.Schema({
+  title: {
+    type: String,
+  },
+  contents: {
+    type: String,
+  },
+  createdAt: {
+    type: Date,
+    default: Date.now,
+  },
+});
 
-module.exports = mongoose.model('User', UserSchema);
+const User = mongoose.model('User', UserSchema);
+const Blog = mongoose.model('Blog', PostSchema);
+
+module.exports = {
+  User,
+  Blog,
+}
