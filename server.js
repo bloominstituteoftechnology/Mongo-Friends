@@ -50,7 +50,7 @@ server.delete('/users/:id', (req, res) => {
       res.status(STATUS_SERVER_ERROR);
       res.json(err);
     } else {
-     res.json({ 'user sucessfully deleted'});
+     res.json('user sucessfully deleted');
     }
   });
 });
