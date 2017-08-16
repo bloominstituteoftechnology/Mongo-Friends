@@ -100,12 +100,14 @@ Install npm packages: `npm i --save express body-parser cors mongoose` - DONE �
       updated 4 packages in 5.624s
   ```
 
+- Not using this:
   ```console
   $  npm i --save mongodb
       + mongodb@2.2.31
       updated 1 package in 5.294s
   ```
 
+- Definitely used this:
   ```console
   $ mkdir data
   ```
@@ -122,20 +124,19 @@ Install npm packages: `npm i --save express body-parser cors mongoose` - DONE �
   ```
 
 
-Start your MongoDB server by running `mongod` from the command line. - OKAY √
-  - not working
-  - USING: `mongod --dbpath data` ?????
+Start your MongoDB server by running ~~`mongod`~~ from the command line. - OKAY √
+  - USING: `mongod --dbpath data`
 Implement the following routes but have them utilize a database to achieve data persistence. - DONE √
 * [POST] `/users` This route should save a new user to the server. - DONE √
 * [GET] `/users` This route will return an array of all users. - DONE √
 * [GET] `/users/:id` This route will return the user with the matching `id` (`_id` on the db document) property. - DONE √
-* [DELETE] `/users/:id` This route should delete the specified user. - DONE √
+* [DELETE] `/users/:id` This route should delete the specified user. - DONE & DONER √
 
 ## Extra Credit
 
-Implement a second collection called `BlogPosts`.  Implement the following routes:
-* [POST] `/posts` This route should save a new blog post to the server.
-* [GET] `/posts` This route will return an array of all blog posts.
-* [GET] `/posts/:id` This route will return the blog post with the matching `id` property.
-* [DELETE] `/posts/:id` This route should delete the specified blog post.
+Implement a second collection called `BlogPosts`.  Implement the following routes: - DONE √
+* [POST] `/posts` This route should save a new blog post to the server. - DONE √
+* [GET] `/posts` This route will return an array of all blog posts. - DONE √
+* [GET] `/posts/:id` This route will return the blog post with the matching `id` property. - DONE √
+* [DELETE] `/posts/:id` This route should delete the specified blog post. - DONE √
 Your user objects can take any form.
