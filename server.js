@@ -93,10 +93,40 @@ server.post('/posts', (req, res) => {
   });
 });
 
+server.get('/posts', (req, res) => {
+  BlogPost.find({}, (err, post) => {
+    if (err) {
+      res.status(STATUS_SERVER_ERROR);
+      res.json(err);
+    } else {
+      res.json(post);
+    }
+  });
+});
 
+server.get('/posts/:id', (req, res) => {
+  const { id } = req.params;
+  BlogPost.findById(id, (err, post) => {
+    if (err) {
+      res.status(STATUS_SERVER_ERROR);
+      res.json(err);
+    } else {
+      res.json(post);
+    }
+  });
+});
 
-
-
+server.delete('/posts/:id', (req, res) => {
+  const { id } = req.params;
+  BlogPost.remove({_id: id,}, (err, post) => {
+    if (err) {
+      res.status(STATUS_SERVER_ERROR);
+      res.json(err);
+    } else {
+      res.json({ success: 'Post deleted!' });
+    }
+  })
+});
 
 
 mongoose.Promise = global.Promise;
