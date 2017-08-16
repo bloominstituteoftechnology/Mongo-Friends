@@ -11,7 +11,7 @@ server.use(bodyParser.json());
 
 server.post('/users', (req, res) => {
   const name = req.body.name;
-  console.log('happy');
+  console.log('name');
   if (!name) {
     res.status(STATUS_USER_ERROR);
     res.json({ error: 'these are not present' })
@@ -20,7 +20,7 @@ server.post('/users', (req, res) => {
   const users = new Users({ name });
   users.save((err) => {
     if (err) {
-      res.status (STATUS_SERVER_ERROR);
+      res.status(STATUS_SERVER_ERROR);
       res.json(err);
     } else {
       res.json(users);
@@ -30,15 +30,38 @@ server.post('/users', (req, res) => {
 });
 
 server.get('/users', (req, res) => {
-    //
+    Users.find({}, (err, users) => {
+        if (err) {
+          res.status(STATUS_SERVER_ERROR);
+          res.json(err);
+        } else {
+          res.json(users);
+        }
+    });
 });
 
 server.get('/users/:id', (req, res) => {
-    //
+    const {id} = req.body.id;
+    Users.findById(id, (err, users) => {
+        if (err) {
+          res.status(STATUS_USER_ERROR);
+          res.json(err);
+        } else {
+          res.json(users);
+        }
+    });
 });
 
 server.delete('/users:id', (req, res) => {
-    //
+    const {id} = req.body.id;
+    Users.find(id).remove(id, (err, users) => {
+        if (err) {
+          res.status(STATUS_USER_ERROR);
+          res.json(err);
+        } else {
+          res.json(users);
+        }
+    });
 });
 
 
