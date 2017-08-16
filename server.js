@@ -2,7 +2,7 @@ const bodyParser = require('body-parser');
 const express = require('express');
 const mongoose = require('mongoose');
 
-const User = require('./models.js');
+const { User, Blog } = require('./models.js');
 
 const STATUS_USER_ERROR = 422;
 const STATUS_SERVER_ERROR = 500;
@@ -10,7 +10,7 @@ const server = express();
 
 server.use(bodyParser.json());
 
-
+// routes for users
 server.get('/users', (req, res) => {
   User.find({}, (err, users) => {
     if (err) {
@@ -67,7 +67,64 @@ server.delete('/users/:id', (req, res) => {
   });
 });
 
+// routes for blog
+server.get('/posts', (req, res) => {
+  Blog.find({}, (err, post) => {
+    if (err) {
+      res.status(STATUS_USER_ERROR);
+      res.json(err);
+    } else {
+      res.json(post);
+    }
+  });
+});
 
+server.post('/posts', (req, res) => {
+  const { title, contents } = req.body;
+  // console.log(title);
+  // console.log(contents);
+  if (!title || !contents) {
+    res.status(STATUS_USER_ERROR);
+    res.json({ error: 'please provide title and contents' });
+    return;
+  }
+  const post = new Blog({ title, contents });
+  post.save((err) => {
+    if (err) {
+      res.status(STATUS_SERVER_ERROR);
+      res.json({ error: 'there has been an internal server error' });
+      return;
+    }
+    res.json(post);
+  });
+});
+
+server.get('/posts/:id', (req, res) => {
+  const { id } = req.params;
+  Blog.find({_id: id}, (err, post) => {
+    if (err) {
+      res.status(STATUS_SERVER_ERROR);
+      res.json({ error: 'we could not find the blog post' });
+      return;
+    }
+    res.json(post);
+  });
+});
+
+server.delete('/posts/:id', (req, res) => {
+  const { id } = req.params;
+  Blog.remove({_id: id}, (err, post) => {
+    if (err) {
+      res.status(STATUS_SERVER_ERROR);
+      res.json({ error: 'the id provided does not match any in the db' })
+      return;
+    } else if (post.result.n === 0) {
+      res.json({ error: 'post not found'})
+      return;
+    }
+    res.json(post);
+  });
+});
 mongoose.Promise = global.Promise;
 const connect = mongoose.connect(
   'mongodb://localhost/users',
