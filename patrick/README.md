@@ -107,6 +107,7 @@ Install npm packages: `npm i --save express body-parser cors mongoose` - DONE âˆ
       updated 1 package in 5.294s
   ```
 
+- Definitely used this:
   ```console
   $ mkdir data
   ```
