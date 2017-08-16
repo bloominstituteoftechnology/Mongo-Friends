@@ -41,7 +41,7 @@ server.get('/users', (req, res) => {
 });
 
 server.get('/users/:id', (req, res) => {
-    const {id} = req.body.id;
+    const {id} = req.params;
     Users.findById(id, (err, users) => {
         if (err) {
           res.status(STATUS_USER_ERROR);
@@ -52,8 +52,8 @@ server.get('/users/:id', (req, res) => {
     });
 });
 
-server.delete('/users:id', (req, res) => {
-    const {id} = req.body.id;
+server.delete('/users/:id', (req, res) => {
+    const {id} = req.params;
     Users.find(id).remove(id, (err, users) => {
         if (err) {
           res.status(STATUS_USER_ERROR);
