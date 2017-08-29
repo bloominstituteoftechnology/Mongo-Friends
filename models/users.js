@@ -3,13 +3,14 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const UserSchema = new Schema({
-    _id: Schema.Types.ObjectId,
+    // _id: Number,
     firstName   : String,
     lastName    : String,
-    blogPosts: {
-        type: Number,
+    blogPosts: [{
+        type: Schema.Types.ObjectId,
+        default: [],
         ref: 'blogPost'
-    },
+    }],
     createdAt: {
         type    : Date,
         default : Date.now

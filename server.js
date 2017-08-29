@@ -16,7 +16,7 @@ server.use(bodyParser.json());
 // USER ROUTES
 
 server.post('/users', (req, res) => {
-    const { firstName, lastName } = req.body;
+    const { _id, firstName, lastName } = req.body;
     if (!firstName || !lastName ) {
         res.status(500).json({ message: 'You need both a first name and last name!' });
         return;
@@ -46,13 +46,13 @@ server.get('/users/:id', (req, res) => {
 });
 
 server.delete('/users/:id', (req, res) => {
-    const { id, firstName } = req.params;
-    Users.findByIdAndRemove(id, (err, user) => {
+    const { id } = req.params;
+    Users.findByIdAndRemove(id, (err) => {
         if (err) throw err;
+        // console.log(user);
         var response = {
-            message: "User successfully deleted",
+            message: `User successfully deleted`,
             id, 
-            firstName
         };
         res.send(response);
     });
@@ -66,9 +66,11 @@ server.post('/blogposts', (req, res) => {
         return;
     }
     const blogPost = new BlogPosts(req.body);
+
     blogPost.save((err) => {
         if (err) throw err;
         res.status(201);
+        console.log(req.body);
         res.json( { blogPost, message: 'Thank you!' });
     });
 });
@@ -89,27 +91,36 @@ server.get('/blogposts/:id', (req, res) => {
     });
 });
 
-server.delete('/users/:id', (req, res) => {
-    const { id, firstName } = req.params;
-    BlogPosts.findByIdAndRemove(id, (err, user) => {
+server.delete('/blogposts/:id', (req, res) => {
+    const { id } = req.params;
+    BlogPosts.findByIdAndRemove(id, (err, post) => {
         if (err) throw err;
         var response = {
-            message: "User successfully deleted",
+            message: `Post successfully deleted`,
             id
         };
         res.send(response);
     });
 });
 
+// ROUTES FOR SPECIFIC USER BLOG-POSTS
 
-
-
+server.get('/users/:id/blogposts', (req, res) => {
+    BlogPosts.
+        find().
+        populate('author').
+        exec((err, post) => {
+            if (err) throw err;
+            console.log(post);
+            res.json(post);
+        })
+})
 
 
 
 mongoose.Promise = global.Promise;
 const connect = mongoose.connect(
-  'mongodb://localhost/bears',
+  'mongodb://localhost/users',
   { useMongoClient: true }
 );
 
