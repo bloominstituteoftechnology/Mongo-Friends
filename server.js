@@ -1,7 +1,7 @@
 const bodyParser = require('body-parser');
 const express = require('express');
 const mongoose = require('mongoose');
-const Bear = require('./models.js');
+const Users = require('./models/users.js');
 
 const STATUS_USER_ERROR = 422;
 const STATUS_SERVER_ERROR = 500;
@@ -14,6 +14,26 @@ server.use(bodyParser.json());
 
 // ROUTES
 
+server.post('/users', (req, res) => {
+    const { firstName, lastName } = req.body;
+    if (!firstName || !lastName ) {
+        res.status(500).json({ message: 'You need both a first name and last name!' });
+        return;
+    }
+    const user = new Users(req.body);
+    user.save((err) => {
+        if (err) throw err;
+        res.status(201);
+        res.json( { user, message: 'Thank you!' });
+    });
+});
+
+server.get('/users', (req, res) => {
+    Users.find({}, (err, data) => {
+        if (err) throw err;
+        res.json(data);
+    });
+});
 
 
 
