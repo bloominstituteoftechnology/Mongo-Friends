@@ -35,6 +35,13 @@ server.get('/users', (req, res) => {
     });
 });
 
+server.get('/users/:id', (req, res) => {
+    const { id } = req.params;
+    Users.findById(id, (err, user) => {
+        if (err) throw err;
+        res.json(user);
+    });
+});
 
 
 
