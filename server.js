@@ -32,7 +32,7 @@ server.post('/users', (req, res) => {
 server.get('/users', (req, res) => {
     Users.find({}, (err, data) => {
         if (err) throw err;
-        console.log(data);
+        // console.log(data[0].blogPosts);
         res.json(data);
     });
 });
@@ -42,6 +42,19 @@ server.get('/users/:id', (req, res) => {
     Users.findById(id, (err, user) => {
         if (err) throw err;
         res.json(user);
+    });
+});
+
+server.delete('/users/:id', (req, res) => {
+    const { id, firstName } = req.params;
+    Users.findByIdAndRemove(id, (err, user) => {
+        if (err) throw err;
+        var response = {
+            message: "User successfully deleted",
+            id, 
+            firstName
+        };
+        res.send(response);
     });
 });
 
@@ -63,7 +76,7 @@ server.post('/blogposts', (req, res) => {
 server.get('/blogposts', (req, res) => {
     BlogPosts.find({}, (err, data) => {
         if (err) throw err;
-        // console.log(data);
+        console.log(data[0].author);
         res.json(data);
     });
 });
