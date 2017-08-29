@@ -81,6 +81,26 @@ server.get('/blogposts', (req, res) => {
     });
 });
 
+server.get('/blogposts/:id', (req, res) => {
+    const { id } = req.params;
+    BlogPosts.findById(id, (err, post) => {
+        if (err) throw err;
+        res.json(post);
+    });
+});
+
+server.delete('/users/:id', (req, res) => {
+    const { id, firstName } = req.params;
+    BlogPosts.findByIdAndRemove(id, (err, user) => {
+        if (err) throw err;
+        var response = {
+            message: "User successfully deleted",
+            id
+        };
+        res.send(response);
+    });
+});
+
 
 
 
