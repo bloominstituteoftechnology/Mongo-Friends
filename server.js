@@ -2,6 +2,7 @@ const bodyParser = require('body-parser');
 const express = require('express');
 const mongoose = require('mongoose');
 const Users = require('./models/users.js');
+const BlogPosts = require('./models/blogPosts.js');
 
 const STATUS_USER_ERROR = 422;
 const STATUS_SERVER_ERROR = 500;
@@ -12,7 +13,7 @@ server.use(bodyParser.json());
 
 
 
-// ROUTES
+// USER ROUTES
 
 server.post('/users', (req, res) => {
     const { firstName, lastName } = req.body;
@@ -31,6 +32,7 @@ server.post('/users', (req, res) => {
 server.get('/users', (req, res) => {
     Users.find({}, (err, data) => {
         if (err) throw err;
+        console.log(data);
         res.json(data);
     });
 });
@@ -42,6 +44,30 @@ server.get('/users/:id', (req, res) => {
         res.json(user);
     });
 });
+
+// BLOG-POST ROUTES
+server.post('/blogposts', (req, res) => {
+    const { content, _author } = req.body;
+    if (!content ) {
+        res.status(500).json({ message: 'You need both a first name and last name!' });
+        return;
+    }
+    const blogPost = new BlogPosts(req.body);
+    blogPost.save((err) => {
+        if (err) throw err;
+        res.status(201);
+        res.json( { blogPost, message: 'Thank you!' });
+    });
+});
+
+server.get('/blogposts', (req, res) => {
+    BlogPosts.find({}, (err, data) => {
+        if (err) throw err;
+        // console.log(data);
+        res.json(data);
+    });
+});
+
 
 
 

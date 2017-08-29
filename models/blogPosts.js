@@ -1,13 +1,13 @@
 const mongoose = require('mongoose');
 
-const User = require('./users.js')
+const author = require('./users.js')
 
 const Schema = mongoose.Schema;
 
-const PostSchema = new Schema({
+const BlogPostSchema = new Schema({
     content: String,
-    _author: { 
-        type: Number, 
+    author: { 
+        type: Schema.Types.ObjectId, 
         reference: 'User' 
     },
     createdAt: {
@@ -16,4 +16,4 @@ const PostSchema = new Schema({
     }
 });
 
-module.exports = mongoose.model('Post', PostSchema);
+module.exports = mongoose.model('BlogPosts', BlogPostSchema);
