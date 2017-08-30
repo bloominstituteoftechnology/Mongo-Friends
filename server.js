@@ -29,13 +29,28 @@ server.post('/users', (req, res) => {
     });
 });
 
+// server.get('/users', (req, res) => {
+//     Users.find({}, (err, data) => {
+//         if (err) throw err;
+//         // console.log(data[0].blogPosts);
+//         res.json(data);
+//     });
+// });
+
 server.get('/users', (req, res) => {
-    Users.find({}, (err, data) => {
-        if (err) throw err;
-        // console.log(data[0].blogPosts);
-        res.json(data);
-    });
-});
+    const { id } = req.params;
+    Users.find()
+        .populate()
+        .exec()
+        .then((user) => {
+            console.log(user);
+            res.json(user);
+        })
+        .catch((err) => {
+            handleError(err);
+            res.json({ message: "Something went wrong" })
+        });
+})
 
 server.get('/users/:id', (req, res) => {
     const { id } = req.params;
@@ -62,7 +77,7 @@ server.delete('/users/:id', (req, res) => {
 server.post('/blogposts', (req, res) => {
     const { content, _author } = req.body;
     if (!content ) {
-        res.status(500).json({ message: 'You need both a first name and last name!' });
+        res.status(500).json({ message: 'You need content!' });
         return;
     }
     const blogPost = new BlogPosts(req.body);
@@ -78,7 +93,7 @@ server.post('/blogposts', (req, res) => {
 server.get('/blogposts', (req, res) => {
     BlogPosts.find({}, (err, data) => {
         if (err) throw err;
-        console.log(data[0].author);
+        // console.log(data[0].author);
         res.json(data);
     });
 });
@@ -105,16 +120,16 @@ server.delete('/blogposts/:id', (req, res) => {
 
 // ROUTES FOR SPECIFIC USER BLOG-POSTS
 
-server.get('/users/:id/blogposts', (req, res) => {
-    BlogPosts.
-        find().
-        populate('author').
-        exec((err, post) => {
-            if (err) throw err;
-            console.log(post);
-            res.json(post);
-        })
-})
+// server.get('/users/:id/blogposts', (req, res) => {
+//     BlogPosts.
+//         find().
+//         populate('author').
+//         exec((err, post) => {
+//             if (err) throw err;
+//             console.log(post);
+//             res.json(post);
+//         })
+// })
 
 
 
