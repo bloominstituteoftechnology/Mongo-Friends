@@ -1,8 +1,7 @@
 const bodyParser = require('body-parser');
 const express = require('express');
 const mongoose = require('mongoose');
-const User = require('./models.js');
-
+const { User, Post } = require('./models.js');
 const STATUS_USER_ERROR = 422;
 const STATUS_SERVER_ERROR = 500;
 const server = express();
@@ -35,7 +34,6 @@ server.get(('/users/:id'), (req, res) => {
     });
 });
 
-
 // * [POST] `/users` This route should save a new user to the server.
 server.post(('/users'), (req, res) => {
     const { first, last, birthday } = req.body;
@@ -61,6 +59,61 @@ server.delete(('/users/:id'), (req, res) => {
         if (err) {
             res.status(STATUS_SERVER_ERROR);
             res.json({ error: err });
+        }
+        res.json(data);
+    });
+});
+
+// * [POST] `/posts` This route should save a new blog post to the server.
+server.post(('/posts'), (req, res) => {
+    const { title, author, content } = req.body;
+    if (!title || !author || !content) {
+        res.status(STATUS_USER_ERROR);
+        res.json({ error: 'Invalid body - needs title; author; content.' });
+    }
+
+    const newPost = new Post({ title, author, content });
+    newPost.save((err) => {
+        if (err) {
+            res.status(STATUS_SERVER_ERROR);
+            res.json({ error: 'Error on saving blogpost.' });
+        }
+        res.json(newPost);
+    });
+});
+
+// * [GET] `/posts` This route will return an array of all blog posts.
+server.get(('/posts'), (req, res) => {
+    Post.find({}, (err, data) => {
+        if (err) {
+            res.status(STATUS_SERVER_ERROR);
+            res.json({ error: 'Failed to get posts.' });
+        }
+        res.json(data);
+    });
+});
+
+// * [GET] `/posts/:id` This route will return the blog post with the matching `id` property.
+server.get(('/posts/:id'), (req, res) => {
+    const { id } = req.params;
+
+    Post.findById(id, (err, data) => {
+        if (err) {
+            res.status(STATUS_SERVER_ERROR);
+            res.json({ error: 'Failed to get a post with that id.' });
+        }
+        res.json(data);
+    });
+});
+
+// * [DELETE] `/posts/:id` This route should delete the specified blog post.
+server.delete(('/posts/:id'), (req, res) => {
+    const { id } = req.params;
+
+    Post.findByIdAndRemove(id, (err, data) => {
+        if (err) {
+            res.status(STATUS_SERVER_ERROR);
+            res.json({ error: 'Failed to delete post by that id.' });
         }
         res.json(data);
     });
