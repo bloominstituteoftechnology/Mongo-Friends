@@ -1,59 +1,45 @@
 const bodyParser = require('body-parser');
 const express = require('express');
 
-const STATUS_USER_ERROR = 422;
+const User = require('./user.js');
 
 const server = express();
 server.use(bodyParser.json());
 
-const queryAndRespond = (query, res) => {
-  query.exec((err, result) => {
-    if (err) {
-      res.status(STATUS_USER_ERROR);
-      res.json(err);
-    } else {
-      res.json(result);
-    }
-  });
-};
-
-const User = require('./user.js');
+const STATUS_USER_ERROR = 422;
 
 server.get('/users', (req, res) => {
   User.find({}, (err, users) => {
     if (err) {
       res.status(STATUS_USER_ERROR);
       res.json(err);
-    } else {
-      res.json(users);
     }
-  });
+    res.json(users);
+  })
 });
 
 server.get('/users/:id', (req, res) => {
   const { id } = req.params;
-  User.findById(id, (err, user) => {
+  User.findOne(id, (err, user) => {
     if (err) {
       res.status(STATUS_USER_ERROR);
-      res.json(err);
-    } else {
-      res.json(user);
+      res.json({ error: "Cannot find a user with that ID" });
     }
+    res.json(user);
   });
 });
 
 server.post('/users', (req, res) => {
-  const { username, age } = req.body;
-  const user = new User({ username, age });
+  const { firstName, lastName, age } = req.body;
+  const user = new User({ firstName, lastName, age });
 
   user.save((err) => {
     if (err) {
       res.status(STATUS_USER_ERROR);
       res.json(err);
-    } else {
-      res.json(user);
     }
-  }) 
+    res.json(user);
+  });
 });
 
 server.delete('/users/:id', (req, res) => {
@@ -61,11 +47,12 @@ server.delete('/users/:id', (req, res) => {
   User.remove({ _id: id }, (err) => {
     if (err) {
       res.status(STATUS_USER_ERROR);
-      res.json(err);
-    } else {
-      res.json({ success: true });
+      res.json({ error: "Cannot find a user with that ID" });
     }
+    res.json({ success: true });
   });
 });
 
-server.listen(3000);
+server.listen(3000, () => {
+  console.log('server listening on port 3000');
+});
