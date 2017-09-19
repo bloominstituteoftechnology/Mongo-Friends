@@ -16,36 +16,41 @@ const UserSchema = new mongoose.Schema({
 })
 const User = mongoose.model('User', UserSchema)
 
+// * [GET] `/users` This route will return an array of all users.
 app.get('/users', (req, res) => {
-    User.find((err, users) => {
-        if (users.length > 0) res.send(users)
-        else if (err) res.status(400).send(err)
-        else res.status(400).send({ error: 'No users found' })
-    })
-})
-app.get('/users/:id', (req, res) => {
-    User.findById(req.params.id, (err, user) => {
-        if (user) res.send(user)
-        else if (err) res.status(400).send(err)
-        else res.status(400).send({ error: 'User not found' })
-    })
+    User.find()
+        .catch(error => res.status(500).json({ error }))
+        .then(users => res.send(users.reduce((obj, user) => {
+            obj[user.id] = user;
+            return obj
+        }, {})))
 })
 
+// * [GET] `/users/:id` This route will return the user with the
+// matching `id` (`_id` on the db document) property.
+app.get('/users/:id', (req, res) => {
+    User.findById(req.params.id)
+        .catch(error => res.status(500).json({ error }))
+        .then(user => res.json(user))
+})
+
+// * [POST] `/users` This route should save a new user to the server.
 app.post('/users', (req, res) => {
     const user = new User(req.body)
-    user.save((err, newUser) => {
-        if (err) res.status(400).send(err)
-        else res.status(201).send(newUser)
-    })
-})
-app.delete('/users/:id', (req, res) => {
-    User.findByIdAndRemove(req.params.id, (err, user) => {
-        if (err) res.status(400).send(err)
-        else if (user) res.sendStatus(200)
-        else res.status(400).send({ error: 'User not found' })
-    })
+    user.save()
+        .catch(error => res.status(500).json({ error }))
+        .then(user => res.json(user))
 })
 
+// * [DELETE] `/users/:id` This route should delete the specified user.
+app.delete('/users/:id', (req, res) => {
+    console.log(req.params.id)
+    User.findByIdAndRemove(req.params.id)
+        .catch(error => res.status(500).json({ error }))
+        .then(() => res.sendStatus(200))
+})
+
+// ## Extra Credit
 const PostSchema = new mongoose.Schema({
     user: { type: String, required: true },
     title: { type: String, required: true },
@@ -83,10 +88,21 @@ app.delete('/posts/:id', (req, res) => {
 })
 
 
-mongoose.connect('mongodb://lscspcuser:lscspcuser@ds028310.mlab.com:28310/ls-cs-precourse', {
-    useMongoClient: true,
-    promiseLibrary: global.Promise
-}, () => {
-    console.log('DB connected')
-    app.listen(3000, () => { console.log('Server running on port 3000') })
-})
+
+mongoose.Promise = global.Promise;
+const connect = mongoose.connect(
+    'mongodb://lscspcuser:lscspcuser@ds028310.mlab.com:28310/ls-cs-precourse', 
+    {
+        useMongoClient: true,
+        promiseLibrary: global.Promise
+    }
+);
+
+const port = 3000;
+connect
+    .catch(error => console.log("ERROR: Couldn't connect to MongoDB. Do you have it running?"))
+    .then(() => {
+        app.listen(port, () => {
+            console.log(`Server listening on port ${port}`)
+        })
+    })
