@@ -62,6 +62,58 @@ server.delete('/users/:id', (req, res) => {
     });
 });
 
+server.post('/posts', (req, res) => {
+    const { title, contents } = req.params;
+    const newPost = new Post ({ title, contents });
+    newPost.save(newPost, (err, post) => {
+        if (err) {
+            res.status(STATUS_USER_ERROR);
+            res.json({ error: 'Post not saved' });
+            return;
+        } else {
+            res.json({ post });
+        }
+    });
+});
+
+server.get('/posts', (req, res) => {
+    Post.find({}, (err, posts) => {
+        if (err) {
+            res.status(STATUS_USER_ERROR);
+            res.json({ err: 'Could not get posts' });
+            return;
+        } else {
+            res.json({ posts });
+        }
+    });
+});
+
+server.get('/posts/:id', () => {
+    const { id } = req.params;
+    Post.findById(id, (err, post) => {
+        if (err) {
+            res.status(STATUS_USER_ERROR);
+            res.json({ error: 'Could not find a post with that id' });
+            return;
+        } else {
+            res.json({ post });
+        }
+    });
+});
+
+server.delete('/posts/:id', (req, res) => {
+    const { id } = req.params;
+    Post.findByIdAndRemove(id, (err, deleted) => {
+        if (err) {
+            res.status(STATUS_USER_ERROR);
+            res.json({ error: 'Could not delete that post' });
+            return;
+        } else {
+            res.json({ deleted });
+        }
+    });
+});
+
 mongoose.Promise = global.Promise;
 
 
