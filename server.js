@@ -85,18 +85,88 @@ server.delete('/users/:id', (req, res) => {
 
 // Blog Posts
 server.post('/posts', (req, res) => {
-
+    const { title, author, content } = req.body;
+    const newPost = new BlogPost({ title, author, content });
+    newPost.save((err, post) => {
+        if (err) {
+            res.status(500).send(err);
+            return;
+        } else {
+            res.json(post);
+        }
+    })
 });
 
-server.post('/posts/comment', (req, res) => {});
+server.post('/posts/:id/comment', (req, res) => {
+    const { author, comment } = req.body;
+    BlogPost
+        .findByIdAndUpdate(req.params.id,             
+            { $push: { 'comments' : { author, comment }}}, 
+            { new: true, upsert: true, safe: true }, 
+            (err, response) => {
+                if (err) {
+                    res.status(500).send(err);
+                    return;
+                } else {
+                    res.json(response);
+                }
+            })
+});
 
-server.get('/posts', (req, res) => {});
+server.get('/posts', (req, res) => {
+    BlogPost
+        .find()
+        .populate('author')
+        .exec((err, posts) => {
+            if (err) {
+                res.status(500).send(err);
+                return;
+            } else {
+                res.json(posts);
+            }
+        })
+});
 
-server.get('/posts/:id', (req, res) => {});
+server.get('/posts/:id', (req, res) => {
+    BlogPost
+        .findById(req.params.id)
+        .populate('author')
+        .exec((err,post) => {
+            if (err) {
+                res.status(500).send(err);
+                return;
+            } else {
+                res.json(post);
+            }
+        })
+});
 
-server.put('/posts/:id', (req, res) => {});
+server.put('/posts/:id', (req, res) => {
+    BlogPost
+        .findByIdAndUpdate(req.params.id, 
+            { $set: req.body }, 
+            { new: true, upsert: true, safe: true }, 
+            (err, response) => {
+                if (err) {
+                    res.status(500).send(err);
+                    return;
+                } else {
+                    res.json(response);
+                }
+            })
+});
 
-server.delete('/posts/:id', (req, res) => {});
+server.delete('/posts/:id', (req, res) => {
+    BlogPost
+        .findByIdAndRemove(req.params.id, (err, response) => {
+            if (err) {
+                res.status(500).send(err);
+                return;
+            } else {
+                res.json(response);
+            }
+        })
+});
 
 
 
