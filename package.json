@@ -1,0 +1,20 @@
+{
+  "name": "Mongo-I",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/JPRoland/Mongo-I.git",
+  "author": "Joe Roland <joroland@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "start": "eslint *.js && nodemon server.js"
+  },
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "cors": "^2.8.4",
+    "eslint": "^3.17.1",
+    "eslint-config-airbnb": "^14.1.0",
+    "eslint-plugin-import": "^2.2.0",
+    "express": "^4.16.2",
+    "mongoose": "^4.12.3"
+  }
+}
