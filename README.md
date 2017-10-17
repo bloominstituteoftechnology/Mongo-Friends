@@ -22,7 +22,7 @@
 
 ## Assignment
 
-Download MongoDB.  https://www.mongodb.com/download-center
+Download [MongoDB](https://www.mongodb.com/download-center).
 Create a new folder and run `npm init` to create your `package.json` file.
 Install npm packages: `npm i --save express body-parser cors mongoose`
 Start your MongoDB server by running `mongod` from the command line.
