@@ -1,7 +1,7 @@
 const bodyParser = require('body-parser');
 const express = require('express');
 const mongoose = require('mongoose');
-const Users = require('./models');
+const {Users, BlogPost} = require('./models');
 
 const STATUS_USER_ERROR = 422;
 const STATUS_SERVER_ERROR = 500;
@@ -16,7 +16,7 @@ const connect = mongoose.connect(
 	{ useMongoClient: true }
 );
 
-
+// USER
 server.get('/users', (req,res) => {
 	Users.find({}, (err, users) => {
     if (err) {
@@ -64,6 +64,53 @@ server.delete('/users/:id', (req, res) => {
             res.json(deletedUser);
         }
     });
+})
+
+//BLOG POSTS
+
+server.get('/posts', (req, res) => {
+	BlogPost.find({}, (err, allPosts) => {
+		if(err) {
+			return res.status(STATUS_USER_ERROR).json(err)
+		}
+		res.json(allPosts);
+	})
+})
+
+server.get('/posts/:id', (req, res) => {
+	const { id } = req.params;
+	BlogPost.findById(id, (err,foundPost) => {
+		if(err){
+			return res.status(STATUS_USER_ERROR).json(err)
+		}
+		res.json(foundPost);
+	})
+})
+
+server.post('/posts', (req, res) => {
+  const { title, content } = req.body;
+  if (!title || !content) {
+    res.status(STATUS_USER_ERROR);
+    res.json({ error: 'You must provide content AND a title' });
+    return;
+  }
+  const post = new BlogPost({ title, content });
+  post.save((err, newPost) => {
+    if (err) {
+      return res.status(STATUS_USER_ERROR).json(err);
+    }
+    res.json(newPost);
+  });
+});
+
+server.delete('/posts/:id', (req, res) => {
+	const { id } = req.params;
+	BlogPost.findByIdAndRemove(id, (err, deletedPost) => {
+		if(err){
+			res.status(STATUS_USER_ERROR).json(err);
+		}
+		res.json(deletedPost)
+	})
 })
 
 connect.then(() => {
