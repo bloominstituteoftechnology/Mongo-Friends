@@ -11,8 +11,7 @@ const UserSchema = new mongoose.Schema({
     lowercase: true,
     required: 'You must supply an email',
   },
-  firstName: String,
-  lastName: String,
+  posts: [{ type: mongoose.Schema.Types.ObjectId, ref: 'BlogPost' }],
   createdAt: {
     type: Date,
     default: Date.now(),
