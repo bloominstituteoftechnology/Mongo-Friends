@@ -1,0 +1,37 @@
+{
+  "name": "mongo-i",
+  "version": "1.0.0",
+  "description": "* Databases\r * Relational Databases\r * Non-Relational Databases\r * MongoDB\r * Mongoose\r * ORM\r * `mongod`\r * Mongoose.connect\r * Mongoose.Schema\r * Mongoose.model\r * module.exports\r * Model.find\r * Model.findById\r * Model.find().remove()\r * .save\r * Error first callback\r * \\_id",
+  "main": "index.js",
+  "scripts": {
+    "start": "eslint src/*.js && nodemon ./blog/server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ndhuutai/Mongo-I.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ndhuutai/Mongo-I/issues"
+  },
+  "homepage": "https://github.com/ndhuutai/Mongo-I#readme",
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "cors": "^2.8.4",
+    "express": "^4.16.2",
+    "mongoose": "^4.12.3",
+    "eslint": "^3.17.1",
+    "eslint-config-airbnb": "^14.1.0",
+    "eslint-plugin-import": "^2.2.0"
+  },
+  "devDependencies": {
+    "eslint": "^4.9.0",
+    "eslint-config-airbnb": "^16.1.0",
+    "eslint-config-google": "^0.9.1",
+    "eslint-plugin-import": "^2.7.0",
+    "eslint-plugin-jsx-a11y": "^6.0.2",
+    "eslint-plugin-react": "^7.4.0"
+  }
+}
