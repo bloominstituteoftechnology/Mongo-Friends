@@ -1,4 +1,4 @@
-const bodyParser = require('body-parser');
+ const bodyParser = require('body-parser');
 const express = require('express');
 const mongoose = require('mongoose');
 const { User, BlogPost }  = require('./models');
