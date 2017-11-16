@@ -2,6 +2,7 @@ const bodyParser = require('body-parser');
 const express = require('express');
 const mongoose = require('mongoose');
 const User = require('./User.js')
+const BlogList = require('./BlogList');
 
 const STATUS_USER_ERROR = 422;
 const STATUS_SERVER_ERROR = 500; 
@@ -49,6 +50,47 @@ server.delete('/api/users/:id', (req, res) => {
       res.json({ success: true });
     }
   })
+});
+
+server.post('/api/blogposts', (req, res) => {
+  const newBlog = new BlogList(req.body);
+  newBlog.save((err, blog) => {
+    if(err) {
+      res.status(STATUS_SERVER_ERROR).json({error: 'Could not create new blog'});
+    } else {
+      res.status(200).json(blog);
+    }
+  });
+});
+server.get('/api/blogposts', (req, res) => {
+  BlogList.find({}, (err, blog) => {
+    if(err) {
+      res.status(STATUS_SERVER_ERROR).json({error: 'Could not find the blog list'});
+    } else {
+      res.status(200).json(blog);
+    }
+  });
+});
+server.get('/api/blogposts/:id', (req, res) => {
+  const { id } = req.params;
+  BlogList.findById({ _id: id }, (err, blog) => {
+    if(err) {
+      res.status(STATUS_SERVER_ERROR).json({ error: 'Could not find the blog id'});
+    } else {
+      res.status(200).json(blog);
+    }
+  });
+});
+server.delete('/api/blogposts/:id', (req, res) => {
+  const { id } = req.params;
+  BlogList.findById({ _id: id }, (err, blog) => {
+    if(err) {
+      res.status(STATUS_SERVER_ERROR).json({ error: 'Could not find the blog id' });
+    } else {
+      blog.remove();
+      res.json({ success: true });
+    }
+  });
 });
 
 mongoose.Promise = global.Promise;
