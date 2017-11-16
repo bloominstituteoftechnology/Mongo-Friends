@@ -1,0 +1,15 @@
+{
+  "name": "Mongo",
+  "version": "1.0.0",
+  "description": "Mongo Sprint",
+  "main": "index.js",
+  "author": "Travis",
+  "license": "MIT",
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "cors": "^2.8.4",
+    "express": "^4.16.2",
+    "mongoose": "^4.13.2",
+    "nodemon": "^1.12.1"
+  }
+}
