@@ -11,7 +11,7 @@ module.exports = function(server) {
       if (err) {
         res.status(httpCodes.userError).json({error: "Something unbearable happened; could not create the user."});
       } else {
-        res.status(httpCodes.okay).json(user);
+        res.status(httpCodes.success).json(user);
       }
     });
   });
@@ -21,7 +21,7 @@ module.exports = function(server) {
       if (err) {
         res.status(httpCodes.userError).json({error: "Could not display all users."});
       } else {
-        res.status(httpCodes.okay).json(users);
+        res.status(httpCodes.success).json(users);
       }
     });
   });
@@ -33,7 +33,7 @@ module.exports = function(server) {
       if (err) {
         res.status(httpCodes.userError).json({error: "Could not find user to delete."});
       } else {
-        res.status(httpCodes.okay).json(users);
+        res.status(httpCodes.success).json(users);
       }
     });
   });
@@ -45,7 +45,7 @@ module.exports = function(server) {
       if (err) {
         res.status(httpCodes.userError).json({error: "Could not find user to delete."});
       } else {
-        res.status(httpCodes.okay).json(users);
+        res.status(httpCodes.success).json(users);
       }
     });
   });

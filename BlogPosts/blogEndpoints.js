@@ -10,7 +10,7 @@ module.exports = function(server) {
       if (err) {
         res.status(httpCodes.userError).json({error: "Could not create new blog post."});
       } else {
-        res.status(httpCodes.okay).json(blogpost);
+        res.status(httpCodes.success).json(blogpost);
       }
     });
   });
@@ -20,7 +20,7 @@ module.exports = function(server) {
       if (err) {
         res.status(httpCodes.userError).json({error: "Could not retrieve all blog posts."});
       } else {
-        res.status(httpCodes.okay).json(blogposts);
+        res.status(httpCodes.success).json(blogposts);
       }
     });
   });
@@ -32,7 +32,7 @@ module.exports = function(server) {
       if (err) {
         res.status(httpCodes.userError).json({error: "Could not retrieve the specified user"});
       } else {
-        res.status(httpCodes.okay).json(blogposts);
+        res.status(httpCodes.success).json(blogposts);
       }
     });
   });
@@ -44,7 +44,7 @@ module.exports = function(server) {
       if (err) {
         res.status(httpCodes.userError).json({error: "Could not delete the specified user"});
       } else {
-        res.status(httpCodes.okay).json(`Blog Post ${id} removed.`);
+        res.status(httpCodes.success).json(`Blog Post ${id} removed.`);
       }
     });
   });
