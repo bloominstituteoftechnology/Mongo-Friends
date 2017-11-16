@@ -2,7 +2,8 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 
-const user = require('./UserModel.js')
+const user = require('./UserModel.js');
+const blog = require('./BlogModel.js');
 
 const STATUS_USER_ERROR = 422;
 const STATUS_SERVER_ERROR = 500;
@@ -64,6 +65,55 @@ server.post('/api/user', function(req, res) {
         }
     });
 });
+
+
+server.post('/api/posts', function(req, res) {
+    const newBlog = new blog(req.body);
+
+    newBlog.save(function(err, blog) {
+        if(err) {
+            res.status(STATUS_USER_ERROR).json({ error: "I's requires the usernames, needs dem contents, and dat title.. BOOM" })
+        } else {
+            res.status(200).json(blog)
+        }
+    });
+});
+
+server.get('/api/posts', function(req, res) {
+    blog.find(function(err, blog) {
+        if(err) {
+            res.status(STATUS_SERVER_ERROR).json({ error: 'Hey server, you gon done messed up' })
+        } else {
+            res.status(200).json(blog)
+        }
+    });
+});
+
+server.get('/api/posts/:id', function(req, res) {
+    const { id } = req.params;
+
+    blog.findById(id, function(err, blog) {
+        if(err) {
+            res.status(STATUS_SERVER_ERROR).json({ error: 'Hey server, this blog isnt real' })
+        } else {
+            res.status(200).json(blog)
+        }
+    });
+});
+
+server.delete('/api/posts/:id', function(req, res) {
+    const { id } = req.params;
+    blog.findByIdAndRemove(id, function(err, blog) {
+        if(err) {
+            res.status(STATUS_SERVER_ERROR).json({ error: 'Hey server, cant delete what doesnt exist' })
+        } else {
+            res.status(200).json(blog)
+        }
+    });
+});
+
+
+
 
 const port = 1985;
 server.listen(port, function() {
