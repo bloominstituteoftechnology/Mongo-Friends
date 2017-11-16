@@ -1,0 +1,15 @@
+{
+  "name": "Mongo-I",
+  "version": "1.0.0",
+  "description": "ls-mongo-i",
+  "main": "index.js",
+  "repository": "https://github.com/vibe/Mongo-I",
+  "author": "Christian Franco <christian.franco94@icloud.com>",
+  "license": "MIT",
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "cors": "^2.8.4",
+    "express": "^4.16.2",
+    "mongoose": "^4.13.2"
+  }
+}
