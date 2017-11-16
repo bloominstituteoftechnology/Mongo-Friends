@@ -42,9 +42,11 @@ module.exports = function(server) {
 
     BlogPost.findByIdAndRemove(id, function(err, blogpost) {
       if (err) {
-        res.status(httpCodes.userError).json({error: "Could not delete the specified user"});
+        res.status(httpCodes.userError).json({message: err.message});
+      } else if (user !== null) {
+        res.status(httpCodes.success).json(`Success! Blog Post ${id} removed.`);
       } else {
-        res.status(httpCodes.success).json(`Blog Post ${id} removed.`);
+        res.status(httpCodes.userError).json(`User error: no blog post with specified id found. (id: ${id})`);
       }
     });
   });
