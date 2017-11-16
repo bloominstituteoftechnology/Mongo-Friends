@@ -1,14 +1,7 @@
-import React from 'react';
 import { connect } from 'react-redux';
 
-import { getPosts } from '../actions';
+import { getPosts, getPost, deletePost, } from '../actions';
 import Posts from './Posts.js';
-
-/*
-const PostsContainer = () => (
-  <Posts />
-);
-*/
 
 const mapStateToProps = (state) => {
   return {
@@ -16,4 +9,4 @@ const mapStateToProps = (state) => {
   }
 }
 
-export default connect(mapStateToProps, { getPosts })(Posts);
+export default connect(mapStateToProps, { getPosts, getPost, deletePost, })(Posts);

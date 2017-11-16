@@ -18,13 +18,16 @@ class Posts extends Component {
       <div className="posts_container">
         <h1>Blog Posts</h1>
         <div className="post_list">
-          {this.props.posts.map((post, i) => {
+          {this.props.posts.slice(0).reverse().map((post, i) => {
             return (
-              <Post 
+              <Post
+                key={post._id}
                 title={post.title}
                 content={post.content}
                 user={post.user}
                 id={post._id}
+                date={post.createdAt}
+                delete={this.props.deletePost}
               />
             );
           })}
