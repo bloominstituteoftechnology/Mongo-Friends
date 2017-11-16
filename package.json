@@ -1,0 +1,17 @@
+{
+  "name": "mongo-i",
+  "version": "1.0.0",
+  "description": "Mongo-I Full Sprint",
+  "main": "server.js",
+  "scripts": {
+    "start": "nodemon server.js"
+  },
+  "author": "Don Utley",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "cors": "^2.8.4",
+    "express": "^4.16.2",
+    "mongoose": "^4.13.2"
+  }
+}
