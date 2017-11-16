@@ -1,6 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-// const cors = require('cors');
+const cors = require('cors');
 
 const mongoose = require('mongoose');
 
@@ -10,7 +10,7 @@ const Users = require('./models.js');
 const BlogPost = require('./blogPost.js');
 
 server.use(bodyParser.json());
-// server.use(cors());
+server.use(cors());
 
 /* *** Status *** */
 const STATUS_USER_ERROR = 422;
