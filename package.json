@@ -1,0 +1,16 @@
+{
+  "name": "Mongo-I",
+  "version": "1.0.0",
+  "description": "Simple User app",
+  "main": "index.js",
+  "author": "Mikias Hundie",
+  "license": "MIT",
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "cors": "^2.8.4",
+    "express": "^4.16.2",
+    "jshint": "^2.9.5",
+    "mongoose": "^4.13.2",
+    "nodemon": "^1.12.1"
+  }
+}
