@@ -17,13 +17,18 @@ server.post('/user', (req, res) => {
 });
 
 server.get('/user', (req, res) => {
-  user.find({}, function(err, user) {
-    if (err) {
-      // handle error
-    } else {
-      res.status(200).json(user);
-    }
-  });
+  user
+    .findById('5a0e1daaa223ed15f8499406')
+    .select('nutrients')
+    .select('energy')
+    .exec(function(err, user) {
+      if (err) {
+        // handle error
+      } else {
+        console.log(user.nutrients.water.value);
+        res.status(200).json(user);
+      }
+    });
 });
 
 server.get('/user/:id', (req, res) => {
