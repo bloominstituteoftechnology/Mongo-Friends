@@ -11,7 +11,6 @@ app.use(cors());
 // models
 const User = require('./models/User');
 
-
 // controllers
 const UserController = require('./controllers/UserController');
 
