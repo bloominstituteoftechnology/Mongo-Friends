@@ -6,6 +6,10 @@ const Bear = require('./Bears/BearModel.js');
 
 const server = express();
 
+server.listen(5000, function() {
+  console.log('Server running on port 5000');
+});
+
 server.use(bodyParser.json());
 
 server.get('/', function(req, res) {
