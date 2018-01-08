@@ -11,11 +11,15 @@ app.use(cors());
 // models
 const User = require('./models/User');
 
+
 // controllers
 const UserController = require('./controllers/UserController');
 
-
-
+// routes
+app.get('/users', UserController.getUsers);
+app.get('/users/:id', UserController.getUserById);
+app.post('/users', UserController.addUser);
+app.delete('/users/:id', UserController.deleteUserById);
 
 // main
 db.on('error', console.error.bind(console, 'connection error:'));
