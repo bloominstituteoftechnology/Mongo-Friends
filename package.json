@@ -1,0 +1,17 @@
+{
+  "name": "Mongo-I",
+  "version": "1.0.0",
+  "main": "server.js",
+  "repository": "https://github.com/wildpow/Mongo-I.git",
+  "scripts":{
+    "start": "nodemon server.js"
+  },
+  "author": "Aaron Wilder <element1028@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "cors": "^2.8.4",
+    "express": "^4.16.2",
+    "mongoose": "^4.13.9"
+  }
+}
