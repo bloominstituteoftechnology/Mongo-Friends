@@ -1,3 +1,4 @@
+// see https://www.youtube.com/watch?v=BaADc7Q3NPg&feature=youtu.be for guide
 const bodyParser = require('body-parser');
 const express = require('express');
 const mongoose = require('mongoose');
