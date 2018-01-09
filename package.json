@@ -1,0 +1,14 @@
+{
+  "name": "Mongo-I",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/jaspindersingh83/Mongo-I",
+  "author": "JASPINDER SING <jaspindersingh83@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "cors": "^2.8.4",
+    "express": "^4.16.2",
+    "mongoose": "^4.13.9"
+  }
+}
