@@ -3,6 +3,7 @@ const mongoose = require('mongoose'); // middleware
 const bodyParser = require('body-parser'); // middleware
 
 const User = require('./api/UserModel.js');
+const BlogPost = require('./api/BlogPostModel.js');
 
 const server = express();
 
@@ -19,7 +20,6 @@ server.post('/users', (req, res) => {
   const user =  new User(userInformation); // create a new document 
   // based on UserModel.js schema,
   // also passing the data in the new function(userInformation)
-  //
 
   user
     .save() //returns a promise and connects newUser to the db automatically
@@ -36,14 +36,15 @@ server.post('/users', (req, res) => {
 
 server.get('/users', function (req, res) {
   User
-    .find({})
+  .find({})
     .then(function(users) {
       res.status(200).json(users);
     })
     .catch(function(){
-      res.status(500).json({error: 'Cannot return any '})
+      res.status(500).json({ error: 'Cannot return any' })
     });
 })
+
 
 server.get('/users/:id', function(req, res) {
   const { id } = req.params; // getting id from the url params
@@ -59,28 +60,79 @@ server.get('/users/:id', function(req, res) {
 
 server.delete('/users/:id', function (req, res) {
   const { id } = req.params;
-
+  
   User.findByIdAndRemove(id)
   .then( function(user) {
     res.status(200).json( { message: 'User terminated *.*' });
   })
   .catch(function(){
-    res.status(500).json({ error: 'Could not delete anything' })
+    res.status(500).json({ error: 'Could not delete anything' });
+  });
+});
+
+
+
+server.post('/posts', (req, res) => {
+  const blogInfo = req.body;
+  
+  const blog = new BlogPost(blogInfo);
+
+  blog.save()
+  .then(function(newPost) {
+    res.status(200).json(newPost);
+  })
+  .catch(function(){
+    res.status(500).json({ error: 'Please provide title, author and post!' })
+  });
+});
+
+server.get('/posts', function (req, res) {
+  BlogPost
+    .find({})
+    .then(function(posts){
+      res.status(200).json(posts);
+    })
+    .catch(function(){
+      res.status(500).json({error: 'There are no posts here'})
+    });
+});
+
+server.get('/posts/:id', function (req,res){
+  const { id } = req.params;
+  BlogPost
+  .findById(id)
+  .then(function(post){
+    res.status(200).json(post);
+  })
+  .catch(function(){
+    res.status(500).json({ error: 'Cannot find that post'});
+  })
+})
+
+server.delete('/posts/:id', function (req, res) {
+  const { id } = req.params;
+
+  BlogPost
+  .findByIdAndRemove(id)
+  .then( function(post) {
+    res.status(200).json({ message: 'Blog entry has been deleted' });
+  })
+  .catch(function() {
+    res.status(500).json({ error: 'cannot find the specified blog entry' });
   });
 });
 
 mongoose.Promise = global.Promise; // Overriding the mongoose promise implementation with JavaScript promise
 mongoose
-  .connect('mongodb://localhost:27017/users', { useMongoClient: true }) // notice that mongo has its own protocol connecting to databases called !mongodb! 
-  .then(function () {
-    server.listen(3000, function(){//
-      console.log('All your connection are belong to us!');
-    });
-  })
+.connect('mongodb://localhost:27017/users', { useMongoClient: true }) // notice that mongo has its own protocol connecting to databases called !mongodb! 
+.then(function () {
+  server.listen(3000, function(){//
+    console.log('All your connection are belong to us!');
+  });
+})
   .catch(function(err) {
     console.log('Database connection failed')
   })
-
 
 
 
