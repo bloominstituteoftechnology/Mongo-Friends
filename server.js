@@ -99,10 +99,41 @@ server.post("/posts", function(req, res) {
 });
 
 server.get("/posts", function(req, res) {});
+    Post.find({})
+        .then(function() {
+            res.status(200).json(posts);
+        })
+        .catch(function(error) {
+            res
+                .status(500)
+                .json({ error: "Unable to connect to posts" });
+        });
 
 server.get("/posts/:id", function(req, res) {});
+        const { id } = req.params;
+        Post.findById(id)
+            .then(function() {
+                res.status(200).json(post);
+            })
+            .catch(function(error) {
+                res
+                    .status(500)
+                    .json({ error: "Unable to find post" });
+            });
 
-server.delete("/posts/:id", function(req, res) {});
+server.delete("/posts/:id", function(req, res) {
+    const { id } = req.params;
+    const removedPost = Post.findById(id);
+    Post.findByIdAndRemove(id)
+        .then(function() {
+            res.status(200).json({ message: "Removed post: " + removedPost.title });
+        })
+        .catch(function() {
+            res
+                .status(500)
+                .json({ error: "Unable to find post" });
+        });
+});
 */
 
 // "plumbing", direction of db with Mongoose
