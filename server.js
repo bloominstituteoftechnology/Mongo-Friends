@@ -1,14 +1,17 @@
+import { request } from 'https';
+
 const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 
 const User = require('./Users/UsersSchema.js');
+// const Post = require('./BlogPosts/BlogPosts.js');
 
 
 const server = express();
 server.use(bodyParser.json());
 
-// create API endpoints
+// create API endpoints for USERS
 server.get("/users", (req, res) => {
     User.find({})
     .then(function(users) {
@@ -71,8 +74,36 @@ server.delete("/users/:id", function(req, res) {
         });
 
 });
+/*
+// extra credit: create API endpoints for BLOG POSTS
+server.post("/posts", function(req, res) {
+    const blogInfo = req.body;
 
+    if (!(blogInfo.title && blogInfo.content)) {
+        res
+            .status(400)
+            .json({ error: "Blog post must contain all necessary fields" });
+    } else {
+        const post = new Post(blogInfo);
 
+        post.save() // returns a promise
+            .then(function(newPost) {
+                res.status(201).json(newPost);
+            })
+            .catch(function(error) {
+                res
+                    .status(500)
+                    .json({ error: "Error when adding new post" });
+            });
+    }
+});
+
+server.get("/posts", function(req, res) {});
+
+server.get("/posts/:id", function(req, res) {});
+
+server.delete("/posts/:id", function(req, res) {});
+*/
 
 // "plumbing", direction of db with Mongoose
 mongoose.Promise = global.Promise;
