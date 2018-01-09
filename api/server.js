@@ -15,7 +15,7 @@ server.get('/', function(req, res) {
 server.post('/api/users', (req, res) => {
   const userInformation = req.body;
 
-  if (userInformation.name) {
+  if (userInformation.userName) {
     const user = new User(userInformation);
 
     user
@@ -75,7 +75,7 @@ mongoose.Promise = global.Promise;
 mongoose
   .connect('mongodb://localhost:27017/users', { useMongoClient: true })
   .then(function() {
-    server.listen(5000, function() {
+    server.listen(5001, function() {
       console.log('All your databases are belong to us!');
     });
   })

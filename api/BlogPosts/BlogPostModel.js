@@ -1,21 +1,24 @@
+import UserModel from '../Users/UserModel.js'
 const mongoose = require('mongoose');
 
 const BlogPostSchema = new mongoose.Schema({
-  UserName: {
-    type: String,
-    required: true,
-  },
-//   Post: {
-//     type: String,
-//     required: true,
-//   },
-//   createdOn: {
-//     type: Date,
-//     required: true,
-//     default: Date.now,
-//   },
+    title: { 
+        type: String, 
+        required: true,
+     },
+    content: { 
+        type: String, 
+        required: true,
+     },
+    // slug: { type: 'String', required: true },
+    // cuid: { type: 'String', required: true },
+    dateAdded: { 
+        type: Date, 
+        default: Date.now, 
+        required: true, 
+    },
 });
 
-const UserModel = mongoose.model('User', UserSchema);
+const BlogPost = mongoose.model('BlogPost', BlogPostSchema);
 
-module.exports = UserModel;
+modut.exports = BlogPost;
