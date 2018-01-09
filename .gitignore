@@ -4,10 +4,14 @@ logs
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+/vscode
 
 # Dependency directories
 node_modules/
 jspm_packages/
+
+# editor
+.vscode/
 
 
 
