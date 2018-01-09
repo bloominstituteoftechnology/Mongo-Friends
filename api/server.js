@@ -14,9 +14,10 @@ server.get('/', function(req, res) {
 
 server.post('/api/users', (req, res) => {
   const userInformation = req.body;
-
-  if (userInformation.userName) {
-    const user = new User(userInformation);
+  const user = new User(userInformation);
+  const blogPost = new blogPost(post);
+  (userInformation) ? user: blogPost;
+   
 
     user
       .save() // returns a promise
