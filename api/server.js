@@ -42,7 +42,7 @@ server.get('/api/users/:id', function(req, res) {
 
   User.findOne({ _id: id }, function(err, users) {
     if(err){
-      // handle error
+      
     } else {
       res.status(200).json(users);
     }
@@ -64,14 +64,12 @@ server.delete('/api/users/:id', function(req, res) {
 //connect to Mongoose
 mongoose.Promise = global.Promise;
 mongoose
-.connect('mongodb://localhost:27017/users', { useMongoClient: true})
-.then(function(db) {
+.connect('mongodb://localhost/CS5', { useMongoClient: true})
+.then(function(connection) {
   console.log('All your databases are belong to us!');
   server.listen(3000, function() {
     console.log('Running on port 3000...');
   });
-   
-})
 .catch(function(err) {
   console.log('Database Connection failed', err.message);
 });
