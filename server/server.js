@@ -44,14 +44,33 @@ server.get('/users', (req, res) => {
     res.status(500)
     .json({error: 'Cannot get users'});
   });
-  
+});
 
+server.get('/users/:id', (req, res) => {
+  const { id } = req.params;
+  User.findById(id)
+  .then( (user) => {
+  res.status(200).json(user)
+  })
+  .catch( (error) => {
+    {error: 'Cannot get user id'}
+});
 });
 mongoose.Promise = global.Promise;
 
+server.delete('/users/:id', (req, res) => {
+const { id } = req.params;
+User.findByIdAndRemove(id, () => {
+response = {
+  message: "User removed",
+  id: User.id
+};
+res.status(200).send(response);
+})
+});
 mongoose
 .connect('mongodb://localhost:27017/users', { useMongoClient: true })
-  .then(() => {
+  .then( () => {
     server.listen(5000, function() {
       console.log('Database live!');
     });
