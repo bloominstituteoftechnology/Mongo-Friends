@@ -45,6 +45,17 @@ server.get("/userModel/:id", function(req, res) {
         .json({ error: "The information could not be retrieved." });
     });
 });
+server.delete("/posts/:id", function(req, res) {
+  const { id } = req.params;
+
+  BlogPost.findByIdAndRemove(id)
+    .then(function(blog) {
+      res.status(200).json({ message: "Blog entry has been deleted" });
+    })
+    .catch(function() {
+      res.status(500).json({ error: "cannot find the specified blog entry" });
+    });
+});
 
 mongoose.Promise = global.Promise;
 mongoose
