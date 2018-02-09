@@ -1,0 +1,27 @@
+{
+  "name": "Mongo-I",
+  "version": "1.0.0",
+  "description": "## Topics",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/randallwhitlock/Mongo-I.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/randallwhitlock/Mongo-I/issues"
+  },
+  "homepage": "https://github.com/randallwhitlock/Mongo-I#readme",
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "cors": "^2.8.4",
+    "express": "^4.16.2",
+    "mongoose": "^4.12.3",
+    "nodemon": "^1.12.1"
+  }
+}
