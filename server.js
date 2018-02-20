@@ -104,6 +104,36 @@ server.delete('/api/friends/:id', (req, res) => {
     });
 });
 
+server.put('/api/friends', (req, res) => {
+  const friendInformation = req.body;
+  const { id, firstName, lastName, age } = friendInformation;
+
+  if ( id && firstName && lastName && age ) {
+    if (typeof age !== 'number' || age < 1 || age > 120) {
+      res
+        .status(400)
+        .json({ errorMessage: 'Age must be a whole number between 1 and 120' });
+    } else {
+      const updatedFriend = { firstName, lastName, age };
+      Friend.findByIdAndUpdate(id, updatedFriend)
+        .then(friend => {
+          res
+            .status(200)
+            .json(updatedFriend);
+        })
+        .catch(error => {
+          res
+            .status(500)
+            .json({ errorMessage: 'There was an error while saving the friend to the database' });
+        });
+    }
+  } else {
+    res
+      .status(400)
+      .json({ errorMessage: "Please provide firstName, lastName and age for the friend." });
+  }
+});
+
 mongoose
   .connect('mongodb://localhost/FriendFinder')
   .then(db => {
