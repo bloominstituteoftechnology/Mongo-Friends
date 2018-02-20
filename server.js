@@ -66,35 +66,43 @@ server.get('/api/friends/:id', (req, res) => {
   const id = req.params.id;
   Friend.findById(id)
     .then(friend => {
-      res
-        .status(200)
-        .json(friend);
-    })
-    .catch(error => {
-      if (error.reason === undefined) {  // user id not found (reason: undefined)
+      if (friend) {
+        res
+          .status(200)
+          .json(friend);
+      } else {
         res
           .status(404)
           .json({ message: 'The friend with the specified ID does not exist.' });
-      } else {   // failed for reason other than reason: undefined
-        res
-          .status(500)
-          .json({ error: 'The friend could not be removed' });
       }
+    })
+    .catch(error => {
+      res
+        .status(500)
+        .json({ error: 'The information could not be retrieved.' });
     });
 });
 
-// server.delete('/api/friends/:id', (req, res) => {
-//   const id = req.params.id;
-
-//   if (id) {
-//     Friend.findOneAndRemove(id)
-//     .then()
-//   } else {
-//     res
-//       .status(500)
-//       .json({ error: 'Must provide an ID to delete.'});
-//   }
-// });
+server.delete('/api/friends/:id', (req, res) => {
+  const id = req.params.id;
+  Friend.findByIdAndRemove(id)
+    .then(friend => {
+      if (friend) {
+        res
+          .status(200)
+          .json(friend);
+      } else {
+        res
+          .status(404)
+          .json({ message: 'The friend with the specified ID does not exist.' });
+      }
+    })
+    .catch(error => {
+      res
+        .status(500)
+        .json({ error: 'The friend could not be removed' });
+    });
+});
 
 mongoose
   .connect('mongodb://localhost/FriendFinder')
