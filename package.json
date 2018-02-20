@@ -1,0 +1,24 @@
+{
+  "name": "mongofull",
+  "version": "1.0.0",
+  "description": "* Databases.\r * MongoDB.\r * Mongoose.\r * Performing CRUD Operations.",
+  "main": "server.js",
+  "scripts": {
+    "start": "nodemon server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LambdaSchool/Mongo-I.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/LambdaSchool/Mongo-I/issues"
+  },
+  "homepage": "https://github.com/LambdaSchool/Mongo-I#readme",
+  "dependencies": {},
+  "devDependencies": {
+    "nodemon": "^1.15.0"
+  }
+}
