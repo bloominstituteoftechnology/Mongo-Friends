@@ -30,9 +30,27 @@ server.post('/api/friends', (req, res) => {
 });
 
 
+server.get('/api/friends', (req, res) => {
+  Friend.find()
+    .then(friends => {
+      res.status(200).json(friends);
+    })
+    .catch(error => {
+      res.status(500).json({ error: "The information could not be retrieved." });
+    })
+});
 
+server.get('/api/friends/:id', (req, res) => {
+  const id = req.params;
 
-
+  Friend.findById(id)
+    .then(friend => {
+      res.status(200).json(friend)
+    })
+    .catch(error => {
+      res.status(500).json({ error: "The information could not be retrieved." });
+    });
+});
 
 
 
