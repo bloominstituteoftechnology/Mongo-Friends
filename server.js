@@ -71,6 +71,8 @@ server.delete('/api/friends/:id', (req, res) => {
 });
 
 
+
+
 mongoose.connect('mongodb://localhost/friends')
   .then(db => {
     console.log(`Successfully connected to the ${db.connections[0].name} database`)
