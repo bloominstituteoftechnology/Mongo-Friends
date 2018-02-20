@@ -16,23 +16,39 @@ server.get('/', function(req, res) {
   res.status(200).json({ status: 'API Running' });
 });
 
+const validate = (friendInfo, res) => {
+  if (!isValid(friendInfo)) {
+    res.status(400).json({
+      errorMessage:
+        'Please provide firstName, lastName and age for the friend.',
+    });
+    return false;
+  }
+
+  if (!isOf(+friendInfo.age)) {
+    res.status(400).json({
+      errorMessage: 'Age must be a whole number between 1 and 120',
+    });
+    return false;
+  }
+
+  return true;
+};
+
+const isValid = friendInfo => {
+  return friendInfo.firstName && friendInfo.lastName && friendInfo.age;
+};
+
+const isOf = age => {
+  return Number.isInteger(age) && age >= 1 && age <= 120;
+};
+
 server.post('/api/friends', (req, res) => {
   const { firstName, lastName } = req.body;
   const age = +req.body.age;
   const friendInformation = { firstName, lastName, age };
 
-  if (!firstName || !lastName || req.body.age === undefined) {
-    res.status(400).json({
-      errorMessage:
-        'Please provide firstName, lastName and age for the friend.',
-    });
-    return;
-  }
-
-  if (!Number.isInteger(age) || age < 1 || age > 120) {
-    res.status(400).json({
-      errorMessage: 'Age must be a whole number between 1 and 120',
-    });
+  if (!validate({ ...friendInformation, age: req.body.age }, res)) {
     return;
   }
 
@@ -48,83 +64,103 @@ server.post('/api/friends', (req, res) => {
     );
 });
 
-// server.get('/api/bears', (req, res) => {
-//   Bear.find()
-//     .then(bears => res.status(200).json(bears))
-//     .catch(err =>
-//       res.status(500).json({
-//         error: 'The information could not be retrieved.',
-//       }),
-//     );
-// });
+server.get('/api/friends', (req, res) => {
+  Friend.find()
+    .then(friends => res.status(200).json(friends))
+    .catch(err =>
+      res.status(500).json({
+        error: 'The information could not be retrieved.',
+      }),
+    );
+});
 
-// server.get('/api/bears/:id', (req, res) => {
-//   const { id } = req.params;
+server.get('/api/friends/:id', (req, res) => {
+  const { id } = req.params;
 
-//   Bear.findById(id)
-//     .then(bear => res.status(200).json(bear))
-//     .catch(err =>
-//       res.status(500).json({
-//         error: 'The bear information could not be retrieved.',
-//       }),
-//     );
-// });
+  Friend.find({ _id: id })
+    .then(friends => {
+      Friend.findById(friends[0]._id)
+        .then(friend => {
+          res.status(200).send(friend);
+          return;
+        })
+        .catch(err => {
+          res.status(500).send({
+            error: 'The information could not be retrieved.',
+          });
+          return;
+        });
+    })
+    .catch(err => {
+      res.status(404).json({
+        message: 'The friend with the specified ID does not exist.',
+      });
+    });
+});
 
-// server.delete('/api/bears/:id', (req, res) => {
-//   const { id } = req.params;
+server.delete('/api/friends/:id', (req, res) => {
+  const { id } = req.params;
 
-//   Bear.findById(id)
-//     .then(bear => {
-//       Bear.findByIdAndRemove(bear._id)
-//         .then(deletedBear => {
-//           res.status(200).send(deletedBear);
-//           return;
-//         })
-//         .catch(err => {
-//           res.status(500).send({
-//             error: 'The Bear could not be removed',
-//           });
-//           return;
-//         });
-//     })
-//     .catch(err => {
-//       res.status(404).json({
-//         message: 'The Bear with the specified ID does not exist.',
-//       });
-//       return;
-//     });
-// });
+  Friend.findById(id)
+    .then(friend => {
+      Friend.findByIdAndRemove(friend._id)
+        .then(deletedFriend => {
+          res.status(200).send(deletedFriend);
+          return;
+        })
+        .catch(err => {
+          res.status(500).send({
+            error: 'The friend could not be removed',
+          });
+          return;
+        });
+    })
+    .catch(err => {
+      res.status(404).json({
+        message: 'The friend with the specified ID does not exist.',
+      });
+      return;
+    });
+});
 
-// server.put('/api/bears/:id', (req, res) => {
-//   const { id } = req.params;
-//   const updatedBear = req.body;
+server.put('/api/friends/:id', (req, res) => {
+  const { id } = req.params;
 
-//   Bear.findById(id)
-//     .then(bear => {
-//       Bear.findByIdAndUpdate(bear._id, updatedBear, { new: true })
-//         .then(updatedBear => {
-//           res.status(200).send(updatedBear);
-//           return;
-//         })
-//         .catch(err => {
-//           res.status(500).send({
-//             error: 'The Bear information could not be modified.',
-//           });
-//           return;
-//         });
-//     })
-//     .catch(err => {
-//       res.status(404).json({
-//         message: 'The Bear with the specified ID does not exist.',
-//       });
-//       return;
-//     });
-// });
+  const { firstName, lastName } = req.body;
+  const age = +req.body.age;
+  const friendInformation = { firstName, lastName, age };
+
+  if (!validate({ ...friendInformation, age: req.body.age }, res)) {
+    return;
+  }
+
+  Friend.findById(id)
+    .then(friend => {
+      Friend.findByIdAndUpdate(friend._id, friendInformation, { new: true })
+        .then(friendInformation => {
+          res.status(200).send(friendInformation);
+          return;
+        })
+        .catch(err => {
+          res.status(500).send({
+            error: 'The friend information could not be modified.',
+          });
+          return;
+        });
+    })
+    .catch(err => {
+      res.status(404).json({
+        message: 'The friend with the specified ID does not exist.',
+      });
+    });
+});
 
 mongoose
   .connect('mongodb://localhost/FriendKeeper')
   .then(db => {
-    console.log(`Successfully connected to ${db.connections[0].name} database`);
+    console.log(
+      `Successfully connected to --${db.connections[0].name}-- database`,
+    );
   })
   .catch(err => {
     console.error('Database connection failed.');
