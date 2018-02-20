@@ -81,7 +81,7 @@ server.get('/api/friends/:id', (req, res) => {
     .then(friend => {
       if (friend === null) {
         res.status(500).json({
-          error: 'The information could not be retrieved.',
+          error: 'The friend with the specified ID does not exist.',
         });
         return;
       }
@@ -92,7 +92,7 @@ server.get('/api/friends/:id', (req, res) => {
     .catch(err => {
       if (err.kind === 'ObjectId') {
         res.status(404).json({
-          message: 'The friend with the specified ID does not exist.',
+          error: 'The information could not be retrieved.',
         });
         return;
       }
@@ -106,7 +106,7 @@ server.delete('/api/friends/:id', (req, res) => {
     .then(deletedFriend => {
       if (deletedFriend === null) {
         res.status(500).json({
-          error: 'The friend could not be removed',
+          error: 'The friend with the specified ID does not exist.',
         });
         return;
       }
@@ -117,7 +117,7 @@ server.delete('/api/friends/:id', (req, res) => {
     .catch(err => {
       if (err.kind === 'ObjectId') {
         res.status(404).json({
-          message: 'The friend with the specified ID does not exist.',
+          error: 'The information could not be retrieved.',
         });
         return;
       }
