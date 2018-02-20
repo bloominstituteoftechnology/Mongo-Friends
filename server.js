@@ -77,49 +77,50 @@ server.get('/api/friends', (req, res) => {
 server.get('/api/friends/:id', (req, res) => {
   const { id } = req.params;
 
-  Friend.find({ _id: id })
-    .then(friends => {
-      Friend.findById(friends[0]._id)
-        .then(friend => {
-          res.status(200).send(friend);
-          return;
-        })
-        .catch(err => {
-          res.status(500).send({
-            error: 'The information could not be retrieved.',
-          });
-          return;
+  Friend.findById(id)
+    .then(friend => {
+      if (friend === null) {
+        res.status(500).json({
+          error: 'The information could not be retrieved.',
         });
+        return;
+      }
+
+      res.status(200).send(friend);
+      return;
     })
     .catch(err => {
-      res.status(404).json({
-        message: 'The friend with the specified ID does not exist.',
-      });
+      if (err.kind === 'ObjectId') {
+        res.status(404).json({
+          message: 'The friend with the specified ID does not exist.',
+        });
+        return;
+      }
     });
 });
 
 server.delete('/api/friends/:id', (req, res) => {
   const { id } = req.params;
 
-  Friend.findById(id)
-    .then(friend => {
-      Friend.findByIdAndRemove(friend._id)
-        .then(deletedFriend => {
-          res.status(200).send(deletedFriend);
-          return;
-        })
-        .catch(err => {
-          res.status(500).send({
-            error: 'The friend could not be removed',
-          });
-          return;
+  Friend.findByIdAndRemove(id)
+    .then(deletedFriend => {
+      if (deletedFriend === null) {
+        res.status(500).json({
+          error: 'The friend could not be removed',
         });
+        return;
+      }
+
+      res.status(200).send(deletedFriend);
+      return;
     })
     .catch(err => {
-      res.status(404).json({
-        message: 'The friend with the specified ID does not exist.',
-      });
-      return;
+      if (err.kind === 'ObjectId') {
+        res.status(404).json({
+          message: 'The friend with the specified ID does not exist.',
+        });
+        return;
+      }
     });
 });
 
@@ -159,7 +160,7 @@ mongoose
   .connect('mongodb://localhost/FriendKeeper')
   .then(db => {
     console.log(
-      `Successfully connected to --${db.connections[0].name}-- database`,
+      `Successfully connected to -- ${db.connections[0].name} -- database`,
     );
   })
   .catch(err => {
