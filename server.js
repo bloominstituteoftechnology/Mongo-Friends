@@ -45,13 +45,30 @@ server.get('/api/friends/:id', (req, res) => {
 
   Friend.findById(id)
     .then(friend => {
-      res.status(200).json(friend)
+      if(friend) {
+        res.status(200).json(friend)
+      } else {
+        res.status(404).json({ message: "The friend with the specified ID does not exist." });
+      }
     })
     .catch(error => {
       res.status(500).json({ error: "The information could not be retrieved." });
     });
 });
 
+server.delete('/api/friends/:id', (req, res) => {
+  const id = req.params.id;
+
+  Friend.findByIdAndRemove(id)
+    .then(deletedFriend => {
+      if (deletedFriend) {
+        res.status(200).json(deletedFriend);
+      } else {
+        res.status(500).json({ error: "The friend could not be removed" });
+      }
+    }) 
+    .catch(err => res.json(error))
+});
 
 
 mongoose.connect('mongodb://localhost/friends')
