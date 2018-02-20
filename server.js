@@ -37,6 +37,20 @@ server.post('/friends', (req, res) => {
         });
 });
 
+server.get('/friends', (req, res) => {
+    Friend.find()
+        .then(friends => {
+            res
+            .status(200)
+            .json(friends);
+        })
+        .catch(error => {
+            res
+            .status(500)
+            .json({ error: 'Where are my friends!?' });
+        });
+});
+
 mongoose
         .connect('mongodb://localhost/FriendList')
         .then(db => {
