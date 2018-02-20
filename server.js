@@ -4,7 +4,7 @@ const cors = require('cors'); // https://www.npmjs.com/package/cors
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 
-// const Bear = require('./Bears/BearModel.js');
+const Friend = require('./Friends/FriendModel.js');
 
 const server = express();
 
@@ -16,27 +16,37 @@ server.get('/', function(req, res) {
   res.status(200).json({ status: 'API Running' });
 });
 
-// server.post('/api/bears', (req, res) => {
-//   const bearInformation = req.body;
+server.post('/api/friends', (req, res) => {
+  const { firstName, lastName } = req.body;
+  const age = +req.body.age;
+  const friendInformation = { firstName, lastName, age };
 
-//   if (!bearInformation.species || !bearInformation.latinName) {
-//     res.status(500).send({
-//       errorMessage: 'Please provide both species and latinName for the Bear.',
-//     });
-//     return;
-//   }
+  if (!firstName || !lastName || req.body.age === undefined) {
+    res.status(400).json({
+      errorMessage:
+        'Please provide firstName, lastName and age for the friend.',
+    });
+    return;
+  }
 
-//   const bear = new Bear(bearInformation);
+  if (!Number.isInteger(age) || age < 1 || age > 120) {
+    res.status(400).json({
+      errorMessage: 'Age must be a whole number between 1 and 120',
+    });
+    return;
+  }
 
-//   bear
-//     .save()
-//     .then(savedBear => res.status(201).json(savedBear))
-//     .catch(err =>
-//       res.status(500).json({
-//         error: 'There was an error while saving the Bear to the Database',
-//       }),
-//     );
-// });
+  const friend = new Friend(friendInformation);
+
+  friend
+    .save()
+    .then(savedFriend => res.status(201).json(savedFriend))
+    .catch(err =>
+      res.status(500).json({
+        error: 'There was an error while saving the friend to the database',
+      }),
+    );
+});
 
 // server.get('/api/bears', (req, res) => {
 //   Bear.find()
@@ -111,14 +121,14 @@ server.get('/', function(req, res) {
 //     });
 // });
 
-// mongoose
-//   .connect('mongodb://localhost/BearKeeper')
-//   .then(db => {
-//     console.log(`Successfully connected to ${db.connections[0].name} database`);
-//   })
-//   .catch(err => {
-//     console.error('Database connection failed.');
-//   });
+mongoose
+  .connect('mongodb://localhost/FriendKeeper')
+  .then(db => {
+    console.log(`Successfully connected to ${db.connections[0].name} database`);
+  })
+  .catch(err => {
+    console.error('Database connection failed.');
+  });
 
 const port = process.env.PORT || 5005;
 server.listen(port, () => {
