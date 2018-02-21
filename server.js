@@ -52,9 +52,9 @@ app.post("/api/friends", (req, res) => {
 
 app.get("/api/friends/:id", (req, res) => {
   const { id } = req.params;
-  Friend.find({ _id: id })
+  Friend.findById(id)
     .then(friend => {
-      if (!friend.length) {
+      if (!friend) {
         res.status(404).json({
           message: "The friend with the specified ID does not exist."
         });
@@ -78,7 +78,7 @@ app.delete("/api/friends/:id", (req, res) => {
           message: "The friend with the specified ID does not exist."
         });
       } else {
-        res.status(200).json({ message: "Friend Successfully deleted" });
+        res.status(200).json({ friend });
       }
     })
     .catch(err => {
@@ -102,7 +102,7 @@ app.put("/api/friends/:id", (req, res) => {
         .status(400)
         .json({ errorMessage: "Age must be a whole number between 1 and 120" });
     } else {
-      Friend.findByIdAndUpdate(id, req.body)
+      Friend.findByIdAndUpdate(id, req.body, { new: true })
         .then(updatedFriend => {
           res.status(200).json(updatedFriend);
         })
