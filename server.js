@@ -53,6 +53,22 @@ server.get('/api/friends', (req, res) => {
 		});
 })
 
+server.get('/api/friends/:id', (req, res) => {
+	const { id } = req.params;
+	Friend
+		.findById(id)
+		.then((friend) => {
+			res
+				.status(200)
+				.json(friend);
+		})
+		.catch((err) => {
+			res
+				.status(404)
+				.json({ message: "The friend with the specified ID does not exist." })
+		});
+})
+
 mongoose.connect('mongodb://localhost/FriendList')
 	.then((db) => {
 		console.log(`Successfully Connected to ${db.connections[0].name} Database.`)
