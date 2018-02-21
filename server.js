@@ -81,6 +81,22 @@ server.delete('/friends/:id', (req, res) => {
         });
 });
 
+server.put('/friends/:id', (req, res) => {
+    const friendInfo = req.body;
+    const { id } = req.params;
+    Friend.findByIdAndUpdate(id, friendInfo)
+        .then(update => {
+            res
+            .status(200)
+            .json(update);
+        })
+        .catch(error => {
+            res
+            .status(400)
+            .json({ errorMessage: 'User cannot be accessed by this id'})
+        });
+});
+
 mongoose
         .connect('mongodb://localhost/FriendList')
         .then(db => {
