@@ -58,15 +58,61 @@ server.get('/api/friends/:id', (req, res) => {
 	Friend
 		.findById(id)
 		.then((friend) => {
-			res
-				.status(200)
-				.json(friend);
+			if (friend) {
+				res.status(200).json(friend);
+			} else {
+				res.status(404).json({ message: "The friend with the specified ID does not exist." });
+			}
 		})
 		.catch((err) => {
 			res
-				.status(404)
-				.json({ message: "The friend with the specified ID does not exist." })
+				.status(500)
+				.json({ error: "The information could not be retrieved." })
 		});
+})
+
+server.delete('/api/friends/:id', (req, res) => {
+	const { id } = req.params;
+	Friend.findByIdAndRemove(id)
+		.then((removedFriend) => {
+			if (removedFriend) {
+				res.status(200).json(removedFriend);
+			} else {
+				res.status(404).json({ message: "The friend with the specified ID does not exist." });
+			}
+		})
+		.catch((err) => {
+			res.status(500).json({ error: "The friend could not be removed" });
+		});
+})
+
+server.put('/api/friends/:id', (req, res) => {
+	const { id } = req.params;
+	const { firstName, lastName, age } = req.body;
+
+	if (age < 1 || age > 120) {
+		res
+			.status(400)
+			.json({ errorMessage: "Age must be a whole number between 1 and 120" });
+	} else if (!firstName || !lastName || !age) {
+		res
+			.status(400)
+			.json({ errorMessage: "Please provide firstName, lastName and age for the friend." });
+	} else {
+		Friend.findByIdAndUpdate(id, req.body)
+			.then((updatedFriend) => {
+				if (updatedFriend) {
+					res.status(200).json(updatedFriend);
+				} else {
+					res.status(404).json({ message: "The friend with the specified ID does not exist." });
+				}
+			})
+			.catch((err) => {
+				res
+					.status(500)
+					.json({ error: "There was an error while updating the friend to the database" });
+			});
+	}
 })
 
 mongoose.connect('mongodb://localhost/FriendList')
