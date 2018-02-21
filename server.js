@@ -66,6 +66,21 @@ server.get('/friends/:id', (req, res) => {
         });
 });
 
+server.delete('/friends/:id', (req, res) => {
+    const { id } = req.params;
+    Friend.findByIdAndRemove(id)
+        .then(() => {
+            res
+            .status(200)
+            .json({ message: 'User has been deleted'})
+        })
+        .catch(error => {
+            res
+            .status(400)
+            .json({ errorMessage: `User cannot be deleted by this id`});
+        });
+});
+
 mongoose
         .connect('mongodb://localhost/FriendList')
         .then(db => {
