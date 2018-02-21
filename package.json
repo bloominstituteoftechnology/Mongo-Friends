@@ -17,7 +17,9 @@
     "url": "https://github.com/LambdaSchool/Mongo-I/issues"
   },
   "homepage": "https://github.com/LambdaSchool/Mongo-I#readme",
-  "dependencies": {},
+  "dependencies": {
+    "mongoose": "^5.0.6"
+  },
   "devDependencies": {
     "nodemon": "^1.15.0"
   }
