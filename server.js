@@ -65,7 +65,9 @@ server.get("/friends/:id", (req, res) => {
       } else {
         res
           .status(404)
-          .json({ message: "The friend with the specified ID does not exist" });
+          .json({
+            errormessage: "The friend with the specified ID does not exist"
+          });
       }
     })
     .catch(error => {
@@ -78,13 +80,21 @@ server.get("/friends/:id", (req, res) => {
 server.delete("/friends/:id", (req, res) => {
   const { id } = req.params;
   Friend.findByIdAndRemove(id)
-    .then(() => {
-      res.status(200).json({ message: "User has been deleted" });
+    .then(friend => {
+      if (friend) {
+        res.status(200).json({ message: "Friend has been deleted" });
+      } else {
+        res
+          .status(404)
+          .json({
+            errorMessage: "The friend with the specified id does not exist"
+          });
+      }
     })
     .catch(error => {
       res
         .status(400)
-        .json({ errorMessage: `User cannot be deleted by this id` });
+        .json({ errorMessage: `The friend could not be removed` });
     });
 });
 
