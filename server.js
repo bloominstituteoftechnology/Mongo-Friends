@@ -30,9 +30,9 @@ server.post('/friends', (req, res) => {
         })
         .catch(error => {
             res
-            .status(500)
+            .status(400)
             .json({
-                error: 'An error has occured saving the Friend to the Database'
+                errorMessage: "Please provide firstName, lastName and age for the friend."
             })
         });
 });
@@ -46,8 +46,23 @@ server.get('/friends', (req, res) => {
         })
         .catch(error => {
             res
-            .status(500)
-            .json({ error: 'Where are my friends!?' });
+            .status(400)
+            .json({ errorMessage: "All of your friends are gone" });
+        });
+});
+
+server.get('/friends:id', (req, res) => {
+    const { id } = req.params;
+    Friend.findById(id)
+        .then(friend => {
+            res
+            .status(200)
+            .json(friend);
+        })
+        .catch(error => {
+            res
+            .status(400)
+            .json({ errorMessage: `So... we can't find your friend...`})
         });
 });
 
