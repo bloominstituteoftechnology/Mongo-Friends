@@ -176,7 +176,7 @@ server.put('/api/blogs/:id', (req, res) => {
         res.status(500).json({ error: "The information could not be updated." })
       })
   }
-})
+});
 
 mongoose.connect('mongodb://localhost/friends')
   .then(db => {
@@ -193,4 +193,4 @@ server.listen(PORT, err => {
   } else {
     console.log(`Server is running on port: ${PORT}`)
   }
-})
+});
