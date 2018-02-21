@@ -1,4 +1,6 @@
 const mongoose = require('mongoose');
+const ObjectId = mongoose.Schema.Types.ObjectId;
+const BlogPost = require('../BlogPosts/BlogPostModel.js');
 
 const FriendSchema = new mongoose.Schema({
   firstName: {
@@ -16,7 +18,11 @@ const FriendSchema = new mongoose.Schema({
   createdOn: {
     type: Date,
     default: Date.now,
-  }
+  },
+  posts: [{
+    type: ObjectId,
+    ref: 'BlogPost',
+  }]
 });
 
 const FriendModel = mongoose.model('Friend', FriendSchema);

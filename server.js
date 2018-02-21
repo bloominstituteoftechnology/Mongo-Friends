@@ -77,6 +77,11 @@ server.get('/api/friends/:id', (req, res) => {
       }
     })
     .catch(error => {
+      if (erro.name === 'CastError') {
+        res
+          .status(400)
+          .json({ message: `The ID: ${error.value} is not valid.` });
+      }
       res
         .status(500)
         .json({ error: 'The information could not be retrieved.' });
@@ -114,7 +119,7 @@ server.put('/api/friends', (req, res) => {
         .status(400)
         .json({ errorMessage: 'Age must be a whole number between 1 and 120' });
     } else {
-      const updatedFriend = { firstName, lastName, age };
+      const updatedFriend = req.body;
       Friend.findByIdAndUpdate(id, updatedFriend)
         .then(friend => {
           res
