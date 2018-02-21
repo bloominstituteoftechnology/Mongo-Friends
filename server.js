@@ -41,7 +41,7 @@ server.get('/api/friends', (req, res) => {
 });
 
 server.get('/api/friends/:id', (req, res) => {
-  const id = req.params;
+  const id = req.params.id;
 
   Friend.findById(id)
     .then(friend => {
@@ -64,12 +64,34 @@ server.delete('/api/friends/:id', (req, res) => {
       if (deletedFriend) {
         res.status(200).json(deletedFriend);
       } else {
-        res.status(500).json({ error: "The friend could not be removed" });
+        res.status(404).json({ message: "The friend with the specified ID does not exist." });
       }
     }) 
-    .catch(err => res.json(error))
+    .catch(err => res.status(500).json({ error: "The friend could not be removed" }))
 });
 
+server.put('/api/friends/:id', (req, res) => {
+  const id = req.params.id;
+  const { firstName, lastName, age } = req.body
+
+  if (!firstName || !lastName || !age) {
+    res.status(400).json({ errorMessage: "Please provide firstName, lastName and age for the friend." });
+  } else if (!Number.isInteger(age) || (age < 1 || age > 120)) {
+    res.status(400).json({ errorMessage: "Age must be a whole number between 1 and 120" });
+  } else {
+    Friend.findByIdAndUpdate(id, req.body)
+      .then(updatedFriend => {
+        if (updatedFriend) {
+          res.status(200).json(updatedFriend);
+        } else {
+          res.status(404).json({ message: "The friend with the specified ID does not exist." });
+        }
+      })
+      .catch(error => {
+        res.status(500).json({ error: "The friend information could not be modified." });
+      })
+  }
+});
 
 
 
