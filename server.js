@@ -55,7 +55,7 @@ server.get("/friends", (req, res) => {
       res.status(200).json(friends);
     })
     .catch(error => {
-      res.status(400).json({ errorMessage: "All of your friends are gone" });
+      res.status(400).json({ errorMessage: "The information could not be retrieved" });
     });
 });
 
