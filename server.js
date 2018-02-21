@@ -51,7 +51,7 @@ server.get('/friends', (req, res) => {
         });
 });
 
-server.get('/friends:id', (req, res) => {
+server.get('/friends/:id', (req, res) => {
     const { id } = req.params;
     Friend.findById(id)
         .then(friend => {
