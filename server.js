@@ -74,6 +74,31 @@ server.delete('/api/friends/:id', (req, res) => {
         .catch(err => res.json(error))
 });
 
+// // server.put('/api/friends/:id', (req, res) => {
+// //     const friendData = req.body;;
+// //     const id = req.params.id;
+
+// //     const {firstName, lastName, age};
+
+
+//     if (!firstName || !lastName || !age) {
+//         res.status(400).json({ error: 'Provide first name, last name, and age for friend.' });
+//     } else if (!Number.isInteger(age) || (age < 1 || age > 120)) {
+//         res.status(400).json({ error: 'Age must be whole number between 1 and 120' });
+//     } else {
+//         const friend = new Friend(friendData);
+
+//         friend.save()
+//         .then(friendAdded => {
+//             res.status(201).json(friendAdded);
+//         })
+//         .catch(error => {
+//             res.status(500).json({ error: 'There was an error saving friend to database' });
+//         })
+//     };
+
+
+
 mongoose
 .connect('mongodb://localhost/FriendFinder')
 .then(db => {
@@ -84,6 +109,6 @@ mongoose
 })
 
 const PORT = process.env.PORT || 5050;
-server.listen(port, () => {
+server.listen(PORT, () => {
     console.log(`API running on http://localhost:${PORT}.`);
 })
