@@ -18,16 +18,53 @@ server.get('/', (req, res) => {
 server.post('/api/friends', (req, res) => {
 	const friendInformation = req.body;
 
+	if (!friendInformation.firstName || !friendInformation.lastName || !friendInformation.age) {
+		res.status(400).json({
+			errorMessage: 'Please provide firstName, lastName and age for the friend.'
+		})
+	} else if (friendInformation.age < 1 || friendInformation.age > 120 || !Number.isInteger(friendInformation.age)) {
+		res.status(400).json({
+			errorMessage: 'Age must be a whole number between 1 and 120.'
+		})
+	} 
+
 	const friend = new Friend(friendInformation);
+
 	friend.save()
 		.then((newFriend) => {
 			res.status(201).json(newFriend);
 		})
 		.catch((error) => {
 			res.status(500).json({
-				error: 'There was an error while saving the Friend to the Database.'
+				error: 'There was an error while saving the friend to the database.'
 			})
 		});
+});
+
+server.put('/api/friends/:id', (req, res) => {
+	const friendInformation = req.body;
+	const id = req.params.id;
+	if (!friendInformation.firstName || !friendInformation.lastName || !friendInformation.age) {
+		res.status(400).json({
+			errorMessage: 'Please provide firstName, lastName and age for the friend.'
+		})
+	} else if (friendInformation.age < 1 || friendInformation.age > 120 || !Number.isInteger(friendInformation.age)) {
+		res.status(400).json({
+			errorMessage: 'Age must be a whole number between 1 and 120.'
+		})
+	} else {
+		const friend = new Friend(friendInformation);
+
+		Friend.findByIdAndUpdate(id, friendInformation)
+			.then((newFriend) => {
+				res.status(201).json(newFriend);
+			})
+			.catch((error) => {
+				res.status(404).json({
+					error: 'The friend information could not be modified.'
+				})
+			});
+	}
 });
 
 server.get('/api/friends', (req, res) => {
@@ -50,8 +87,24 @@ server.get('/api/friends/:id', (req, res) => {
 			res.status(200).json(friend);
 		})
 		.catch((error) => {
+			res.status(404).json({
+				error: 'The friend with the specified ID does not exist.'
+			});
+		});
+});
+
+
+
+server.delete('/api/friends/:id', (req, res) => {
+	const { id } = req.params;
+
+	Friend.findByIdAndRemove(id)
+		.then((friend) => {
+			res.status(200).json(friend);
+		})
+		.catch((error) => {
 			res.status(500).json({
-				error: 'The information could not be retrieved.'
+				error: 'The friend could not be removed.'
 			});
 		});
 });
