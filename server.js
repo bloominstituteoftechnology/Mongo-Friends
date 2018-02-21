@@ -75,7 +75,7 @@ server.delete('/api/friends/:id', (req, res) => {
 });
 
 server.put('/api/friends/:id', (req, res) => {
-    const id = req.params.id;
+    const { id } = req.params.id;
     const {firstName, lastName, age} = req.body;
 
     if (!firstName || !lastName || !age) {
