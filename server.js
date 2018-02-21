@@ -14,7 +14,7 @@ server.use(cors());
 server.use(bodyParser.json());
 
 server.post('/api/friends', (req, res) => {
-    const friendData = req.body;
+    const FriendData = req.body;
     const {firstName, lastName, age} = req.body;
 
     if (!firstName || !lastName || !age) {
@@ -22,7 +22,7 @@ server.post('/api/friends', (req, res) => {
     } else if (!Number.isInteger(age) || (age < 1 || age > 120)) {
         res.status(400).json({ error: 'Age must be whole number between 1 and 120' });
     } else {
-        const friend = new Friend(friendData);
+        const friend = new Friend(FriendData);
 
         friend.save()
         .then(friendAdded => {
@@ -45,7 +45,7 @@ server.get('/api/friends', (req, res) => {
 });
 
 server.get('/api/friends/:id', (req, res) => {
-    const id = req.params;
+    const id = req.params.id;
 
     Friend.findById(id)
         .then(friend => {
@@ -74,30 +74,28 @@ server.delete('/api/friends/:id', (req, res) => {
         .catch(err => res.json(error))
 });
 
-// // server.put('/api/friends/:id', (req, res) => {
-// //     const friendData = req.body;;
-// //     const id = req.params.id;
+server.put('/api/friends/:id', (req, res) => {
+    const id = req.params.id;
+    const {firstName, lastName, age} = req.body;
 
-// //     const {firstName, lastName, age};
-
-
-//     if (!firstName || !lastName || !age) {
-//         res.status(400).json({ error: 'Provide first name, last name, and age for friend.' });
-//     } else if (!Number.isInteger(age) || (age < 1 || age > 120)) {
-//         res.status(400).json({ error: 'Age must be whole number between 1 and 120' });
-//     } else {
-//         const friend = new Friend(friendData);
-
-//         friend.save()
-//         .then(friendAdded => {
-//             res.status(201).json(friendAdded);
-//         })
-//         .catch(error => {
-//             res.status(500).json({ error: 'There was an error saving friend to database' });
-//         })
-//     };
-
-
+    if (!firstName || !lastName || !age) {
+        res.status(400).json({ error: 'Provide first name, last name, and age for friend.' });
+    } else if (!Number.isInteger(age) || (age < 1 || age > 120)) {
+        res.status(400).json({ error: 'Age must be whole number between 1 and 120' });
+    } else {
+        Friend.findByIdAndUpdate(id, req.body)
+            .then(updateFriend => {
+                if (updateFriend) {
+                    res.status(200).json(updateFriend);
+                } else {
+                    res.status(404).json({ error: 'Friend with ID does not exist' });
+                }
+            })
+        .catch(error => {
+            res.status(500).json({ error: 'Friend data could not be modified' });
+        })
+    }
+});
 
 mongoose
 .connect('mongodb://localhost/FriendFinder')
