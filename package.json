@@ -11,13 +11,17 @@
     "url": "git+https://github.com/LambdaSchool/Mongo-I.git"
   },
   "keywords": [],
-  "author": "",
+  "author": "John Justinn",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/LambdaSchool/Mongo-I/issues"
   },
   "homepage": "https://github.com/LambdaSchool/Mongo-I#readme",
-  "dependencies": {},
+  "dependencies": {
+    "cors": "^2.8.4",
+    "express": "^4.16.2",
+    "mongoose": "^5.0.6"
+  },
   "devDependencies": {
     "nodemon": "^1.15.0"
   }
