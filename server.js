@@ -32,20 +32,15 @@ server.post("/friends", (req, res) => {
           res.status(201).json(savedFriend);
         })
         .catch(error => {
-          res
-            .status(400)
-            .json({
-              errorMessage:
-                "There was an error saving the friend to the database"
-            });
+          res.status(400).json({
+            errorMessage: "There was an error saving the friend to the database"
+          });
         });
     }
   } else {
-    res
-      .status(400)
-      .json({
-        errorMessage: "Please provide a firstName, lastName and age for friend."
-      });
+    res.status(400).json({
+      errorMessage: "Please provide a firstName, lastName and age for friend."
+    });
   }
 });
 
@@ -55,7 +50,9 @@ server.get("/friends", (req, res) => {
       res.status(200).json(friends);
     })
     .catch(error => {
-      res.status(400).json({ errorMessage: "The information could not be retrieved" });
+      res
+        .status(500)
+        .json({ errorMessage: "The information could not be retrieved" });
     });
 });
 
@@ -63,12 +60,18 @@ server.get("/friends/:id", (req, res) => {
   const { id } = req.params;
   Friend.findById(id)
     .then(friend => {
-      res.status(200).json(friend);
+      if (friend) {
+        res.status(200).json(friend);
+      } else {
+        res
+          .status(404)
+          .json({ message: "The friend with the specified ID does not exist" });
+      }
     })
     .catch(error => {
       res
-        .status(400)
-        .json({ errorMessage: `So... we can't find your friend...` });
+        .status(500)
+        .json({ errorMessage: `The information could not be retrieved` });
     });
 });
 
