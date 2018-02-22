@@ -18,7 +18,7 @@ server.get('/', (req, res) => {
   res.status(200).json({ status: `API running on port ${PORT}`});
 });
 
-const genericGet = (collection, req, res) => {
+const getHandler = (collection, req, res) => {
   collection.find()
     .then(results => {
       res
@@ -33,7 +33,7 @@ const genericGet = (collection, req, res) => {
   return;
 };
 
-const genericGetById = (collection, req, res, item) => {
+const getByIdHandler = (collection, req, res, item) => {
   const id = req.params.id;
   collection.findById(id)
     .then(result => {
@@ -59,7 +59,7 @@ const genericGetById = (collection, req, res, item) => {
     });
 };
 
-const genericDelete = (collection, req, res, item) => {
+const deleteHandler = (collection, req, res, item) => {
   const id = req.params.id;
   collection.findByIdAndRemove(id)
     .then(results => {
@@ -112,15 +112,15 @@ server.post('/api/friends', (req, res) => {
 });
 
 server.get('/api/friends', (req, res) => {
-  genericGet(Friend, req, res);
+  getHandler(Friend, req, res);
 });
 
 server.get('/api/friends/:id', (req, res) => {
-  genericGetById(Friend, req, res, 'friend');
+  getByIdHandler(Friend, req, res, 'friend');
 });
 
 server.delete('/api/friends/:id', (req, res) => {
-  genericDelete(Friend, req, res, 'friend');
+  deleteHandler(Friend, req, res, 'friend');
 });
 
 server.put('/api/friends', (req, res) => {
@@ -136,14 +136,26 @@ server.put('/api/friends', (req, res) => {
       const updatedFriend = req.body;
       Friend.findByIdAndUpdate(id, updatedFriend, { new: true })
         .then(friend => {
-          res
-            .status(200)
-            .json(friend);
+          if (friend) {
+            res
+              .status(200)
+              .json(friend);
+          } else {
+            res
+              .status(404)
+              .json({ message: `The friend with ID: ${id} could not be found.` });
+          }
         })
         .catch(error => {
-          res
-            .status(500)
-            .json({ errorMessage: 'There was an error while saving the friend to the database' });
+          if (error.name === 'CastError') {
+            res
+              .status(400)
+              .json({ message: `The ID: ${error.value} is not valid.` });
+          } else {
+            res
+              .status(500)
+              .json({ errorMessage: 'There was an error while saving the friend to the database' });
+          }
         });
     }
   } else {
@@ -174,15 +186,15 @@ server.post('/api/posts', (req, res) => {
 });
 
 server.get('/api/posts', (req, res) => {
-  genericGet(BlogPost, req, res);
+  getHandler(BlogPost, req, res);
 });
 
 server.get('/api/posts/:id', (req, res) => {
-  genericGetById(BlogPost, req, res, 'post');
+  getByIdHandler(BlogPost, req, res, 'post');
 });
 
 server.delete('/api/posts/:id', (req, res) => {
-  genericDelete(BlogPost, req, res, 'post');
+  deleteHandler(BlogPost, req, res, 'post');
 });
 
 server.put('/api/posts', (req, res) => {
@@ -193,14 +205,26 @@ server.put('/api/posts', (req, res) => {
     const updatedPost = req.body;
     BlogPost.findByIdAndUpdate(id, updatedPost, { new: true })
       .then(post => {
-        res
-          .status(200)
-          .json(post);
+        if (post) {
+          res
+            .status(200)
+            .json(post);
+        } else {
+          res
+            .status(404)
+            .json({ message: `The post with ID: ${id} could not be found.` });
+        }
       })
       .catch(error => {
-        res
-          .status(500)
-          .json({ errorMessage: 'There was an error while saving the post to the database' });
+        if (error.name === 'CastError') {
+          res
+            .status(400)
+            .json({ message: `The post with ID: ${error.value} is not valid.` });
+        } else {
+          res
+            .status(500)
+            .json({ errorMessage: 'There was an error while saving the post to the database' });
+        }
       });
   } else {
     res
