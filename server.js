@@ -200,6 +200,51 @@ server.get('/api/posts/:id', (req, res) => {
     });
 });
 
+server.delete('/api/posts/:id', (req, res) => {
+  const id = req.params.id;
+  BlogPost.findByIdAndRemove(id)
+    .then(post => {
+      if (post) {
+        res
+          .status(200)
+          .json(post);
+      } else {
+        res
+          .status(404)
+          .json({ message: 'The post with the specified ID does not exist.' });
+      }
+    })
+    .catch(error => {
+      res
+        .status(500)
+        .json({ error: 'The post could not be removed' });
+    });
+});
+
+server.put('/api/posts', (req, res) => {
+  const postInformation = req.body;
+  const { id, title, body } = postInformation;
+
+  if ( id && title && body ) {
+    const updatedPost = req.body;
+    BlogPost.findByIdAndUpdate(id, updatedPost, { new: true })
+      .then(post => {
+        res
+          .status(200)
+          .json(post);
+      })
+      .catch(error => {
+        res
+          .status(500)
+          .json({ errorMessage: 'There was an error while saving the post to the database' });
+      });
+  } else {
+    res
+      .status(400)
+      .json({ errorMessage: "Please provide id, title, and body for the post." });
+  }
+});
+
 mongoose
   .connect('mongodb://localhost/FriendFinder')
   .then(db => {
