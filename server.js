@@ -18,6 +18,68 @@ server.get('/', (req, res) => {
   res.status(200).json({ status: `API running on port ${PORT}`});
 });
 
+const genericGet = (collection, req, res) => {
+  collection.find()
+    .then(results => {
+      res
+        .status(200)
+        .json(results);
+    })
+    .catch(error => {
+      res
+        .status(500)
+        .json({ error: 'The information could not be retrieved.' });
+    });
+  return;
+};
+
+const genericGetById = (collection, req, res, item) => {
+  const id = req.params.id;
+  collection.findById(id)
+    .then(result => {
+      if (result) {
+        res
+          .status(200)
+          .json(result);
+      } else {
+        res
+          .status(404)
+          .json({ message: `The ${item} with the specified ID does not exist.` });
+      }
+    })
+    .catch(error => {
+      if (error.name === 'CastError') {
+        res
+          .status(400)
+          .json({ message: `The ID: ${error.value} is not valid.` });
+      }
+      res
+        .status(500)
+        .json({ error: 'The information could not be retrieved.' });
+    });
+};
+
+const genericDelete = (collection, req, res, item) => {
+  const id = req.params.id;
+  collection.findByIdAndRemove(id)
+    .then(results => {
+      if (results) {
+        res
+          .status(200)
+          .json(results);
+      } else {
+        res
+          .status(404)
+          .json({ message: `The ${item} with the specified ID does not exist.` });
+      }
+    })
+    .catch(error => {
+      res
+        .status(500)
+        .json({ error: `The ${item} could not be removed` });
+    });
+};
+
 server.post('/api/friends', (req, res) => {
   const friendInformation = req.body;
   const { firstName, lastName, age } = friendInformation;
@@ -50,64 +112,15 @@ server.post('/api/friends', (req, res) => {
 });
 
 server.get('/api/friends', (req, res) => {
-  Friend.find()
-    .then(friends => {
-      res
-        .status(200)
-        .json(friends);
-    })
-    .catch(error => {
-      res
-        .status(500)
-        .json({ error: 'The information could not be retrieved.' });
-    });
+  genericGet(Friend, req, res);
 });
 
 server.get('/api/friends/:id', (req, res) => {
-  const id = req.params.id;
-  Friend.findById(id)
-    .then(friend => {
-      if (friend) {
-        res
-          .status(200)
-          .json(friend);
-      } else {
-        res
-          .status(404)
-          .json({ message: 'The friend with the specified ID does not exist.' });
-      }
-    })
-    .catch(error => {
-      if (erro.name === 'CastError') {
-        res
-          .status(400)
-          .json({ message: `The ID: ${error.value} is not valid.` });
-      }
-      res
-        .status(500)
-        .json({ error: 'The information could not be retrieved.' });
-    });
+  genericGetById(Friend, req, res, 'friend');
 });
 
 server.delete('/api/friends/:id', (req, res) => {
-  const id = req.params.id;
-  Friend.findByIdAndRemove(id)
-    .then(friend => {
-      if (friend) {
-        res
-          .status(200)
-          .json(friend);
-      } else {
-        res
-          .status(404)
-          .json({ message: 'The friend with the specified ID does not exist.' });
-      }
-    })
-    .catch(error => {
-      res
-        .status(500)
-        .json({ error: 'The friend could not be removed' });
-    });
+  genericDelete(Friend, req, res, 'friend');
 });
 
 server.put('/api/friends', (req, res) => {
@@ -161,64 +174,15 @@ server.post('/api/posts', (req, res) => {
 });
 
 server.get('/api/posts', (req, res) => {
-  BlogPost.find()
-    .then(posts => {
-      res
-        .status(200)
-        .json(posts);
-    })
-    .catch(error => {
-      res
-        .status(500)
-        .json({ error: 'The information could not be retrieved.' });
-    });
+  genericGet(BlogPost, req, res);
 });
 
 server.get('/api/posts/:id', (req, res) => {
-  const id = req.params.id;
-  BlogPost.findById(id)
-    .then(post => {
-      if (post) {
-        res
-          .status(200)
-          .json(post);
-      } else {
-        res
-          .status(404)
-          .json({ message: 'The post with the specified ID does not exist.' });
-      }
-    })
-    .catch(error => {
-      if (error.name === 'CastError') {
-        res
-          .status(400)
-          .json({ message: `The ID: ${error.value} is not valid.` });
-      }
-      res
-        .status(500)
-        .json({ error: 'The information could not be retrieved.' });
-    });
+  genericGetById(BlogPost, req, res, 'post');
 });
 
 server.delete('/api/posts/:id', (req, res) => {
-  const id = req.params.id;
-  BlogPost.findByIdAndRemove(id)
-    .then(post => {
-      if (post) {
-        res
-          .status(200)
-          .json(post);
-      } else {
-        res
-          .status(404)
-          .json({ message: 'The post with the specified ID does not exist.' });
-      }
-    })
-    .catch(error => {
-      res
-        .status(500)
-        .json({ error: 'The post could not be removed' });
-    });
+  genericDelete(BlogPost, req, res, 'post');
 });
 
 server.put('/api/posts', (req, res) => {
