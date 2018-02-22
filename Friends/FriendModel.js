@@ -10,6 +10,7 @@ const FriendSchema = new mongoose.Schema({
   lastName: {
     type: String,
     required: true,
+    index: true,
   },
   age: {
     type: Number,
@@ -22,7 +23,7 @@ const FriendSchema = new mongoose.Schema({
   posts: [{
     type: ObjectId,
     ref: 'BlogPost',
-  }]
+  }],
 });
 
 const FriendModel = mongoose.model('Friend', FriendSchema);

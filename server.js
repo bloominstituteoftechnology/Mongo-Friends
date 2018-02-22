@@ -5,6 +5,7 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 
 const Friend = require('./Friends/FriendModel');
+const BlogPost = require('./BlogPosts/BlogPostModel');
 
 const server = express();
 const PORT = process.env.PORT || 5050;
@@ -120,11 +121,11 @@ server.put('/api/friends', (req, res) => {
         .json({ errorMessage: 'Age must be a whole number between 1 and 120' });
     } else {
       const updatedFriend = req.body;
-      Friend.findByIdAndUpdate(id, updatedFriend)
+      Friend.findByIdAndUpdate(id, updatedFriend, { new: true })
         .then(friend => {
           res
             .status(200)
-            .json(updatedFriend);
+            .json(friend);
         })
         .catch(error => {
           res
@@ -137,6 +138,66 @@ server.put('/api/friends', (req, res) => {
       .status(400)
       .json({ errorMessage: "Please provide firstName, lastName and age for the friend." });
   }
+});
+
+server.post('/api/posts', (req, res) => {
+  const postInformation = req.body;
+  const { author, title, body } = postInformation;
+
+  const blogPost = new BlogPost(postInformation);
+  if ( author && title && body ) {
+    blogPost
+    .save()
+    .then(savedPost => {
+      res
+      .status(201)
+      .json(savedPost);
+    })
+  } else {
+    res
+      .status(400)
+      .json({ errorMessage: "Please provide authorID, title and body for the post." });
+  }
+});
+
+server.get('/api/posts', (req, res) => {
+  BlogPost.find()
+    .then(posts => {
+      res
+        .status(200)
+        .json(posts);
+    })
+    .catch(error => {
+      res
+        .status(500)
+        .json({ error: 'The information could not be retrieved.' });
+    });
+});
+
+server.get('/api/posts/:id', (req, res) => {
+  const id = req.params.id;
+  BlogPost.findById(id)
+    .then(post => {
+      if (post) {
+        res
+          .status(200)
+          .json(post);
+      } else {
+        res
+          .status(404)
+          .json({ message: 'The post with the specified ID does not exist.' });
+      }
+    })
+    .catch(error => {
+      if (error.name === 'CastError') {
+        res
+          .status(400)
+          .json({ message: `The ID: ${error.value} is not valid.` });
+      }
+      res
+        .status(500)
+        .json({ error: 'The information could not be retrieved.' });
+    });
 });
 
 mongoose
