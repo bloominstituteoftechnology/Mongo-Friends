@@ -20,4 +20,28 @@ friendsRouter.post('/', function(req, res){
 	});
 });
 
+// get request
+
+friendsRouter.get('/', function(req, res){
+	Friend.find({})
+	.then(friend => {
+		res.json(friend);
+	})
+	.catch(err => {
+		res.status(500).json({ error: "The information could not be retrieved." })
+	});
+});
+
+friendsRouter.get('/:id', function(req, res){
+	const id = req.params.id;
+	Friend.findById(id)
+	.then(friend => {
+		if (!friend) res.status(404).json({ message: "The friend with the specified ID does not exist." });
+		res.json(friend);
+	})
+	.catch(err => {
+		res.status(500).json({ error: "The information could not be retrieved." })
+	});
+});
+
 module.exports = friendsRouter;
