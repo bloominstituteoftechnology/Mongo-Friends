@@ -54,5 +54,24 @@ blogRouter.get('/:id', (req, res) => {
     });
 });
 
+//=========================
+//      post DELETE
+//=========================
+
+blogRouter.delete('/:id', (req, res) => {
+  const { id } = req.params;
+  Blog.findByIdAndRemove(id)
+    .then(post => {
+      if (!post) {
+        res.status(404)
+        .json({ message: "The post with the specified ID does not exist." });
+      }
+      res.status(200).json(post);
+    })
+    .catch(err => {
+      res.status(500).json({ error: "The post could not be removed" });
+    });
+});
+
 
 module.exports = blogRouter;
