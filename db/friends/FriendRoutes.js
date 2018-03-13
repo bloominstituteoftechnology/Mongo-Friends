@@ -65,17 +65,16 @@ friendsRouter.delete('/:id', (req, res) => {
     });
 });
 
-// bearsRouter.put('/:id', (req, res) => {
-//     const { id } = req.params;
-//     const bear = req.body;
-//     Bear.findByIdAndUpdate(id, bear, {new: true}, (err, updatedBear) => {
-//         if (!updatedBear) res.status(404).json({
-//             message: 'The bear with the specified ID does not exist',
-//             error: err,
-//         });
-//         if (err) res.status(500).json({ error: "The Bear information could not be modified." });
-//         res.status(201).json(updatedBear);
-//     });
-// });
+friendsRouter.put('/:id', (req, res) => {
+    const { id } = req.params;
+    const friendFields = req.body;
+    Friend.findByIdAndUpdate(id, friendFields, {new: true}, (err, updatedFriend) => {
+        if (!updatedFriend) res.status(404).json({ message: "The friend with the specified ID does not exist." });
+        if (!friendFields.firstName || !friendFields.lastName || !friendFields.age) res.status(404).json({ errorMessage: "Please provide firstName, lastName and age for the friend." });
+        if (friendFields.age < 1 || friendFields.age > 120) res.status(404).json({ errorMessage: "Age must be a whole number between 1 and 120"});
+        if (err) res.status(500).json({ error: "The friend information could not be modified." });
+        res.status(200).json(updatedFriend);
+    });
+});
 
 module.exports = friendsRouter;
