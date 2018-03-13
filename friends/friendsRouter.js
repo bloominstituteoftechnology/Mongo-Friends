@@ -72,4 +72,34 @@ friendsRouter.delete('/:id', (req, res) => {
     });
 });
 
+friendsRouter.put('/:id', (req, res) => {
+  const id = req.params.id;
+  const updatedInfo = req.body;
+  const { firstName, lastName, age } = req.body;
+  if (!firstName || !lastName || !age) {
+    res
+      .status(400)
+      .json({ err: 'Please provide firstName, lastName and age for friend' });
+  }
+  if (age < 1 || age > 120) {
+    res
+      .status(400)
+      .json({ err: 'Age must be a whole number between 1 and 120' });
+  }
+  Friend.findByIdAndUpdate(id, updatedInfo, { new: true })
+    .then(updatedFriend => {
+      if (!updatedFriend) {
+        res
+          .status(404)
+          .json({ err: 'The friend with the specified ID does not exist' });
+      }
+      res.status(201).json(updatedFriend);
+    })
+    .catch(err => {
+      res
+        .status(500)
+        .json({ err: 'The friend information could not be modified' });
+    });
+});
+
 module.exports = friendsRouter;
