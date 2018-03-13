@@ -22,57 +22,47 @@ postsRouter.post('/', function(req, res) {
     });
 });
 
-// friendsRouter.get('/', function(req, res) {
-//     Friend.find({})
-//     .then(friends => {
-//       res.status(200).json(friends);
-//     })
-//     .catch(err => {
-//       res.status(500).json({ error: "The information could not be retrieved." });
-//     });
-// });
+postsRouter.get('/', function(req, res) {
+    Post.find({})
+    .then(posts => {
+      res.status(200).json(posts);
+    })
+    .catch(err => {
+      res.status(500).json({ error: "The blog post could not be retrieved." });
+    });
+});
 
-// friendsRouter.get('/:id', function(req, res) {
-//     const { id } = req.params;
-//     Friend.findById(id, (err, friend)=> {
-//         if (!friend) res.status(404).json({ message: "The friend with the specified ID does not exist." });
-//         })
-//     .then(friends => {
-//       res.status(200).json(friends);
-//     })
-//     .catch(err => {
-//       res.status(500).json({ error: "The information could not be retrieved." });
-//     });
-// });
+postsRouter.get('/:id', function(req, res) {
+    const { id } = req.params;
+    Post.findById(id, (err, post)=> {
+        if (!post) res.status(404).json({ message: "The blog post with the specified ID does not exist." });
+        })
+    .then(posts => {
+      res.status(200).json(posts);
+    })
+    .catch(err => {
+      res.status(500).json({ error: "The blog post could not be retrieved." });
+    });
+});
 
-// friendsRouter.get('/:id', function(req, res) {
-//     const { id } = req.params;
-//     Friend.findById(id, (err, friend)=> {
-//         if (!friend) res.status(404).json({ message: "The friend with the specified ID does not exist." });
-//         if (err) res.status(500).json({ error: "The information could not be retrieved." });
-//         res.status(200).json(friend);
-//     });
-// });
+postsRouter.delete('/:id', (req, res) => {
+    const { id } = req.params;
+    Post.findByIdAndRemove(id, (err, deletedPost) => {
+        if (!deletedPost) res.status(404).json({ message: "The blog post with the specified ID does not exist." });
+        if (err) res.status(500).json({ error: "The blog post could not be removed" });
+        res.status(200).json(deletedPost);
+    });
+});
 
-// friendsRouter.delete('/:id', (req, res) => {
-//     const { id } = req.params;
-//     Friend.findByIdAndRemove(id, (err, deletedFriend) => {
-//         if (!deletedFriend) res.status(404).json({ message: "The friend with the specified ID does not exist." });
-//         if (err) res.status(500).json({ error: "The friend could not be removed" });
-//         res.status(200).json(deletedFriend);
-//     });
-// });
-
-// friendsRouter.put('/:id', (req, res) => {
-//     const { id } = req.params;
-//     const friendFields = req.body;
-//     Friend.findByIdAndUpdate(id, friendFields, {new: true}, (err, updatedFriend) => {
-//         if (!updatedFriend) res.status(404).json({ message: "The friend with the specified ID does not exist." });
-//         if (!friendFields.firstName || !friendFields.lastName || !friendFields.age) res.status(404).json({ errorMessage: "Please provide firstName, lastName and age for the friend." });
-//         if (friendFields.age < 1 || friendFields.age > 120) res.status(404).json({ errorMessage: "Age must be a whole number between 1 and 120"});
-//         if (err) res.status(500).json({ error: "The friend information could not be modified." });
-//         res.status(200).json(updatedFriend);
-//     });
-// });
+postsRouter.put('/:id', (req, res) => {
+    const { id } = req.params;
+    const postFields = req.body;
+    Post.findByIdAndUpdate(id, postFields, {new: true}, (err, updatedPost) => {
+        if (!updatedPost) res.status(404).json({ message: "The blog post with the specified ID does not exist." });
+        if (!postFields.blogger || !postFields.title || !postFields.description) res.status(404).json({ errorMessage: "Please provide blogger, title and description for the blog post." });
+        if (err) res.status(500).json({ error: "The blog post information could not be modified." });
+        res.status(200).json(updatedPost);
+    });
+});
 
 module.exports = postsRouter;
