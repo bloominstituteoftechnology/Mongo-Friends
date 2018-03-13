@@ -10,7 +10,7 @@ blogPostsRouter.post('/', (req, res) => {
     const post = new BlogPosts(postInfo);
 
     if (!postInfo.title || !postInfo.body) {
-        res.status(400).json({ errorMessage: `Please provide title and body for the post.` });
+        return res.status(400).json({ errorMessage: `Please provide title and body for the post.` });
     }
         post
         .save()
@@ -34,20 +34,20 @@ blogPostsRouter.get('/', (req, res) => {
     })
 });
 
-// friendsRouter.get('/:id', (req, res) => {
-//     const { id } = req.params;
+blogPostsRouter.get('/:id', (req, res) => {
+    const { id } = req.params;
 
-//     BlogPosts.findById(id)
-//     .then(newFriend => {
-//         if (!newFriend) {
-//             res.status(404).json({ message: "The friend with the specified ID does not exist." });
-//         }
-//         res.status(200).json(newFriend);
-//     })
-//     .catch(err => {
-//         res.status(500).json({ error: "The information could not be retrieved." });
-//     })
-// });
+    BlogPosts.findById(id)
+    .then(newPost => {
+        if (!newPost) {
+            res.status(404).json({ message: "The post with the specified ID does not exist." });
+        }
+        res.status(200).json(newPost);
+    })
+    .catch(err => {
+        res.status(500).json({ error: "The information could not be retrieved." });
+    })
+});
 
 // friendsRouter.delete('/:id', (req, res) => {
 //     const { id } = req.params;
