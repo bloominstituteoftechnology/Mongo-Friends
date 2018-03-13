@@ -12,14 +12,12 @@ const FriendSchema = new mongoose.Schema({
   age: {
     type: Number,
     required: true,
-    validate: checkAgeLength,
-    msg: 'Age is outside of range'
   }
 })
 
-function checkAgeLength(age) {
-  return age > 1 && age < 120
-}
+// function checkAgeLength(age) {
+//   return age > 1 && age < 120
+// }
 
 const FriendModel = mongoose.model('Friend', FriendSchema);
 
