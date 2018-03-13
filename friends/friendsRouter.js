@@ -68,8 +68,21 @@ friendsRouter.delete('/:id', (req, res) => {
     });
 });
 
-// friendsRouter.put('', (req, res) => {
+friendsRouter.put('/:id', (req, res) => {
+    const { id } = req.params;
+    const friendInfo = req.body;
 
-// });
+    Friends.findByIdAndUpdate(id, friendInfo)
+
+    .then(friend => {
+        if (!friend) {
+            res.status(404).json({ message: "The friend with the specified ID does not exist." });
+        }
+        res.status(200).json(friend);
+    })
+    .catch(err => {
+        res.status(500).json({ error: "The friend information could not be modified." });
+    });
+});
 
 module.exports = friendsRouter;
