@@ -42,4 +42,20 @@ friendRouter.get('/', (req, res) => {
     });
 });
 
+//=========================
+//      friend GET
+//=========================
+
+friendRouter.get('/:id', (req, res) => {
+  const { id } = req.params;
+
+  Friend.findById(id)
+    .then(friend => {
+      res.status(200).json(friend);
+    })
+    .catch(err => {
+      res.status(404).json({ message: "The friend with the specified ID does not exist." });
+    });
+});
+
 module.exports = friendRouter;
