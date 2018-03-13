@@ -28,15 +28,45 @@ friendRouter.get('/:id', (req, res) => {
 
 friendRouter.post('/', (req, res) => {
   const friend = new Friend(req.body);
+  let validated = true;
   friend.validate(err => {
-    if(err) res.status(400).send({ errorMessage: Object.values(err.errors)[0].message });
+      if(err) {
+        validated = false;
+        res.status(400).send(err)
+      }
   });
-  friend
-    .save()
+  if(validated) {
+    friend
+      .save()
+      .then(friend => {
+        res.status(201).send(friend);
+      })
+      .catch(err => {
+        res.status(500).send({ error: "There was an error while saving the friend to the database" });
+      });
+  }
+});
+
+friendRouter.delete('/:id', (req, res) => {
+  Friend.findByIdAndRemove(req.params.id)
     .then(friend => {
-      res.status(201).send(friend);
+      if(friend) res.status(200).send(friend);
+      else res.status(404).send({ message: "The friend with the specified ID does not exist." });
     })
     .catch(err => {
-      res.status(500).send({ error: "There was an error while saving the friend to the database" });
+      res.status(500).send({ error: "The friend could not be removed" });
+    });
+});
+
+friendRouter.put('/:id', (req, res) => {
+  Friend.findByIdAndUpdate(req.params.id, req.body)
+    .then(friend => {
+      if(friend) res.status(200).send(friend);
+      else res.status(404).send({ message: "The friend with the specified ID does not exist." });
     })
-})
+    .catch(err => {
+      res.status(500).send({ error: "The friend information could not be modified." });
+    })
+});
+
+module.exports = friendRouter;
