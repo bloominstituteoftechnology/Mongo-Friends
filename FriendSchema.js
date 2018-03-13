@@ -3,20 +3,20 @@ const mongoose = require("mongoose");
 const FriendSchema = new mongoose.Schema({
   firstName: {
     type: String,
-    required: true,
+    required: true
   },
   lastName: {
     type: String,
-    required: true,
+    required: true
   },
   age: {
     type: Number,
-    required: true,
+    required: true
   },
   createdOn: {
     type: Date,
     required: true,
-    default: Date.now(),
+    default: Date.now()
   }
 });
 

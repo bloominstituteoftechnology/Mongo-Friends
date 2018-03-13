@@ -13,12 +13,12 @@ server.use(bodyParser.json());
 
 mongoose
   .connect("mongodb://localhost/friends")
-    .then(conn => {
-      console.log("Successfully Connected to Friends database!")
-    })
-    .catch(err => {
-      console.log("Database connection failed. . .")
-    });
+  .then(conn => {
+    console.log("Successfully Connected to Friends database!");
+  })
+  .catch(err => {
+    console.log("Database connection failed. . .");
+  });
 
 server.get("/", function(req, res) {
   res.status(200).json({ status: "API Running" });
