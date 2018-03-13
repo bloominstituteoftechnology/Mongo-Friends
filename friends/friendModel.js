@@ -21,4 +21,9 @@ const FriendSchema = new mongoose.Schema({
   }
 });
 
+// FriendSchema.pre('findByIdAndUpdate', function(next) {
+//   this.options.runValidators = true;
+//   next();
+// });
+
 module.exports = mongoose.model('Friend', FriendSchema);
