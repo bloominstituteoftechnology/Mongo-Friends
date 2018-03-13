@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 
+
 const FriendsSchema = new mongoose.Schema({
     firstName: {
         type: String,
@@ -16,7 +17,7 @@ const FriendsSchema = new mongoose.Schema({
     createdOn: {
         type: Date,
         required: true,
-        default: Date.now()
+        default: Date.now
     }
 });
 
