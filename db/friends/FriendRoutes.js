@@ -34,29 +34,36 @@ friendsRouter.get('/', function(req, res) {
     });
 });
 
-// bearsRouter.get('/:id', function(req, res) {
-//     const { id } = req.params;
-//     Bear.findById(id, (err, bear)=> {
-//         if (!bear) res.status(404).json({
-//             msg: 'The bear with the specified ID does not exist',
-//             error: err,
-//         });
-//         if (err) res.status(500).json({ error: "The information could not be retrieved." });
-//         res.status(201).json(bear);
-//     });
-// });
+friendsRouter.get('/:id', function(req, res) {
+    const { id } = req.params;
+    Friend.findById(id, (err, friend)=> {
+        if (!friend) res.status(404).json({ message: "The friend with the specified ID does not exist." });
+        })
+    .then(friends => {
+      res.status(200).json(friends);
+    })
+    .catch(err => {
+      res.status(500).json({ error: "The information could not be retrieved." });
+    });
+});
 
-// bearsRouter.delete('/:id', (req, res) => {
-//     const { id } = req.params;
-//     Bear.findByIdAndRemove(id, (err, deletedBear) => {
-//         if (!deletedBear) res.status(404).json({
-//             message: 'The bear with the specified ID does not exist',
-//             error: err,
-//         });
-//         if (err) res.status(500).json({ error: "The Bear could not be removed" });
-//         res.status(201).json(deletedBear);
-//     });
-// });
+friendsRouter.get('/:id', function(req, res) {
+    const { id } = req.params;
+    Friend.findById(id, (err, friend)=> {
+        if (!friend) res.status(404).json({ message: "The friend with the specified ID does not exist." });
+        if (err) res.status(500).json({ error: "The information could not be retrieved." });
+        res.status(200).json(friend);
+    });
+});
+
+friendsRouter.delete('/:id', (req, res) => {
+    const { id } = req.params;
+    Friend.findByIdAndRemove(id, (err, deletedFriend) => {
+        if (!deletedFriend) res.status(404).json({ message: "The friend with the specified ID does not exist." });
+        if (err) res.status(500).json({ error: "The friend could not be removed" });
+        res.status(200).json(deletedFriend);
+    });
+});
 
 // bearsRouter.put('/:id', (req, res) => {
 //     const { id } = req.params;
