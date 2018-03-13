@@ -49,21 +49,21 @@ blogPostsRouter.get('/:id', (req, res) => {
     })
 });
 
-// friendsRouter.delete('/:id', (req, res) => {
-//     const { id } = req.params;
+blogPostsRouter.delete('/:id', (req, res) => {
+    const { id } = req.params;
 
-//     Friends.findByIdAndRemove(id)
+    BlogPosts.findByIdAndRemove(id)
     
-//     .then(friend => {
-//         if (!friend) {
-//             res.status(404).json({ message: "The friend with the specified ID does not exist." });
-//         }
-//         res.status(200).json(friend);
-//     })
-//     .catch(err => {
-//         res.status(500).status({ error: "The friend could not be removed" });
-//     });
-// });
+    .then(post => {
+        if (!post) {
+            res.status(404).json({ message: "The post with the specified ID does not exist." });
+        }
+        res.status(200).json(post);
+    })
+    .catch(err => {
+        res.status(500).status({ error: "The post could not be removed" });
+    });
+});
 
 // friendsRouter.put('/:id', (req, res) => {
 //     const { id } = req.params;
