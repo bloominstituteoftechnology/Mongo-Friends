@@ -23,11 +23,25 @@ friendRouter.post('/', function(req, res) {
 
 friendRouter.get('/', function(req, res) {
   Friend.find({})
+    .then(friend => {
+      res.status(200).json(friend);
+    })
+    .catch(err => {
+      res.status(500).json({ error: 'the information could not be retrieved.' })
+    });
+});
+
+friendRouter.get('/:id', function(req, res) {
+  const { id } = req.params;
+  Friend.findById({ _id: id })
     .then(friends => {
       res.status(200).json(friends);
     })
     .catch(err => {
-      res.status(500).json({ error: 'the information could not be retrieved.' })
+      if (err.name === 'CastError') {
+        res.status(404).json({ errorMessage: 'The friend with the specified ID does not exist'});
+      }
+      res.status(500).json({ error: 'the information could not be retrieved.', err })
     });
 });
 
