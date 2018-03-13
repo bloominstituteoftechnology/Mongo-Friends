@@ -45,7 +45,6 @@ server.post("/api/friends", (req, res) => {
   friend
     .save()
     .then(savedFriend => {
-
       res.status(201).json(savedFriend);
     })
     .catch(err => {
@@ -87,7 +86,6 @@ server.get("/api/friends/:id", (req, res) => {
     });
 });
 
-
 server.delete("/api/friends/:id", (req, res) => {
   const id = req.params.id;
   Friends.findByIdAndRemove(id)
@@ -95,9 +93,7 @@ server.delete("/api/friends/:id", (req, res) => {
       if (friend) {
         res.status(200).json(friend);
       } else {
-        res
-          .status(500)
-          .json({ error: "The friend could not removed" });
+        res.status(500).json({ error: "The friend could not removed" });
       }
     })
     .catch(friend => {
@@ -108,22 +104,37 @@ server.delete("/api/friends/:id", (req, res) => {
 });
 
 server.put("/api/friends/:id", (req, res) => {
+  const friendBody = req.body;
   const id = req.params.id;
-  Friends.findByIdAndUpdate(id)
-    .then(friend => {
-      if (friend) {
-        res.status(200).json(friend);
-      } else {
+  const { firstName, lastName, age } = friendBody;
+  if (age > 1 && age < 120) {
+    res.status(201).json(friendBody);
+  } else {
+    res
+      .status(400)
+      .json({ errorMessage: "Age must be a whole number between 1 and 120" });
+  }
+  if (firstName && lastName && age) {
+    Friends.findByIdAndUpdate(id, friendBody, { test: true })
+      .then(friend => {
+        if (friend) {
+          res.status(200).json(friend);
+        } else {
+          res
+            .status(500)
+            .json({ error: "The information could not be retrieved" });
+        }
+      })
+      .catch(friend => {
         res
-          .status(500)
-          .json({ error: "The information could not be retrieved" });
-      }
-    })
-    .catch(friend => {
-      res
-        .status(404)
-        .json({ message: "The friend with the specified ID does not exist" });
+          .status(404)
+          .json({ message: "The friend with the specified ID does not exist" });
+      });
+  } else {
+    res.status(400).json({
+      message: "Please provide firstName,lastName,age for the friend"
     });
+  }
 });
 
 server.listen(PORT, err => {
