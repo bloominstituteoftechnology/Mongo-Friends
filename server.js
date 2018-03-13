@@ -52,7 +52,23 @@ server.get('/api/friends', (req, res) => {
     });
 });
 
+server.get('/api/friends/:id', (req, res) => {
+  const id = req.params.id;
 
+  Friend.findById(id)
+    .then(friend => {
+      if (friend) {
+        res.status(200).json(friend)
+      } else {
+        console.log(error);
+        res.status(404).json({ message: "The friend with the specified ID does not exist." });
+      }
+    })
+    .catch(error => {
+      console.log(error);
+      res.status(500).json({ error: "The information could not be retrieved." });
+    });
+});
 
 mongoose
   .connect('mongodb://localhost/friends')
