@@ -3,7 +3,7 @@ const helmet = require('helmet');
 const cors = require('cors'); // https://www.npmjs.com/package/cors
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
-//const friendsRoutes = require('./bears/bearRoutes');
+const friendRoutes = require('./friends/friendRoutes');
 const server = express();
 
 server.use(helmet()); // https://helmetjs.github.io/
@@ -23,7 +23,7 @@ mongoose
     console.log('error connect to mongo');
 });
 
-//server.use('/api/bears', bearRoutes);
+server.use('/api/friends', friendRoutes);
 
 const port = process.env.PORT || 5005;
 server.listen(port, () => {
