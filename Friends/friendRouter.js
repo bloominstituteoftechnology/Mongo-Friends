@@ -1,7 +1,7 @@
 const express = require('express');
-const friendRouter = express.Router();
 
-const Friend = require("./models.js");
+const Friend = require('./models.js');
+const friendRouter = express.Router();
 
 
 
@@ -9,7 +9,7 @@ friendRouter.post("/api/friends", (req, res) => {
 });
 
 friendRouter.get("/api/friends", (req, res) => {
-  res.json('hey')
+  
 });
 
 friendRouter.get("/api/friends/:id", (req, res) => {

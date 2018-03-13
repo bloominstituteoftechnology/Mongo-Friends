@@ -1,22 +1,22 @@
 const express = require("express");
-const mongoose = require("mongoose");
-const bodyParser = require("body-parser");
 const helmet = require("helmet");
-const cors = require("cors");
-const Friend = require("./Friends/models.js");
+const bodyParser = require("body-parser");
+const mongoose = require("mongoose");
+
+
 const friendRouter = require('./Friends/friendRouter')
-server.use('/Friends', friendRouter);
-
-
+// const Friend = require("./Friends/models.js");
 const server = express();
 
+
 server.use(helmet());
-server.use(cors());
 server.use(bodyParser.json());
 
 server.get("/", (req, res) => {
   res.status(200).json({ status: "API RUNNING" });
 });
+
+server.use('/Friends', friendRouter);
 
 mongoose
   .connect("mongodb://localhost/")
