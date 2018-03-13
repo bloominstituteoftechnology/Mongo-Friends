@@ -16,12 +16,10 @@ friendsRouter.post('/', (req, res) => {
   const newFriend = req.body;
   const { firstName, lastName, age } = req.body;
   if (!firstName || !lastName || !age) {
-    res
-      .status(400)
-      .json({
-        errorMessage:
-          'Please provide firstName, lastName and age for the friend.',
-      });
+    res.status(400).json({
+      errorMessage:
+        'Please provide firstName, lastName and age for the friend.',
+    });
   }
   if (age < 1 || 120 < age) {
     res
@@ -35,12 +33,10 @@ friendsRouter.post('/', (req, res) => {
       res.status(201).json(savedFriend);
     })
     .catch(err => {
-      res
-        .status(500)
-        .json({
-          msg: 'There was an error while saving the friend to the database.',
-          err: err,
-        });
+      res.status(500).json({
+        msg: 'There was an error while saving the friend to the database.',
+        err: err,
+      });
     });
 });
 
@@ -49,13 +45,31 @@ friendsRouter.get('/:id', (req, res) => {
   Friend.findById(id)
     .then(friend => {
       if (!friend) {
-        res.status(404).json({ err: 'The friend with the specified ID does not exist' });
+        res
+          .status(404)
+          .json({ err: 'The friend with the specified ID does not exist' });
       }
       res.status(201).json(friend);
     })
     .catch(err => {
-      res.status(500).json({ err: 'The information could no be retrieved' })
+      res.status(500).json({ err: 'The information could no be retrieved' });
+    });
+});
+
+friendsRouter.delete('/:id', (req, res) => {
+  const id = req.params.id;
+  Friend.findByIdAndRemove(id)
+    .then(deletedFriend => {
+      if (!deletedFriend) {
+        res
+          .status(404)
+          .json({ err: 'The friend with the specified ID does not exist' });
+      }
+      res.status(201).json(deletedFriend);
     })
-} )
+    .catch(err => {
+      res.status(500).json({ err: 'The friend could not be removed' });
+    });
+});
 
 module.exports = friendsRouter;
