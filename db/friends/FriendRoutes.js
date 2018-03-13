@@ -4,32 +4,35 @@ const Friend = require('./FriendModel.js');
 
 const friendsRouter = express.Router();
 
-// // /api/friends
-// bearsRouter.post('/', function(req, res) {
-//     const bearInfo = req.body;
-//     const bear = new Bear(bearInfo);
-//     bear
-//     .save()
-//     .then(savedBear => {
-//         if (!bearInfo.species || !bearInfo.latinName) {
-//             res.status(400).json({ errorMessage: "Please provide both species and latinName for the Bear." });
-//         }
-//         res.status(201).json(savedBear);
-//     })
-//     .catch(err => {
-//         res.status(500).json({ msg: 'error creating a bear', error: err });
-//     });
-// });
+// /api/friends
+friendsRouter.post('/', function(req, res) {
+    const friendFields = req.body;
+    console.log(friendFields);
+    const friend = new Friend(friendFields);
+    friend
+    .save()
+    .then(savedFriend => {
+        if (!friendFields.firstName || !friendFields.lastName || !friendFields.age) {
+            res.status(400).json({ errorMessage: "Please provide firstName, lastName and age for the friend." });
+        } else if (friendFields.age < 1 || friendFields.age > 120) {
+                res.status(400).json({ errorMessage: "Age must be a whole number between 1 and 120" });
+        }
+        res.status(201).json(savedFriend);
+    })
+    .catch(err => {
+        res.status(500).json({ error: "There was an error while saving the friend to the database" });
+    });
+});
 
-// bearsRouter.get('/', function(req, res) {
-//   Bear.find({})
-//     .then(bears => {
-//       res.status(200).json(bears);
-//     })
-//     .catch(err => {
-//       res.status(500).json({ error: "The information could not be retrieved." });
-//     });
-// });
+friendsRouter.get('/', function(req, res) {
+    Friend.find({})
+    .then(friends => {
+      res.status(200).json(friends);
+    })
+    .catch(err => {
+      res.status(500).json({ error: "The information could not be retrieved." });
+    });
+});
 
 // bearsRouter.get('/:id', function(req, res) {
 //     const { id } = req.params;
