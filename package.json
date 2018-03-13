@@ -19,6 +19,7 @@
   "homepage": "https://github.com/LambdaSchool/Mongo-I#readme",
   "dependencies": {
     "body-parser": "^1.18.2",
+    "express": "^4.16.3",
     "mongoose": "^5.0.10"
   },
   "devDependencies": {
