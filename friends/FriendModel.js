@@ -11,14 +11,15 @@ const FriendSchema = new mongoose.Schema({
   },
   age: {
     type: Number,
-    validate: ageValidator,
-    msg: "Should be an integer between 1 and 120",
+    required: true,
+    min: 1,
+    max: 120,
+  },
+  createdOn: {
+    type: Date,
+    default: Date.now,
   },
 });
-
-function ageValidator(age) {
-  return age >= 1 && age <= 120;
-}
 
 const FriendModel = mongoose.model("Friend", FriendSchema);
 
