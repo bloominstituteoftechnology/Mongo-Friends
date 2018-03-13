@@ -40,7 +40,7 @@ blogRouter.get('/', (req, res) => {
 });
 
 //=========================
-//      friend GET
+//      post GET
 //=========================
 
 blogRouter.get('/:id', (req, res) => {
@@ -71,6 +71,33 @@ blogRouter.delete('/:id', (req, res) => {
     .catch(err => {
       res.status(500).json({ error: "The post could not be removed" });
     });
+});
+
+//=========================
+//      post PUT
+//=========================
+
+blogRouter.put('/:id', (req, res) => {
+  const { id } = req.params;
+  const postInfo = req.body;
+  if (!postInfo.title || !postInfo.body) {
+    res.status(400).json({ errorMessage: 'Please provide a Title and a Body for the post.' });
+  }
+  else {
+    Blog.findByIdAndUpdate(id, postInfo, { new: true })
+      .then(post => {
+        if (!post)
+          res.status(404).send({ message: 'The post with the specified ID does not exist.' });
+        else {
+          res.status(200).send(postInfo);
+        }
+      })
+      .catch(err =>
+        res
+          .status(500)
+          .send({ error: 'The post information could not be modified.' })
+      );
+  }
 });
 
 
