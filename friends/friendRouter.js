@@ -51,6 +51,11 @@ friendRouter.get('/:id', (req, res) => {
   const { id } = req.params;
   Friend.findById(id)
     .then(friend => {
+      if (!friend) {
+        return res
+          .status(404)
+          .json({ errorMessage: 'The friend with the specified ID does not exist.' });
+      }
       res.status(200).json({ message: 'Here is your friend.', friend });
     })
     .catch(error => {
@@ -64,10 +69,15 @@ friendRouter.delete('/:id', (req, res) => {
   const { id } = req.params;
   Friend.findByIdAndRemove(id)
     .then(friend => {
-      res.status(200).json({ message: 'The friend was deleted.', friend })
+      if (!friend) {
+        return res
+          .status(404)
+          .json({ errorMessage: 'The friend with the specified ID does not exist.' });
+      }
+      res.status(200).json({ message: 'The friend was deleted.', friend });
     })
     .catch(error => {
-      res.status(500).json({ errorMessage: 'The friend could not be removed.' })
+      res.status(500).json({ errorMessage: 'The friend could not be removed.' });
     });
 });
 
@@ -76,9 +86,25 @@ friendRouter.delete('/:id', (req, res) => {
 friendRouter.put('/:id', (req, res) => {
   const { id } = req.params;
   const updatedFriend = req.body;
-  Friend.findByIdAndUpdate(id, updatedFriend, {new: true})
+  if (!updatedFriend.firstName || !updatedFriend.lastName || !updatedFriend.age) {
+      return res.status(400).json({ errorMessage: "Please provide firstName, lastName and age for the friend." })
+  }
+  if (
+    updatedFriend.age < 1 ||
+    updatedFriend.age > 120 ||
+    typeof updatedFriend.age !== 'number' ||
+    updatedFriend.age % 1 !== 0
+  ) {
+    return res.status(400).json({ errorMessage: 'Age must be a whole number between 1 and 120' });
+  }
+  Friend.findByIdAndUpdate(id, updatedFriend, { new: true })
     .then(friend => {
-      res.status(200).json({ message: 'The friend has been upated.', friend })
+      if (!friend) {
+        return res
+          .status(404)
+          .json({ errorMessage: 'The friend with the specified ID does not exist.' });
+      }
+      res.status(200).json({ message: 'The friend has been updated.', friend });
     })
     .catch(error => {
       res.status(500).json({ errorMessage: 'The friend could not be modified.' });
