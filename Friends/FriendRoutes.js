@@ -68,13 +68,15 @@ friendRouter.put('/:id', function(req, res) {
   }
   Friend.findByIdAndUpdate(id, changes, { new: true })
     .then(alteredFriend => {
-      console.log(alteredFriend);
+      if (alteredFriend === null) {
+        res.status(404).json({ errorMessage: 'The friend with the specified ID does not exist'});        
+      }
       res.status(200).json({ alteredFriend });
     })
     .catch(err => {
-      if (err.name === 'CastError') {
-        res.status(404).json({ errorMessage: 'The friend with the specified ID does not exist'});
-      }
+      // if (err.name === 'CastError') {
+      //   res.status(404).json({ errorMessage: 'The friend with the specified ID does not exist'});
+      // }
       if (err._message === 'Friend validation failed') {
         res.status(400).json({ errorMessage: 'Age must be a whole number between 1 and 120'});
       }
