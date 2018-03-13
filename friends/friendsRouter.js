@@ -5,24 +5,48 @@ const Friends = require('./friendsModels.js');
 const friendsRouter = express.Router();
 
 
-friendsRouter.post('', (req, res) => {
+friendsRouter.post('/', (req, res) => {
+    const friendInfo = req.body;
+    const friend = new Friends(friendInfo);
+
+    if (!friendInfo.firstName || !friendInfo.lastName || !friendInfo.age) {
+        res.status(400).json({ errorMessage: `Please provide firstName, lastName and age for the friend.` });
+    }
+    if (!parseInt(friendInfo.age)  || friendInfo.age < 1 || friendInfo.age > 120) {
+        res.status(400).json({ errorMessage: `Age must be a whole number between 1 and 120` });
+    }
+        friend
+        .save()
+        .then(newFriend => {
+            res.status(201).json(newFriend);
+        })
+        .catch(err => {
+            res.status(500).json({ error: `There was an error while saving the friend to the database` });
+        })
 
 });
 
-friendsRouter.get('', (req, res) => {
+friendsRouter.get('/', (req, res) => {
+    Friends.find({})
+    .then(friends => {
+        console.log('Friends retrieved.')
+        res.status(200).json(friends);
+    })
+    .catch(err => {
+        res.status(500).json({ error: "The information could not be retrieved." })
+    })
+});
+
+friendsRouter.get('/:id', (req, res) => {
 
 });
 
-friendsRouter.get('', (req, res) => {
+// friendsRouter.delete('', (req, res) => {
 
-});
+// });
 
-friendsRouter.delete('', (req, res) => {
+// friendsRouter.put('', (req, res) => {
 
-});
-
-friendsRouter.put('', (req, res) => {
-
-});
+// });
 
 module.exports = friendsRouter;
