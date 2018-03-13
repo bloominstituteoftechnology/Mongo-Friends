@@ -2,9 +2,9 @@
   "name": "mongofull",
   "version": "1.0.0",
   "description": "* Databases.\r * MongoDB.\r * Mongoose.\r * Performing CRUD Operations.",
-  "main": "server.js",
+  "main": "src/server.js",
   "scripts": {
-    "start": "nodemon server.js"
+    "start": "nodemon src/server.js"
   },
   "repository": {
     "type": "git",
@@ -17,7 +17,12 @@
     "url": "https://github.com/LambdaSchool/Mongo-I/issues"
   },
   "homepage": "https://github.com/LambdaSchool/Mongo-I#readme",
-  "dependencies": {},
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "express": "^4.16.3",
+    "helmet": "^3.12.0",
+    "mongoose": "^5.0.10"
+  },
   "devDependencies": {
     "nodemon": "^1.15.0"
   }
