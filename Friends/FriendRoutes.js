@@ -10,8 +10,8 @@ friendRouter.post('/', function(req, res) {
   }
   const friend = new Friend(friendInfo);
   friend.save()
-    .then(friend => {
-      res.status(201).json(friend);
+    .then(newFriend => {
+      res.status(201).json(newFriend);
     })
     .catch(err => {
       if (err._message === 'Friend validation failed') {
@@ -23,26 +23,40 @@ friendRouter.post('/', function(req, res) {
 
 friendRouter.get('/', function(req, res) {
   Friend.find({})
-    .then(friend => {
-      res.status(200).json(friend);
+    .then(friends => {
+      res.status(200).json(friends);
     })
     .catch(err => {
-      res.status(500).json({ error: 'the information could not be retrieved.' })
+      res.status(500).json({ error: 'The information could not be retrieved.' })
     });
 });
 
 friendRouter.get('/:id', function(req, res) {
   const { id } = req.params;
   Friend.findById({ _id: id })
-    .then(friends => {
-      res.status(200).json(friends);
+    .then(friend => {
+      res.status(200).json(friend);
     })
     .catch(err => {
       if (err.name === 'CastError') {
         res.status(404).json({ errorMessage: 'The friend with the specified ID does not exist'});
       }
-      res.status(500).json({ error: 'the information could not be retrieved.', err })
+      res.status(500).json({ error: 'The information could not be retrieved.' })
     });
 });
+
+friendRouter.delete('/:id', function(req, res) {
+  const { id } = req.params;
+  Friend.findByIdAndRemove(id)
+    .then(deletedFriend => {
+      res.status(200).json({ deletedFriend })
+    })
+    .catch(err => {
+      if (err.name === 'CastError') {
+        res.status(404).json({ errorMessage: 'The friend with the specified ID does not exist'});
+      }
+      res.status(500).json({ error: 'The friend could not be removed' })
+    });
+})
 
 module.exports = friendRouter;
