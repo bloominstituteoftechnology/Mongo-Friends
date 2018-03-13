@@ -4,7 +4,7 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const mongoose = require('mongoose');
 
-const friendRouter = require('./controllers/apiRoutes');
+const friendRouter = require('./src/controllers/friendRouter');
 
 const server = express();
 

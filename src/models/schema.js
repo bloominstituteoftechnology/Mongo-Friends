@@ -11,6 +11,8 @@ const FriendSchema = new mongoose.Schema({
  },
  age: {
    type: Number,
+   min: [1, 'Age should be greater than 1'],
+   max: [120, 'Age should be lower than 120'],
    required: true,
  },
  createdOn: {
@@ -19,6 +21,6 @@ const FriendSchema = new mongoose.Schema({
  }
 });
 
-const BearModel = mongoose.model('Friends', FriendSchema);
+const FriendModel = mongoose.model('Friends', FriendSchema);
 
-module.exports = FriendSchema;
+module.exports = FriendModel;
