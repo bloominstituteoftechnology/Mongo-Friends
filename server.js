@@ -4,6 +4,8 @@ const mongoose = require('mongoose');
 
 const server = express();
 
+server.use(bodyParser.json());
+
 server.get('/', (req, res) => {
   res
     .status(200)
