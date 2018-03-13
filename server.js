@@ -6,7 +6,8 @@ const mongoose = require('mongoose');
 
 const server = express();
 
-const friendRouter = require('./friendRouter/friendRouter');
+const friendRouter = require('./friends/friendRouter/friendRouter');
+const blogRouter = require('./blogs/blogRouter/blogRouter');
 
 server.use(helmet()); // https://helmetjs.github.io/
 server.use(cors());   // https://medium.com/trisfera/using-cors-in-express-cac7e29b005b
@@ -16,7 +17,8 @@ server.get('/', function(req, res) {
   res.status(200).json({ status: 'API Running' });
 });
 
-server.use('/', friendRouter);
+server.use('/api/friends', friendRouter);
+server.use('/api/blogposts', blogRouter);
 
 mongoose
   .connect('mongodb://localhost/friends')
