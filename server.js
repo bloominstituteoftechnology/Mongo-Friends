@@ -23,8 +23,37 @@ mongoose
     console.log(`There was an error connecting to database ${err}`);
   });
 
+
+
+
 server.post("/api/friends", (req, res) => {
   const body = req.body;
+  const { firstName, lastName, age } = body;
+  
+  const friend = new Friends(body);
+  console.log("age",age);
+  if(age>1 && age<120) {
+    res.status(201).json(body);
+    console.log(body);
+  } else {
+      res.status(400).json({ errorMessage: "Age must be a whole number between 1 and 120" });
+  }
+  friend
+    .save()
+    .then(savedFriend => {
+      console.log("indside then");
+      res.status(201).json(savedFriend);
+    })
+    .catch(err => {
+      res.status(400).json({ errorMessage: "Please provide firstName, lastName and age for the friend." });
+    });
+});
+
+
+
+
+server.get("/api/friends", (req, res) => {
+  const body = req.params;
   const { firstName, lastName, age } = body;
   const friend = new Friends(body);
   friend
@@ -33,9 +62,11 @@ server.post("/api/friends", (req, res) => {
       res.status(201).json(savedFriend);
     })
     .catch(err => {
-      res.status(500).json({ error: err });
+      res.status(500).json({ error: "The information could not be retrieved." });
     });
 });
+
+
 
 server.listen(PORT, err => {
   if (err) {
