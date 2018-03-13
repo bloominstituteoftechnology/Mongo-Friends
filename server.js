@@ -90,20 +90,23 @@ server.delete('/api/friends/:id', (req, res) => {
 
 server.put('/api/friends/:id', (req, res) => {
   const id = req.params.id;
-  const friend = req.body;
+  const {
+    firstName,
+    lastName,
+    age
+  } = req.body;
 
-  if (!friend.firstName || !friend.lastName || !friend.age) {
+  if (!firstName || !lastName || !age) {
     console.log(error);
     res.status(400).json({ errorMessage: "Please provide firstName, lastName and age for the friend." });
-  } else if (friend.age < 1 || friend.age > 120) {
+  } else if (age < 1 || age > 120) {
     console.log(error);
     res.status(400).json({ errorMessage: "Age must be a whole number between 1 and 120" });
   } else {
-    Friend.findByIdAndUpdate(id, friend, { new: true })
-      .then(friend => {
-        console.log(friend);
-        if (friend) {
-          res.status(200).json(friend);
+    Friend.findByIdAndUpdate(id, req.body, { new: true })
+      .then(editFriend => {
+        if (editFriend) {
+          res.status(200).json(editFriend);
         } else {
           console.log(error);
           res.status(404).json({ message: "The friend with the specified ID does not exist." });
