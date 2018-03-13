@@ -66,7 +66,7 @@ friendRouter.put('/:id', function(req, res) {
   if (!firstName || !lastName || !age) {
     res.status(400).json({ errorMessage: 'Please provide firstName, lastName, and age for the friend' });
   }
-  Friend.findByIdAndUpdate(id, changes, { new: true })
+  Friend.findByIdAndUpdate(id, changes, { new: true, runValidators: true })
     .then(alteredFriend => {
       if (alteredFriend === null) {
         res.status(404).json({ errorMessage: 'The friend with the specified ID does not exist'});        
@@ -74,17 +74,11 @@ friendRouter.put('/:id', function(req, res) {
       res.status(200).json({ alteredFriend });
     })
     .catch(err => {
-      // if (err.name === 'CastError') {
-      //   res.status(404).json({ errorMessage: 'The friend with the specified ID does not exist'});
-      // }
-      if (err._message === 'Friend validation failed') {
+      if (err._message === 'Validation failed') {
         res.status(400).json({ errorMessage: 'Age must be a whole number between 1 and 120'});
       }
       res.status(500).json({ error: 'The friend could not be removed', err });
     });
 });
-
-//id not found
-//age (force validate on update)
 
 module.exports = friendRouter;
