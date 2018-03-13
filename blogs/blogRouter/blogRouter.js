@@ -13,10 +13,10 @@ blogRouter.post('/', function(req, res) {
       res.status(201).json(inBlog);
     })
     .catch(err => {
-      if (err.errors.password) {
-        res.status(400).json({ errorMessage: err.errors.password.message }).end();
+      if (err.errors.passWord) {
+        res.status(400).json({ errorMessage: err.errors.passWord.message }).end();
       } else if (err.name === 'ValidationError') {
-        res.status(400).json({ errorMessage: err }).end();
+        res.status(400).json({ errorMessage: "Please provide a valid username, password, and blog content." }).end();
       } else {
         res.status(500).json({ error: "There was an error while saving the blog to the database" }).end();
       }

@@ -6,7 +6,7 @@ const blogSchema = new mongoose.Schema({
   userName:{
     type: String,
     required: true,
-    validate: [validateuserName, 'That aint a string Bub!'],
+    validate: [validateuserName, "That ain't a string Bub!"],
   },
   passWord: {
     type: String,
@@ -16,7 +16,7 @@ const blogSchema = new mongoose.Schema({
   blogContent:{
     type: String,
     required: true,
-    validate: [validateBlog, 'TPut in some more words Bub!'],
+    validate: [validateBlog, 'Put in some more words Bub!'],
   },
   createdOn:{
     type: Date,
