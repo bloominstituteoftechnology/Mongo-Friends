@@ -6,6 +6,7 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 
 const friendRouter = require('./db/friends/FriendRoutes');
+const postRouter = require('./db/blogposts/PostRoutes');
 
 const server = express();
 
@@ -18,6 +19,7 @@ server.use(bodyParser.json());
 // });
 
 server.use('/api/friends', friendRouter);
+server.use('/api/posts', postRouter);
 
 mongoose
   .connect('mongodb://localhost/FriendKeeper')
