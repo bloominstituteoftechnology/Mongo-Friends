@@ -6,6 +6,10 @@ const mongoose = require('mongoose');
 
 const app = express();
 
+const db = mongoose.connect('mongodb://localhost/friendAPI');
+
+const Friend = require('./friends/friendModel');
+
 app.use(helmet());
 app.use(cors());
 app.use(bodyParser.json());
@@ -13,8 +17,13 @@ app.use(bodyParser.json());
 const friendRouter = express.Router();
 
 friendRouter.get('/friends', (req, res) => {
-  const response = { hello: 'This is my API' };
-  res.json(response);
+  Friend.find({})
+    .then(friend => {
+      res.status(200).json(friend);
+    })
+    .catch(err => {
+      res.status(500).json({ error: 'The information could not be retrieved.' });
+    });
 });
 
 app.use('/api', friendRouter);
