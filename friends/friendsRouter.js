@@ -52,9 +52,21 @@ friendsRouter.get('/:id', (req, res) => {
     })
 });
 
-// friendsRouter.delete('', (req, res) => {
+friendsRouter.delete('/:id', (req, res) => {
+    const { id } = req.params;
 
-// });
+    Friends.findByIdAndRemove(id)
+    
+    .then(friend => {
+        if (!friend) {
+            res.status(404).json({ message: "The friend with the specified ID does not exist." });
+        }
+        res.status(200).json(friend);
+    })
+    .catch(err => {
+        res.status(500).status({ error: "The friend could not be removed" });
+    });
+});
 
 // friendsRouter.put('', (req, res) => {
 
