@@ -16,9 +16,9 @@ friendRouter.post('/', (req, res) => {
   }
   if (
     friendInfo.age < 1 ||
-    friendInfo.age > 120
-    // typeof friendInfo.age !== 'number' || 
-    // friendInfo % 1 !== 0
+    friendInfo.age > 120 ||
+    typeof friendInfo.age !== 'number' ||
+    friendInfo.age % 1 !== 0
   ) {
     return res.status(400).json({ errorMessage: 'Age must be a whole number between 1 and 120' });
   }
