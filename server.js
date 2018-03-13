@@ -70,6 +70,26 @@ server.get('/api/friends/:id', (req, res) => {
     });
 });
 
+server.delete('/api/friends/:id', (req, res) => {
+  const id = req.params.id;
+
+  Friend.findByIdAndRemove(id)
+    .then(removeFriend => {
+      if (removeFriend) {
+        res.status(200).json(removeFriend)
+      } else {
+        console.log(error);
+        res.status(404).json({ message: "The friend with the specified ID does not exist." });
+      }
+    })
+    .catch(error => {
+      console.log(error);
+      res.status(500).json({ error: "The friend could not be removed" });
+    });
+});
+
+
+
 mongoose
   .connect('mongodb://localhost/friends')
   .then(conn => {
