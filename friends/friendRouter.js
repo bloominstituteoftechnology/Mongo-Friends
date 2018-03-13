@@ -73,6 +73,16 @@ friendRouter.delete('/:id', (req, res) => {
 
 // Updates the friend with the specified `id` using data from the `request body`.
 // Returns the modified document, **NOT the original**
-friendRouter.put('/:id', (req, res) => {});
+friendRouter.put('/:id', (req, res) => {
+  const { id } = req.params;
+  const updatedFriend = req.body;
+  Friend.findByIdAndUpdate(id, updatedFriend, {new: true})
+    .then(friend => {
+      res.status(200).json({ message: 'The friend has been upated.', friend })
+    })
+    .catch(error => {
+      res.status(500).json({ errorMessage: 'The friend could not be modified.' });
+    });
+});
 
 module.exports = friendRouter;
