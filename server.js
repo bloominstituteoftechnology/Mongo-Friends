@@ -37,7 +37,6 @@ server.post("/api/friends", (req, res) => {
   console.log("age", age);
   if (age > 1 && age < 120) {
     res.status(201).json(body);
-    console.log(body);
   } else {
     res
       .status(400)
@@ -46,7 +45,7 @@ server.post("/api/friends", (req, res) => {
   friend
     .save()
     .then(savedFriend => {
-      console.log("indside then");
+
       res.status(201).json(savedFriend);
     })
     .catch(err => {
@@ -72,6 +71,45 @@ server.get("/api/friends", (req, res) => {
 server.get("/api/friends/:id", (req, res) => {
   const id = req.params.id;
   Friends.findById(id)
+    .then(friend => {
+      if (friend) {
+        res.status(200).json(friend);
+      } else {
+        res
+          .status(500)
+          .json({ error: "The information could not be retrieved" });
+      }
+    })
+    .catch(friend => {
+      res
+        .status(404)
+        .json({ message: "The friend with the specified ID does not exist" });
+    });
+});
+
+
+server.delete("/api/friends/:id", (req, res) => {
+  const id = req.params.id;
+  Friends.findByIdAndRemove(id)
+    .then(friend => {
+      if (friend) {
+        res.status(200).json(friend);
+      } else {
+        res
+          .status(500)
+          .json({ error: "The friend could not removed" });
+      }
+    })
+    .catch(friend => {
+      res
+        .status(404)
+        .json({ message: "The friend with the specified ID does not exist" });
+    });
+});
+
+server.put("/api/friends/:id", (req, res) => {
+  const id = req.params.id;
+  Friends.findByIdAndUpdate(id)
     .then(friend => {
       if (friend) {
         res.status(200).json(friend);
