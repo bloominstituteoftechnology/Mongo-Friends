@@ -12,8 +12,8 @@ const FriendSchema = new mongoose.Schema({
   age: {
     type: Number,
     required: true,
-    validation: ageValidation,
-    message: 'Age must be a whole number between 1 and 120.'
+    // validation: ageValidation,
+    // message: 'Age must be a whole number between 1 and 120.'
   },
   createdOn: {
     type: Date,
@@ -22,9 +22,13 @@ const FriendSchema = new mongoose.Schema({
   }
 });
 
-function ageValidation(age) {
-  if(isNaN(age) || age < 1 || age > 120) {
-    return false;
-  }
-  return true;
-}
+// function ageValidation(age) {
+//   if(isNaN(age) || age < 1 || age > 120) {
+//     return false;
+//   }
+//   return true;
+// }
+
+const FriendModel = mongoose.model('FakeBook', FriendSchema);
+
+module.exports =  FriendModel;
