@@ -34,15 +34,31 @@ friendsRouter.get('/:id', (req, res) => {
     const { id } = req.params;
 
     Friend.findById(id)
-      .then(friends => {
-          if (friends) {
-              res.status(200).json(friends);
+      .then(friend => {
+          if (friend) {
+              res.status(200).json(friend);
           } else {
               res.status(404).json({ msg: "Not Found" })
           }
       })
       .catch(err => {
           res.status(500).json({ msg: "Error getting the Friend", error: err });
+      });
+});
+
+friendsRouter.delete('/:id', (req, res) => {
+    const { id }= req.params;
+
+    Friend.findByIdAndRemove(id)
+      .then(friend => {
+          if (friend) {
+              res.status(200).json(friend);
+          } else {
+              res.status(404).json({ msg: "Not Found" })
+          }
+      })
+      .catch(err => {
+          res.status(500).json({ msg: "Error deleting the friend", error: err })
       });
 });
 
