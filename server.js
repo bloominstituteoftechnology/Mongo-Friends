@@ -1,10 +1,11 @@
 const express = require("express");
+const mongoose = require('mongoose');
+const bodyParser = require('body-parser');
 const helmet = require("helmet");
 const cors = require("cors");
 
 const friendRouter = require('./Friends/friendRouter.js')
 
-const friendRouter = require('./Friends/friendRouter')
 // const Friend = require("./Friends/models.js");
 const server = express();
 
