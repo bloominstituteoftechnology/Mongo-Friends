@@ -110,7 +110,6 @@ server.delete('/api/friends/:id', (req, res) => {
         res.send({ error: 'The information could not be retrieved.' });
       });
   }
-});
 
 server.put('/api/friends/:id', (req, res) => {
   let { id } = req.params;
