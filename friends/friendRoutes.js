@@ -65,4 +65,29 @@ fakeBookRouter.delete('/:id', function(req, res) {
     });
 });
 
+fakeBookRouter.put('/:id', function(req, res) {
+  const { id } = req.params
+  const updateInfo = req.body;
+  if (!updateInfo.firstName || !updateInfo.lastName || !updateInfo.age) {
+    res.status(400).json({error: 'Please, provide first name, last name, and age for your friend.'});
+  } else
+  if (/*isNaN(updateInfo.age) ||*/ updateInfo.age < 1 || updateInfo.age > 120) {
+    res.status(400).json({error: 'Age must be a whole number between 1 and 120, dawg!'});
+  } else {
+    fakeBook
+      .findByIdAndUpdate(id, updateInfo, {new: true})
+      .then(friend => {
+        if (!friend) {
+          res.status(404).json({ message: 'The Friend with the specified ID does not exist.' });
+        } else {
+          res.status(200).json(friend);
+        }
+      })
+      .catch(err => {
+        res.status(500).json({error: 'The friend could not be modified'});
+      });
+  }
+});
+
+
 module.exports = fakeBookRouter;
