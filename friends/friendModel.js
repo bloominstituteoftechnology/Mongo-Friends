@@ -11,6 +11,8 @@ const FriendSchema = new mongoose.Schema({
     },
     age: {
         type: Number,
+        min: [1, 'Too Young'],
+        max: [120, 'Too Old'],
         required: true
     },
     createdOn: {

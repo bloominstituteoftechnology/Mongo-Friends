@@ -13,8 +13,11 @@ friendsRouter.post('/', (req, res) => {
         res.status(200).json(savedFriend);
     })
     .catch(err => {
-        res.status(500).json({ msg: 'Error creating friend', error: err });
-    });
+        if (err.name === "ValidatorError") {
+          res.status(400).json({ msg: "Age must be a whole number between 1 and 120", error: err })
+        } else {
+        res.status(400).json({ msg: "Please provide firstName, lastName and age for the friend.", error: err });
+    }});
 });
 
 friendsRouter.get('/', (req, res) => {
@@ -23,7 +26,23 @@ friendsRouter.get('/', (req, res) => {
           res.status(200).json(friends);
       })
       .catch(err => {
-          res.status(500).json({ msg: 'Error getting the friends', error: err });
+          res.status(500).json({ msg: "Error getting the friends", error: err });
+      });
+});
+
+friendsRouter.get('/:id', (req, res) => {
+    const { id } = req.params;
+
+    Friend.findById(id)
+      .then(friends => {
+          if (friends) {
+              res.status(200).json(friends);
+          } else {
+              res.status(404).json({ msg: "Not Found" })
+          }
+      })
+      .catch(err => {
+          res.status(500).json({ msg: "Error getting the Friend", error: err });
       });
 });
 
