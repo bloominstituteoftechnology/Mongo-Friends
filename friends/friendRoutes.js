@@ -18,7 +18,7 @@ fakeBookRouter.post('/', function(req, res) {
         })
         .catch(err => {
           res.status(500).json({error: 'There was an error while saving the firend to the database.'})
-        })
+        });
     }
 });
 
@@ -30,7 +30,39 @@ fakeBookRouter.get('/', function(req, res) {
       })
       .catch(err => {
           res.status(500).json({error: 'The information could not be retrieved'})
-      })
-})
+      });
+});
+
+fakeBookRouter.get('/:id', function(req, res) {
+  const { id } = req.params
+  fakeBook
+    .findById(id)
+    .then(friend => {
+      if (!friend) {
+        res.status(404).json({ message: 'The Friend with the specified ID does not exist.' });
+      } else {
+        res.status(200).json(friend);
+      }
+    })
+    .catch(err => {
+      res.status(500).json({error: 'The information could not be retrieved'});
+    });
+});
+
+fakeBookRouter.delete('/:id', function(req, res) {
+  const { id } = req.params
+  fakeBook
+    .findByIdAndRemove(id)
+    .then(friend => {
+      if (!friend) {
+        res.status(404).json({ message: 'The Friend with the specified ID does not exist.' });
+      } else {
+        res.status(200).json(friend);
+      }
+    })
+    .catch(err => {
+      res.status(500).json({error: 'The friend could not be removed'});
+    });
+});
 
 module.exports = fakeBookRouter;
