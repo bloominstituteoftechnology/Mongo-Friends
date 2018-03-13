@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 const helmet = require('helmet');
 
 const friendRouter = require('./friends/friendRouter.js');
+const blogPostRouter = require('./blogposts/blogPostRouter.js');
 
 const STATUS_OK = 200;
 
@@ -16,6 +17,7 @@ server.get('/', (req, res) => {
 });
 
 server.use('/friends', friendRouter);
+server.use('/friends/:id/blogPost', blogPostRouter);
 
 mongoose
   .connect('mongodb://localhost/friends')
