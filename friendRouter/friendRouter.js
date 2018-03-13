@@ -29,7 +29,7 @@ friendRouter.get('/api/friends', function(req, res) {
       res.status(200).json(friend);
     })
     .catch(err => {
-      res.status(500).json({ error: "TChange me." }).end();
+      res.status(500).json({ error: "The information could not be retrieved." }).end();
     });
 });
 
@@ -41,9 +41,9 @@ friendRouter.get('/api/friends/:id', function(req, res) {
     })
     .catch(err => {
       if (err.name === 'CastError') {
-        res.status(404).json({ message: "TChange me." });
+        res.status(404).json({ message: "The friend with the specified ID does not exist." });
       } else {
-        res.status(500).json({ error: "TChange me." }).end();
+        res.status(500).json({ error: "The information could not be retrieved." }).end();
       }
     });
 });
@@ -57,9 +57,13 @@ friendRouter.put('/api/friends/:id', function(req, res) {
     })
     .catch(err => {
       if (err.name === 'CastError') {
-        res.status(404).json({ message: "Change met." });
+        res.status(404).json({ message: "The friend with the specified ID does not exist." });
+      } else if (err.errors.age) {
+        res.status(400).json({ errorMessage: err.errors.age.message }).end();
+      } else if (err.name === 'ValidationError') {
+        res.status(400).json({ errorMessage: "Please provide firstName, lastName and age for the friend." }).end();
       } else {
-        res.status(500).json({ error: "TChange med." }).end();
+        res.status(500).json({ error: "The friend information could not be modified." }).end();
       }
     });
 });
@@ -72,9 +76,9 @@ friendRouter.delete('/api/friends/:id', function(req, res) {
     })
     .catch(err => {
       if (err.name === 'CastError') {
-        res.status(404).json({ message: "Change me." });
+        res.status(404).json({ message: "The friend with the specified ID does not exist." });
       } else {
-        res.status(500).json({ error: "Change me" }).end();
+        res.status(500).json({ error: "The friend could not be removed" }).end();
       }
     });
 });
