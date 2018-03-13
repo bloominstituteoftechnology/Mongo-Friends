@@ -9,15 +9,10 @@ const friendRouter = express.Router();
 
 friendRouter.post('/', (req, res) => {
   const friendInfo = req.body;
-
-  const { firstName, lastName, age } = friendInfo;
-
-  if (!firstName || !lastName || !age) {
+  if (!friendInfo.firstName || !friendInfo.lastName || !friendInfo.age) {
     res.status(400).json({ errorMessage: "Please provide firstName, lastName and age for the friend." });
-  }
-
+  } else {
   const friend = new Friend(friendInfo);
-
   friend
     .save()
     .then(savedFriend => {
@@ -26,6 +21,7 @@ friendRouter.post('/', (req, res) => {
     .catch(err => {
       res.status(500).json({ error: "There was an error while saving the friend to the database" });
     });
+  }
 });
 
 //=========================
@@ -48,7 +44,6 @@ friendRouter.get('/', (req, res) => {
 
 friendRouter.get('/:id', (req, res) => {
   const { id } = req.params;
-
   Friend.findById(id)
     .then(friend => {
       res.status(200).json(friend);
@@ -64,7 +59,6 @@ friendRouter.get('/:id', (req, res) => {
 
 friendRouter.delete('/:id', (req, res) => {
   const { id } = req.params;
-
   Friend.findByIdAndRemove(id)
     .then(friend => {
       if (!friend) {
