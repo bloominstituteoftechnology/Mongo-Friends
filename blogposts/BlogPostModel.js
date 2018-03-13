@@ -1,7 +1,5 @@
 const mongoose = require('mongoose');
 
-
-
 const BlogPostSchema = new mongoose.Schema({
   postTitle: {
     type: String,
@@ -11,18 +9,21 @@ const BlogPostSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  postedBy: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Friend',
+  },
   createdOn: {
     type: Date,
     default: new Date(),
   },
-  comments: [
-    {
-      comment: {
-        type: String,
-        // required: true,
-      },
-    },
-  ],
+  comments: [{
+    comment: String,
+    postedBy: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Friend',
+    }
+  }],
 });
 
 const BlogPostModel = mongoose.model('BlogPost', BlogPostSchema);

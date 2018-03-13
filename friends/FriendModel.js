@@ -21,7 +21,6 @@ const FriendSchema = new mongoose.Schema({
     type: Date,
     default: new Date(),
   },
-  blogPosts: [{ type: mongoose.Schema.Types.ObjectId, ref: 'blogPosts' }],
 });
 
 const FriendModel = mongoose.model('Friend', FriendSchema);

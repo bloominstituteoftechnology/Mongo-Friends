@@ -17,7 +17,25 @@ blogPostRouter.post('/', (req,res) => {
     const blogPost = req.body;
     const newBlogPost = new BlogPost(blogPost);
     newBlogPost
-        .save()
+        .save((err, blogPost) => {
+            if(err) {
+                console.log(err)
+            }
+            else {
+                blogPost.populate(
+                    blogPost,
+                   {
+                    path: 'postedBy'
+                    }, function(err, blogPost) {
+                         if(err) {
+                           console.log(err);
+                         }
+                         else {
+                           console.log(blogPost);   
+                         } 
+                })
+            }
+        })
         .then(blogPost => {
             res.status(200).json({message:"Your new blog post.", blogPost})
         })
