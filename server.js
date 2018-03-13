@@ -3,10 +3,8 @@ const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const helmet = require("helmet");
 const cors = require("cors");
-const Friend = require("./Friends/models.js");
-const friendRouter = require('./Friends/friendRouter')
-server.use('/Friends', friendRouter);
 
+const friendRouter = require('./Friends/friendRouter.js')
 
 const server = express();
 
@@ -18,8 +16,10 @@ server.get("/", (req, res) => {
   res.status(200).json({ status: "API RUNNING" });
 });
 
+server.use('/api/friends', friendRouter);
+
 mongoose
-  .connect("mongodb://localhost/")
+  .connect("mongodb://localhost/Friends")
   .then(conn => {
     console.log("connected to mongo");
   })
