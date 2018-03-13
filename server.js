@@ -15,7 +15,7 @@ server.get('/', (req, res) => {
   res.status(STATUS_OK).json({ api: 'Running' });
 });
 
-server.use('/friends', friendRouter)
+server.use('/friends', friendRouter);
 
 mongoose
   .connect('mongodb://localhost/friends')

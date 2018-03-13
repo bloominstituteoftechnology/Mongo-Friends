@@ -19,7 +19,7 @@ const FriendSchema = new mongoose.Schema({
         type: Date,
         default: new Date(),
     },
-})
+});
 
 const FriendModel = mongoose.model('Friend', FriendSchema);
 
