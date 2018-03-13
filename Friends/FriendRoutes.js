@@ -14,6 +14,10 @@ friendRouter.post('/', function(req, res) {
       res.status(201).json(friend);
     })
     .catch(err => {
+      console.log(err._message);
+      if (err._message === 'Friend validation failed') {
+        res.status(400).json({ errorMessage: 'Age must be a whole number between 1 and 120'});
+      }
       res.status(500).json({ errorMessage: 'There was an error while saving the friend to the database', err});
     });
 });
