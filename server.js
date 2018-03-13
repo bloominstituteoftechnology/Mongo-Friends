@@ -4,6 +4,8 @@ const cors = require('cors');
 const mongoose = require('mongoose');
 
 const friendRouter = require('./friends/friendRoutes.js');
+const blogRouter = require('./blog/blogRoutes.js');
+
 
 const server = express();
 
@@ -14,6 +16,8 @@ server.get('/', (req, res) => {
 });
 
 server.use('/api/friends', friendRouter);
+server.use('/api/blog', blogRouter);
+
 
 mongoose
   .connect('mongodb://localhost/FriendKeeper')
