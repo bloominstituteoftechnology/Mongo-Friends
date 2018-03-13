@@ -21,7 +21,6 @@ friendsRouter.post('/', function(req, res){
 });
 
 // get request
-
 friendsRouter.get('/', function(req, res){
 	Friend.find({})
 	.then(friend => {
