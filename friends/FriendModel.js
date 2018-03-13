@@ -17,7 +17,7 @@ const FriendSchema = new mongoose.Schema({
 });
 
 function ageValidator(age) {
-  return age <= 1 && age <= 120;
+  return age >= 1 && age <= 120;
 }
 
 const FriendModel = mongoose.model("Friend", FriendSchema);

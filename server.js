@@ -3,6 +3,8 @@ const helmet = require("helmet");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 
+const friendsRouter = require("./friends/friendRoutes");
+
 const server = express();
 
 server.use(helmet());
@@ -11,6 +13,8 @@ server.use(bodyParser.json());
 server.get("/", (req, res) => {
   res.status(200).json({ api: "running..." });
 });
+
+server.use("/api/friends", friendsRouter);
 
 mongoose
   .connect("mongodb://localhost/users")
