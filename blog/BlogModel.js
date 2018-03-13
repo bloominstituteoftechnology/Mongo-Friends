@@ -20,8 +20,9 @@ const BlogSchema = new mongoose.Schema({
   },
 });
 
-
-
+function titleLengthValidator(title) {
+  return title.length > 5;
+}
 
 const BlogModel = mongoose.model('Blog', BlogSchema);
 
