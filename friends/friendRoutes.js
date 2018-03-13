@@ -5,7 +5,7 @@ const fakeBookRouter = express.Router();
 fakeBookRouter.post('/', function(req, res) {
   const friendInfo = req.body;
   const newFriend = new fakeBook(friendInfo);
-    if (!newFriend.firstName || !newFriend.lastName || !newFriend.age) {
+    if (!newFriend.firstName || !newFriend.lastName || newFriend.age === null) {
       res.status(400).json({error: 'Please, provide first name, last name, and age for your friend.'});
     } else {
       newFriend
@@ -71,11 +71,11 @@ fakeBookRouter.delete('/:id', function(req, res) {
 fakeBookRouter.put('/:id', function(req, res) {
   const { id } = req.params
   const updateInfo = req.body;
-  if (!updateInfo.firstName || !updateInfo.lastName || !updateInfo.age) {
+  if (!updateInfo.firstName || !updateInfo.lastName || updateInfo.age === null) {
     res.status(400).json({error: 'Please, provide first name, last name, and age for your friend.'});
   } else {
     fakeBook
-      .findByIdAndUpdate(id, updateInfo, {new: true})
+      .findByIdAndUpdate(id, updateInfo, {new: true, runValidators: true})
       .then(friend => {
         if (!friend) {
           res.status(404).json({ message: 'The Friend with the specified ID does not exist.' });
@@ -88,6 +88,7 @@ fakeBookRouter.put('/:id', function(req, res) {
             res.status(400).json({error: err.errors.age.message})
         } else {
         res.status(500).json({error: 'The friend could not be modified'});
+        }
       });
   }
 });
