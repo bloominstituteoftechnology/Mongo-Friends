@@ -15,12 +15,6 @@ const FriendSchema = new Schema({
     validate: ageValidator,
     msg: 'should be an integer between 1 and 120',
     required: true,
-
-  },
-  createdOn: {
-    type: Date,
-    default: Date.now,
-    required: true
   }
 });
 
