@@ -71,7 +71,7 @@ friendsRouter.put('/:id', (req, res) => {
           if (friend) {
               res.status(200).json(friend);
           } else {
-              res.status(404).json({msg: "The friend with the specified ID does not exist." })
+              res.status(404).json({ msg: "The friend with the specified ID does not exist." })
           }
       })
       .catch(err => {
@@ -80,7 +80,7 @@ friendsRouter.put('/:id', (req, res) => {
           } else if (err) {
             res.status(400).json({ msg: "Please provide firstName, lastName and age for the friend.", error: err })
           } else {
-              res.status(500).json({ msg: "The friend information could not be modified.", error: err})
+              res.status(500).json({ msg: "The friend information could not be modified.", error: err })
             }
       });
 });
