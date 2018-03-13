@@ -88,25 +88,28 @@ server.delete('/api/friends/:id', (req, res) => {
   if (!id) {
     res.status(422);
     res.send(`Need a target to obliderate, please provide an 'ID'.`);
+  } else {
+    friends
+      .findByIdAndRemove(id)
+      .then(friend => {
+        if (!friend) {
+          res.status(404);
+          res.send({
+            message: 'The friend with the specified ID does not exist.'
+          });
+        } else {
+          res.status(201);
+          res.send({
+            Success: 'Your friend has been obliterated!',
+            RIPfriend: friend
+          });
+        }
+      })
+      .catch(failed => {
+        res.status(500);
+        res.send({ error: 'The information could not be retrieved.' });
+      });
   }
-
-  friends
-    .findByIdAndRemove(id)
-    .then(friend => {
-      if (!friend) {
-        res.status(404);
-        res.send({
-          message: 'The friend with the specified ID does not exist.'
-        });
-      } else {
-        res.status(201);
-        res.send({ Success: 'Your friend has been obliterated!', RIPfriend });
-      }
-    })
-    .catch(failed => {
-      res.status(500);
-      res.send({ error: 'The information could not be retrieved.' });
-    });
 });
 
 server.put('/api/friends/:id', (req, res) => {
@@ -132,10 +135,10 @@ server.put('/api/friends/:id', (req, res) => {
     res.send({ errorMessage: 'Age must be a whole number between 1 and 120' });
   } else {
     friends
-      .findByIdAndUpdate(id, body)
+      .findByIdAndUpdate(id, body, { new: true })
       .then(updated => {
         res.status(200);
-        res.send(friends.findById(id));
+        res.send(updated);
       })
       .catch(fail => {
         res.status(500);
