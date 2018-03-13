@@ -51,7 +51,7 @@ blogRouter.get('/:id', function(req, res) {
 blogRouter.put('/:id', function(req, res) {
   const blogId = { _id: req.params.id };
   const updateBlog = req.body;
-  Blog.findByIdAndUpdate(blogId, updateBlog, { new: true } )
+  Blog.findByIdAndUpdate(blogId, updateBlog, { new: true, runValidators: true } )
     .then(doc => {
       res.status(200).json(doc)
     })

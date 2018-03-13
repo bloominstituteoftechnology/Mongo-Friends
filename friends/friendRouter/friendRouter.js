@@ -51,7 +51,7 @@ friendRouter.get('/:id', function(req, res) {
 friendRouter.put('/:id', function(req, res) {
   const friendId = { _id: req.params.id };
   const updateFriend = req.body;
-  Friend.findByIdAndUpdate(friendId, updateFriend, { new: true } )
+  Friend.findByIdAndUpdate(friendId, updateFriend, { new: true, runValidators: true } )
     .then(doc => {
       res.status(200).json(doc)
     })
