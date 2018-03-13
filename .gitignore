@@ -88,3 +88,15 @@ Icon
 Network Trash Folder
 Temporary Items
 .apdisk
+
+### Vim ###
+# swap
+.sw[a-p]
+.*.sw[a-p]
+# session
+Session.vim
+# temporary
+.netrwhist
+*~
+# auto-generated tag files
+tags
