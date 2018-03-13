@@ -38,6 +38,56 @@ friendsRouter.post("/", (req, res) => {
   }
 });
 
-friendsRouter.get("/", (req, res) => {});
+friendsRouter.get("/", (req, res) => {
+  Friend.find({})
+    .then(friends => {
+      res.status(200).json(friends);
+    })
+    .catch(err => {
+      res.status(500).json({
+        error: "The information could not be retrieved.",
+      });
+    });
+});
+
+friendsRouter.get("/:id", (req, res) => {
+  const { id } = req.params;
+
+  Friend.findById(id)
+    .then(friend => {
+      if (friend) {
+        res.status(200).json(friend);
+      } else {
+        res.status(404).json({
+          message: "The friend with the specified ID does not exist.",
+        });
+      }
+    })
+    .catch(err => {
+      res.status(500).json({
+        error: "The information could not be retrieved.",
+      });
+    });
+});
+
+friendsRouter.delete("/:id", (req, res) => {
+  const { id } = req.params;
+
+  Friend.findByIdAndRemove(id)
+    .then(friend => {
+      if (friend) {
+        res.status(200).json(friend);
+      } else {
+        res.status(404).json({
+          message: "The friend with the specified ID does not exist.",
+        });
+      }
+    })
+    .catch(err => {
+      res.status(500).json({
+        error: "The friend could not be removed.",
+      });
+    });
+});
 
 module.exports = friendsRouter;
