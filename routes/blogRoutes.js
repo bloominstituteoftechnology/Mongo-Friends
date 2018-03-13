@@ -14,8 +14,19 @@ blogRouter.get("/", (req, res) => {
     })
 });
 
+blogRouter.get("/:keyword", (req, res) => {
+    const { keyword } = req.params;
+    Blog.find({ "keywords": keyword })
+        .then(blogPost => {
+            res.status(200).json(blogPost);
+        })
+        .catch(err => {
+            res.status(500).json({ error: "Cannot retreive the information." });
+        })
+});
+
 blogRouter.post("/", (req, res) => {
-  const { userName, header, createdOn, postContent } = req.body;
+  const { userName, header, createdOn, postContent, keywords } = req.body;
 
   if (!userName) {
     res.status(400).json({
@@ -24,7 +35,7 @@ blogRouter.post("/", (req, res) => {
       return;
   }
 
-  const blog = new BlogPost ({ userName, header, createdOn, postContent });
+  const blog = new Blog ({ userName, header, createdOn, postContent, keywords });
 
   blog
   .save()

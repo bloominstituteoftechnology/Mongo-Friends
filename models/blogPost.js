@@ -20,9 +20,13 @@ const BlogSchema = new mongoose.Schema({
         required: true,
         default: "Write Body Content Here"
     },
-    
-    });
+    keywords: {
+        type: Array,
+        required: true,
+        default: ["Blog", "Post"]
+    }
+});
 
-    const BlogModel = mongoose.model("blogPost", BlogSchema)
+const BlogModel = mongoose.model("blogPost", BlogSchema)
 
 module.exports = BlogModel;
