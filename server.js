@@ -4,7 +4,7 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const server = express();
-// const bearRouter = require('./bears/BearRoutes');
+const friendRouter = require('./friends/FriendRoutes.js');
 
 server.use(helmet()); 
 server.use(cors());  
@@ -13,6 +13,8 @@ server.use(bodyParser.json());
 server.get('/', function(req, res) {
   res.status(200).json({ status: 'API Running' });
 });
+
+server.use('/api/friends', friendRouter);
 
 mongoose
   .connect('mongodb://localhost/friends')
