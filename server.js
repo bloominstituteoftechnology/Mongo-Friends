@@ -1,21 +1,25 @@
 const express = require('express');
 const helmet = require('helmet');
 const bodyParser = require('body-parser');
+const cors = require('cors');
 const mongoose = require('mongoose');
 
-const productRouter = require('./products/productRoutes');
+const friendRouter = require('./controllers/apiRoutes');
 
 const server = express();
 
 server.use(helmet());
+server.use(cors());
 server.use(bodyParser.json());
 
-server.get('/', function(req, res) {
+server.use('/api', friendRouter);
+
+server.get('/api', function(req, res) {
   res.status(200).json({ api: 'running...' });
 });
 
 mongoose
-  .connect('mongodb://localhost/store')
+  .connect('mongodb://localhost/friends')
   .then(conn => {
     console.log('connected to mongo');
   })
