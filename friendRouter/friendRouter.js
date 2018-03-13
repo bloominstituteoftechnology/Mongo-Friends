@@ -13,10 +13,12 @@ friendRouter.post('/api/friends', function(req, res) {
       res.status(201).json(inputFriend);
     })
     .catch(err => {
-      if (err.name === 'ValidationError') {
-        res.status(400).json({ errorMessage: "Change me" }).end();
+      if (err.errors.age) {
+        res.status(400).json({ errorMessage: err.errors.age.message }).end();
+      } else if (err.name === 'ValidationError') {
+        res.status(400).json({ errorMessage: "Please provide firstName, lastName and age for the friend." }).end();
       } else {
-        res.status(500).json({ error: "Change me" }).end();
+        res.status(500).json({ error: "There was an error while saving the friend to the database" }).end();
       }
     });
 });
