@@ -10,7 +10,7 @@ const FriendSchema = new mongoose.Schema({
         required: true,
     },
     age: {
-        type: Integer,
+        type: Number,
         min: 1,
         max: 120,
         required: true,
@@ -21,6 +21,6 @@ const FriendSchema = new mongoose.Schema({
     },
 })
 
-const FriendModel = mongoose.Model('Friend', FriendSchema);
+const FriendModel = mongoose.model('Friend', FriendSchema);
 
 module.exports = FriendModel;

@@ -15,8 +15,10 @@ server.get('/', (req, res) => {
   res.status(STATUS_OK).json({ api: 'Running' });
 });
 
+server.use('/friends', friendRouter)
+
 mongoose
-  .connect('mongodb://localhost/Frinds')
+  .connect('mongodb://localhost/friends')
   .then(connection => console.log('Connected to MongoDB'))
   .catch(error => console.log('Error Connecting to MongoDB'));
 
