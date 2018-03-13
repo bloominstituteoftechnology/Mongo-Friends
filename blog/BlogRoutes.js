@@ -39,5 +39,20 @@ blogRouter.get('/', (req, res) => {
     });
 });
 
+//=========================
+//      friend GET
+//=========================
+
+blogRouter.get('/:id', (req, res) => {
+  const { id } = req.params;
+  Blog.findById(id)
+    .then(post => {
+      res.status(200).json(post);
+    })
+    .catch(err => {
+      res.status(404).json({ message: "The post with the specified ID does not exist." });
+    });
+});
+
 
 module.exports = blogRouter;
