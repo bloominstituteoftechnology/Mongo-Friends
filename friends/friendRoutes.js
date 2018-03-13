@@ -7,9 +7,6 @@ fakeBookRouter.post('/', function(req, res) {
   const newFriend = new fakeBook(friendInfo);
     if (!newFriend.firstName || !newFriend.lastName || !newFriend.age) {
       res.status(400).json({error: 'Please, provide first name, last name, and age for your friend.'});
-    } else
-    if (/*isNaN(newFriend.age) ||*/ newFriend.age < 1 || newFriend.age > 120) {
-      res.status(400).json({error: 'Age must be a whole number between 1 and 120, dawg!'})
     } else {
       newFriend
         .save()
@@ -17,8 +14,14 @@ fakeBookRouter.post('/', function(req, res) {
           res.status(201).json(savedFriend);
         })
         .catch(err => {
-          res.status(500).json({error: 'There was an error while saving the firend to the database.'})
-        });
+            // console.log(err.errors.age.message);
+            // console.log(err.errors.name);
+          if (err.errors.age.message) {
+              res.status(400).json({error: err.errors.age.message})
+          } else {
+          res.status(500).json({error: 'There was an error while saving the friend to the database.'})
+        }
+      });
     }
 });
 
@@ -70,9 +73,6 @@ fakeBookRouter.put('/:id', function(req, res) {
   const updateInfo = req.body;
   if (!updateInfo.firstName || !updateInfo.lastName || !updateInfo.age) {
     res.status(400).json({error: 'Please, provide first name, last name, and age for your friend.'});
-  } else
-  if (/*isNaN(updateInfo.age) ||*/ updateInfo.age < 1 || updateInfo.age > 120) {
-    res.status(400).json({error: 'Age must be a whole number between 1 and 120, dawg!'});
   } else {
     fakeBook
       .findByIdAndUpdate(id, updateInfo, {new: true})
@@ -84,6 +84,9 @@ fakeBookRouter.put('/:id', function(req, res) {
         }
       })
       .catch(err => {
+        if (err.errors.age.message) {
+            res.status(400).json({error: err.errors.age.message})
+        } else {
         res.status(500).json({error: 'The friend could not be modified'});
       });
   }
