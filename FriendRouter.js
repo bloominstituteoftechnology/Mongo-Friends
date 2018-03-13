@@ -64,7 +64,7 @@ FriendRouter.get("/:id", (request, response) => {
 
 FriendRouter.put("/:id", (request, response) => {
   const { id } = request.params;
-  let idIsValid = true
+  let idIsValid = true;
   const friendInfo = request.body;
   if (!friendInfo.firstName || !friendInfo.lastName || !friendInfo.age) {
     response.status(400).send({
@@ -79,8 +79,33 @@ FriendRouter.put("/:id", (request, response) => {
   } else {
     Friend.findByIdAndUpdate(id, friendInfo)
       .then(updatedFriend => response.status(200).send(updatedFriend))
-      .catch(err => response.status(404).send({ errorMessage: "Error 404! No friend with that ID could be found!" }))
+      .catch(err =>
+        response
+          .status(404)
+          .send({
+            errorMessage: "Error 404! No friend with that ID could be found!"
+          })
+      );
   }
+});
+
+FriendRouter.delete("/:id", (request, response) => {
+  const { id } = request.params;
+  Friend.findByIdAndRemove(id)
+    .then(removedFriend => {
+      if (!removedFriend) {
+        response
+          .status(404)
+          .send({
+            errorMessage: "Error 404! No friend with that ID could be found!"
+          });
+      } else {
+        response.status(200).send(removedFriend);
+      }
+    })
+    .catch(err => {
+      response.status(500).send({ error: "The friend could not be removed" });
+    });
 });
 
 module.exports = FriendRouter;
