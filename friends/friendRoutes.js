@@ -33,6 +33,23 @@ const routes = (Friend) => {
         res.status(500).json({ error: 'The information could not be retrieved.'});
       });
   });
+
+  friendRouter.put('/friends/:id', (req, res) => {
+    const { id } = req.params;
+    const friendData = req.body
+    Friend.findByIdAndUpdate(id, friendData)
+      .then(friend => {
+        if (friend) {
+          res.status(200).json(friend);
+        } else {
+          res.status(404).json({ message: 'The friend with the specified ID does not exist.' });
+        }
+      })
+      .catch(err => {
+        res.status(500).json({ error: 'The friend information could not be modified.' });
+      });
+  });
+
   return friendRouter;
 }
 
