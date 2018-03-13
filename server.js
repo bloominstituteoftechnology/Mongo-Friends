@@ -18,11 +18,21 @@ const friendRouter = express.Router();
 
 friendRouter.get('/friends', (req, res) => {
   Friend.find({})
+    .then(friends => {
+      res.status(200).json(friends);
+    })
+    .catch(err => {
+      res.status(500).json({ error: 'The information could not be retrieved.' });
+    });
+});
+
+friendRouter.get('/friends/:id', (req, res) => {
+  Friend.findById(req.params.id)
     .then(friend => {
       res.status(200).json(friend);
     })
     .catch(err => {
-      res.status(500).json({ error: 'The information could not be retrieved.' });
+      res.status(500).json({ error: 'The information could not be retrieved.'});
     });
 });
 
