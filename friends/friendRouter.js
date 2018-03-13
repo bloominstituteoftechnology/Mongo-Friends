@@ -8,7 +8,6 @@ const friendRouter = express.Router();
 // Presumably returns newly created Friend.
 friendRouter.post('/', (req, res) => {
   const friendInfo = req.body;
-  console.log(typeof friendInfo.age)
   if (!friendInfo.firstName || !friendInfo.lastName || !friendInfo.age) {
     return res
       .status(400)
@@ -27,7 +26,7 @@ friendRouter.post('/', (req, res) => {
   friend
     .save()
     .then(savedFriend => {
-      res.status(201).json({ message: 'Friend successfully sreated.', friend: savedFriend });
+      res.status(201).json({ message: 'Friend successfully created.', friend: savedFriend });
     })
     .catch(error => {
       res
