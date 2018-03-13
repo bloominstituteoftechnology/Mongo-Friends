@@ -38,7 +38,18 @@ friendsRouter.get('/', (req, res) => {
 });
 
 friendsRouter.get('/:id', (req, res) => {
+    const { id } = req.params;
 
+    Friends.findById(id)
+    .then(newFriend => {
+        if (!newFriend) {
+            res.status(404).json({ message: "The friend with the specified ID does not exist." });
+        }
+        res.status(200).json(newFriend);
+    })
+    .catch(err => {
+        res.status(500).json({ error: "The information could not be retrieved." });
+    })
 });
 
 // friendsRouter.delete('', (req, res) => {
