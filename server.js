@@ -1,17 +1,17 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
+const friendsRouter = require('./friends/friendsRouter');
 
-
+const server = express();
 server.use(bodyParser.json());
 
 server.get('/', (req, res) => {
     res.status(200).json({ status: 'API Running' });
 });
 
-//router not defined yet 
-
 server.use('/api/friends', friendsRouter);
+
 mongoose
     .connect(`mongodb://localhost/api`)
     .then(conn => {
