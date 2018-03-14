@@ -94,16 +94,16 @@ friendRouter.delete('/:id', (req, res) => {
 
 friendRouter.put('/:id', (req, res) => {
   const { id } = req.params;
-  
-  const { age } = req.body;
-  if (Number.isInteger(age) || age < 1 || age > 120) {
-    res
-      .status(STATUS_USER_ERROR)
-      .send('Age must be a whole number between 1 & 120.');
-    return;
-  }
 
-  Friend.findByIdAndUpdate(id, req.body, { new: true })
+  // const { age } = req.body;
+  // if (Number.isInteger(age) || age < 1 || age > 120) {
+  //   res
+  //     .status(STATUS_USER_ERROR)
+  //     .send('Age must be a whole number between 1 & 120.');
+  //   return;
+  // }
+
+  Friend.findByIdAndUpdate(id, req.body, { new: true, runValidators: true })
     .then(updatedFriend => {
       res.status(STATUS_SUCCESS).json(updatedFriend);
     })
@@ -111,6 +111,11 @@ friendRouter.put('/:id', (req, res) => {
       if (err.name === 'CastError') {
         res.status(STATUS_NOT_FOUND);
         res.send({ error: 'The friend could not be removed' });
+      } else if (err.name === 'ValidationError') {
+        res.status(STATUS_BAD_REQUEST);
+        res.send({
+          errorMessage: 'Age must be a whole number between 1 and 120',
+        });
       } else {
         res.status(STATUS_USER_ERROR);
         res.send({
