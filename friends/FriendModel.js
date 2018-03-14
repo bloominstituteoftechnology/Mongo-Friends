@@ -19,4 +19,6 @@ const FriendSchema = new mongoose.Schema({
   } // Date, required, defaults to current date
 })
 
+const FriendModel = mongoose.model('Friend', FriendSchema);
+
 module.exports = FriendModel;
