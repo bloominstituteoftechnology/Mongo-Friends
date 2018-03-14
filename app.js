@@ -1,9 +1,10 @@
 /* eslint-disable */
 
-//module imports
+//module/Schema imports
 const mongoose = require("mongoose");
 const express = require("express");
 const bodyParser = require("body-parser");
+const FriendSchema = require("./models/Friend");
 
 //initializing express
 const app = express();
@@ -11,6 +12,7 @@ const app = express();
 //setting middleware
 app.use(bodyParser.json());
 mongoose.Promise = global.Promise;
+let time = new Date();
 
 //initialzing mongoose
 mongoose.connect("mongodb://localhost:27017/FriendsDB");
