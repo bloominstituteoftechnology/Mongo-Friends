@@ -16,10 +16,12 @@ server.get('/', (req, res) => {
 server.use('/api/friends', friendRouter);
 
 mongoose
-    .connect('mongodb://localhost/FriendKeeper')
+    .connect('mongodb://germancin:secure123@mycluster-ggg-shard-00-00-evrtk.mongodb.net:27017,mycluster-ggg-shard-00-01-evrtk.mongodb.net:27017,mycluster-ggg-shard-00-02-evrtk.mongodb.net:27017/test?ssl=true&replicaSet=mycluster-ggg-shard-0&authSource=admin')
     .then(conn => console.log('connected to mongo'))
-    .catch(err => console.log('error connecting to mongo ' + err));
+    .catch(err => console.log('error :::: ' + err));
 
 const port = process.env.PORT || 5000;
 
 server.listen(port, () => console.log(`API running on Port: ${port}.`));
+
+
