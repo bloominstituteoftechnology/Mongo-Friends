@@ -15,7 +15,7 @@ blogPostsRouter.get('/', (req, res) => {
 blogPostsRouter.post('/', (req, res) => {
   const newPost = req.body;
   const blogPost = new BlogPost(newPost);
-  
+
   blogPost.save().then(savedPost => {
     res.status(201).json(savedPost);
   })
@@ -25,6 +25,6 @@ blogPostsRouter.post('/', (req, res) => {
         err: err
       })
     })
-  
+
 })
 module.exports = blogPostsRouter;
