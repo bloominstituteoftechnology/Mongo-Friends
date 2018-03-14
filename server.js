@@ -81,6 +81,28 @@ server.get('/friends/:id', (req, res) => {
       }
     })
 })
+// delete by ID
+server.delete('/friends/:id', (req, res) => {
+  const id = req.params.id;
+  Friend.findByIdAndRemove(id)
+    .then(friend => {
+      if (friend) { // if the friend exists
+        res
+          .status(200)
+          .json(friend);
+      } else {
+        res
+          .status(404)
+          .json({message: 'could not find the friend'})
+      }
+    })
+    .catch(error => {
+      res
+        .status(500)
+        .json({error: 'could not get friend'})
+    })
+})
+
 
 mongoose
   .connect('mongodb://localhost/FriendsList')
