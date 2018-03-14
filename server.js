@@ -15,7 +15,7 @@ server.get('/', (req, res) => {
     .json({status: 'API Running'});
 });
 
-server.post('/friends', (req, res) => {
+server.post('/api/friends', (req, res) => {
   const info = req.body;
   const { firstName, lastName, age } = info;
 
@@ -41,7 +41,7 @@ server.post('/friends', (req, res) => {
   }
 })
 // get all friends
-server.get('/friends', (req, res) => {
+server.get('/api/friends', (req, res) => {
   Friend.find() // grab all the entries of Friend
     .then(friends => {
       res
@@ -55,7 +55,7 @@ server.get('/friends', (req, res) => {
     });
 });
 // get friend based on id
-server.get('/friends/:id', (req, res) => {
+server.get('/api/friends/:id', (req, res) => {
   const id = req.params.id;
   Friend.findById(id)
     .then(friend => {
@@ -82,7 +82,7 @@ server.get('/friends/:id', (req, res) => {
     })
 })
 // delete by ID
-server.delete('/friends/:id', (req, res) => {
+server.delete('/api/friends/:id', (req, res) => {
   const id = req.params.id;
   Friend.findByIdAndRemove(id)
     .then(friend => {
@@ -102,7 +102,35 @@ server.delete('/friends/:id', (req, res) => {
         .json({error: 'could not get friend'})
     })
 })
+// update PUT
+server.put('/api/friends/:id', (req, res) => {
+  const id = req.params.id;
+  const { firstName, lastName, age } = req.body;
 
+  if ( firstName && lastName && age ) {
+    Friend.findByIdAndUpdate(id, req.body)
+      .then(savedFriend => {
+        if (savedFriend) {
+          res
+            .status(201)
+            .json(savedFriend)
+        } else {
+          res
+            .status(404)
+            .json({error: `friend with id ${id} doesnt exist`})
+        }
+      })
+      .catch(error => {
+        res
+          .status(500)
+          .json({ error: 'Could not save to db'});
+      })
+  } else {
+    res
+      .status(500)
+      .json({ error: 'USERERROR: Must enter first name, last name, and age'});
+  }
+})
 
 mongoose
   .connect('mongodb://localhost/FriendsList')
