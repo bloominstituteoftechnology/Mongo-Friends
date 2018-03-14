@@ -40,7 +40,7 @@ server.post('/friends', (req, res) => {
       .json({ error: 'USERERROR: Must enter first name, last name, and age'});
   }
 })
-
+// get all friends
 server.get('/friends', (req, res) => {
   Friend.find() // grab all the entries of Friend
     .then(friends => {
@@ -54,6 +54,33 @@ server.get('/friends', (req, res) => {
         .json({error: 'Could not get friends'})
     });
 });
+// get friend based on id
+server.get('/friends/:id', (req, res) => {
+  const id = req.params.id;
+  Friend.findById(id)
+    .then(friend => {
+      if (friend) { // if the friend exists
+        res
+          .status(200) // good status
+          .json(friend);
+      } else {
+        res
+          .status(404) // doesn't exist
+          .json({error: 'this id does not exist'});
+      }
+    })
+    .catch(error => {
+      if (error.name === 'CastError') {
+        res
+          .status(400)
+          .json({message: `Invalid ID ${error.value}`});
+      } else {
+        res
+          .status(500)
+          .json({error: 'could not get the friend info'})
+      }
+    })
+})
 
 mongoose
   .connect('mongodb://localhost/FriendsList')
