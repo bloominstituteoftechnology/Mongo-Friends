@@ -5,6 +5,7 @@ const cors = require('cors');
 const mongoose = require('mongoose');
 
 const friendRouter = require('./src/controllers/friendRouter');
+const blogRouter = require('./src/controllers/blogRouter');
 
 const server = express();
 
@@ -13,6 +14,7 @@ server.use(cors());
 server.use(bodyParser.json());
 
 server.use('/api', friendRouter);
+server.use('/api/friends', blogRouter);
 
 server.get('/api', function(req, res) {
   res.status(200).json({ api: 'running...' });
