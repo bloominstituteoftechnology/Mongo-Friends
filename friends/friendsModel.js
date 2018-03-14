@@ -12,6 +12,10 @@ const FriendSchema = new mongoose.Schema({
   age: {
     type: Number,
     required: true,
+  },
+  createdOn: {
+    type: Date,
+    default: new Date,
   }
 })
 
