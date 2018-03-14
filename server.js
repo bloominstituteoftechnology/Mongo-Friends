@@ -20,7 +20,7 @@ server.post('/api/friends', (req, res) => {
   const { firstName, lastName, age } = info;
 
   const friend = new Friend(info);
-  if ( firstName && lastName && age ) {
+  if ( (firstName && lastName) && (typeof age === 'number' && age < 120 || age > 1) ) {
     friend
       .save()
       .then(savedFriend => {
@@ -108,7 +108,7 @@ server.put('/api/friends/:id', (req, res) => {
   const { firstName, lastName, age } = req.body;
 
   if ( firstName && lastName && age ) {
-    Friend.findByIdAndUpdate(id, req.body)
+    Friend.findByIdAndUpdate(id, req.body, { new: true })
       .then(savedFriend => {
         if (savedFriend) {
           res
