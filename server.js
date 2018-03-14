@@ -10,6 +10,7 @@ const blogRouter = require('./blog/BlogRoutes.js');
 server.use(helmet()); 
 server.use(cors());  
 server.use(bodyParser.json());
+//server.use(express.json());
 
 server.get('/', function(req, res) {
   res.status(200).json({ status: 'API Running' });

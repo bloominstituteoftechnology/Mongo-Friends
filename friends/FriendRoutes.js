@@ -87,7 +87,7 @@ friendRouter.put('/:id', (req, res) => {
     res.status(400).json({ errorMessage: 'Please provide firstName, lastName and age for the friend.' });
   }
   else {
-    Friend.findByIdAndUpdate(id, friendInfo, { new: true })
+    Friend.findByIdAndUpdate(id, friendInfo, { new: true, runValidators: true })
       .then(friend => {
         if (!friend)
           res.status(404).send({ message: 'The friend with the specified ID does not exist.' });
