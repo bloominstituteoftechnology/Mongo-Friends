@@ -14,7 +14,12 @@ fakeBookPostsRouter.post('/', function(req, res) {
           res.status(201).json(savedPost);
         })
         .catch(err => {
-          res.status(500).json({error: 'There was an error while saving your post.'})
+          const message = err.errors.content.properties.message;
+          if (message) {
+            res.status(400).json({error: message});
+          } else {
+            res.status(500).json({error: 'There was an error while saving your post.'})
+          }
         });
     }
 });
@@ -69,7 +74,7 @@ fakeBookPostsRouter.put('/:id', function(req, res) {
     res.status(400).json({error: 'Please, provide a title, author, and content for your post.'});
   } else {
     fakeBookPosts
-      .findByIdAndUpdate(id, updateInfo, {new: true})
+      .findByIdAndUpdate(id, updateInfo, {new: true, runValidators: true})
       .then(post => {
         if (!post) {
           res.status(404).json({ message: 'The post you tried to modify does not exist.' });
@@ -78,7 +83,12 @@ fakeBookPostsRouter.put('/:id', function(req, res) {
         }
       })
       .catch(err => {
-        res.status(500).json({error: 'The post could not be modified'});
+        const message = err.errors.content.properties.message;
+        if (message) {
+          res.status(400).json({error: message});
+        } else {
+          res.status(500).json({error: 'The post could not be modified'});
+        }
       });
   }
 });

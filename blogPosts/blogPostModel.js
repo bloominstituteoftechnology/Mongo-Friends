@@ -12,6 +12,10 @@ const BlogPostSchema = new mongoose.Schema({
   content: {
     type: String,
     required: true,
+    validate: {
+      validator: contentValidator,
+      message: "One's conent must always refer to oneself."
+    }
   },
   createdOn: {
     type: Date,
@@ -19,6 +23,10 @@ const BlogPostSchema = new mongoose.Schema({
     default: Date.now
   }
 });
+
+function contentValidator(content) {
+  return content.includes('I ');
+}
 
 const BlogPostModel = mongoose.model('FakeBookPosts', BlogPostSchema);
 
