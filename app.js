@@ -23,6 +23,18 @@ app.get("/api/friends", (req, res) => {
     })
 })
 
+//get handler for specific documents
+app.get("/api/friends/:id", (req, res) => {
+    const id = req.params.id;
+
+    FriendSchema.findById(id)
+    .then(response => res.json(response))
+    .catch(err => {
+        res.status(404);
+        res.json({message: "The friend with the specified ID does not exist"})
+    })
+})
+
 //post handler
 app.post("/api/friends", (req, res) => {
     const newfName = req.body.firstName;
