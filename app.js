@@ -104,30 +104,30 @@ app.put("/api/friends/:id", (req, res) => {
     const newfName = req.body.firstName;
     const newlName = req.body.lastName;
     const newAge = req.body.age;
-    FriendSchema.findByIdAndUpdate(id, {
+
+    if (!newfName || !newlName || !newAge) {
+        res.status(400);
+        return res.json({error: "Please provide firstName, lastName and age for the friend."});
+    } else if (newAge < 1 || newAge > 120){
+        res.status(400);
+        return res.json({ errorMessage: "Age must be a whole number between 1 and 120." });
+    } else {
+        FriendSchema.findByIdAndUpdate(id, {
         $set: req.body,
     })
     .then(response => {
-        console.log(response);
         if (!response){
             res.status(404);
             return res.json({message: "The friend with the specified ID does not exist"});
-        } else if (!newfName || !newlName || !newAge) {
-            res.status(400);
-            return res.json({error: "Please provide firstName, lastName and age for the friend."});
-        } else if (typeof newAge !== Number || newAge < 1 || newAge > 120){
-            res.status(400);
-            return res.json({ errorMessage: "Age must be a whole number between 1 and 120." });
         } else {
             res.status(200);
             return res.json(req.body);
         }
     })
     .catch(err => {
-        console.log(err);
         res.status(500);
         res.json({error: "The friend information could not be modified."})
-    })
+    })}
 })
 
 //starting the server
