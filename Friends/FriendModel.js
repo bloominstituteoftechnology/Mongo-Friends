@@ -16,6 +16,6 @@ const FriendSchema = new mongoose.Schema({
   createdOn: { type: String, default: new Date(), required: true } // Date, required, defaults to current date
 });
 
-const FriendModel = mongoose.model('friends', FriendSchema);
+const FriendModel = mongoose.model('Friend', FriendSchema);
 
 module.exports = FriendModel;

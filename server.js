@@ -2,6 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const friends = require('./Friends/FriendModel');
+const blogPosts = require('./BlogPosts/BlogPostModel');
 const server = express();
 
 server.use(bodyParser.json());
@@ -11,7 +12,7 @@ server.post('/api/friends', (req, res) => {
   const friend = new friends(body);
   if (!body) {
     res.status(422);
-    res.send(`No body :'( was given`);
+    res.send({ message: `No body :'( was given` });
   }
   if (
     !body.hasOwnProperty('firstName') ||
@@ -87,7 +88,9 @@ server.delete('/api/friends/:id', (req, res) => {
 
   if (!id) {
     res.status(422);
-    res.send(`Need a target to obliderate, please provide an 'ID'.`);
+    res.send({
+      message: `Need a target to obliderate, please provide an 'ID'.`
+    });
   } else {
     friends
       .findByIdAndRemove(id)
@@ -110,6 +113,7 @@ server.delete('/api/friends/:id', (req, res) => {
         res.send({ error: 'The information could not be retrieved.' });
       });
   }
+});
 
 server.put('/api/friends/:id', (req, res) => {
   let { id } = req.params;
@@ -144,6 +148,83 @@ server.put('/api/friends/:id', (req, res) => {
         res.send({ error: 'The friend information could not be modified.' });
       });
   }
+});
+
+server.post('/api/blogs/', (req, res) => {
+  const { body } = req;
+  const newPost = new blogPosts(body);
+
+  if (
+    !body.hasOwnProperty('title') ||
+    !body.hasOwnProperty('content') ||
+    !body.hasOwnProperty('author')
+  ) {
+    res.status(400);
+    res.send({
+      errorMessage: 'Please provide title and content.'
+    });
+  } else {
+    newPost
+      .save()
+      .then(newPost => {
+        res.status(201);
+        res.send({
+          Success: 'New post was added successfuly',
+          newPost
+        });
+      })
+      .catch(failed => {
+        res.status(500);
+        res.send({
+          error: 'There was an error while saving the post to the database'
+        });
+      });
+  }
+});
+
+server.get('/api/blogs', (req, res) => {
+  blogPosts
+    .find({})
+    .populate('author')
+    .then(blogPosts => {
+      res.status(201);
+      res.send(blogPosts);
+    })
+    .catch(failed => {
+      res.status(500);
+      res.send({ error: 'The information could not be retrieved.' });
+    });
+});
+
+server.get('/api/blogs/:id', (req, res) => {
+  let { id } = req.params;
+
+  if (!id) {
+    res.status(422);
+    res.send(`No 'ID' No Entry.  >:(`);
+  }
+
+  blogPosts
+    .findById(id)
+    .populate('author')
+    .then(blogPost => {
+      if (!blogPost) {
+        res.status(404);
+        res.send({
+          message: 'The blog with the specified ID does not exist.'
+        });
+      } else {
+        res.status(201);
+        res.send({
+          Success: 'Found your Blog Post!',
+          blogPost
+        });
+      }
+    })
+    .catch(failed => {
+      res.status(500);
+      res.send({ error: 'The information could not be retrieved.' });
+    });
 });
 
 const PORT = 2049;
