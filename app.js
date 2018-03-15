@@ -35,10 +35,17 @@ app.get("/api/friends/:id", (req, res) => {
     const id = req.params.id;
 
     FriendSchema.findById(id)
-    .then(response => res.json(response))
+    .then(response => {
+        if (!response){
+            res.status(500);
+            return res.json({message: "The friend with the specified ID does not exist"});
+        } else {
+            res.json(response);
+        }   
+    })
     .catch(err => {
         res.status(404);
-        res.json({message: "The friend with the specified ID does not exist"})
+        res.json({error: "The information could not be retreived."})
     })
 })
 
@@ -73,9 +80,9 @@ app.post("/api/friends", (req, res) => {
     }
 })
 
+//delete request handler
 app.delete("/api/friends/:id", (req, res) => {
     const id = req.params.id;
-
     FriendSchema.findByIdAndRemove(id)
     .then(response => {
         if (!response){
@@ -91,8 +98,37 @@ app.delete("/api/friends/:id", (req, res) => {
     })
 })
 
+//put request handler
+app.put("/api/friends/:id", (req, res) => {
+    const id = req.params.id;
+    const newfName = req.body.firstName;
+    const newlName = req.body.lastName;
+    const newAge = req.body.age;
+    FriendSchema.findByIdAndUpdate(id, {
+        $set: req.body,
+    })
+    .then(response => {
+        console.log(response);
+        if (!response){
+            res.status(404);
+            return res.json({message: "The friend with the specified ID does not exist"});
+        } else if (!newfName || !newlName || !newAge) {
+            res.status(400);
+            return res.json({error: "Please provide firstName, lastName and age for the friend."});
+        } else if (typeof newAge !== Number || newAge < 1 || newAge > 120){
+            res.status(400);
+            return res.json({ errorMessage: "Age must be a whole number between 1 and 120." });
+        } else {
+            res.status(200);
+            return res.json(req.body);
+        }
+    })
+    .catch(err => {
+        console.log(err);
+        res.status(500);
+        res.json({error: "The friend information could not be modified."})
+    })
+})
+
 //starting the server
 app.listen(3000, () => console.log(`The Express server is listening at port 3000`));
-
-
-//tried checking if find returned a boolean, tried using !find, tried adding a conditional inside of .then
