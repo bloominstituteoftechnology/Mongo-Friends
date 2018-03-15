@@ -13,6 +13,12 @@ const app = express();
 app.use(bodyParser.json());
 mongoose.Promise = global.Promise;
 
+//initialzing mongoose
+mongoose.connect("mongodb://localhost:27017/FriendsDB");
+mongoose.connection
+.once("open", () => console.log("The database is open"))
+.on("error", (err) => console.log(`There was an error starting the database: ${err}`));
+
 //get handler for all documents
 app.get("/api/friends", (req, res) => {
     FriendSchema.find({})
@@ -24,6 +30,7 @@ app.get("/api/friends", (req, res) => {
 })
 
 //get handler for specific documents
+//problems with conditional--see assignment
 app.get("/api/friends/:id", (req, res) => {
     const id = req.params.id;
 
@@ -66,11 +73,26 @@ app.post("/api/friends", (req, res) => {
     }
 })
 
-//initialzing mongoose
-mongoose.connect("mongodb://localhost:27017/FriendsDB");
-mongoose.connection
-.once("open", () => console.log("The database is open"))
-.on("error", (err) => console.log(`There was an error starting the database: ${err}`));
+app.delete("/api/friends/:id", (req, res) => {
+    const id = req.params.id;
+
+    FriendSchema.findByIdAndRemove(id)
+    .then(response => {
+        if (!response){
+            res.status(404);
+            return res.json({message: "The friend with the specified ID does not exist"});
+        } else {
+            res.json(response);
+        }
+    })
+    .catch(err => {
+        res.status(500);
+        res.json({error: "The friend could not be removed."});
+    })
+})
 
 //starting the server
 app.listen(3000, () => console.log(`The Express server is listening at port 3000`));
+
+
+//tried checking if find returned a boolean, tried using !find, tried adding a conditional inside of .then
