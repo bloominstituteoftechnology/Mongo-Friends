@@ -13,15 +13,15 @@ const app = express();
 app.use(bodyParser.json());
 mongoose.Promise = global.Promise;
 
-//status codes
-const badSave = 500;
-const badReq = 400;
-const successReq = 201;
-
-//status messages
-const errorSaving = { error: "There was an error while saving the friend to the database." };
-const badReqRes = { errorMessage: "Please provide firstName, lastName, and age for the friend." };
-const badReqAge = { errorMessage: "Age must be a whole number between 1 and 120." };
+//get handler for all documents
+app.get("/api/friends", (req, res) => {
+    FriendSchema.find({})
+    .then(response => res.json(response))
+    .catch(err => {
+        res.status(500);
+        res.json({error: "The information could not be retrieveed."});
+    })
+})
 
 //post handler
 app.post("/api/friends", (req, res) => {
@@ -30,11 +30,11 @@ app.post("/api/friends", (req, res) => {
     const newAge = req.body.age;
     const time = new Date();
     if (!newfName || !newlName || !newAge){
-        res.status(badReq);
-        return res.json(badReqRes);
+        res.status(400);
+        return res.json({ errorMessage: "Please provide firstName, lastName, and age for the friend." });
     } else if (newAge < 1 || newAge > 120){
-        res.status(badReq);
-        return res.json(badReqAge);
+        res.status(400);
+        return res.json({ errorMessage: "Age must be a whole number between 1 and 120." });
     } else {
         const newFriend = new FriendSchema({
             firstName: newfName,
@@ -44,12 +44,12 @@ app.post("/api/friends", (req, res) => {
         })
         newFriend.save()
         .then(response => {
-            res.status(successReq);
+            res.status(201);
             res.json(newFriend);
         })
         .catch(err => {
-            res.status(badSave);
-            res.send(errorSaving);
+            res.status(500);
+            res.send({ error: "There was an error while saving the friend to the database." });
         })
     }
 })
