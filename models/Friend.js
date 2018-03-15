@@ -15,7 +15,6 @@ const FriendSchema = new Schema({
     },
     age: {
         type: Number,
-        trim: true,
         min: 1,
         max: 120,
     },

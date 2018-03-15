@@ -13,9 +13,15 @@ const app = express();
 app.use(bodyParser.json());
 mongoose.Promise = global.Promise;
 
-//error messages
+//status codes
+const badSave = 500;
 const badReq = 400;
-const badReqRes = { errorMessage: "Please provide firstName, lastName, and age for the friend."};
+const successReq = 201;
+
+//status messages
+const errorSaving = { error: "There was an error while saving the friend to the database." };
+const badReqRes = { errorMessage: "Please provide firstName, lastName, and age for the friend." };
+const badReqAge = { errorMessage: "Age must be a whole number between 1 and 120." };
 
 //post handler
 app.post("/api/friends", (req, res) => {
@@ -23,10 +29,12 @@ app.post("/api/friends", (req, res) => {
     const newlName = req.body.lastName;
     const newAge = req.body.age;
     const time = new Date();
-
     if (!newfName || !newlName || !newAge){
         res.status(badReq);
         return res.json(badReqRes);
+    } else if (newAge < 1 || newAge > 120){
+        res.status(badReq);
+        return res.json(badReqAge);
     } else {
         const newFriend = new FriendSchema({
             firstName: newfName,
@@ -36,12 +44,12 @@ app.post("/api/friends", (req, res) => {
         })
         newFriend.save()
         .then(response => {
-            console.log(`Friend added successfully`);
-            res.send(`A new friend was added: ${newFriend}`);
+            res.status(successReq);
+            res.json(newFriend);
         })
         .catch(err => {
-            console.log(`There was an error adding a new friend: ${err}`);
-            res.send(`There was an error adding the friend`)
+            res.status(badSave);
+            res.send(errorSaving);
         })
     }
 })
