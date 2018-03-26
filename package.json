@@ -1,0 +1,25 @@
+{
+  "name": "mongo-i",
+  "version": "1.0.0",
+  "description": "mongo-I",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jryanp1/Mongo-I.git"
+  },
+  "author": "John Pelley",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jryanp1/Mongo-I/issues"
+  },
+  "homepage": "https://github.com/jryanp1/Mongo-I#readme",
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "cors": "^2.8.4",
+    "express": "^4.16.3",
+    "mongoose": "^5.0.11"
+  }
+}
