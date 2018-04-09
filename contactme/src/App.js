@@ -25,7 +25,7 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <h2>Friends</h2>
+        <h2>Friends List</h2>
         {this.state.friends.map((friends, id) => {
           return (
             <div key={id}>
