@@ -1,7 +1,7 @@
 const router = require('express').Router();
 const Friend = require('./friendModel');
 
-router 
+router
     .route('/')
     .get((req, res) => {
         Friend.find({})
@@ -13,9 +13,9 @@ router
             });
     })
     .post((req, res) => {
-        const Friend = new Friend(req.body);
+        const friend = new Friend(req.body);
 
-        Friend
+        friend
             .save()
             .then(savedFriend => {
                 res.status(201).json(savedFriend);
@@ -25,4 +25,3 @@ router
     });
 
 module.exports = router;
-

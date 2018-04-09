@@ -5,7 +5,6 @@ const friendSchema = new mongoose.Schema({
       type: String,
       required: true,
   },
-  
   lastName: {
       type: String,
       required: true,
@@ -22,4 +21,4 @@ const friendSchema = new mongoose.Schema({
 
 const friendModel = mongoose.model('Friend', friendSchema);
 
-module.exports = friendSchema;
+module.exports = friendModel;
