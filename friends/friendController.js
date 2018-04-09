@@ -22,8 +22,6 @@ router
 
         if (!firstName || !lastName || !age) {
             res.status(400).json({ errMsg: "Please provide firstName, lastName, and age for the friend." })
-        // } else if (age !== Number || age < 1 || age > 120) {
-        //     res.status(400).json({ errMsg: "Age must be a number between 1 and 120." })
         } else {
             friend
               .save()
@@ -75,8 +73,6 @@ router
         
         if (!firstName || !lastName || !age) {
             res.status(400).json({ errMsg: "Please provide firstName, lastName and age for the friend." });
-        // } else if (age !== Number || age < 1 || age > 120) {
-        //     res.status(400).json({ errMsg: "Age must be a number between 1 and 120." });
         } else {
             Friend
                 .findByIdAndUpdate(req.params.id, req.body)
