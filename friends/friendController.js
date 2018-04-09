@@ -23,6 +23,23 @@ router
         });
 });
 
+router
+.route('/:id')
+.get((req,res)=>{
+  Friend.find(req.param.id)
+  .then(response=>res.status(200).json(response))
+  .catch(err=>res.status(500).json(err));
+})
+.delete((req,res)=>{
+  Friend.remove(req.param.id)
+  .then(response=>res.status(200).json(response))
+  .catch(err=>res.status(500).json(err));
+})
+.put((req,res)=>{
+  Friend.findOneAndUpdate(req.params.id,req.body)
+  .then(response=>res.status(201).json(response))
+  .catch(err=>res.status(500).json(err));
+});
+
 
 module.exports = router;
-
