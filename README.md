@@ -11,10 +11,29 @@
 
 Use Node.js, Express.js and Mongoose.js to build an API that persists friend data to a MongoDB database.
 
+### Software Requirements
+
+For this project you need to have _MongoDB Community Edition_ installed and running. Having a local instance of _MongoDB_ running on your system is the preferred option.
+
+Alternatively, you can sign up for an account from a _Database As A Service_ provider like [MongoDB Atlas](https://www.mongodb.com/cloud/atlas) or [mlab](https://mlab.com/). Both _DBAAS_ providers offer a free tier with 500MB size limit that can be used for development and testing.
+
+#### Using a Local MongoDB Server
+
+If you don't have MongoDB installed, please click on [this link](https://docs.mongodb.com/manual/administration/install-community/) for instructions on how to **install** and **run** the _Community Server_ and the _mongo shell_. Follow the instructions for your _Operating System_.
+
+After MongoDB is installed, follow the instructions on the documentation to start the server. Then run the _mongo shell_ from a separate terminal and execute the `show dbs` command. If all goes well you should see a list of available databases, similar to the sample below.
+
+```
+ > show dbs
+ admin  0.000GB
+ local  0.000GB
+```
+
+### Getting the Starter Files
+
 1.  **Fork** and **Clone** this repository.
 1.  **CD into the folder** where you cloned the repository.
 1.  Type `yarn` or `npm install` to download all dependencies listed inside `package.json`.
-1.  Add code inside `server.js` and any other files you create in order to implement your API.
 1.  To start the server, type `yarn start` or `npm start`. The server will restart automatically as you make changes.
 1.  **Use _Postman_ to Test the API.**
 1.  make a GET request to http://localhost:5000. The response should be the following JSON object:
@@ -39,6 +58,8 @@ In a separate file, create the _Schema_ and _Model_ for the _friends_ collection
 ```
 
 ### Implement CRUD Endpoints
+
+Add code inside `server.js` and any other files you create in order to implement your API.
 
 Configure the following API endpoints:
 
