@@ -50,7 +50,9 @@ router
     .put((req, res)=> {
         console.log(req.params.id)
         const { id } = req.params
-        Friend.findByIdAndUpdate(id, req.body)
+        const friend = req.body
+        
+        Friend.findByIdAndUpdate(id, friend)
         .then(updated => {
             res.status(200).json(updated)
         })
