@@ -10,7 +10,9 @@ router
         res.status(200).json(friends);
       })
       .catch(err => {
-        res.status(500).json(`Error GETting friend: ${err}`);
+        res.status(500).json({
+          errorMessage: 'The friends information could not be retrieved.',
+        });
       });
   })
   .post((req, res) => {
@@ -25,14 +27,34 @@ router
       });
   });
 
-router.route('/:id').get((req, res) => {
-  Friend.findById(req.params.id)
-    .then(friend => {
-      res.status(200).json(friend);
-    })
-    .catch(err => {
-      res.status(500).json(`Error GETting friend with that ID: ${err}`);
-    });
-});
+router
+  .route('/:id')
+  .get((req, res) => {
+    Friend.findById(req.params.id)
+      .then(friend => {
+        res.status(200).json(friend);
+      })
+      .catch(err => {
+        res.status(500).json(err);
+      });
+  })
+  .delete((req, res) => {
+    Friend.findByIdAndRemove(req.params.id)
+      .then(() => {
+        res.status(200).json('Friend successfully removed.');
+      })
+      .catch(err => {
+        res.status(500).json(err);
+      });
+  })
+  .put((req, res) => {
+    Friend.findByIdAndUpdate(req.params.id, req.body)
+      .then(friend => {
+        res.status(200).json(friend);
+      })
+      .catch(err => {
+        res.status(500).json(err);
+      });
+  });
 
 module.exports = router;
