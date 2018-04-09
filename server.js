@@ -1,6 +1,12 @@
 const express = require('express');
 const helmet = require('helmet');
 const cors = require('cors');
+const mongoose = require('mongoose');
+
+mongoose
+  .connect('mongodb://localhost/friends')
+  .then(() => console.log('\n <>--<>--<> connected to deez Mongo nutz <>--<>--<>\n'))
+  .catch(err => console.log('You let your family down by not connecting to Mongo'))
 
 const server = express();
 
