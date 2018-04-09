@@ -22,8 +22,8 @@ router
 
         if (!firstName || !lastName || !age) {
             res.status(400).json({ errMsg: "Please provide firstName, lastName, and age for the friend." })
-        } else if (age !== Number || age < 1 || age > 120) {
-            res.status(400).json({ errMsg: "Age must be a number between 1 and 120." })
+        // } else if (age !== Number || age < 1 || age > 120) {
+        //     res.status(400).json({ errMsg: "Age must be a number between 1 and 120." })
         } else {
             friend
               .save()
@@ -43,7 +43,7 @@ router
         Friend
             .findById(req.params.id)
             .then(friends => {
-                res.status(200).json(friends[0]);
+                res.status(200).json(friends);
             })
             .catch(err => {
                 if (res.status(404)) {
@@ -75,13 +75,13 @@ router
         
         if (!firstName || !lastName || !age) {
             res.status(400).json({ errMsg: "Please provide firstName, lastName and age for the friend." });
-        } else if (age !== Number || age < 1 || age > 120) {
-            res.status(400).json({ errMsg: "Age must be a number between 1 and 120." });
+        // } else if (age !== Number || age < 1 || age > 120) {
+        //     res.status(400).json({ errMsg: "Age must be a number between 1 and 120." });
         } else {
             Friend
                 .findByIdAndUpdate(req.params.id, req.body)
                 .then(updatedFriend => {
-                    res.status(201).json(updatedFriend[0]);
+                    res.status(201).json(updatedFriend);
                 })
                 .catch(err => {
                     res.status(500).json({ errMsg: "${firstName} ${lastName}'s could not be modified." })
