@@ -9,6 +9,10 @@ const friendSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
+    age: {
+        type: Number,
+        required: true,
+    },
     createdOn: {
         type: Date,
         default: Date.now,
