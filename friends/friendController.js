@@ -25,4 +25,14 @@ router
       });
   });
 
+router.route('/:id').get((req, res) => {
+  Friend.findById(req.params.id)
+    .then(friend => {
+      res.status(200).json(friend);
+    })
+    .catch(err => {
+      res.status(500).json(`Error GETting friend with that ID: ${err}`);
+    });
+});
+
 module.exports = router;
