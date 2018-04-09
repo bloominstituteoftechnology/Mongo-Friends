@@ -40,7 +40,7 @@ router
       })
       .catch(err => {
         if (err.name === 'CastError') {
-          res.status(400).json({ message: 'Friend id does not exist.' });
+          res.status(400).json({ message: 'Friend ID does not exist.' });
         } else {
           res.status(500).json(err);
         }
@@ -49,6 +49,16 @@ router
 
   .put((req, res) => {})
 
-  .delete((req, res) => {});
+  .delete((req, res) => {
+    Friend.findByIdAndRemove(req.params.id)
+      .then(response => res.json(response))
+      .catch(err => {
+        if (err.name === 'CastError') {
+          res.status(400).json({ message: 'Friend ID does not exist.' });
+        } else {
+          res.status(500).json(err);
+        }
+      });
+  });
 
 module.exports = router;
