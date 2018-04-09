@@ -24,4 +24,39 @@ router
 
     });
 
+router
+    .route('/:id')
+    .get((req, res)=> {
+        Friend.findById(req.params.id)
+        .then(friends => {
+            res.status(200).json(friends);
+        })
+        .catch(err => {
+            res.status(500).json(console.error('Error getting frined',err));
+        });
+    })
+
+    .delete((req, res) => {
+        const { id } = req.params
+        Friend.findByIdAndRemove(id)
+        .then(removed => {
+            res.status(200).json(removed)
+        })
+        .catch(err => {
+            res.status(500).json(console.error("Error deleting", error))
+        })
+    })
+
+    .put((req, res)=> {
+        console.log(req.params.id)
+        const { id } = req.params
+        Friend.findByIdAndUpdate(id)
+        .then(updated => {
+            res.status(200).json(updated)
+        })
+        .catch(err => {
+            res.status(500).json("Error updating", err)
+        })
+    })
+
 module.exports = router;
