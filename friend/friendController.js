@@ -54,7 +54,7 @@ router.route('/:id')
 .put((req, res) => {
     friendM.findByIdAndUpdate(req.params.id, req.body)
         .then(() => {
-            res.status(200).json({ fuckyea: 'You updated that shit.'})
+            res.status(200).json({ yea: 'You updated.'})
         })
         .catch(error => {
         res.status(200).json({ status: 'We have recieved your update, but chose not to do anything with it.' })
