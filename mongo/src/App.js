@@ -1,11 +1,16 @@
 import React, { Component } from 'react';
 import Wrapper from './primatives/Wrapper';
 
+import FriendsList from './FriendsList';
+import FriendsListContainer from './FriendsListContainer';
+
 class App extends Component {
   render() {
     return (
       <Wrapper >
-        <h1> This is a test of the emergency styling system </h1>
+        <FriendsListContainer>
+          <FriendsList />
+        </FriendsListContainer>  
       </Wrapper>
     );
   }
