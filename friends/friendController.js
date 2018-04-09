@@ -47,7 +47,29 @@ router
       });
   })
 
-  .put((req, res) => {})
+  .put((req, res) => {
+    const { id } = req.params;
+    const updateInfo = req.body;
+    const { age } = updateInfo;
+
+    if (age && (age < 1 || age > 120)) {
+      res.status(400).json({ message: 'Age must be between 1 and 120.' });
+    } else {
+      Friend.findByIdAndUpdate(id, updateInfo)
+        .then(response => {
+          Friend.findById(response._id)
+            .then(updated => res.json(updated))
+            .catch(err => res.status(500).json(err));
+        })
+        .catch(err => {
+          if (err.name === 'CastError') {
+            res.status(400).json({ message: 'Friend ID does not exist.' });
+          } else {
+            res.status(500).json(err);
+          }
+        });
+    }
+  })
 
   .delete((req, res) => {
     Friend.findByIdAndRemove(req.params.id)
