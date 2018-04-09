@@ -38,13 +38,29 @@ router
             })
             .catch(err => {
                 res.status(500).json(err);
-            });
+            })
     })
     .delete((req, res) => {
-        res.status(200).json({ status: 'Please delete.'});
+        Friend.findByIdAndRemove(req.params.id)
+            .then(deleteFriend => {
+                res.status(200).json(deleteFriend);
     })
+    .catch(error => {
+        res.status(500).json(err);
+    });
+})
     .put((req, res) => {
-        res.status(200).json({ status: 'Please put info.'});
+        Friend.findByIdAndUpdate(req.params.id, { $set: { 
+            firstName: req.body.firstName,
+            lastName: req.body.lastName,
+            age: req.body.age,
+        }})
+            .then(updateFriend => {
+                res.status(200).json(updateFriend);
+            })
+            .catch(error => {
+                res.status(500).json(err);
+            });
     });
 
     
