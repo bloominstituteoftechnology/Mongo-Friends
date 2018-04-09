@@ -9,7 +9,10 @@ router
         res.status(200).json(friends);
       })
       .catch(err => {
-        res.status(500).json(err);
+        res.status(500).json({
+          errorMessage:
+            'There was an error while saving the friend to the database.'
+        });
       });
   })
 
@@ -32,7 +35,12 @@ router
         .then(savedFriend => {
           res.status(201).json(savedFriend);
         })
-        .catch(err => res.status(500).json(err));
+        .catch(err =>
+          res.status(500).json({
+            errorMessage:
+              'There was an error while saving the friend to the database.'
+          })
+        );
     }
   });
 
@@ -50,7 +58,10 @@ router
           res.status(200).json(friends);
         })
         .catch(err => {
-          res.status(500).json(err);
+          res.status(500).json({
+            errorMessage:
+              'There was an error while saving the friend to the database.'
+          });
         });
     }
   })
