@@ -23,7 +23,9 @@ router
         if (!firstName || !lastName || !age) {
             res.status(400).json({ errMsg: "Please provide firstName, lastName, and age for the friend." })
         } else {
+
             friend
+
               .save()
               .then(savedFriend => {
                 res.status(201).json(savedFriend);
