@@ -25,7 +25,7 @@ router
       res.status(400).json({ message: 'Age must be between 1 and 120.' });
     } else {
       Friend.create(newFriend)
-        .then(response => res.json(response))
+        .then(response => res.status(201).json(response))
         .catch(err => res.status(500).json(err));
     }
   });
