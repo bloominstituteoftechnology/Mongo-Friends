@@ -8,6 +8,8 @@ mongoose
   .then(() => console.log('\n <>--<>--<> connected to deez Mongo nutz <>--<>--<>\n'))
   .catch(err => console.log('You let your family down by not connecting to Mongo'))
 
+const friendController = require('./friends/friendModel');
+
 const server = express();
 
 server.use(helmet());
