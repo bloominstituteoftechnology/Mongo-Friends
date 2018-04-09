@@ -15,6 +15,38 @@ const friendsSchema = new mongoose.Schema({
         min: 1,
         max: 120,
     },
+    contactInfo: {
+        email: {
+            type: String,
+            lowercase: true,
+            required: true,
+            // match: [/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/, 'Please fill a valid email address'], 
+            // or import and use a validator
+        },
+        phone: {
+            mobile: {
+                type: Number,
+                min: 10,
+                max: 10,
+            },
+            home: {
+                type: Number,
+                min: 10,
+                max: 10,
+            },
+        },
+        usernames: {
+            github: {
+                type: String,
+            },
+            facebook: {
+                type: String,
+            },
+            twitter: {
+                type: String,
+            }
+        },
+    },
     createdOn: {
         type: Date,        
         required: true,

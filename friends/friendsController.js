@@ -56,9 +56,9 @@ router
         console.log('friends', friends);
 
         Friends
-        .findByIdAndUpdate(req.params.id)
-        .then(updatedFriends => {
-            res.status(201).json(updatedFriends);
+        .findByIdAndUpdate(req.params.id, req.body)
+        .then(friends => {
+            res.status(200).json(friends);
         })
         .catch(err => {
             res.status(500).json({ err: 'There was an error updating this friend' });
