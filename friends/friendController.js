@@ -93,7 +93,11 @@ router
           if (err.name === 'CastError') {
             res.status(400).json({ message: 'Invalid ID entered.' });
           } else {
-            res.status(500).json(err);
+            res
+              .status(500)
+              .json({
+                errorMessage: 'The friend information could not be modified.',
+              });
           }
         });
     }
