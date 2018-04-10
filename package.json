@@ -21,8 +21,10 @@
     "axios": "^0.18.0",
     "cors": "^2.8.4",
     "express": "^4.16.3",
+    "global": "^4.3.2",
     "helmet": "^3.12.0",
     "mongoose": "^5.0.14",
+    "react-native-app": "^1.0.0",
     "react-router": "^4.2.0",
     "react-router-dom": "^4.2.2",
     "styled-components": "^3.2.5"

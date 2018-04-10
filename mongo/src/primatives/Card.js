@@ -3,12 +3,11 @@ import styled from 'styled-components';
 export default styled.div`
     width: 300px;
     height: 300px;
-    border: thick solid #DF367C;
-    background: #4C3549;
+    border: thick solid #4C3549;
+    background: #DF367C;
     margin: 10px;
     border-radius: 50%;
-    color: #DF367C;
-    font-size: 1.5rem;
+    color: #4C3549;
     font-weight: 900;
 
     display:flex;
@@ -21,4 +20,8 @@ export default styled.div`
     white-space: wrap;
     overflow: hidden;
     text-overflow: ellipsis;
+
+    p {
+        font-size: 2.5rem;
+    }
 `

@@ -9,13 +9,14 @@ import Reset from 'styled-reset';
 import App from './App';
 
 injectGlobal`
+html, body {
     ${Reset}
     overflow: hidden;
     box-sizing: border-box;
     margin: 0;
     padding: 0;
     font-size: 62.5%;
-
+}
 `
 
 

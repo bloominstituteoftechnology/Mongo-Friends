@@ -40,7 +40,11 @@ router
         const { id } = req.params
         Friend.findByIdAndRemove(id)
         .then(removed => {
+            if(removed === null){
+                res.status(404).json({ message: 'not found'})
+            } else {
             res.status(200).json(removed)
+            }
         })
         .catch(err => {
             res.status(500).json(console.error("Error deleting", error))
@@ -54,7 +58,11 @@ router
         
         Friend.findByIdAndUpdate(id, friend)
         .then(updated => {
-            res.status(200).json(updated)
+            if (updated === null) {
+                res.status(404).json(updated);
+            } else {
+                res.status(200).json(updated)
+            }
         })
         .catch(err => {
             res.status(500).json("Error updating", err)
