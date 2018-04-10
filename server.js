@@ -17,7 +17,9 @@ server.use(cors());
 server.use(express.json());
 
 server.get('/', (req, res) => {
-  res.status(200).json({ api: 'running' });
+  res.status(200).json({
+    api: 'running'
+  });
 });
 
 server.use('/api/friends', friendController);
