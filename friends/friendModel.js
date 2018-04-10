@@ -20,7 +20,21 @@ const friendSchema = new mongoose.Schema({
     createdOn: {
         type: Date,
         default: Date.now
+    },
+    contactInfo: {
+        phoneNumber: {
+            type: Number,
+            minlength: 10,
+            maxlength: 10
+        },
+        email: {
+            type: String
+        },
+        gitHub: {
+            type: String
+        }
     }
+
 })
 
 const friendModel = mongoose.model("Friend", friendSchema);
