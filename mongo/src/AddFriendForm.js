@@ -18,7 +18,7 @@ class AddFriendForm extends Component {
 
        this.addFriend = this.addFriend.bind(this);
        this.handleFirstNameInput = this.handleFirstNameInput.bind(this);
-       this.handleLastNameInput = this.handleFirstNameInput.bind(this);
+       this.handleLastNameInput = this.handleLastNameInput.bind(this);
        this.handleAgeInput = this.handleAgeInput.bind(this);
    }
 
