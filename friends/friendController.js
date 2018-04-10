@@ -13,15 +13,16 @@ router
         res.status(500).json({ errorMessage: "The friends information could not be retrieved." });
       });
   })
+
   .post((req, res) => {
     const stats = req.body;
-    const { firstName, lastName, age } = stats;
+    const { firstName, lastName, age, contactInfo } = stats;
 
     if (!stats || !firstName || !lastName || !age) {
       res.status(400).json({ errorMessage: "Please provide firstName, lastName and age for the friend." });
       return
     }
-    if (!NaN(age) || age < 1 || age > 120) {
+    if (isNaN(age) || age < 1 || age > 120) {
       res.status(400).json({ errorMessage: "Age must be a number between 1 and 120" });
       return;
     }
@@ -75,13 +76,13 @@ router
 
   .put((req, res) => {
     const stats = req.body;
-    const { firstName, lastName, age } = stats;
+    const { firstName, lastName, age, contactInfo } = stats;
     const id = req.params.id;
 
     if (!stats || !firstName || !lastName || !age) {
         return res.status(400).json({ errorMessage: "Please provide firstName, lastName and age for the friend." });
     }
-    if (!NaN(age) || age < 1 || age > 120) {
+    if (isNaN(age) || age < 1 || age > 120) {
         return res.status(400).json({ errorMessage: "Age must be a number between 1 and 120" });
     }
 
