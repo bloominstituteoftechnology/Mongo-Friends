@@ -38,7 +38,7 @@ router
   })
   .delete((req, res) => {
     const { id } = req.params;
-    Bear.findByIdAndRemove(id)
+    Friend.findByIdAndRemove(id)
       .then(response => {
         if (response === null) {
           res.status(404).json({
