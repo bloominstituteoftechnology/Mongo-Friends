@@ -63,54 +63,38 @@ router
 router
   .route('/:id')
   .get((req, res) => {
-    let friendExist = false;
-
-    Friend.find({})
-      .then(friends => {
-        friends.forEach(friend => {
-          if (friend.id === req.params.id) friendExist = true;
-        });
-        if (!friendExist) {
+    Friend.findById(req.params.id)
+      .then(friend => {
+        if (!friend) {
           res.status(404).json({
             message: 'The friend with the specified ID does not exist.',
           });
         } else {
-          Friend.findById(req.params.id)
-            .then(friend => res.status(200).json(friend))
-            .catch(err => {
-              res.status(500).json({
-                errorMessage: 'The friend information could not be retrieved.',
-              });
-            });
+          res.status(200).json(friend);
+        }
+      })
+      .catch(err => {
+        res.status(500).json({
+          errorMessage: 'The friend information could not be retrieved.',
+        });
+      });
+  })
+  .delete((req, res) => {
+    Friend.findByIdAndRemove(req.params.id)
+      .then(friend => {
+        if (!friend) {
+          res.status(404).json({
+            message: 'The friend with the specified ID does not exist.',
+          });
+        } else {
+          res.status(200).json(friend);
         }
       })
       .catch(err =>
-        res.status(500).json({
-          errorMessage: 'The friend information could not be retrieved.',
-        })
+        res
+          .status(500)
+          .json({ errorMessage: 'The friend could not be removed' })
       );
-  })
-  .delete((req, res) => {
-    let friendExist = false;
-
-    Friend.find({}).then(friends => {
-      friends.forEach(friend => {
-        if (friend.id === req.params.id) friendExist = true;
-      });
-      if (!friendExist) {
-        res.status(404).json({
-          message: 'The friend with the specified ID does not exist.',
-        });
-      } else {
-        Friend.findByIdAndRemove(req.params.id)
-          .then(friend => res.status(200).json(friend))
-          .catch(err =>
-            res
-              .status(500)
-              .json({ errorMessage: 'The friend could not be removed' })
-          );
-      }
-    });
   })
   .put((req, res) => {
     let result = Joi.validate(req.body, schema1);
@@ -129,23 +113,18 @@ router
       return;
     }
 
-    let friendExist = false;
-
-    Friend.find({}).then(friends => {
-      friends.forEach(friend => {
-        if (friend.id === req.params.id) friendExist = true;
-      });
-      if (!friendExist) {
-        res.status(404).json({
-          message: 'The friend with the specified ID does not exist.',
-        });
-      } else {
-        const friend = new Friend(req.body);
-        Friend.findByIdAndUpdate(req.params.id, friend)
-          .then(friend => res.status(201).json(friend))
-          .catch(err => res.status(500).json(err));
-      }
-    });
+    const friend = new Friend(req.body);
+    Friend.findByIdAndUpdate(req.params.id, friend)
+      .then(friend => {
+        if (!friend) {
+          res.status(404).json({
+            message: 'The friend with the specified ID does not exist.',
+          });
+        } else {
+          res.status(201).json(friend);
+        }
+      })
+      .catch(err => res.status(500).json(err));
   });
 
 module.exports = router;
