@@ -13,6 +13,20 @@ const friendSchema = new mongoose.Schema({
     type: Number,
     required: true
   },
+  contactInfo: {
+    email: {
+      type: String,
+      required: true
+    },
+    phoneNumber: {
+      type: Number,
+      required: true
+    },
+    twitterHandle: {
+      type: String,
+      required: false
+    }
+  },
   createdOn: {
     type: Date,
     default: Date.now

@@ -21,7 +21,14 @@ router
   // Create Friend
   .post((req, res) => {
     const friend = new Friend(req.body);
-    const { firstName, lastName, age } = req.body;
+    const {
+      firstName,
+      lastName,
+      age,
+      contactInfo,
+      phoneNumber,
+      email
+    } = req.body;
 
     if (!firstName || !lastName) {
       res.status(400).json({
@@ -32,6 +39,14 @@ router
       res
         .status(400)
         .json({ errorMessage: 'Age must be a number between 1 and 120' });
+    } else if (!contactInfo.email || !contactInfo.phoneNumber) {
+      res.status(400).json({
+        errorMessage: 'Please provide contact info for the friend.'
+      });
+    } else if (contactInfo.phoneNumber.length !== 10) {
+      res
+        .status(400)
+        .json({ errorMessage: 'Please provide valid phone number' });
     } else {
       friend
         .save()
@@ -89,16 +104,21 @@ router
   .put((req, res) => {
     const { id } = req.params;
     const update = req.body;
-    const { age, firstName, lastName } = update;
+    const {
+      age,
+      firstName,
+      lastName,
+      contactInfo,
+      phoneNumber,
+      email
+    } = update;
 
     Friend.findByIdAndUpdate(id, update)
       .then(friend => {
         if (friend === null) {
-          res
-            .status(404)
-            .json({
-              message: 'The friend with the specified ID does not exist.'
-            });
+          res.status(404).json({
+            message: 'The friend with the specified ID does not exist.'
+          });
         } else if (!firstName || !lastName || !age) {
           res.status(400).json({
             errorMessage:
@@ -108,6 +128,14 @@ router
           res
             .status(400)
             .json({ errorMessage: 'Age must be a number between 1 and 120' });
+        } else if (!contactInfo.email || !contactInfo.phoneNumber) {
+          res.status(400).json({
+            errorMessage: 'Please provide contact info for the friend.'
+          });
+        } else if (contactInfo.phoneNumber.length !== 10) {
+          res
+            .status(400)
+            .json({ errorMessage: 'Please provide valid phone number' });
         } else {
           res.status(200).json(update);
         }
