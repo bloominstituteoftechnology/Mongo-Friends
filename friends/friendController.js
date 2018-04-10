@@ -49,11 +49,43 @@ router
   })
   .put((req, res) => {
     Friend.findByIdAndUpdate(req.params.id, req.body)
-      .then(friend => {
-        res.status(200).json(friend);
+      .then(response => {
+        if (response === null) {
+          res.status(404).json({
+            message: 'The friend with the specified ID does not exist.',
+          });
+        } else {
+          Friend.findById(response._id)
+            .then(response => {
+              if (
+                response.age === NaN ||
+                response.age < 1 ||
+                response.age > 120
+              ) {
+                res.status(400).json({
+                  errorMessage: 'Age must be a number between 1 and 120',
+                });
+              }
+            })
+            .catch(err => {
+              if (err.name === 'CastError') {
+                res.status(400).json({
+                  errorMessage: 'Age must be a number between 1 and 120',
+                });
+              } else {
+                res.status(500).json(err);
+              }
+            });
+        }
       })
       .catch(err => {
-        res.status(500).json(err);
+        if (err.name === 'CastError') {
+          res.status(400).json({
+            errorMessage: 'Age must be a number between 1 and 120',
+          });
+        } else {
+          res.status(500).json(err);
+        }
       });
   });
 
