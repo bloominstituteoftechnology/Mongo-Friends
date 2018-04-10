@@ -13,27 +13,47 @@ router
 			);
 	})
 	.post((req, res) => {
-		const friend = new Friend(req.body);
-		//check for first last age
-		//check age
+		if (!(req.body.firstName && req.body.lastName && req.body.age))
+			res.status(400).json({
+				errorMessage:
+					'Please provide firstName, lastName and age for the friend.',
+			});
 
-		friend
-			.save()
-			.then(saved => res.status(201).json(saved))
-			.catch(error =>
-				res.status(500).json({
-					errorMessage:
-						'There was an error while saving the friend to the database.',
-				})
-			);
+		if (
+			!(
+				req.body.age === Number(req.body.age) &&
+				0 < req.body.age &&
+				req.body.age < 121
+			)
+		)
+			res
+				.status(400)
+				.json({ errorMessage: 'Age must be a number between 1 and 120' });
+		else {
+			const friend = new Friend(req.body);
+			friend
+				.save()
+				.then(saved => res.status(201).json(saved))
+				.catch(error =>
+					res.status(500).json({
+						errorMessage:
+							'There was an error while saving the friend to the database.',
+					})
+				);
+		}
 	});
 
 router
 	.route('/:id')
 	.get((req, res) => {
 		Friend.findById(req.params.id)
-			//404 if not found
-			.then(friend => res.status(200).json(friend))
+			.then(friend => {
+				if (friend === null)
+					res.status(404).json({
+						message: 'The friend with the specified ID does not exist.',
+					});
+				else res.status(200).json(friend);
+			})
 			.catch(error =>
 				res.status(500).json({
 					errorMessage: 'The friend information could not be retrieved.',
@@ -41,44 +61,53 @@ router
 			);
 	})
 	.delete((req, res) => {
-		Friend.findById(req.params.id)
-			//404 if not found
+		Friend.findByIdAndRemove(req.params.id)
 			.then(friend => {
-				Friend.remove(friend)
-					.then(friend => res.status(200).json(friend))
-					.catch(error =>
-						res
-							.status(500)
-							.json({ errorMessage: 'The friend could not be removed' })
-					);
+				console.log(friend);
+				if (friend === null)
+					res.status(404).json({
+						message: 'The friend with the specified ID does not exist.',
+					});
+				else res.status(200).json(friend);
 			})
 			.catch(error =>
-				res.status(500).json({
-					errorMessage: 'The friend information could not be retrieved.',
-				})
+				res
+					.status(500)
+					.json({ errorMessage: 'The friend could not be removed' })
 			);
 	})
 	.put((req, res) => {
-		const newFriend = new Friend(req.body);
-		//check for first last age
-		//check age
+		if (!(req.body.firstName && req.body.lastName && req.body.age))
+			res.status(400).json({
+				errorMessage:
+					'Please provide firstName, lastName and age for the friend.',
+			});
 
-		Friend.findById(req.params.id)
-			//404 if not found
-			.then(oldFriend => {
-				Friend.replaceOne(oldFriend, newFriend)
-					.then(res.status(200).json(newFriend))
-					.catch(error =>
-						res.status(500).json({
-							errorMessage: 'The friend information could not be modified.',
-						})
-					);
-			})
-			.catch(error =>
-				res.status(500).json({
-					errorMessage: 'The friend information could not be retrieved.',
+		if (
+			!(
+				req.body.age === Number(req.body.age) &&
+				0 < req.body.age &&
+				req.body.age < 121
+			)
+		)
+			res
+				.status(400)
+				.json({ errorMessage: 'Age must be a number between 1 and 120' });
+		else {
+			Friend.findByIdAndUpdate(req.params.id, req.body, { new: true })
+				.then(updated => {
+					if (updated === null)
+						res.status(404).json({
+							message: 'The friend with the specified ID does not exist.',
+						});
+					else res.status(200).json(updated);
 				})
-			);
+				.catch(error => {
+					res.status(500).json({
+						errorMessage: 'The friend information could not be retrieved.',
+					});
+				});
+		}
 	});
 
 module.exports = router;
