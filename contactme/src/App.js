@@ -8,30 +8,48 @@ class App extends Component {
   constructor() {
     super();
     this.state = {
-      friends: []
+      friends: [],
+      formFields: {
+        firstName: '',
+        lastName: '',
+        age: 0,
+        email: ''
+      }
     };
     this.handleAddFriend = this.handleAddFriend.bind(this);
     this.handleChange = this.handleChange.bind(this);
   }
 
   handleChange(e) {
+    let formFields = {...this.state.formFields};
+    formFields[e.target.name] = e.target.value;
     this.setState({
-      [e.target.name]: e.target.value
+      formFields
     });
     console.log(this.state);
   }
 
-  handleAddFriend(e) {
-    e.preventDefault();   
-    this.state.friends.push((this.state));
+  handleAddFriend(e, formFields) {
+    e.preventDefault();       
+    this.state.friends.push((this.state.formFields));
     e.target.reset();    
     this.setState({
-      firstName: '',
-      lastName: '',
-      age: 0,
-      email: ''
-      }        
+      formFields
+      }             
     )
+    console.log('this is state', this.state);
+    // axios
+    // .post('http://localhost:5000/api/friends', formFields, {
+    //   headers: {
+    //     'Content-Type': 'application/json',
+    // }
+    // })
+    // .then(function(response) {
+    //   console.log(response);
+    // })
+    // .catch(function(error){
+    //   console.log('error posting to db', error);
+    // }); 
   }
 
   componentDidMount() {
