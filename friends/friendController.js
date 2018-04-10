@@ -20,14 +20,17 @@ router
     friend
       .save()
       .then(savedFriend => {
-        res.status(200).json(savedFriend);
+        if (
+          savedFriend.age === NaN ||
+          savedFriend.age < 1 ||
+          savedFriend.age > 120
+        )
+          res.status(200).json(savedFriend);
       })
       .catch(err => {
-        res
-          .status(500)
-          .json({
-            errorMessage: 'The friends information could not be retrieved.',
-          });
+        res.status(500).json({
+          errorMessage: 'The friends information could not be retrieved.',
+        });
       });
   });
 
@@ -85,6 +88,8 @@ router
                 res.status(400).json({
                   errorMessage: 'Age must be a number between 1 and 120',
                 });
+              } else {
+                res.status(200).json(response);
               }
             })
             .catch(err => {
