@@ -29,8 +29,8 @@ router
   .route('/:id')
   .get((req, res) => {
     Friend.findById(req.params.id)
-      .then(bears => {
-        res.status(200).json(bears);
+      .then(friends => {
+        res.status(200).json(friends);
       })
       .catch(err => {
         res.status(500).json(err);
