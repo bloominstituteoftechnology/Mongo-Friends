@@ -10,7 +10,7 @@ router
         res.status(200).json(friends);
       })
       .catch(err => {
-        console.log("There was an error getting friends.");
+        res.status(500).json({ errorMessage: "The friend information could not be retrieved." });
       });
   })
   .post((req, res) => {
@@ -22,40 +22,40 @@ router
         res.status(201).json(savedFriend);
       })
       .catch(err => {
-        console.log("Friend Saved!");
+        res.status(500).json({ errorMessage: "There was an error while saving the friend to the database." });
       });
   });
 
 router
   .route("/:id")
   .get((req, res) => {
-    Friend.findById(req.params.id)
+    Friend
+    .findById(req.params.id)
       .then(friend => {
         res.json(friend);
       })
       .catch(err => {
-        console.log("There was a problem retrieving friend.");
+        res.status(500).send({ errorMessage: "The friend information could not be retrieved." });
       });
   })
   .delete((req, res) => {
-    Friend.findByIdAndRemove(req.params.id)
+    Friend
+    .findByIdAndRemove(req.params.id)
       .then(() => {
         res.json({ message: "Friend successfully deleted!" });
       })
       .catch(err => {
         res
-          .status(500)
-          .json({ message: "There was an error deleting Friend." });
+          .status(500).json({ errorMessage: "The friend could not be removed" });
       });
   })
   .put((req, res) => {
     Friend.findByIdAndUpdate(req.params.id, req.body)
       .then(friend => {
-        console.log("Successfully Updated Friend.");
-        res.status(201).json(friend);
+        res.status(200).json(friend);
       })
       .catch(err => {
-        console.log("There was a problem updating friend.");
+        res.status(500).send({ errorMessage: "The friend information could not be modified." });
       });
   });
 
