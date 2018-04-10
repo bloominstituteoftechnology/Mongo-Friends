@@ -16,6 +16,23 @@ const friendSchema = new mongoose.Schema(
       min: 1,
       max: 120,
     },
+    contactInfo: {
+      email: {
+        type: String,
+      },
+      mobile_number: {
+        type: Number,
+      },
+      github_username: {
+        type: String,
+      },
+      facebook_username: {
+        type: String,
+      },
+      twtter_handle: {
+        type: String,
+      },
+    },
   },
   { timestamps: true }
 );
