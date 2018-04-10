@@ -58,7 +58,7 @@ router
             return;
         }
 
-        if(update.age && typeof(update.age) !== 'number' || update.age > 120) {
+        if(!Number(update.age) || update.age > 120) {
             res.status(400).json({ errorMessage: "Age must be a number between 1 and 120" });
             return;
         }
