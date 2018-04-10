@@ -2,6 +2,7 @@ const router = require('express').Router();
 
 const Friend = require('./friendModel');
 
+
 router
     .route('/')
     .get((req, res) => {
@@ -17,7 +18,7 @@ router
     })
 
     .post((req, res) => {
-        const { firstName, lastName, age } = req.body;
+        const { firstName, lastName, age, contactInfo } = req.body;
         const friend = new Friend(req.body);
 
         if (!firstName || !lastName || !age) {

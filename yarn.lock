@@ -1325,6 +1325,10 @@ mongodb@3.0.4:
   dependencies:
     mongodb-core "3.0.4"
 
+mongoose-deep-populate@^3.1.1:
+  version "3.1.1"
+  resolved "https://registry.yarnpkg.com/mongoose-deep-populate/-/mongoose-deep-populate-3.1.1.tgz#561f7e88566cdf0697559c9fe190d581c9038442"
+
 mongoose-integer@^0.1.1:
   version "0.1.1"
   resolved "https://registry.yarnpkg.com/mongoose-integer/-/mongoose-integer-0.1.1.tgz#7fd38fd764fce5888ae58bdc477b02159c4a0df8"
@@ -1332,6 +1336,10 @@ mongoose-integer@^0.1.1:
 mongoose-legacy-pluralize@1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/mongoose-legacy-pluralize/-/mongoose-legacy-pluralize-1.0.2.tgz#3ba9f91fa507b5186d399fb40854bff18fb563e4"
+
+mongoose-type-email@^1.0.5:
+  version "1.0.5"
+  resolved "https://registry.yarnpkg.com/mongoose-type-email/-/mongoose-type-email-1.0.5.tgz#89e797f98bc59aac2263fd7c9d5b669854aff679"
 
 mongoose@^5.0.14:
   version "5.0.14"

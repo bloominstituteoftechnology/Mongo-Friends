@@ -1,5 +1,7 @@
 const mongoose = require('mongoose');
 const integerValidator = require('mongoose-integer');
+const email = require('mongoose-type-email');
+const deepPopulate = require('mongoose-deep-populate');
 
 const friendSchema = new mongoose.Schema({
     firstName: {
@@ -22,10 +24,16 @@ const friendSchema = new mongoose.Schema({
         required: true,
         default: Date.now,
     },
+    contactInfo: [{
+        email: 'string',
+        mobileNumber: 'string',
+    }]
 })
 
 friendSchema.plugin(integerValidator);
 
 const friendModel = mongoose.model('Friend', friendSchema);
+
+
 
 module.exports = friendModel;
