@@ -28,7 +28,7 @@ router
 router
   .route('/:id')
   .get((req, res) => {
-    Bear.findById(req.params.id)
+    Friend.findById(req.params.id)
       .then(bears => {
         res.status(200).json(bears);
       })
