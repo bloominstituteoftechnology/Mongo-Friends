@@ -7,6 +7,7 @@ import { injectGlobal } from 'styled-components';
 import Reset from 'styled-reset';
 
 import App from './App';
+import AddFriendForm from './AddFriendForm';
 
 injectGlobal`
 html, body {
@@ -20,5 +21,12 @@ html, body {
 `
 
 
-ReactDOM.render(<App />, document.getElementById('root'));
+ReactDOM.render(
+<Router>
+    <div>
+        <Route exact path={'/'} component={App}  />
+        <Route path={'/add-friends'} component={AddFriendForm} />
+    </div>
+</Router>
+, document.getElementById('root'));
 
