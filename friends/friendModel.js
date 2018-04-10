@@ -11,6 +11,9 @@ const friendSchema = new mongoose.Schema({
   },
   age: {
     type: Number,
+    min: 1,
+    max: 120,
+    default: 1,
     required: true
   }
 });
