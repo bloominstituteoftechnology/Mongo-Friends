@@ -11,10 +11,13 @@ const friendSchema = new mongoose.Schema({
 	},
 	age: {
 		type: Number,
-		required: true
+		required: true,
+		min: 1,
+		max: 120
 	},
 	createdOn: {
-		type: Date, 
+		type: Date,
+		required: true,
 		default: Date.now,
 	},
 });
