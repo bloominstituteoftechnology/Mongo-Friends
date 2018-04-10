@@ -42,10 +42,10 @@ router
     const { id } = req.params;
     Friend.findByIdAndRemove(id)
     .then(friends => {
-      if(response === null) {
+      if(friends === null) {
         res.status(404).json({ errorMessage: 'The friend with the specified ID does not exist.'})
       } else {
-        res.status(200).json(response);
+        res.status(200).json(friends);
       }
     })
     .catch(err => {
@@ -55,13 +55,14 @@ router
   .put((req, res) => {
     Friend.findByIdAndUpdate(req.params.id, req.body)
     .then(friends => {
-      if(response === null) {
+      if(friends === null) {
         res.status(404).json({ errorMessage: 'The friend with the specified ID does not exist.'})
       } else {
-        res.status(200).json(response);
+        res.status(200).json(friends);
       }
     })
     .catch(err => {
+      console.log(err)
       res.status(500).json({ errorMessage: 'The friend could not be updated',})
     })
   });
