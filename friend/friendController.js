@@ -67,10 +67,41 @@ router
   })
 
   .delete((req, res) => {
-    res.status(200).json({ status: 'please implement DELETE functionality' });
+    Friend.findByIdAndRemove(req.params.id)
+      .then(deleteFriend => {
+        res.status(200).json(deleteFriend);
+      })
+      .catch(err => {
+        if (res.status(404)) {
+          res.json({
+            errorMessage: 'The friend with the specified ID does not exist.'
+          });
+        } else {
+          res
+            .status(500)
+            .json({ errorMessage: 'The friend could not be removed' });
+        }
+      });
   })
-  .put((req, res) => {
-    res.status(200).json({ status: 'please implement PUT functionality' });
-  });
 
+  .put((req, res) => {
+    const { firstName, lastName, age } = req.body;
+
+    if (!firstName || !lastName || !age) {
+      res.status(400).json({
+        errorMessage:
+          'Please provide firstName, lastName and age for the friend.'
+      });
+    } else {
+      Friend.findByIdAndUpdate(req.params.id, req.body)
+        .then(updatedFriend => {
+          res.status(201).json(updatedFriend);
+        })
+        .catch(err => {
+          res.status(500).json({
+            errorMessage: 'The friend information could not be modified.'
+          });
+        });
+    }
+  });
 module.exports = router;
