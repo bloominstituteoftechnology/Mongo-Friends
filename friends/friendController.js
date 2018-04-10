@@ -23,7 +23,11 @@ router
         res.status(200).json(savedFriend);
       })
       .catch(err => {
-        res.status(500).json(`Error POSTing friend: ${err}`);
+        res
+          .status(500)
+          .json({
+            errorMessage: 'The friends information could not be retrieved.',
+          });
       });
   });
 
@@ -31,20 +35,36 @@ router
   .route('/:id')
   .get((req, res) => {
     Friend.findById(req.params.id)
-      .then(friend => {
-        res.status(200).json(friend);
+      .then(response => {
+        if (response === null) {
+          res.status(404).json({
+            message: 'The friend with the specified ID does not exist.',
+          });
+        } else {
+          res.status(200).json(response);
+        }
       })
       .catch(err => {
-        res.status(500).json(err);
+        res.status(500).json({
+          errorMessage: 'The friend information could not be retrieved.',
+        });
       });
   })
   .delete((req, res) => {
     Friend.findByIdAndRemove(req.params.id)
-      .then(() => {
-        res.status(200).json('Friend successfully removed.');
+      .then(response => {
+        if (response === null) {
+          res.status(404).json({
+            message: 'The friend with the specified ID does not exist.',
+          });
+        } else {
+          res.status(200).json('Friend successfully removed.');
+        }
       })
       .catch(err => {
-        res.status(500).json(err);
+        res
+          .status(500)
+          .json({ errorMessage: 'The friend could not be removed' });
       });
   })
   .put((req, res) => {
