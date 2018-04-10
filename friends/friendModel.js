@@ -19,6 +19,22 @@ const friendSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
+  contactInfo: {
+    email: {
+      type: String,
+      default: 'Not Provided',
+    },
+    phone: {
+      type: Number,
+      minlength: 10,
+      maxlength: 10,
+      default: 1234567890,
+    },
+    twitterHandle: {
+      type: String,
+      default: 'Not Provided',
+    },
+  },
 });
 
 const friendModel = mongoose.model('Friend', friendSchema);
