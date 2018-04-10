@@ -1,4 +1,6 @@
 import React,{Component} from 'react';
+import "./Post.css";
+import {Link} from 'react-router-dom';
 import axios from 'axios';
 
 export default class Post extends Component{
@@ -46,17 +48,18 @@ export default class Post extends Component{
     return(
     <div>
       <form onSubmit={this.handleSubmit}>
-      <label>
+      <label className="label">
         <input type="text" name="first" onChange={this.handleFirst} value={this.state.firstName}/>
       </label>
-      <label>
+      <label className="label">
         <input type="text" name="last" onChange={this.handleLast} value={this.state.lastName}/>
       </label>
-      <label>
+      <label className="label">
         <input type="text" name="age" onChange={this.handleAge} value={this.state.age}/>
       </label>
       <input type="submit" value="Submit"/>
       </form>
+      <Link className="return" to="/">Return</Link>
     </div>
     );
   }

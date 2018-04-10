@@ -1,14 +1,15 @@
 import React, { Component } from 'react';
-import Get from './Components/Get/Get.js';
-import Post from './Components/Post/Post.js';
 import './App.css';
+import {Link} from 'react-router-dom';
 
 class App extends Component {
   render() {
     return(
     <div>
-      <Get/>
-      <Post/>
+      <nav>
+        <Link className="link" to="/friends/get">Friends List</Link>
+        <Link className="link" to="/friends/post">Add New Friend</Link>
+      </nav>
     </div>
     );
   }

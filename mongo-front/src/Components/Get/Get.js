@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import axios from 'axios';
 import "./Get.css";
+import {Link} from 'react-router-dom';
 
 class Get extends Component{
   constructor(props){
@@ -34,6 +35,7 @@ class Get extends Component{
         )
         })
       }
+        <Link className="return" to="/">Return</Link>
       </div>
       )
     }
