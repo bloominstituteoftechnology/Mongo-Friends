@@ -76,14 +76,29 @@ router.delete('/:id', (req, res) => {
 //PUT
 router.put('/:id', (req, res) => {
   const { id } = req.params;
-  // const friend = new Friend(req.body);
-  Friend.findByIdAndUpdate(id, req.body)
-    .then(updatedFriend => {
-      res.status(200).json(updatedFriend);
-    })
-    .catch(error => {
-      res.status(500).json(error);
+  const { firstName, lastName, age } = req.body;
+  if (!id) {
+    res
+      .status(404)
+      .json({ message: 'The friend with the specified ID does not exist.' });
+  }
+  if (!firstName || !lastName || !age) {
+    res.status(400).json({
+      errorMessage: 'Please provide firstName, lastName and age for the friend.'
     });
+  } else {
+    Friend.findByIdAndUpdate(id, req.body, { new: true })
+      .then(update => {
+        res.status(200).json(update);
+      })
+      .catch(error => {
+        res
+          .status(500)
+          .json({
+            errorMessage: 'The friend information could not be modified.'
+          });
+      });
+  }
 });
 //********remember to export right after imports*********
 module.exports = router;
