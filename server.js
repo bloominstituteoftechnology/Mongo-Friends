@@ -5,7 +5,7 @@ const mongoose = require('mongoose');
 
 mongoose
   .connect('mongodb://localhost/cs8')
-  .then(() => console.log('\n===connected to mongo ===\n'))
+  .then(() => console.log('\n=== connected to mongo ===\n'))
   .catch(err => console.log('error connecting to mongo'));
 
 const friendController = require('./friends/friendController');
