@@ -5,7 +5,7 @@ const cors = require('cors');
 const mongoose = require('mongoose');
 
 mongoose
-  .connect('mongodb://localhost/friendsdb')
+  .connect('mongodb://localhost/frienddb')
   .then(() => console.log('\n=== connecting to mongo ===\n'))
   .catch(err => console.log('error connecting to mongo' + err));
 
