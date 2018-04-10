@@ -20,7 +20,23 @@ const friendSchema = new mongoose.Schema({
         type: Date,
         required: true,
         default: Date.now,
-    }
+    },
+    contactInfo:{email:{
+                    type:email,
+                },
+                mobilNumber:{
+                    type: String
+                },
+                github:{
+                    type:String
+                },
+                facebook:{
+                    type:String
+                },
+                twitter:{
+                    type:String
+                }
+                }
 
 });
 
