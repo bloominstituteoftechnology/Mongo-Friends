@@ -73,10 +73,16 @@ router
 
   .delete((req, res) => {
     Friend.findByIdAndRemove(req.params.id)
-      .then(response => res.json(response))
+      .then(response => {
+        if (response === null) {
+          res.status(404).json({ message: 'Friend ID does not exist.' });
+        } else {
+          res.json(response);
+        }
+      })
       .catch(err => {
         if (err.name === 'CastError') {
-          res.status(400).json({ message: 'Friend ID does not exist.' });
+          res.status(422).json({ errorMessage: 'Invalid ID entered' });
         } else {
           res.status(500).json(err);
         }
