@@ -18,7 +18,11 @@ router
         friend
             .save()
             .then(savedFriend => {
+            if(savedFriend === null){
+                res.status(404).json(savedFriend)
+            } else{
                 res.status(201).json(savedFriend);
+            } 
             })
             .catch(err => res.status(500).json(err));
 
@@ -29,7 +33,11 @@ router
     .get((req, res)=> {
         Friend.findById(req.params.id)
         .then(friends => {
+            if(friends === null) {
+                res.status(404).json(friends);
+            }else {
             res.status(200).json(friends);
+            }
         })
         .catch(err => {
             res.status(500).json(console.error('Error getting frined',err));

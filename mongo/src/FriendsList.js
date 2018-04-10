@@ -24,14 +24,16 @@ class FriendsList extends Component {
       
         return(
             <Fragment>
+                
                 {this.state.friends.map((friend, i)=> {
+                    let createdOn = friend.createdOn.slice(5, 10) + '-' + friend.createdOn.slice(0, 4);
                     return (
                     <Card className="hvr-buzz hvr-radial-in" key={i}>
                         
                         <p>first name: {friend.firstName}</p>
                         <p>last name: {friend.lastName}</p>
                         <p>age: {friend.age}</p>
-                        <p>created on: {friend.createdOn.slice(5, 10)}{'-' + friend.createdOn.slice(0, 4)}</p>
+                        <p>created on: {createdOn}</p>
                     </Card>  
                     )  
                 })}
