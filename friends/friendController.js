@@ -10,7 +10,7 @@ router
         res.status(200).json(friends);
       })
       .catch(err => {
-        res.status(500).json({errorMessage: 'The friends information could not be retrieved.'})
+        res.status(500).json({errorMessage: 'The friends information could not be retrieved.'});
       });
   })
   .post((req, res) => {
@@ -33,7 +33,7 @@ router
           res.status(200).json(friends);
         })
         .catch(error => {
-          res.status(404).json({message: 'The friend with the specified ID does not exist.' })
+          res.status(404).json({message: 'The friend with the specified ID does not exist.' });
         });
     })
     .delete((req, res) => {
@@ -41,17 +41,27 @@ router
       Friend.findByIdAndRemove(id)
         .then(response => {
           if(response === null) {
-            res.status(404).json({message: 'The friend with the specified ID does not exist.'})
+            res.status(404).json({message: 'The friend with the specified ID does not exist.'});
           } else {
             res.status(200).json(response)
           }
         })
         .catch(error => {
-          res.status(500).json({errorMessage: 'The friend could not be removed'})
+          res.status(500).json({errorMessage: 'The friend could not be removed'});
         });
     })
     .put((req, res) => {
-      res.status(200).json({ status: 'please implement PUT functionality' });
+      Friend.findByIdAndUpdate(req.params.id, req.body)
+        .then(response => {
+          if (response === null) {
+            res.status(404).json({message: 'The friend with the specified ID does not exist'});
+          } else {
+            res.status(200).json(response);
+          }
+        })
+        .catch(error => {
+          res.status(500).json({errorMessage: 'The friend information could not be modified.'});
+        });
     });
 
   module.exports = router;
