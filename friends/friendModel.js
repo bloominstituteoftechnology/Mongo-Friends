@@ -16,6 +16,10 @@ const friendSchema = new mongoose.Schema({
     createdOn: {
         type: Date,
         default: Date.now,
+    },
+    contactInfo: {
+        type: Object,
+        required: false,
     }
 });
 
