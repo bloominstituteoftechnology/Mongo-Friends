@@ -16,22 +16,71 @@ router
       });
   })
   .post((req, res) => {
-    console.log('body', req.body);
     const friend = new Friend(req.body);
-    console.log('friend', friend);
-  });
 
+    friend
+      .save()
+      .then(savedFriend => {
+        res.status(201).json(savedFriend);
+      })
+      .catch(err => res.status(500).json(err));
+  });
 router
   .route('/:id')
   .get((req, res) => {
-    res.status(200).json({ route: '/api/friends/' + req.params.id });
+    Bear.findById(req.params.id)
+      .then(bears => {
+        res.status(200).json(bears);
+      })
+      .catch(err => {
+        res.status(500).json(err);
+      });
   })
   .delete((req, res) => {
-    res.status(200).json({ status: 'impletment Delete!' });
+    const { id } = req.params;
+    Bear.findByIdAndRemove(id)
+      .then(response => {
+        if (response === null) {
+          res.status(404).json({
+            message: 'The friend with the specified ID does not exist.'
+          });
+        } else {
+          res.status(200).json(response);
+        }
+      })
+      .catch(err => {
+        if (err.name === 'CastError') {
+          // I can't remember what CastError is?
+          res.status(400).json({
+            message: 'The id provided is invalid, please check and try again.'
+          });
+        } else {
+          res
+            .status(500)
+            .json({ errorMessage: 'The friend could not be removed', err });
+        }
+      });
   })
-
   .put((req, res) => {
-    res.status(200).json({ status: 'implement PUT!' });
+    Friend.findByIdAndUpdate(req.params.id, req.body)
+      .then(response => {
+        if (response === null) {
+          res.status(404).json({ message: 'not found' });
+        } else {
+          res.status(200).json(response);
+        }
+      })
+      .catch(err => {
+        if (err.name === 'CastError') {
+          res.status(400).json({
+            message: 'The id provided is invalid, please check and try again.'
+          });
+        } else {
+          res
+            .status(500)
+            .json({ errorMessage: 'The friend could not be removed', err });
+        }
+      });
   });
 
 module.exports = router;

@@ -3,11 +3,13 @@ const mongoose = require('mongoose');
 const friendSchema = new mongoose.Schema({
   firstName: {
     type: String,
-    required: true
+    required: true,
+    maxlength: 13
   },
   lastName: {
     type: String,
-    required: true
+    required: true,
+    maxlength: 13
   },
   age: {
     type: Number,
