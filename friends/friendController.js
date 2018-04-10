@@ -51,8 +51,13 @@ router
   .get((req, res) => {
     Friend.findById(req.params.id)
       .then(friend => {
-        res.status(200).json(friend);
-        // 404 not found ???
+        if (friend === null) {
+          res.status(404).json({
+            message: 'The friend with the specified ID does not exist.'
+          });
+        } else {
+          res.status(200).json(friend);
+        }
       })
       .catch(error => {
         res.status(500).json({
@@ -65,8 +70,13 @@ router
   .delete((req, res) => {
     Friend.findByIdAndRemove(req.params.id)
       .then(friend => {
-        res.status(200).json(friend);
-        // 404 not found ???
+        if (friend === null) {
+          res.status(404).json({
+            message: 'The friend with the specified ID does not exist.'
+          });
+        } else {
+          res.status(200).json(friend);
+        }
       })
       .catch(error => {
         res
@@ -83,7 +93,13 @@ router
 
     Friend.findByIdAndUpdate(id, update)
       .then(friend => {
-        if (!firstName || !lastName || !age) {
+        if (friend === null) {
+          res
+            .status(404)
+            .json({
+              message: 'The friend with the specified ID does not exist.'
+            });
+        } else if (!firstName || !lastName || !age) {
           res.status(400).json({
             errorMessage:
               'Please provide firstName, lastName and age for the friend.'
@@ -95,7 +111,6 @@ router
         } else {
           res.status(200).json(update);
         }
-        // 404 not found ???
       })
       .catch(error => {
         res.status(500).json({
