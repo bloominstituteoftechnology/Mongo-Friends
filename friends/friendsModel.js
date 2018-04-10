@@ -1,5 +1,7 @@
+// Mongoose
 const mongoose = require('mongoose');
 
+// Schema
 const friendSchema = new mongoose.Schema({
   firstName: {
     type: String,
@@ -12,6 +14,8 @@ const friendSchema = new mongoose.Schema({
   age: {
     type: Number,
     required: true,
+    min: 1,
+    max: 120,
   },
   createdOn: {
     type: Date,
@@ -19,6 +23,7 @@ const friendSchema = new mongoose.Schema({
   },
 });
 
+// declare Model and connect to Schema
 const friendsModel = mongoose.model('Friend', friendSchema);
 
 module.exports = friendsModel;
