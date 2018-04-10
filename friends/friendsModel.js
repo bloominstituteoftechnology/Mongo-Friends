@@ -1,55 +1,31 @@
-const router = require('express').Router();
-const Friend = require('./friendsModel');
+const mongoose = require('mongoose');
 
-router
-  .route('/').get((req, res) => {
-    Friend
-    .find({})
-    .then(friends => {
-      res.status(200).json(friends);
-    })
-    .catch(error => {
-      res.status(500).json(error);
-    });
-  })
-  .post((req, res) => {
-    const friend = new Friend(req.body);
-    friend.save()
-    .then(saveFriend => {
-      res.status(200).json(saveFriend);
-    })
-    .catch(error => {
-      res.status(500).json(error);
-    });
-  });
+const friendSchema = new mongoose.Schema({
+   
+ firstName:{
+  type: String,
+  required: true,
+},
 
-router
-  .route('/:id').get((req, res) => {
-    Friend
-    .findById(req.params.id)
-    .then(friends => {
-      res.status(200).json(friends);
-    })
-    .catch(error => {
-      res.status(500).json(error);
-    })
-  })
-  .delete((req, res) => {
-      const {id } = req.params;
-    Friend.findByIdAndRemove(id)
-    .then(response => {
-    if (response === null) {
-    res.status(404).json({ message:'not found' });
-    
-    } else {
-      res.status(200).json(response);
-    }
-})
+lastName: {
+ type: String,
+ required: true,
 
-    .catch(error => {
-      res.status(500).json(error);
-    })
-  });
+},
+ 
+age: {
+ type: Number,
+ required: true,
+ maxlength: 120,
+ minlength: 1,
+},
 
+createdOn: {
+  type: Date,
+  default: Date.now,
+ }
+});
 
-module.exports = router;
+const friendsModel = mongoose.model('Friend', friendSchema);
+
+module.exports = friendsModel;
