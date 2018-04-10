@@ -1,7 +1,11 @@
 import React, { Component } from 'react';
-import Wrapper from './primatives/Wrapper';
+import AddFriendWrapper from './primatives/AddFriendWrapper';
 import styled from 'styled-components';
+import Input from './primatives/Input';
+import FormWrap from './primatives/FormWrap';
+
 import axios from 'axios';
+
 
 class AddFriendForm extends Component {
    constructor(){
@@ -35,29 +39,28 @@ class AddFriendForm extends Component {
         })
     }
 
-    handleInput(event) {
+    handleFirstNameInput(event) {
+        this.setState({
+            firstName: event.target.value
+        });
+    }
 
-        event.preventDefault();
-        const { name, value } = event.target
-       this.setState({
-           [name]: value
-       })
+    handleLastNameInput(event) {
+        this.setState({
+            lastName: event.target.value
+        });
+    }
+
+    handleAgeInput(event) {
+        this.setState({
+            age: event.target.value
+        });
     }
 
     render() {
-        const FormWrap = styled.div`
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        flex-direction: column;
+   
+
         
-        border: solid black;
-`
-        const Input = styled.input`
-            width: 300px;
-            height: 40px;
-            margin: 10px;
-        `
         const Button = styled.button`
             width: 10%;
             height: 30px;
@@ -68,20 +71,21 @@ class AddFriendForm extends Component {
             font-weight: 900;
         `
         return(
-            <Wrapper>
+            <AddFriendWrapper>
 
                 <form onSubmit={this.addFriend}>
-                  <FormWrap>
+                <FormWrap>
                     <Label>First Name</Label>  
                     <Input name="firstName" placeholder="First Name" onChange={this.handleFirstNameInput} value={this.state.firstName}/>
                     <Label>Last Name</Label>
                     <Input name="lastName" placeholder="Last Name" onChange={this.handleLastNameInput} value={this.state.lastName}/>
                     <Label>Age</Label>
                     <Input name="age" placeholder="Age" onChange={this.handleAgeInput} value={this.state.age}/>
-                    <Button>Submit</Button>
-                  </FormWrap>  
-                </form>    
-            </Wrapper>    
+                    <Button onSubmit={this.addFriend}>Submit</Button>
+                </FormWrap>       
+                </form>  
+       
+            </AddFriendWrapper>    
 
         )
     }
