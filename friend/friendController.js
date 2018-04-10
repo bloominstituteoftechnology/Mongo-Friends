@@ -15,15 +15,29 @@ router
   })
   .post((req, res) => {
     const friend = new Friend(req.body);
-
-    friend
-      .save()
-      .then(savedFriend => {
-        res.status(201).json(savedFriend);
-      })
-      .catch(err => {
-        console.log("Friend Saved!");
+    if (req.body.firstName && req.body.lastName && req.body.age) {
+      friend
+        .save()
+        .then(savedFriend => {
+          res.status(201).json(savedFriend);
+        })
+        .catch(err => {
+          if (err.name === "Validator Error") {
+            res.status(400).json(err.message);
+          } else {
+            res
+              .status(500)
+              .json({
+                errorMessage:
+                  "There was an error while saving the friend to the database."
+              });
+          }
+        });
+    } else {
+      res.status(400).json({
+        errorMessage: "Please provide firstName, lastName, and age for friend."
       });
+    }
   });
 
 router
