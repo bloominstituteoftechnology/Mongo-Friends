@@ -19,6 +19,18 @@ const friendSchema = new mongoose.Schema ({
         type: Date,
         default: Date.now,
         required: true
+    },
+    contactInfo: {
+        type: Object,
+        required: false,
+        email: {
+            type: String,
+            required: false
+        },
+        phone: {
+            type: String,
+            required: false
+        }
     }
   })
 const friendModel = mongoose.model('Friend', friendSchema);

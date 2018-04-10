@@ -4,10 +4,9 @@ const FriendModel = require('./friendModel');
 router
   .route('/')
   .post((req, res) => {
-    const { firstName, lastName, age } = req.body;
-    const friend = new FriendModel({firstName, lastName, age});
+    const friend = new FriendModel(req.body);
 
-    if (!friend.firstName || !friend.lastName || !friend.age) res.status(400).json({error: "Please include a first name, last name, and age for the friend"});
+    if (!friend.firstName || !friend.lastName || !friend.age) res.status(400).json({error: "Please include a first name, last name, age, and contact info for the friend"});
     else if (friend.age !== Math.floor(friend.age)) res.status(400).json({error: "Age must be a rounded number"});
     else {
         friend
@@ -16,7 +15,7 @@ router
                 res.status(201).json(ans)
             })
             .catch(err => {
-                res.status(500).json({error: "There was an error adding your friend"})
+                res.status(500).json({error: "There was an error adding your friend", err});
             });
     }
     })
@@ -60,13 +59,13 @@ router
     })
     .put((req, res) => {
         const { id } = req.params;
-        const { firstName, lastName, age } = req.body;
-        const update = { firstName, lastName, age }
+        const newInfo = req.body;
+        const { age } = newInfo;
         if (age < 1 || age > 120) res.status(400).json({error:"An age between 0 and 120 is required"});
         else {
-            FriendModel.findByIdAndUpdate(id, update)
+            FriendModel.findByIdAndUpdate(id, newInfo)
             .then(ans => {
-                const newFriend = { firstName, lastName, age, ...req.body}
+                const newFriend = newInfo;
                 res.status(200).json(newFriend);
             })
             .catch(err => {

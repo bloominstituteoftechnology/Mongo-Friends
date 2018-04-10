@@ -1,0 +1,15 @@
+html {
+  background-color: #3B7CA3;
+}
+
+.App {
+  text-align: center;
+  color: white;
+  background-color: #3B7CA3;
+}
+
+.friendCard {
+  border: 2px solid gray;
+}
+
+
