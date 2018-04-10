@@ -15,6 +15,11 @@ const friendSchema = new mongoose.Schema({
         min: [1, 'You are too young to have friends.'],
         max: [120, 'You are too old to have friends.']
     },
+    contactInfo:{
+         email:{type: String},
+         cellNumber:{type: Number},
+         userName:{type: String},
+    },
     createdOn: {type: Date, default: Date.now}
 });
 
