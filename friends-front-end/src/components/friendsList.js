@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-// import { CardCols } from 'reactstrap';
+import { CardColumns } from 'reactstrap';
 import { retrieve } from '../actions/retrieve';
+import FriendCard from './friendCard';
 
 class FriendsList extends Component {
   componentDidMount() {
@@ -9,7 +10,13 @@ class FriendsList extends Component {
   }
   render() {
     console.log(this.props.friends, 'friends');
-    return <div>This is the Friends List Component!</div>;
+    return (
+      <CardColumns>
+        {this.props.friends.map(friend => {
+          return <FriendCard friend={friend} />;
+        })}
+      </CardColumns>
+    );
   }
 }
 const mapStateToProps = state => {
