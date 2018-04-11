@@ -2,6 +2,7 @@ const express = require('express');
 const helmet = require('helmet');
 const cors = require('cors');
 const mongoose = require('mongoose');
+const friendController = require('./friends/friendController');
 
 mongoose
   .connect('mongodb://localhost:27017')
@@ -13,6 +14,8 @@ const server = express();
 server.use(helmet());
 server.use(cors());
 server.use(express.json());
+
+server.use('/api/friends',friendController);
 
 server.get('/', (req, res) => {
   res.status(200).json({ api: 'running' });
