@@ -4,8 +4,8 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 
-const friendRouters = require('./Friends/friendRouters');
-const Friends = require('./Friends/FriendModel');
+const friendController = require('./Friend/friendController');
+const friends = require('./Friend/FriendModel');
 
 const server = express();
 
@@ -18,8 +18,8 @@ server.get('/', (req, res) => {
   res.status(200).json({ api: 'running' });
 });
 
-server.use('/api/friends', friendRouters);
-
+server.use('/api/friends', friendController);
+server.use('/api/friends/?=id', friendController);
 mongoose
   .connect('mongodb://localhost/Friends')
   .then(connected => {

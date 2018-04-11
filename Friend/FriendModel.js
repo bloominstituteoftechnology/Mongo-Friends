@@ -1,6 +1,9 @@
 const mongoose = require('mongoose');
 
 const friendSchema = new mongoose.Schema({
+    id:{
+        type: Number
+    },
     firstName:{
         type: String,
         required: true
@@ -22,6 +25,6 @@ const friendSchema = new mongoose.Schema({
     }
 });
 
-const friendModel = mongoose.model('Friends', friendSchema);
+const friendModel = mongoose.model('Friend', friendSchema);
 
 module.exports = friendModel;
