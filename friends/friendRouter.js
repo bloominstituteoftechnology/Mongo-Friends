@@ -34,17 +34,17 @@ router.get('/:id', (req, res) => {
 });
 
 // POST
+//   if (typeof age === 'number') {
+//   res
+//     .status(400)
+//     .json({ errorMessage: 'Age must be a number between 1 and 120' });
+// }
 router.post('/', (req, res) => {
   const { firstName, lastName, age } = req.body; //destructure to make easier to type
   if (!firstName || !lastName || !age) {
     res.status(400).json({
       errorMessage: 'Please provide firstName, lastName and age for the friend.'
     });
-  }
-  if (typeof age === 'number') {
-    res
-      .status(400)
-      .json({ errorMessage: 'Age must be a number between 1 and 120' });
   } else {
     const friend = new Friend(req.body); // making new instance of Friend model so save() works
     friend

@@ -19,9 +19,9 @@ class FriendList extends Component {
   };
   render() {
     return (
-      <div>
-        {this.state.friends.map((friend, i) => {
-          return <Friend card={friend} key={i} />;
+      <div className="contain">
+        {this.state.friends.map((friend, id) => {
+          return <Friend card={friend} key={id} />;
         })}
       </div>
     );

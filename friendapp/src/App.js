@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 
 import FriendList from './FriendList';
+import FriendForm from './FriendForm';
 
 import logo from './logo.svg';
 import './App.css';
@@ -11,9 +12,9 @@ class App extends Component {
       <div className="App">
         <header className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
         </header>
         <FriendList />
+        <FriendForm />
       </div>
     );
   }

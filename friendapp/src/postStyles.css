@@ -1,0 +1,18 @@
+.card {
+  display: flex;
+  justify-content: center;
+
+  align-items: center;
+  flex-flow: column;
+  border: 1.5px solid #6c6c6c;
+  border-radius: 2%;
+  width: 200px;
+  height: 200px;
+  margin: 10px;
+  align-self: center;
+  box-shadow: 0 1px 5px #5b5b5b;
+  padding: 5px;
+  line-height: 2em;
+}
+.card-text {
+}
