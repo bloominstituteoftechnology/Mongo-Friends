@@ -22,7 +22,7 @@ router
       .then(newFriend => {
         if (!newFriend.firstName || !newFriend.lastName || !newFriend.age) {
           res.status(400).json(err => {
-            errorMessage: 'Please provide firstName, lastName and age for the friend.';
+            errorMessage: 'Please provide firstName, lastName and age for the friend.', err;
           });
         }
         if (NaN(newFriend.age) || newFriend.age < 1 || newFriend.age > 120) {
@@ -35,6 +35,41 @@ router
       .catch(err => {
         res.status(500).json(err => {
           errorMessage: 'There was an error while saving the friend to the database.', err;
+        });
+      });
+  });
+
+router
+  .route('/:id')
+  .get((req, res) => {
+    Friend.findById(req.params.id)
+      .then(friend => {
+        if (friend === null) {
+          res.status(404).json(err => {
+            message: 'The friend with the specified ID does not exist.', err;
+          });
+        }
+        res.status(200).json(friend);
+      })
+      .catch(err => {
+        res.status(500).json(err => {
+          errorMessage: 'The friend information could not be retrieved.', err;
+        });
+      });
+  })
+  .delete((req, res) => {
+    Friend.findByIdAndRemove(req.params.id)
+      .then(friend => {
+        if (friend === null) {
+          res.status(404).json(err => {
+            message: 'The friend with the specified ID does not exist.', err;
+          });
+        }
+        res.status(200).json({ message: 'Friend removed.' });
+      })
+      .catch(err => {
+        res.status(500).json(err => {
+          errorMessage: 'The friend could not be removed', err;
         });
       });
   });
