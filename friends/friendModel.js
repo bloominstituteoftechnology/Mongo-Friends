@@ -7,6 +7,6 @@ const friendSchema = new mongoose.Schema({
   createdOn: { type: Date, required: true, default: Date.now },
 });
 
-const friendModel = mongoose.model('Friend', friendSchema); // this is the friends collection
+const friendModel = mongoose.model('Friend', friendSchema);
 
 module.exports = friendModel;
