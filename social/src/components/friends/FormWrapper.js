@@ -11,7 +11,7 @@ export default styled.form`
     color: #aaa;
     font-size: 1.1rem;
     font-family: sans-serif;
-    opacity: 0.3;
+    opacity: 0.6;
     border-radius: 5px;
     :focus {
       color: black;

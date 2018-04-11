@@ -1,7 +1,6 @@
 import React from 'react';
 
 const FriendList = ({ friends }) => {
-  console.log(friends);
   return (
     <React.Fragment>
       {friends.map(friend => (

@@ -12,13 +12,35 @@ class App extends Component {
   displayForm = () => {
     this.setState({ showForm: !this.state.showForm });
   };
+
+  handleSubmitForm = input => {
+    const url = `http://localhost:5000/api/friends`;
+    fetch(url, {
+      method: `post`,
+      headers: {
+        'Content-type': `application/json`,
+      },
+      body: input,
+    })
+      .then(response => response.json())
+      .then(function(data) {
+        console.log('Request succeeded with JSON response', data);
+        // bring back the form
+        this.setState({
+          showForm: false,
+        });
+      })
+      .catch(function(error) {
+        console.log('Request failed', error);
+      });
+  };
   render() {
     return (
       <AppWrapper className="App">
         <h3>Friends</h3>
         <FriendList friends={this.state.Friends} />
         {this.state.showForm ? (
-          <FriendForm />
+          <FriendForm handleSubmit={this.handleSubmitForm} />
         ) : (
           <button onClick={this.displayForm}> + </button>
         )}
