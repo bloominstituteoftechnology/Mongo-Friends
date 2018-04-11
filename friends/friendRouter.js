@@ -66,10 +66,16 @@ router.delete('/:id', (req, res) => {
   const { id } = req.params;
   Friend.findByIdAndRemove(id)
     .then(response => {
-      res.status(200).json(response);
+      if (!response) {
+        res
+          .status(404)
+          .json({ message: 'friend with  specified ID was not found' });
+      } else {
+        res.status(200).json(response);
+      }
     })
     .catch(error => {
-      res.status(500).json(error);
+      res.status(500).json({ errorMessage: 'The friend could not be removed' });
     });
 });
 
@@ -77,28 +83,23 @@ router.delete('/:id', (req, res) => {
 router.put('/:id', (req, res) => {
   const { id } = req.params;
   const { firstName, lastName, age } = req.body;
-  if (!id) {
-    res
-      .status(404)
-      .json({ message: 'The friend with the specified ID does not exist.' });
-  }
-  if (!firstName || !lastName || !age) {
-    res.status(400).json({
-      errorMessage: 'Please provide firstName, lastName and age for the friend.'
-    });
-  } else {
-    Friend.findByIdAndUpdate(id, req.body, { new: true })
-      .then(update => {
+  Friend.findByIdAndUpdate(id, req.body, { new: true })
+    .then(update => {
+      if (!update) {
+        res.status(404).json({ errormessage: 'cannot be found' });
+      }
+      if (!firstName || !lastName || !age) {
+        res.status(400).json({ message: 'error nope' });
+      } else {
         res.status(200).json(update);
-      })
-      .catch(error => {
-        res
-          .status(500)
-          .json({
-            errorMessage: 'The friend information could not be modified.'
-          });
+      }
+    })
+    .catch(error => {
+      res.status(500).json({
+        errorMessage: 'The friend information could not be modified.'
       });
-  }
+    });
 });
+
 //********remember to export right after imports*********
 module.exports = router;
