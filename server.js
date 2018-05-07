@@ -100,15 +100,26 @@ server.delete('/api/friends/:id', (req, res) => {
 // PUT method for a specific friend by id
 server.put('/api/friends/:id', (req, res) => {
   const id = req.params.id;
+  const { firstName, lastName, age } = req.body 
   const friendInfo = req.body;
+
 
   Friend
   .findByIdAndUpdate(id, friendInfo)
   .then(response => {
-    res.status(200).json({ friendInfo })
+    if (!firstName || !lastName || !age ) {
+      res.status(400).json({ errorMessage: "Please provide firstName, lastName and age for the friend." })
+    } 
+    res.status(200).json({ friendInfoz })
   })
   .catch(err => {
+    if (err.kind === 'ObjectId') {
+      res.status(404).json({ message: "The friend with the specified ID does not exist." }) 
+  } else if (isNaN(age)) {
+        res.status(400).json({ errorMessage: "Age must be a number between 1 and 120" })
+    } else {
     res.status(500).json({ errorMessage: "The friend could not be removed" })
+    }
   })
 })
 
