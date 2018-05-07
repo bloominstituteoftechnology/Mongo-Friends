@@ -3,20 +3,20 @@ const mongoose = require('mongoose');
 const defintion = {
   firstName: {
     type: String,
-    required: true
+    required: true,
   },
   lastName: {
     type: String,
-    required: true
+    required: true,
   },
-  age:{
-    Type: Number,
-    required: true
+  age: {
+    type: Number,
+    required: true,
   },
   createdOn: {
     type: Date,
-    default: Date.now
-  }
+    default: Date.now,
+  },
 }
 
 const options = {
