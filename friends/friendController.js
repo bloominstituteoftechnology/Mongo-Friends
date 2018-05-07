@@ -10,7 +10,7 @@ router.route('/')
       })
       .catch(err => {
         res.status(500).json(err);
-      })
+      });
   })
   .post((req, res) => {
     const friend = new Friend(req.body);
@@ -25,9 +25,13 @@ router.route('/')
 
 router.route('/:id')
   .get((req, res) => {
-    res.status(200).json({
-      route: '/api/friends/' + req.params.id
-    });
+    Friend.findById(req.params.id)
+      .then(friend => {
+        res.json(friend);
+      })
+      .catch(err => {
+        res.json(err);
+      });
   })
   .delete((req, res) => {
     res.status(200).json({ status: 'please implement DELETE functionality' });
