@@ -35,10 +35,10 @@ router
       });
   });
 
-//CRUD /api/friends/:id
+// CRUD /api/friends/:id
 router
   .route("/:id")
-  //GET /api/friends/:id
+  // GET /api/friends/:id
   .get((req, res) => {
     const { id } = req.params;
 
@@ -52,7 +52,7 @@ router
         });
       });
   })
-  //PUT /api/friends/:id
+  // PUT /api/friends/:id
   .put((req, res) => {
     const { id } = req.params;
     const friendData = req.body;
@@ -64,6 +64,20 @@ router
       .catch(error => {
         res.status(500).json({
           error: "There was an error updating a friend."
+        });
+      });
+  })
+  // DELETE
+  .delete((req, res) => {
+    const { id } = req.params;
+
+    Friend.findByIdAndRemove(id)
+      .then(friend => {
+        res.status(200).json(friend);
+      })
+      .catch(error => {
+        res.status(500).json({
+          error: "There was an error deleting a friend."
         });
       });
   });
