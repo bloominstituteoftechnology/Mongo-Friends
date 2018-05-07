@@ -2,7 +2,6 @@ const express = require("express");
 const helmet = require("helmet");
 const cors = require("cors");
 const mongoose = require("mongoose");
-const server = express();
 
 // connect to mongo
 // mongodb://{hostname}:{port}/{dbname}
@@ -15,12 +14,14 @@ mongoose
 		console.log("Error conencting to database", err);
 	});
 
+// import sub-applications
+const Friend = require("./friends/Friend");
+
+const server = express();
+
 server.use(helmet());
 server.use(cors());
 server.use(express.json());
-
-// import sub-applications
-const Friend = require("./friends/Friend");
 
 server.get("/", (req, res) => {
 	res.status(200).json({ api: "running" });
