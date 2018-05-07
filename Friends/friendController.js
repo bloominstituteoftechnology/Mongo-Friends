@@ -22,7 +22,7 @@ function post(req, res) {
 
   const friend = new Friend(friendData);
   const { firstName, lastName, age } = friend;
-  if (firstName && lastName && age) {
+  if (firstName && lastName) {
     if (!isNaN(age) && age > 1 && age < 120) {
       friend
         .save()
