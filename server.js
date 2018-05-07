@@ -1,6 +1,18 @@
 const express = require('express');
 const helmet = require('helmet');
 const cors = require('cors');
+const mongoose = require('mongoose')
+
+mongoose
+.connect('mongodb://localhost/frienddb')
+.then(mongo=>{
+  console.log("connected")
+})
+.then(err=>{
+  console.log('error connecting',err)
+})
+
+const friendController = reuqire('./friends/friendController')
 
 const server = express();
 
