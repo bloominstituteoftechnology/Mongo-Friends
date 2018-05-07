@@ -34,7 +34,7 @@ server.get('/api/friends', (req, res) => {
     res.status(200).json(response)
   })
   .catch(err => [
-    res.status(500).json(`{ errorMessage: "The friends information could not be retrieved." }`)
+    res.status(500).json({ errorMessage: "The friends information could not be retrieved." })
   ])
 })
 
@@ -44,12 +44,15 @@ server.get('/api/friends/:id', (req, res) => {
 
   Friend
   .findById(id)
-  .then(response => {
+  .then(responsez => {
     res.status(200).json(response)
     }
   )
   .catch(err => {
-    res.status(500).json(`{ errorMessage: "The friend information could not be retrieved." }`)
+    if (err.name === 'CastError') {
+      res.status(404).json({ message: "The friend with the specified ID does not exist." })
+    }
+    res.status(500).json({ errorMessage: "The friend could not be removed" })
   })
 })
 
@@ -74,6 +77,23 @@ server.post('/api/friends', (req, res) => {
     } else {
       res.status(500).json({ errorMessage: "There was an error while saving the friend to the database." })
     }
+  })
+})
+
+// DELETE method for a specific friend by id
+server.delete('/api/friends/:id', (req, res) => {
+  const id = req.params.id;
+  
+  Friend
+  .findByIdAndRemove(id)
+  .then(response => {
+    res.status(200).json(response)
+  })
+  .catch(err => {
+    if (err.name === 'CastError') {
+      res.status(404).json({ message: "The friend with the specified ID does not exist." })
+    }
+    res.status(500).json({ errorMessage: "The friend could not be removed" })
   })
 })
 
