@@ -31,6 +31,14 @@ function get(req, res) {
 function post(req, res) {
   const friendData = req.body;
 
+  if (!friendData.firstName || !friendData.lastName || !friendData.age) {
+    return res.status(400).json({ errorMessage: "Please provide firstName, lastName and age for the friend."});
+  }
+
+  if (isNaN(Number(friendData.age)) || friendData.age < 1 || friendData.age > 120) {
+    return res.status(400).json({ errorMessage: "Age must be a number between 1 and 120"});
+  }
+
   const friend = new Friend(friendData);
 
   friend
