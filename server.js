@@ -1,6 +1,17 @@
 const express = require('express');
 const helmet = require('helmet');
 const cors = require('cors');
+const mongoose = require('mongoose');
+
+// Database connection
+mongoose
+  .connect('mongodb://localhost/friendDb')
+  .then(mongo => {
+    console.log('connected to database');
+  })
+  .catch(err => {
+    console.log('Error connecting to database', err);
+  });
 
 const server = express();
 
