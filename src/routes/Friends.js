@@ -8,6 +8,8 @@ import {
   userCreationFailedError,
   usersRetrievalFailedError,
   userUpdateFailedError,
+  userDeletionFailedError,
+  userDeletionIdError,
 } from '../errors';
 
 const FriendsRouter = Router({ mergeParams: true });
@@ -74,6 +76,27 @@ const putFriend = async (req, res) => {
 
 const PutFriendRouteHandler = asyncMiddWrapper(putFriend, jsonError);
 FriendsRouter.put('/:id', PutFriendRouteHandler)
+
+/**
+ * Delete Friend by id
+ * @param {Request} req
+ * @param {Response} res
+ */
+const deleteFriend = async (req, res) => {
+  const id = req.params.id
+  try {
+    const deletedFriend = await FriendModel.findByIdAndRemove(id)
+    if (!deletedFriend) { throw userDeletionIdError }
+    res.send(deletedFriend)
+  }
+  catch (err) {
+    if (err == userDeletionIdError) { throw err }
+    else { throw userDeletionFailedError }
+  }
+}
+
+const DeleteFriendRouteHandler = asyncMiddWrapper(deleteFriend, jsonError);
+FriendsRouter.delete('/:id', DeleteFriendRouteHandler)
 
 /**
  * Validates user input when creating or updating a friend
