@@ -33,9 +33,8 @@ server.get("/api/friends", (req, res) => {
   Friend.find().then(friends => {
     res.status(200).json(friends)
   }).catch(err => {
-    res.status(404).json({
-      message: "Mo friends found"
-    })
+    res.status(500).json({
+      errorMessage: "The friends information could not be retrieved."     })
   })
 })
 
@@ -58,12 +57,11 @@ server.post("/api/friends", (req, res) => {
     friendData.lastName.length === 0 ||
     friendData.age.length === 0) {
       return res.status(500).json({
-        message: "Make sure all fields are filled in"
-      })
+        errorMessage: "Please provide firstName, lastName and age for the friend."       })
     }
   else if(typeof friendData.age != 'number' || friendData.age < 1) {
     return res.status(500).json({
-      message: "Age must be a number between 1 and 120"
+      errorMessage: "Age must be a number between 1 and 120"
     })
   } else {
     friend.save().then(friend => {
@@ -72,7 +70,7 @@ server.post("/api/friends", (req, res) => {
       })
     }).catch(err => {
       res.status(500).json({
-        message: "There was an error while saving the friend to the database."
+        errorMessage: "There was an error while saving the friend to the database."
       })
     })
   }
