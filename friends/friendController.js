@@ -36,16 +36,36 @@ router
   });
 
 //CRUD /api/friends/:id
-router.get((req, res) => {
-  const { id } = req.params;
+router
+  .route("/:id")
+  //GET /api/friends/:id
+  .get((req, res) => {
+    const { id } = req.params;
 
-  Friend.findById(id)
-    .then(friend => {
-      res.status(200).json(friend);
-    })
-    .catch(error => {
-      res.status(500).json({
-        error: "There was an error retrieving friend info."
+    Friend.findById(id)
+      .then(friend => {
+        res.status(200).json(friend);
+      })
+      .catch(error => {
+        res.status(500).json({
+          error: "There was an error retrieving friend info."
+        });
       });
-    });
-});
+  })
+  //PUT /api/friends/:id
+  .put((req, res) => {
+    const { id } = req.params;
+    const friendData = req.body;
+
+    Friend.findByIdAndUpdate(id, req.body)
+      .then(friend => {
+        res.status(200).json(friend);
+      })
+      .catch(error => {
+        res.status(500).json({
+          error: "There was an error updating a friend."
+        });
+      });
+  });
+
+module.exports = router;
