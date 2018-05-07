@@ -12,19 +12,33 @@ function get(req, res) {
     .then(friends => {res.status(200).json(friends)})
 }
 
-function post (req, res) {
-    const friendData = req.body;
-    const friend = new Friend(friendData);
-
-    friend
-    .save(friendData)
-    .then(friend => {
-      res.status(201).json(friend)
-    })
-    .catch(err => {
-      res.status(500).json({ Error: err })
-    });
-  }
+function post(req, res) {
+        const friend = new Friend(req.body);
+        const { firstName, lastName, age } = req.body;
+    
+        if (!firstName || !lastName || !age) {
+          res.status(400).json({
+            message:
+              'Please provide firstName, lastName and age for the friend.'
+          });
+        } else if (!age === Number || age < 1 || age > 120) {
+          res.status(400).json({
+            message: 'Age must be a number between 1 and 120'
+          });
+        } else {
+          friend
+            .save()
+            .then(savedFriend => {
+              res.status(201).json(savedFriend);
+            })
+            .catch(err =>
+              res.status(500).json({
+                message:
+                  'There was an error while saving the friend to the database.'
+              })
+            );
+        }
+      };
 
 router
 .route('/:id')
@@ -47,7 +61,7 @@ router
         });
     }
   })
-  
+
   .delete((req, res) => {
     Friend.findByIdAndRemove(req.params.id)
       .then(deleteFriend => {
@@ -56,19 +70,35 @@ router
       .catch(err => {
         if (res.status(404)) {
           res.json({
-            errorMessage: 'The friend with the specified ID does not exist.'
+            message: 'The friend with the specified ID does not exist.'
           });
         } else {
           res
             .status(500)
-            .json({ errorMessage: 'The friend could not be removed' });
+            .json({ message: 'The friend could not be removed' });
         }
       });
   })
-
-
+  
 .put((req, res) => {
-    res.status(200).json({ status: 'please implement PUT functionality' })
-})
+    const { firstName, lastName, age } = req.body;
+
+    if (!firstName || !lastName || !age) {
+      res.status(400).json({
+        errorMessage:
+          'Please provide firstName, lastName and age for the friend.'
+      });
+    } else {
+      Friend.findByIdAndUpdate(req.params.id, req.body)
+        .then(updatedFriend => {
+          res.status(201).json(updatedFriend);
+        })
+        .catch(err => {
+          res.status(500).json({
+            errorMessage: 'The friend information could not be modified.'
+          });
+        });
+    }
+  });
 
 module.exports = router;
