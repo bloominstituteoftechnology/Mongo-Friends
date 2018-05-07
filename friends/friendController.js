@@ -50,7 +50,7 @@ router
         res.status(200).json(friends);
       })
       .catch(err => {
-        res.status(500).json({ errorMessage: "The friends information could not be retrieved." })
+        res.status(500).json({ errorMessage: "The friend could not be removed" })
       })
   })
 
@@ -63,7 +63,7 @@ router
         res.status(200).json(friends);
       })
       .catch(err => {
-        res.status(500).json({ errorMessage: "The friends information could not be retrieved." })
+        res.status(500).json({ errorMessage: "The friend information could not be modified." })
       })
   })
 
