@@ -20,7 +20,8 @@ errorHandler = (err, req, res, next) => {
       if (err.errno === 19) {
           res.status(400).json({ msg: 'Please provide all required fields' });
       } else {
-          res.status(500).json({ error: 'something bad happened' });
+          console.log(err)
+          res.status(500).json({ error: 'something bad happened', whatHappened: err });
       }
   }
 }
