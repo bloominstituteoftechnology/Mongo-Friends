@@ -8,7 +8,7 @@ mongoose.connect('mongodb://localhost/friends')
     console.log('connected to mongodb!');
   })
   .catch(err => {
-    console.log('Error connecting to db');
+    console.log('Error connecting to db', err);
   });
 
 const friendController = require('./MVR/friendController');
@@ -21,7 +21,7 @@ server.use(express.json());
 server.get('/', (req, res) => {
   res.status(200).json({ api: 'running' });
 });
-server.use('/api/frineds', friendController);
+server.use('/api/friends', friendController);
 
 const port = process.env.PORT || 5000;
 server.listen(port, () => console.log(`\n=== API up on port: ${port} ===\n`));
