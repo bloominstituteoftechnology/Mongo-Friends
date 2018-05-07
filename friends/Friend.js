@@ -8,6 +8,34 @@ router
 	.get(get)
 	.post(post);
 
+// cancel the request.
+// respond with HTTP status code 500.
+// return the following JSON object: { errorMessage: "The friend information could not be retrieved." }.
+
+router.route("/:id").get((req, res) => {
+	// define id
+	const { id } = req.params;
+	// define query to find a friend by id
+	const query = Friend.findById(id, function(err, friend) {
+		// id is valid and friend is found
+		if (friend) {
+			res.status(200).json(friend);
+		}
+		// id not found
+		if (friend === undefined) {
+			res
+				.status(404)
+				.json({ message: "The friend with the specified ID does not exist." });
+		}
+		// friend could not be fetched
+		if (err) {
+			res.status(500).json({
+				errorMessage: "The friend information could not be retrieved."
+			});
+		}
+	});
+});
+
 function get(req, res) {
 	Friend.find()
 		.then(friends => {
