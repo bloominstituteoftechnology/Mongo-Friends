@@ -18,6 +18,23 @@ const definitions = {
   createdOn: {
     type: Date,
     default: Date.now
+  },
+  contactInfo: {
+    email: {
+      type: String
+    },
+    mobile: {
+      type: Number
+    },
+    github: {
+      type: String
+    },
+    facebook: {
+      type: String
+    },
+    twitter: {
+      type: String
+    }
   }
 };
 
