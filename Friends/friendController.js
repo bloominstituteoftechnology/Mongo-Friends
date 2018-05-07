@@ -20,7 +20,9 @@ router
   });
 
   function get(req, res) {
-    res.status(200).json({ route: '/api/friends/' });
+    Friend.find().then(friends => {
+      res.status(200).json(friends);
+    });
   }
 
   function post(req, res) {
@@ -29,7 +31,7 @@ router
     const friend = new Friend(friendData);
 
     friend
-      .save()
+      .post()
       .then(friend => {
       res.status(201).json(friend);
       })
