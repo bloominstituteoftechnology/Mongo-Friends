@@ -17,4 +17,17 @@ const getAllFriends = async (req, res) => {
 const FriendsRouteHandler = asyncMiddWrapper(getAllFriends);
 FriendsRouter.get('/', FriendsRouteHandler);
 
+/**
+ * Get single friend using Id
+ * @param {Request} req
+ * @param {Response} res
+ */
+const getFriendById = async (req, res) => {
+  const friend = await FriendsModel.findById(req.params.id).exec();
+  res.json(friend);
+};
+
+const SingleFriendRouteHandler = asyncMiddWrapper(getFriendById);
+FriendsRouter.get('/:id', SingleFriendRouteHandler);
+
 export default FriendsRouter;
