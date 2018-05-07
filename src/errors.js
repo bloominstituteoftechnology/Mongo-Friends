@@ -34,14 +34,6 @@ export const userUpdateIdError = {
   errorMessage: 'The friend with the specified ID does not exist.',
   status: 404
 }
-export const userUpdateMissingFieldEror = {
-  errorMessage: 'Please provide firstName, lastName and age for the friend.',
-  status: 400
-}
-export const userUpdateInvalidAgeError = {
-  errorMessage: 'Age must be a number between 1 and 120',
-  status: 400
-}
 export const userUpdateFailedError = {
   errorMessage: 'The friend information could not be modified.',
   status: 500
