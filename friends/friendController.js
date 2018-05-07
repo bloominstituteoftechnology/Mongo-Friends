@@ -94,4 +94,30 @@ router
             })
     })
 
+    .put((req, res) => {
+        const id = req.params.id;
+
+        let friend = req.body;
+
+        Friend.findByIdAndUpdate(id, friend)
+            .then(friend => {
+                if (!friend) {
+                    rest
+                      .status(404)
+                      .json(
+                        "The friend with the specified ID does not exist."
+                      );
+                } 
+                else {
+                    res.status(200).json(friend);
+                }
+            }).catch(err => {
+                res
+                  .status(500)
+                  .json(
+                    "The friend information could not be modified."
+                  );
+            })
+    })
+
 module.exports = router;
