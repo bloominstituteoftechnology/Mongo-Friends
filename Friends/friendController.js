@@ -3,7 +3,7 @@ const router = require('express').Router();
 const Friend = require('./friendModel');
 
 router
-	.route('/api/friends')
+	.route('/')
 	.get(get)
 	.post(post);
 
