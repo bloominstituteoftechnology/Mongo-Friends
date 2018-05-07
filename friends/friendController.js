@@ -2,21 +2,54 @@ const router = require("express").Router();
 
 const Friend = require("./friendModel");
 
+// get and post for general requests
 router
   .route("/")
   .get(get)
   .post(post);
 
+// get, delete, and put for ID-specific requests
 router
   .route("/:id")
   .get((req, res) => {
-    res.status(200).json({ route: "/api/friends/" + req.params.id });
+    Friend.findById(req.params.id)
+      .then(friend => {
+        res.status(200).json(friend);
+      })
+      .catch(err => {
+        res.status(500).json(err);
+      });
   })
   .delete((req, res) => {
-    res.status(200), json({ status: "please implement DELETE function" });
+    Friend.findByIdAndRemove(req.params.id)
+      .then(response => {
+        res.status(200).json(response);
+      })
+      .catch(err => {
+        res.status(500).json(err);
+      });
   })
   .put((req, res) => {
-    res.status(200).json({ status: "please implement PUT function" });
+    const { id } = req.params;
+    const friendData = req.body;
+    Friend.findByIdAndUpdate(id, friendData)
+      .then(response => {
+        if (response === null) {
+          res
+            .status(404)
+            .json({ message: "friend is not found. Get a friend first." });
+        } else {
+          res.status(200).json(response);
+        }
+      })
+      .catch(err => {
+        if (err.name === "CastError") {
+          res.status(400).json({
+            message: "invalid ID, check and try again."
+          });
+        }
+        res.status(500).json(err);
+      });
   });
 
 function get(req, res) {
@@ -27,7 +60,6 @@ function get(req, res) {
 
 function post(req, res) {
   const friendData = req.body;
-
   const friend = new Friend(friendData);
 
   friend
