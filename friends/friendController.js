@@ -23,24 +23,21 @@ router
         
         const friend = new Friend(friendData);
 
+        if (!friendData.firstName || !friendData.lastName || !friendData.age) {
+          res
+            .status(400)
+            .json(
+              "Please provide firstName, lastName and age for the friend."
+            );
+        } else if (friendData.age < 1 || friendData.age > 120) {
+          res
+            .status(400)
+            .json("Age must be a number between 1 and 120");
+        }
+
         friend 
             .save()
             .then(friend => {
-                 if (!friendData.firstName || !friendData.lastName) {
-                    res
-                     .status(400)
-                     .json(
-                       "Please provide firstName, lastName and age for the friend."
-                     );
-                 }
-                 
-                else if (friendData.age < 1 || friendData.age > 120) {
-                    res
-                      .status(400)
-                      .json(
-                        "Age must be a number between 1 and 120"
-                      );
-                }
                 res.status(200).json(friend);
             }).catch(err => {
                 res
