@@ -35,8 +35,8 @@ server.get('/friends', (req, res) => { // GET ALL FRIENDS
 server.get('/friends/:id', (req, res) => { // GET FRIEND BY ID 
   const { id } = req.params;
   Friend
-  .find(id)
-  .then(friends => res.json(friends))
+  .findById(id)
+  .then(friend => !friend ? res.status(404).end() : res.status(200).json(friend)) // DOESNT WORK
   .catch( (err) => res.status(500).json({ error: err }))
 // .catch( () => res.status(500).json({ errorMessage: "The friends information could not be retrieved." }))
 });
@@ -47,10 +47,41 @@ server.post('/friends', (req, res) => {
   const friend = new Friend(userInput);
   friend
   .save()
-  .then(friend => res.status(201, console.log ('\n Successfully created friend \n')).json(friend ))
-  .catch( err => res.status(500).json(err))
+  .then(friend => res.status(201, console.log ('\n Successfully created friend \n')).json(friend))
+  .catch( () => { //DOESNT WORK LIKE I WANT IT TOO....
+    if( lastName === undefined || firstName === undefined) {
+    return res.status(400).json({ errorMessage: "Please provide firstName, lastName and age for the friend." })
+  } 
+  else {
+      res.status(500).json(error)
+    }
+  })
 })
 
+server.delete('/friends/:id', (req, res) => {
+    const { id } = req.params;
+    let friend;
+    console.log("DELETE_FRIEND", "FRIEND TO DELETE = ", id);
+    Friend
+      .findById(id)
+      .then(foundFriend => { 
+        friend = { ...foundFriend[0] };
+          Friend
+          .findByIdAndRemove(id)
+            .then(response => res.status(200).json(response))
+        })
+        .catch((err) => res.status(500).send({ error: 'Error deleting friend', err }))
+})
+
+server.put('/friends/:id', (req, res) => {
+  const { id } = req.params;
+  const update = req.body;
+  Friend
+  .findByIdAndUpdate(id, update, {new: true}, (err, friend) => {
+        if (err) return res.status(500).send(err);
+        return res.send(friend);
+    })
+})
 
 // function get(req, res) {
 //   Friend
