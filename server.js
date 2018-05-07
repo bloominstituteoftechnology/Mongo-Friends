@@ -1,12 +1,17 @@
 const express = require('express');
 const helmet = require('helmet');
 const cors = require('cors');
-
+const mongoose = require('mongoose')
 const server = express();
-
+const FriendSchema = require('./friends/FriendSchemaa.js');
 server.use(helmet());
 server.use(cors());
 server.use(express.json());
+
+mongoose
+.connect('mongodb://localhost/friends')
+.then(() => console.log('connected'))
+.catch(error => console.log(error));
 
 server.get('/', (req, res) => {
   res.status(200).json({ api: 'running' });
