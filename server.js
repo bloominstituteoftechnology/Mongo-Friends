@@ -12,6 +12,8 @@ mongoose
   console.log('Error connecting to database', err);
 })
 
+const friendController = require('./friends/friendController');
+
 const server = express();
 
 server.use(helmet());
