@@ -68,7 +68,11 @@ function post(req, res) {
       res.status(201).json(friend);
     })
     .catch(err => {
-      res.status(500).json(err);
+      res.status(400).json({
+        errorMessage:
+          "Please provide fristName, lastName and age for the friend",
+        err
+      });
     });
 }
 
