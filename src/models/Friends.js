@@ -23,4 +23,4 @@ export const FriendsSchema = new Schema(FriendTypes);
  * Mongoose Model for friends document
  * @type Model<Document>
  */
-export const FriendsModel = mongoose.model('Friends', FriendsSchema);
+export const FriendModel = mongoose.model('Friend', FriendsSchema);
