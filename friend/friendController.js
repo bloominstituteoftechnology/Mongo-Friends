@@ -28,8 +28,12 @@ router
         const {id} = req.params;
         Friend.findByIdAndRemove(id, (err , friend) => {
             // console.log('this is the delete method, req is and res is: ', req, res)
+            console.log(friend);
+            if (!friend) {
+                return res.status(404).json({message: "The friend with the specified ID does not exist." })
+            }
             if (err) {
-                res.status(500).send(err)
+                res.status(500).json({errorMessage: "The friend could not be removed"})
             };
             const response = {
                 message: "Todo successfully deleted",
@@ -43,15 +47,31 @@ router
         // res.status(200).json(res); //NOT FUNCTIONAL
         const {id} = req.params;
         const {firstName, lastName, age} = req.body;
+        if (!firstName || !lastName || !age) {
+            res.status(400);
+            res.json({errorMessage: "Please provide firstName, lastName, and age for the friend."});
+            return;
+        }
+        if (typeof age !== 'number' || age < 1 || age > 120) {
+            // console.log('the age is a number');
+            res.status(400);
+            res.json({errorMessage: "Age must be a number between 1 and 120"});
+            return;
+        }
         // console.log('update id, updatebody : ', id, update.firstName)
-        Friend.findByIdAndUpdate(id, {firstName: firstName, lastName: lastName, age: age}, (err, friend) => {
-            if (err) return res.status(500).send(err);
-            console.log('This is an update, friend and error: ', friend, err);
-            return res.status(201).json(req.body)
+        Friend.findByIdAndUpdate(id, {firstName: firstName, lastName: lastName, age: age}, {new: true}, (err, friend) => {
+            if (!friend) {
+                return res.status(404).json({message: "The friend with the specified ID does not exist." })
+            }
+            
+
+            if (err) return res.status(500).json({errorMessage: "The friend information could not be modified." });
+            // console.log('This is an update, friend and error: ', friend, err);
+            return res.status(200).json(friend)
         })
-        .catch(err => {
-            res.status(500).json(err)
-        })
+        // .catch(err => {
+        //     res.status(500).json(err)
+        // })
     });
     
     function get(req, res) {
