@@ -18,3 +18,7 @@ const definition = {
     default: Date.now,
   },
 };
+
+const friendSchema = new mongoose.Schema(definition);
+
+module.exports = mongoose.model('Friend', friendSchema);
