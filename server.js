@@ -97,6 +97,21 @@ server.delete('/api/friends/:id', (req, res) => {
   })
 })
 
+// PUT method for a specific friend by id
+server.put('/api/friends/:id', (req, res) => {
+  const id = req.params.id;
+  const friendInfo = req.body;
+
+  Friend
+  .findByIdAndUpdate(id, friendInfo)
+  .then(response => {
+    res.status(200).json({ friendInfo })
+  })
+  .catch(err => {
+    res.status(500).json({ errorMessage: "The friend could not be removed" })
+  })
+})
+
 
 const port = process.env.PORT || 5000;
 server.listen(port, () => console.log(`\n=== API up on port: ${port} ===\n`));
