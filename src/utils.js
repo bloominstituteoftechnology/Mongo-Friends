@@ -2,6 +2,10 @@ import { Request, Response } from 'express';
 // this is only here to get type info
 // Babel will not include this require statement on compile
 import { RequestHandlerParams } from 'express-serve-static-core';
+import {
+  userMissingFieldError,
+  invalidAgeError
+} from './errors'
 
 /**
  * Helper function that creates mongodb connection string. Defaults to `mongodb://localhost/test`
@@ -34,4 +38,7 @@ export const asyncMiddWrapper = (fn, errHandler = console.error) =>
    */
   (req, res) => Promise.resolve(fn(req, res)).catch(e => errHandler(e, res));
 
-export const jsonError = (e, res) => res.status(400).send({ errorMessage: e.message, stack: e.stack })
+export const jsonError = (error, res) => {
+  const { errorMessage, status } = error
+  res.status(status).send({ errorMessage })
+}

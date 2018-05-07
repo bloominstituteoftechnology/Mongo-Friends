@@ -1,6 +1,13 @@
 import { Router, Request, Response } from 'express';
 import { FriendModel } from '../models/Friends';
 import { asyncMiddWrapper, jsonError } from '../utils';
+import {
+  userMissingFieldError,
+  userInvalidAgeError,
+  userRetrievalFailedError,
+  userCreationFailedError,
+  usersRetrievalFailedError,
+} from '../errors';
 
 const FriendsRouter = Router({ mergeParams: true });
 
@@ -10,7 +17,8 @@ const FriendsRouter = Router({ mergeParams: true });
  * @param {Response} res Express Response object
  */
 const getAllFriends = async (req, res) => {
-  const friends = await FriendModel.find().exec();
+  try { res.json(await FriendModel.find().exec()) }
+  catch (_) { throw usersRetrievalFailedError }
   res.json(friends);
 };
 
@@ -23,11 +31,11 @@ FriendsRouter.get('/', FriendsRouteHandler);
  * @param {Response} res
  */
 const getFriendById = async (req, res) => {
-  const friend = await FriendModel.findById(req.params.id).exec();
-  res.json(friend);
+  try { res.json(await FriendModel.findById(req.params.id).exec()) }
+  catch (_) { throw userRetrievalFailedError }
 };
 
-const SingleFriendRouteHandler = asyncMiddWrapper(getFriendById);
+const SingleFriendRouteHandler = asyncMiddWrapper(getFriendById, jsonError);
 FriendsRouter.get('/:id', SingleFriendRouteHandler);
 
 /**
@@ -39,17 +47,19 @@ const postFriend = async (req, res) => {
   const { body } = req;
   validateFriend(body) 
   const newFriend = new FriendModel(body);
-  const handled = await newFriend.save();
-  console.log(handled);
-  res.json(handled);
+  try {
+    const handled = await newFriend.save();
+    console.log(handled);
+    res.json(handled);
+  } catch (_) { throw userCreationFailedError }  
 };
 
 const validateFriend = (friend) => {
   if (!friend.firstName || !friend.lastName || !friend.age) {
-    throw new Error('Please provide firstName, lastName and age for the friend.')
+    throw userMissingFieldError
   }
   if (typeof friend.age !== 'number' || friend.age > 120 || friend.age < 1) {
-    throw new Error('Age must be a number between 1 and 120')
+    throw userInvalidAgeError
   }
 }  
 
