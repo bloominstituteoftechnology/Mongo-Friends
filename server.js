@@ -7,6 +7,7 @@ const FriendSchema = require('./friends/FriendSchemaa.js');
 server.use(helmet());
 server.use(cors());
 server.use(express.json());
+server.use('/api/friends', FriendSchema);
 
 mongoose
 .connect('mongodb://localhost/friends')
