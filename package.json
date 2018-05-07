@@ -5,8 +5,11 @@
   "main": "server.js",
   "scripts": {
     "babel-node": "babel-node --presets=env",
-    "start": "nodemon --exec npm run babel-node -- ./server.js",
-    "build": "babel server.js -d dist"
+    "start": "nodemon --exec npm run babel-node -- src/server.js",
+    "build": "babel src -d dist"
+  },
+  "babel": {
+    "presets": ["env"]
   },
   "repository": {
     "type": "git",
@@ -22,6 +25,7 @@
   "dependencies": {
     "cors": "^2.8.4",
     "express": "^4.16.3",
+    "express-serve-static-core": "^0.1.1",
     "helmet": "^3.12.0",
     "mongoose": "^5.0.17",
     "morgan": "^1.9.0"
