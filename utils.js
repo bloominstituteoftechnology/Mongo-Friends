@@ -21,6 +21,7 @@ export const createMongoUrl = (
  * @param {Function} fn Asynchronouse function
  * @param {Function=console.error} errHandler Function that will handle errors in
  *  the ansynchronous function. Defaults to console.error
+ * @returns {Function}
  */
 export const asyncMiddWrapper = (fn, errHandler = console.error) =>
   /**
