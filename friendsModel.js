@@ -27,3 +27,4 @@ const friendsSchema = new mongoose.Schema(definition, options)
 
 const friendsModel = mongoose.model('Friends', friendsSchema, 'friends');
 
+module.exports = friendsModel;
