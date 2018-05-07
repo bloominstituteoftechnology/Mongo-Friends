@@ -43,7 +43,13 @@ router.route('/:id')
       });
   })
   .put((req, res) => {
-    res.status(200).json({ status: 'please implement PUT functionality' });
+    Friend.findByIdAndUpdate(req.params.id, req.body)
+      .then(friend => {
+        res.json(friend);
+      })
+      .catch(err => {
+        res.json(err);
+      });
   });
 
 module.exports = router;
