@@ -1,5 +1,9 @@
 # Mongo I Project
 
+### Additional Notes
+
+**Stop the MongoDB database server when not in use to save computer resources**.
+
 ## Topics
 
 * Databases.
@@ -162,9 +166,6 @@ When the client makes a `PUT` request to `/api/friends/:id`:
   * return HTTP status code `200` (OK).
   * return the newly updated _friend document_.
 
-### Additional Notes
-
-**Stop the MongoDB database server when not in use to save computer resources**.
 
 ## Stretch Problems
 
