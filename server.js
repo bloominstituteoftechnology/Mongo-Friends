@@ -38,6 +38,26 @@ server.get('/api/friends', (req, res) => {
   ])
 })
 
+// GET method for specific friend
+server.get('/api/friends/:id', (req, res) => {
+  const id = req.params.id;
+
+  Friend
+  .findById(id)
+  .then(response => {
+    if (response.length === 0) {
+      res.status(200).json(response)
+    } else {
+      res.status(404).json(`{ message: "The friend with the specified ID does not exist." }`)
+    }
+  })
+  .catch(err => {
+    res.status(500).json(`{ errorMessage: "The friend information could not be retrieved." }`)
+  })
+})
+
+
+
 
 const port = process.env.PORT || 5000;
 server.listen(port, () => console.log(`\n=== API up on port: ${port} ===\n`));
