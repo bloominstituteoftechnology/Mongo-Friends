@@ -60,22 +60,20 @@ server.post('/api/friends', (req, res) => {
   const age = req.body.age;
 
   const friend = new Friend({ firstName, lastName, age });
-  
-  if (!firstName || !lastName || !age) {
-    res.status(400).json(`{ errorMessage: "Please provide firstName, lastName and age for the friend." }`)
-  }
 
-  if (isNaN(age)) {
-    res.status(400).json(`{ errorMessage: "Age must be a number between 1 and 120" }`)
-  }
-  
   friend
   .save()
   .then(response => {
     res.status(201).json(response)
   })
   .catch(err => {
-    res.status(500).json(`{ errorMessage: "There was an error while saving the friend to the database." }`)
+    if (!firstName || !lastName || !age) {
+      res.status(400).json({ errorMessage: "Please provide firstName, lastName and age for the friend." })
+    } else if (isNaN(age)) {
+      res.status(400).json({ errorMessage: "Age must be a number between 1 and 120" })
+    } else {
+      res.status(500).json({ errorMessage: "There was an error while saving the friend to the database." })
+    }
   })
 })
 
