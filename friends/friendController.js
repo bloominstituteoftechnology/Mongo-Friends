@@ -12,6 +12,7 @@ router
     .get(getById)
     .put(put)
     .delete(destroy)
+    
 function get(req, res) {
     Friend.find().then(friends => {
         res.status(200).json(friends);
@@ -26,7 +27,9 @@ function post(req, res) {
     friend
         .save(friend)
         .then(friend => {
-            res.status(201).json(friend);
+            Friend.find().then(friends => {
+                res.status(200).json(friends);
+            });
         })
         .catch(err => {
             res.status(500).json(err);
@@ -48,21 +51,46 @@ function put(req, res) {
     const newInfo = req.body;
 
     Friend
-        .findById(id)
-        .update(newInfo)
+        .findByIdAndUpdate(id, newInfo)
         .then(friends => {
-        res.status(200).json(friends);
+            Friend.find().then(friends => {
+                res.status(200).json(friends);
+            });
     });
 }
+
+// function put(req, res) {
+//     const { id } = req.params;
+//     const newInfo = req.body;
+
+//     Friend
+//         .findById(id)
+//         .update(newInfo)
+//         .then(friends => {
+//         res.status(200).json(friends);
+//     });
+// }
+
+// function destroy(req, res) {
+//     const { id } = req.params;
+    
+//     Friend
+//         .findById(id)
+//         .remove()
+//         .then(friends => {
+//         res.status(200).json(friends);
+//     });
+// }
 
 function destroy(req, res) {
     const { id } = req.params;
     
     Friend
-        .findById(id)
-        .remove()
+        .findByIdAndRemove(id)
         .then(friends => {
-        res.status(200).json(friends);
+            Friend.find().then(friends => {
+                res.status(200).json(friends);
+            });
     });
 }
 
