@@ -18,7 +18,7 @@ const definition = {
     createdOn: {
         type: Date,
         default: Date.now,
-    }
+    },
 }
 
 const options = {
