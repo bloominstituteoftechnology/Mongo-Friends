@@ -30,7 +30,18 @@ router
 router
   .route("/:id")
   .get((req, res) => {
-    res.status(200).json({ route: "/api/friends/" + req.params.id });
+    const id = req.params.id;
+    Friend.find()
+      .then(friends => {
+        const friend = friends.filter(
+          friend => friend._id.toString() === id.toString()
+        );
+        res.status(200).json(friend);
+      })
+      .catch(err => {
+        res.json({ err });
+      });
+    // res.status(200).json({ route: "/api/friends/" + req.params.id });
   })
   .delete((req, res) => {
     res.status(200).json({ status: "please implement DELETE functionality" });
