@@ -14,7 +14,7 @@ router
         res.status(200).json(friend);
       })
       .catch(error => {
-        res.status(500).json(error);
+        res.status(404).json({ message: "The friend with the specified ID does not exist." }, err);
       })
   })
   .delete((req, res) => {
@@ -23,24 +23,27 @@ router
         res.status(200).json(friend);
       })
       .catch(error => {
-        res.status(500).json(error);
+        res.status(404).json({ message: "The friend with the specified ID does not exist." }, err);
       })
   })
   .put((req, res) => {
-    Friend.findByIdAndUpdate(req.params.id)
+    Friend.findByIdAndUpdate(req.params.id, req.body)
       .then(friend => {
         res.status(200).json(friend);
       })
       .catch(error => {
-        res.status(500).json(error);
+        res.status(404).json({ message: "The friend with the specified ID does not exist." }, err);
       })
   });
 
 function get(req, res) {
   Friend.find().then(friends => {
     res.status(200).json(friends);
-  });
-}
+  })
+  .catch(err => {
+    res.status(500).json({ errorMessage: "The friends information could not be retrieved." }, err); 
+})
+};
 
 function post(req, res) {
   const friendData = req.body;
@@ -48,12 +51,12 @@ function post(req, res) {
   const friend = new Friend(friendData);
 
   friend
-    .post()
+    .save()
     .then(friend => {
       res.status(201).json(friend);
     })
     .catch(err => {
-      res.status(500).json(err);
+      res.status(500).json({errorMessage: "Please provide firstName, lastName and age for the friend." }, err);
     })
 };
 
