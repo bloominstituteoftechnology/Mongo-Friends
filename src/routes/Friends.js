@@ -1,6 +1,6 @@
 import { Router, Request, Response } from 'express';
 import { FriendModel } from '../models/Friends';
-import { asyncMiddWrapper } from '../utils';
+import { asyncMiddWrapper, jsonError } from '../utils';
 
 const FriendsRouter = Router({ mergeParams: true });
 
@@ -37,13 +37,23 @@ FriendsRouter.get('/:id', SingleFriendRouteHandler);
  */
 const postFriend = async (req, res) => {
   const { body } = req;
+  validateFriend(body) 
   const newFriend = new FriendModel(body);
   const handled = await newFriend.save();
   console.log(handled);
   res.json(handled);
 };
 
-const PostFriendRouteHandler = asyncMiddWrapper(postFriend);
+const validateFriend = (friend) => {
+  if (!friend.firstName || !friend.lastName || !friend.age) {
+    throw new Error('Please provide firstName, lastName and age for the friend.')
+  }
+  if (typeof friend.age !== 'number' || friend.age > 120 || friend.age < 1) {
+    throw new Error('Age must be a number between 1 and 120')
+  }
+}  
+
+const PostFriendRouteHandler = asyncMiddWrapper(postFriend, jsonError);
 FriendsRouter.post('/', PostFriendRouteHandler);
 
 export default FriendsRouter;

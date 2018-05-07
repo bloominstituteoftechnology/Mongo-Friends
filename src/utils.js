@@ -33,3 +33,5 @@ export const asyncMiddWrapper = (fn, errHandler = console.error) =>
    * @returns {Promise<fn>}
    */
   (req, res) => Promise.resolve(fn(req, res)).catch(e => errHandler(e, res));
+
+export const jsonError = (e, res) => res.status(400).send({ errorMessage: e.message, stack: e.stack })
