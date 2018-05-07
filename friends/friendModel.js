@@ -12,7 +12,7 @@ const definition = {
     age: {
         type: Number,
         required: true,
-    }, // should be an integer between 1 and 120
+    },
   createdOn: {
       type: Date,
       default: Date.now
