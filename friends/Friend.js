@@ -17,17 +17,32 @@ function get(req, res) {
 function post(req, res) {
 	// new friend
 	const newFriend = req.body;
-	// create a new mongoose document with new instance of Friend model
-	const friend = new Friend(newFriend);
 
-	friend
-		.save()
-		.then(friend => {
-			res.status(201).json(friend);
-		})
-		.catch(err => {
-			res.status(500).json(err);
+	// validate - friend must a valid firstName, lastName, and age
+	if (
+		!newFriend.firstName ||
+		!newFriend.firstName.length === 0 ||
+		!newFriend.lastName ||
+		!newFriend.lastName.length === 0 ||
+		!newFriend.age
+	) {
+		res.status(400).json({
+			message: "Please provide firstName, lastName and age for the friend."
 		});
+	} else {
+		// newFriend data is exists
+		// create a new mongoose document with new instance of Friend model
+		const friend = new Friend(newFriend);
+
+		friend
+			.save()
+			.then(friend => {
+				res.status(201).json(friend);
+			})
+			.catch(err => {
+				res.status(500).json(err);
+			});
+	}
 }
 
 module.exports = router;
