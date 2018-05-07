@@ -18,7 +18,7 @@ function post(req, res) {
 	// new friend
 	const newFriend = req.body;
 
-	// validate - friend must a valid firstName, lastName, and age
+	// validate - friend must have a firstName, lastName, and age
 	if (
 		!newFriend.firstName ||
 		!newFriend.firstName.length === 0 ||
@@ -27,10 +27,16 @@ function post(req, res) {
 		!newFriend.age
 	) {
 		res.status(400).json({
-			message: "Please provide firstName, lastName and age for the friend."
+			errorMessage: "Please provide firstName, lastName and age for the friend."
 		});
+	}
+	// validate age
+	if (newFriend.age < 1 || newFriend.age > 120) {
+		res
+			.status(400)
+			.json({ errorMessage: "Age must be a number between 1 and 120" });
 	} else {
-		// newFriend data is exists
+		// newFriend data is valid
 		// create a new mongoose document with new instance of Friend model
 		const friend = new Friend(newFriend);
 
@@ -40,7 +46,10 @@ function post(req, res) {
 				res.status(201).json(friend);
 			})
 			.catch(err => {
-				res.status(500).json(err);
+				res.status(500).json({
+					errorMessage:
+						"There was an error while saving the friend to the database."
+				});
 			});
 	}
 }
