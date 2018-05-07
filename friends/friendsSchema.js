@@ -27,7 +27,7 @@ router.route('/:id')
   .delete((req, res) => {
     const { id } = req.params;
     Friend.findById(id).remove()
-      .then(res => res.status(200).json(res)) // returns catch error but deletes specified friend
+      .then(response => res.status(200).json(response)) // returns confirmation object
       .catch(err => res.status(500).json({ error: "Cannot delete friend with the provided ID." }))
   })
 
