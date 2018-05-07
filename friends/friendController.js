@@ -68,9 +68,17 @@ function post(req, res) {
       res.status(201).json(friend);
     })
     .catch(err => {
-      res.status(400).json({
+      if (err.errors.firstName.$isValidatorError) {
+        res
+          .status(400)
+          .json({
+            errorMessage:
+              "Please provide firstName, lastName and age for the friend."
+          });
+      }
+      res.status(500).json({
         errorMessage:
-          "Please provide fristName, lastName and age for the friend",
+          "There was an error while saving the friend to the database.",
         err
       });
     });
