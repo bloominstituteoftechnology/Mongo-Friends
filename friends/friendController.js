@@ -29,11 +29,13 @@ router
             .json(
               "Please provide firstName, lastName and age for the friend."
             );
-        } else if (friendData.age < 1 || friendData.age > 120) {
+        } 
+        if (parseInt(friendData.age) < 1 || parseInt(friendData.age) > 120) {
           res
             .status(400)
-            .json("Age must be a number between 1 and 120");
+            .send({error: "Age must be a number between 1 and 120"});
         }
+        else {
 
         friend 
             .save()
@@ -46,6 +48,50 @@ router
                     "There was an error while saving the friend to the database."
                   );
             });
+        }
     });
+router 
+    .route('/:id')
+    .get((req, res) => {
+        const id = req.params.id;
 
-    module.exports = router;
+        Friend.findById(id).then(friend => {
+            if (friend.length === 0) {
+                res
+                  .status(404)
+                  .json(
+                    "The friend with the specified ID does not exist."
+                  );
+            } else {
+                res.status(200).json(friend);
+            }
+        }).catch(err => {
+            res
+              .status(500)
+              .json(
+                "The friend with the specified ID does not exist."
+              );
+        })
+    })
+    .delete((req, res) => {
+        const id = req.params.id;
+
+        Friend.findByIdAndRemove(id)
+            .then(friend => {
+                if (friend.length === 0) {
+                    res
+                      .status(404)
+                      .json(
+                        "The friend with the specified ID does not exist."
+                      );
+                } else {
+                    res.status(204).json(friend);
+                }
+            }).catch(err => {
+                res
+                  .status(500)
+                  .json("The friend could not be removed");
+            })
+    })
+
+module.exports = router;
