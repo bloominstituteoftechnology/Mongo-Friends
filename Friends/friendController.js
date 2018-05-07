@@ -8,9 +8,13 @@ router
   .post(post);
 
 function get(req, res) {
-  Friend.find().then(friends => {
-    res.status(200).json(friends);
-  });
+  Friend.find()
+    .then(friends => {
+      res.status(200).json(friends);
+    })
+    .catch(err => {
+      errorMessage: "The friends information could not be retrieved.";
+    });
 }
 
 function post(req, res) {
