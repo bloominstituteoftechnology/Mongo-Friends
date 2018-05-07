@@ -1,5 +1,9 @@
-import { Schema, Types, Model } from 'mongoose';
-const { ObjectId } = Types;
+// cannot import {model, Schema} from 'mongoose'
+// https://github.com/Automattic/mongoose/issues/6379
+import mongoose, { Model, Schema } from 'mongoose';
+const {
+  Types: { ObjectId }
+} = Schema;
 
 const FriendTypes = {
   _id: ObjectId,
@@ -13,10 +17,10 @@ const FriendTypes = {
  * Mongoose Schema for friends document
  * @type Schema
  */
-export const FriendsSchema = new Schema(FriendTypes);
+export const FriendsSchema = Schema(FriendTypes);
 
 /**
  * Mongoose Model for friends document
  * @type Model<FriendsSchema>
  */
-export const FriendsModel = Model('Friends', FriendsSchema);
+export const FriendsModel = mongoose.model('Friends', FriendsSchema);
