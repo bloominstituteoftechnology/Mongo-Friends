@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const Friends = require('./friendsModel');
+const Friend = require('./friendsModel');
 
 router
     .route('/')
@@ -25,14 +25,16 @@ router
     function post(req, res) {
         const friendData = req.body;
 
-        const friend = new Friends(friendData);
+        const friend = new Friend(friendData);
 
-        friend.save().then(friend => {
-            res.status(201).json(friend)
-        })
-        .catch(err => {
-            res.status(500).json(err);
-        });
+        friend
+            .save()
+            .then(friend => {
+                res.status(201).json(friend)
+            })
+            .catch(err => {
+                res.status(500).json(err);
+            });
     }
 
     module.exports = router;

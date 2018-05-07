@@ -12,7 +12,8 @@ const definition = {
     age: {
         type: Number,
         required: true,
-        // number: 1 || 120,
+        min: 1,
+        max: 120,
     }, 
     createdOn: {
         type: Date,
@@ -25,7 +26,7 @@ const options = {
     timestamps: true
 };
 
-const friendsSchema = new moongoose.Schema(definition, options)
+const friendsSchema = new mongoose.Schema(definition, options)
 
 const friendsModel = mongoose.model('Friends', friendsSchema, 'friends')
 
