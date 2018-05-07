@@ -100,5 +100,23 @@ server.delete("/api/friends/:id", (req, res) => {
     })
   })
 })
+
+
+server.put("/api/friends/:id", (req, res)=> {
+  const id = req.params.id;
+  const input = req.body;
+
+  Friend.findOneAndUpdate(id, input).then(friend => {
+    res.status(200).json({
+      message: "Friend has been succesfully updated"
+    })
+  }).catch(err => {
+    res.status(500).json({
+      errorMessage: "Friend could not be updated"
+    })
+  })
+})
+
+
 const port = process.env.PORT || 5000;
 server.listen(port, () => console.log(`\n=== API up on port: ${port} ===\n`));
