@@ -1,19 +1,19 @@
 const express = require('express');
 const router = express.Router();
-const Friends = require(../data/Friends);
+const Friends = require('../data/Friends');
 
 router
     .route('/')
     .get(get)
     .post(post);
 
-const get = (req, res) => {
+function get(req, res) {
     Friends.find().then(friends => {
         res.status(200).json(friends);
     });
 }
 
-const post = (req, res) => {
+function post(req, res) {
     const newFriend = req.body;
     const friend = new Friends(newFriend);
 
