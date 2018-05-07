@@ -54,15 +54,28 @@ server.post("/api/friends", (req, res) => {
   const friendData = req.body;
   const friend = new Friend(friendData);
 
-  friend.save().then(friend => {
-    res.status(200).json({
-      message: "Successfuly saved new friend to database"
+  if(friendData.firstName.length === 0 || 
+    friendData.lastName.length === 0 ||
+    friendData.age.length === 0) {
+      return res.status(500).json({
+        message: "Make sure all fields are filled in"
+      })
+    }
+  else if(typeof friendData.age != 'number' || friendData.age < 1) {
+    return res.status(500).json({
+      message: "Age must be a number between 1 and 120"
     })
-  }).catch(err => {
-    res.status(400).json({
-      message: "Could not post new friend to database"
+  } else {
+    friend.save().then(friend => {
+      res.status(201).json({
+        message: "Successfuly saved new friend to database"
+      })
+    }).catch(err => {
+      res.status(500).json({
+        message: "There was an error while saving the friend to the database."
+      })
     })
-  })
+  }
 })
 
 const port = process.env.PORT || 5000;
