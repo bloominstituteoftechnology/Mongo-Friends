@@ -1,6 +1,4 @@
-import { Mongoose } from 'mongoose';
-
-const mongoode = require('mongoose');
+const mongoose = require('mongoose');
 
 const defintion ={
 
@@ -14,19 +12,20 @@ const defintion ={
             required: true,
         },
         age: {
-            type: number,
+            type:Number,
             min:1,
-            max: 120
+            max: 120,
+            required:true
         },
         createdOn:{
-            type:date,
-            required: date.now
+            type:Date,
+            default: Date.now,
         }
 }
 const options ={
     timestamp:true,
 }
-const friendsSchema = new Mongoose.Schema(definition,options)
+const friendsSchema = new mongoose.Schema(defintion,options)
 
 const friends = mongoose.model('Friend', friendsSchema, 'friends')
 
