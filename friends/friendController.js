@@ -34,7 +34,13 @@ router.route('/:id')
       });
   })
   .delete((req, res) => {
-    res.status(200).json({ status: 'please implement DELETE functionality' });
+    Friend.findByIdAndRemove(req.params.id)
+      .then(friend => {
+        res.json(friend);
+      })
+      .catch(err => {
+        res.json(err);
+      });
   })
   .put((req, res) => {
     res.status(200).json({ status: 'please implement PUT functionality' });
