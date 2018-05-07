@@ -16,6 +16,11 @@ router.route('/:id')
       res.status(200).json(friend);
     })
   })
+  .delete((req, res) => {
+    Friend.findByIdAndRemove(req.params.id).then(friend => {
+      res.status(200).json({ message: `Friend with id ${friend._id} deleted.`});
+    })
+  })
 
 function get(req, res) {
   Friend.find().then(friends => {
