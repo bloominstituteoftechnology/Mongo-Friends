@@ -26,6 +26,19 @@ server.get('/', (req, res) => {
   res.status(200).json({ api: 'running' });
 });
 
+server.post('api/friends', (req, res) => {
+
+})
+
+server. delete('api/friends/:id', (req, res) => {
+
+})
+
+server.put('api/friends/:id', (req, res) => {
+  
+
+})
+
 server.use('/api/friends', friendsController);
 
 const port = process.env.PORT || 5000;

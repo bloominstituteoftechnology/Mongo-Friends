@@ -12,10 +12,10 @@ router
         res.status(200).json({ route: '/api/friends' + req.params.id });
     })
     .delete((req, res) => {
-        res.status(200).json({ status: 'please implement DELETE functionality' });
+        res.status(200).json({ route: '/api/friends/:id' });
     })
     .put((req, res) => {
-        res.status(200).json({ status: 'please implement UPDATE functionality' });
+        res.status(200).json({ route: '/api/friends/:id' });
     })
 
     function get(req, res) {
