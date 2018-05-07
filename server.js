@@ -11,7 +11,7 @@ mongoose.connect('mongodb://localhost/friends')
     console.log('Error connecting to db', err);
   });
 
-const friendController = require('./MVR/friendController');
+const friendController = require('./MVC/friendController');
 const server = express();
 
 server.use(helmet());
