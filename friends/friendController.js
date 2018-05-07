@@ -10,16 +10,33 @@ router
 
 router
   .route('/:id')
-  .get((req, res) => {
-    res.status(200).json({ route: '/api/friends/' + req.params.id });
-  }).catch(err=>{
-     res.status(404).json({ message: "The friend with the specified ID does not exist." }) 
+    .get((req, res) => {
+        const {id} = req.params
+    Friend
+    .findById(id)
+    .then(friend=>{
+           res.status(202).json(friend);
+    })
+    .catch(err=>{
+        res.status(500).json({errorMessage: "The friends information could not be retrieved."})
+    })
   })
   .delete((req, res) => {
-    res.status(200).json({ status: 'please implement DELETE functionality' });
+    const {id} = req.params
+    Friend
+    .findByIdAndRemove(id)
+    .then(friend=>{
+        res.status(202).json(friend)
+    })
   })
   .put((req, res) => {
-    res.status(200).json({ status: 'please implement PUT functionality' });
+    const {id} = req.params
+    const update = req.body;
+    Friend
+    .findByIdAndUpdate(id,update)
+    .then(friend=>{
+      res.status(200).json(friend)
+        })
   });
 
 function get(req, res) {
@@ -33,8 +50,8 @@ function get(req, res) {
 
 function post(req, res) {
   const friendData = req.body;
-  if(frienddata.firstName !==undefined||frienddata.lastName !==undefinedfrienddata.age !==undefined){
-      if(friendData.age >1 || friendData.age < 120){
+  console.log(friendData.firstName !==undefined||friendData.lastName !==undefinedfriendData.age !==undefined)
+    console.log(friendData.age)
 console.log(req.body)
   const friend = new Friend(friendData);
 
@@ -47,9 +64,6 @@ console.log(req.body)
       res.status(500).json({ errorMessage: "There was an error while saving the friend to the database." });
     });
 }
-res.status(400).json({ errorMessage: "Age must be a number between 1 and 120" })
-}
-res.status(400).json({ errorMessage: "Please provide firstName, lastName and age for the friend." })
-}
+
 
 module.exports = router;
