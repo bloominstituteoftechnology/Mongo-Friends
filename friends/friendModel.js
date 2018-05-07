@@ -28,7 +28,8 @@ const friendOptions = {
 //create schemas and model
 const friendSchema = new mongoose.Schema(definition, friendOptions);
 const friendModel = mongoose.model('Friend', friendSchema, 'friends');
+console.log(friendModel);
 
 //export 
-modules.exports = friendModel;
+module.exports = friendModel;
 
