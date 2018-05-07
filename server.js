@@ -2,6 +2,10 @@ const express = require('express');
 const helmet = require('helmet');
 const cors = require('cors');
 
+if(process.env.NODE_ENV !== 'production'){
+ const dotenv = require('dotenv').config()
+}
+
 const server = express();
 
 server.use(helmet());

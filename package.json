@@ -4,7 +4,9 @@
   "description": "MongoDB I Project",
   "main": "server.js",
   "scripts": {
-    "start": "nodemon server.js"
+    "babel-node": "babel-node --presets=env",
+    "start": "nodemon --exec npm run babel-node -- ./server.js",
+    "build": "babel server.js -d dist"
   },
   "repository": {
     "type": "git",
