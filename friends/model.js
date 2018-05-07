@@ -21,3 +21,7 @@ const definition = {
     }
 }
 
+const options = {
+    timestamp: true,
+}
+
