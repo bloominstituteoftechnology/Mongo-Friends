@@ -68,19 +68,22 @@ function post(req, res) {
       res.status(201).json(friend);
     })
     .catch(err => {
-      if (err.errors.firstName.$isValidatorError) {
-        res
-          .status(400)
-          .json({
-            errorMessage:
-              "Please provide firstName, lastName and age for the friend."
-          });
+      if (
+        friend.firstName === undefined ||
+        friend.lastName === undefined ||
+        friend.age === undefined
+      ) {
+        res.status(400).json({
+          errorMessage:
+            "Please provide firstName, lastName and age for the friend."
+        });
+      } else {
+        res.status(500).json({
+          errorMessage:
+            "There was an error while saving the friend to the database.",
+          err
+        });
       }
-      res.status(500).json({
-        errorMessage:
-          "There was an error while saving the friend to the database.",
-        err
-      });
     });
 }
 

@@ -3,13 +3,11 @@ const mongoose = require("mongoose");
 const definition = {
   firstName: {
     type: String,
-    required: true,
-    unique: true
+    required: true
   },
   lastName: {
     type: String,
-    required: true,
-    unique: true
+    required: true
   },
   age: {
     type: Number,
