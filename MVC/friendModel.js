@@ -18,7 +18,29 @@ const definition = {
   createdOn: {
     type: Date,
     default: Date.now,
-  } // Date, required, defaults to current date
+  }, // Date, required, defaults to current date
+  contactInfo: {
+    email: {
+      type: String,
+      default: 'N/A',
+    },
+    mobileNumber: {
+      type: String,
+      default: 'N/A',
+    },
+    githubUsername: {
+      type: String,
+      default: 'Not a Github user',
+    },
+    facebookUsername: {
+      type: String,
+      default: 'not a facebook user',
+    },
+    twitterHandle: {
+      type: String,
+      default: 'apparently not a twitter user either',
+    }
+  }
 };
 
 const friendSchema = new mongoose.Schema(definition);
