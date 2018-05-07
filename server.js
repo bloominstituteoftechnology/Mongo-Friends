@@ -79,10 +79,21 @@ server.post("/api/friends", (req, res) => {
 
 server.delete("/api/friends/:id", (req, res) => {
   const id = req.params.id
-  Friend.findByIdAndRemove(id).then(friend => {
-    res.status(200).json({
-      message: "Friend has been deleted from the database"
-    })
+  
+  Friend.findById(id).then(friend => {
+    if(friend == null) {
+      res.status(404).json({
+        errorMessage: "The friend with the specified id could not be found!"
+      })
+    }
+    else {
+      Friend.findOneAndRemove(id).then(friend => {
+        res.status(200).json({
+            message: "Friend has been deleted from the database"
+          })
+      })
+    }
+      
   }).catch(err => {
     res.status(500).json({
       errorMessage: "The friend could not be removed"
