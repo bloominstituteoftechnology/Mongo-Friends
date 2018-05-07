@@ -76,5 +76,18 @@ server.post("/api/friends", (req, res) => {
   }
 })
 
+
+server.delete("/api/friends/:id", (req, res) => {
+  const id = req.params.id
+  Friend.findByIdAndRemove(id).then(friend => {
+    res.status(200).json({
+      message: "Friend has been deleted from the database"
+    })
+  }).catch(err => {
+    res.status(500).json({
+      errorMessage: "The friend could not be removed"
+    })
+  })
+})
 const port = process.env.PORT || 5000;
 server.listen(port, () => console.log(`\n=== API up on port: ${port} ===\n`));
