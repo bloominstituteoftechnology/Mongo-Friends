@@ -9,7 +9,7 @@ router
 router
     .route('/:id')
     .get((req, res) => {
-        res.status(200).json({ route: '/api/friends' + req.params.id });
+        res.status(200).json({ route: '/api/friends/' + req.params.id });
     })
     .delete((req, res) => {
         res.status(200).json({ route: '/api/friends/:id' });
