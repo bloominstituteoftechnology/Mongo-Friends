@@ -12,18 +12,24 @@ if (process.env.NODE_ENV !== 'production') {
   const dotenv = require('dotenv').config();
 }
 
+/**
+ * @type {express.Application}
+ */
 const server = express();
 server.use(morgan('dev'));
 server.use(helmet());
 server.use(cors());
 server.use(express.json());
 
-const MongoUrl = createMongoUrl(
-  process.env.MONGO_PROTOCOL,
-  process.env.MONGO_DB,
-  process.env.MONGO_USER /* Remove if needed */,
-  process.env.MONGO_SECRET /* Remove if needed */
-);
+// if there is no .env file, try to connect to local db
+const MongoUrl = !process.env.MONGO_PROTOCOL
+  ? createMongoUrl()
+  : createMongoUrl(
+      process.env.MONGO_PROTOCOL,
+      process.env.MONGO_DB,
+      process.env.MONGO_USER /* Remove if needed */,
+      process.env.MONGO_SECRET /* Remove if needed */
+    );
 mongoose.connect(MongoUrl);
 
 server.get('/', (req, res) => {
