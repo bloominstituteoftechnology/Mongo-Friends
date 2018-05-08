@@ -19,8 +19,10 @@ const definition = {
 	},
 	age: {
 		type: Number,
-		min: [1, "Can a friend by 0 years old?"],
-		max: [120, "Whoa is your friend immortal?"],
+		// min: [1, "Can a friend by 0 years old?"],
+		// max: [120, "Whoa is your friend immortal?"],
+		min: 1,
+		max: 120,
 		required: true
 	}
 };
