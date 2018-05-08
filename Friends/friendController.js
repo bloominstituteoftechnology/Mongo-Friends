@@ -94,9 +94,14 @@ router
 				res.status(200).json({ message: 'Friend info updated' });
 			})
 			.catch(error => {
-				res.status(404).json({
-					errorMessage: 'The friend with the specified ID does not exist.',
-				});
+				if (err.name === 'CastError')
+					res.status(404).json({
+						errorMessage:
+							'The friend with the specified ID ${err.value} does not exist.',
+					});
+				else {
+					res.status(500).json(err.message);
+				}
 			});
 	});
 
