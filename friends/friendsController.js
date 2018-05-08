@@ -31,16 +31,26 @@ router
 
     .put((req, res) => {
         const id = req.params.id;
-        const friendInfo = req.body;
+        const update = req.body;
+
+        const options = {
+            new: true,
+        };
 
         Friend
-            .findByIdAndUpdate(id, friendInfo)
-            .then(res => {
-                if (!firstName)
-                res.status(200).json({ friendInfo })
+            .findByIdAndUpdate(id, update, options)
+            .then(friends => {
+                if (friends) {
+                res.status(200).json(friends)
+                } else {
+                    res.status(404).json({ message: "The friend with the specified ID does not exist." });
+                }
             })
             .catch(err => {
-                res.status(500).json({ errorMessage: "The friend information could not be modified." })
+                if (err.kind === !firstName || !lastName || !age) {
+                    res.status(400).json({ errorMessage: "Please provide firstName, lastName and age for the friend." });
+                }
+                res.status(500).json({ errorMessage: "The friend information could not be modified." });
             })
     })
 
