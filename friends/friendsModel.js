@@ -18,7 +18,33 @@ const definition = {
     createdOn: {
         type: Date,
         default: Date.now
-    } // Date, required, defaults to current date
+    }, // Date, required, defaults to current date
+    contactInfo: {
+        email: {
+            type: String,
+            required: false,
+        },
+        number: {
+            type: Number,
+            required: false,
+        },
+        githubUsername: {
+            type: String,
+            required: false,
+        },
+        facebookUsername: {
+            type: String,
+            required: false,
+        },
+        twitterHanadle: {
+            type: String,
+            required: false,
+        },
+        snapchat: {
+            type: String,
+            required: false,
+        }
+    }
 }
 
 const options = {
