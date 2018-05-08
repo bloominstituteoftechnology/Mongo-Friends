@@ -81,6 +81,8 @@ router
 						res.status(404).json({
 							message: "The friend with the specified ID does not exist."
 						});
+					} else {
+						res.status(200).json(friend);
 					}
 				})
 				.catch(err => {
