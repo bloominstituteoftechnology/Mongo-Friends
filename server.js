@@ -56,38 +56,37 @@ server.get('/api/friends/:id', (req, res) => {
     });
 })
 
-server.delete('api/friends/:id', (req, res) => {
-  const id = req.params.id;
+// server.delete('api/friends/:id', (req, res) => {
+//   const id = req.params.id;
 
-  Friend
-    .findById(id)
-    .remove()
-    .then(friends => {
-      if (!id) {
-        res.status(404).json({message: "The friend with the specified ID does not exist."});
-      } else {
-        res.json(friend);
-      }
-    })
-    .catch(err => {
-      res.status(500).json({ errorMessage: "The friend could not be removed" });
-    })
-});
+//   Friend
+//     .findByIdAndRemove(id)
+//     .then(friends => {
+//       if (!id) {
+//         res.status(404).json({message: "The friend with the specified ID does not exist." });
+//       } else {
+//         res.status(200).json(friend);
+//       }
+//     })
+//     .catch(err => {
+//       res.status(500).json({ errorMessage: "The friend could not be removed" });
+//     })
+// });
 
-server.put('api/friends/:id', (req, res) => {
-  const id = req.params.id;
-  const friendInfo = req.body;
+// server.put('api/friends/:id', (req, res) => {
+//   const id = req.params.id;
+//   const friendInfo = req.body;
 
-  Friend
-    .findByIdAndUpdate(id, friendInfo)
-    .then(res => {
-      if (!firstName)
-      res.status(200).json({ friendInfo })
-    })
-    .catch(err => {
-      res.status(500).json({ errorMessage: "The friend information could not be modified." })
-    })
-})
+//   Friend
+//     .findByIdAndUpdate(id, friendInfo)
+//     .then(res => {
+//       if (!firstName)
+//       res.status(200).json({ friendInfo })
+//     })
+//     .catch(err => {
+//       res.status(500).json({ errorMessage: "The friend information could not be modified." })
+//     })
+// })
 
 server.use('/api/friends', friendsController);
 
