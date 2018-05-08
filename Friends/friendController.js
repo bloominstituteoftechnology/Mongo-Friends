@@ -62,7 +62,6 @@ router
     else {
       Friend.findByIdAndUpdate(req.params.id, req.body, { new: true })
         .then(friend => {
-          console.log("put!");
           if (friend === null)
             res.status(404).json({
               message: "The friend with the specified ID does not exist."
