@@ -3,6 +3,8 @@ const router = require("express").Router();
 const Friend = require("./friendModel");
 
 // get and post for general requests
+// you can spread the promise as a function;
+// function get and function post down below
 router
   .route("/")
   .get(get)
@@ -17,7 +19,13 @@ router
         res.status(200).json(friend);
       })
       .catch(err => {
-        res.status(500).json(err);
+        if (err.name === "CastError") {
+          res.status(404).json({
+            message: "The friend with the specified ID does not exist."
+          });
+        } else {
+          res.status(500).json(err);
+        }
       });
   })
   .delete((req, res) => {
@@ -53,9 +61,15 @@ router
   });
 
 function get(req, res) {
-  Friend.find().then(friends => {
-    res.status(200).json(friends);
-  });
+  Friend.find()
+    .then(friends => {
+      res.status(200).json(friends);
+    })
+    .catch(err => {
+      res.status(500).json({
+        errorMessage: "The friends information could not be retrieved."
+      });
+    });
 }
 
 function post(req, res) {
@@ -77,6 +91,11 @@ function post(req, res) {
           errorMessage:
             "Please provide firstName, lastName and age for the friend."
         });
+      }
+      if (friend.age < 1 || friend.age > 120) {
+        res
+          .status(400)
+          .json({ errorMessage: "Age must be a number between 1 and 120" });
       } else {
         res.status(500).json({
           errorMessage:

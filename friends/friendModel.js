@@ -1,5 +1,7 @@
 const mongoose = require("mongoose");
 
+// firstName, lastName, age, and createdOn
+// contactInfo is a nested. (email, mobile, github, twitter, facebook)
 const definition = {
   firstName: {
     type: String,
@@ -18,6 +20,28 @@ const definition = {
   createdOn: {
     type: Date,
     default: Date.now
+  },
+  contactInfo: {
+    email: {
+      type: String,
+      required: false
+    },
+    mobile: {
+      type: String,
+      reqruied: false
+    },
+    github: {
+      type: String,
+      reqruied: false
+    },
+    facebook: {
+      type: String,
+      reqruied: false
+    },
+    twitter: {
+      type: String,
+      reqruied: false
+    }
   }
 };
 
