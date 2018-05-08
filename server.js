@@ -16,6 +16,7 @@ mongoose
 
 // import sub-applications
 const Friend = require("./friends/Friend");
+const ContactForm = require("./friends/ContactForm");
 
 const server = express();
 
@@ -29,6 +30,7 @@ server.get("/", (req, res) => {
 
 // route handlers
 server.use("/api/friends", Friend);
+server.use("/api/friends/contactForm", ContactForm);
 
 const port = process.env.PORT || 5000;
 server.listen(port, () => console.log(`\n=== API up on port: ${port} ===\n`));
