@@ -52,6 +52,9 @@ router
 	.put((req, res) => {
 		const update = req.body;
 		const { id } = req.params;
+		const options = {
+			new: true // Friend.findByIdAndUpdate() to return updated document (201)
+		};
 
 		// validate - update content can not be empty
 		if (
@@ -72,14 +75,12 @@ router
 				.status(400)
 				.json({ errorMessage: "Age must be a number between 1 and 120" });
 		} else {
-			Friend.findByIdAndUpdate(id, update)
+			Friend.findByIdAndUpdate(id, update, options)
 				.then(friend => {
 					if (!friend) {
 						res.status(404).json({
 							message: "The friend with the specified ID does not exist."
 						});
-					} else {
-						res.status(200).json(friend);
 					}
 				})
 				.catch(err => {
