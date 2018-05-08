@@ -6,6 +6,17 @@ const mongoose = require ('moongoose');
 
 const server = express();
 
+mongoose
+  .connect("mongodb://localhost/frienddb")
+  .then(mongo => {
+    console.log("testing connection!")
+  })
+  .catch (error => {
+    console.log("issue with connection!")
+  });
+
+  
+
 server.use(helmet());
 server.use(cors());
 server.use(express.json());
