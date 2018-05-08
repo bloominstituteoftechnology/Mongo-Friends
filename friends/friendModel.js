@@ -13,6 +13,8 @@ const definition = {
         type: Number,
         required: true,
         integer: 1-120,
+        min: 1,
+        max: 120,
     },
     createdOn: {
         type: Date,

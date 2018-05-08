@@ -13,11 +13,11 @@ router.post('/', (req, res) => {
             if (friend) {
                 res.status(201).json(friend);
               } else {
-                res.status(400).json({ msg: 'Please provide firstName, lastName and age for the friend.'});
+                res.status(400).json({ msg: 'Please provide firstName, lastName and age for the friend.' });
               }
         })
         .catch(err => {
-            res.status(500).json(err);
+            res.status(500).json({ msg: 'There was an error while saving the friend to the database.' });
         });
 });
 
