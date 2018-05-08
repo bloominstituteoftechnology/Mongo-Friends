@@ -23,22 +23,28 @@ const definition = {
     //STRETCH for contactInfo
     contactInfo: {
         Email: {
-            type: String
+            type: String,
+            required: true
         },
         phoneNumber: {
-            type: Number
+            type: Number,
+            required: true
         },
         gitHub: {
-            type: String
+            type: String,
+            required: true
         },
         userName: {
-            type: String
+            type: String,
+            required: true
         },
         facebook: {
-            type: String
+            type: String,
+            required: true
         },
         twitter: {
-            type: String
+            type: String,
+            required: true
         },
     },
 };
