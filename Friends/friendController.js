@@ -30,7 +30,10 @@ function post(req, res) {
 					res.status(201).json(friend);
 				})
 				.catch(err => {
-					res.status(500).json(err);
+					res.status(500).json({
+						errorMessage:
+							'There was an error while saving the friend to the database.',
+					});
 				});
 		} else {
 			res
@@ -50,11 +53,17 @@ router
 	.get((req, res) => {
 		Friend.findById(req.params.id)
 			.then(friend => {
-				res.status(200).json({ friend });
+				if (!friend) {
+					res.status(404).json({
+						error: 'The friend with the specified ID does not exist.',
+					});
+				} else {
+					res.status(200).json(friend);
+				}
 			})
 			.catch(error => {
-				res.status(404).json({
-					error: 'The friend with the specified ID does not exist.',
+				res.status(500).json({
+					errorMessage: 'The friend information could not be retrieved.',
 				});
 			});
 	})
@@ -62,13 +71,19 @@ router
 	.delete((req, res) => {
 		Friend.findByIdAndRemove(req.params.id)
 			.then(() => {
-				res.status(200).json({
-					status: 'The friend you deleted is no longer one.',
-				});
+				if (!friend) {
+					res.status(404).json({
+						error: 'The friend with the specified ID does not exist.',
+					});
+				} else {
+					res.status(200).json({
+						message: `Friend with id ${friend._id} deleted.`,
+					});
+				}
 			})
 			.catch(error => {
-				res.status(404).json({
-					error: 'The friend with the specified ID does not exist.',
+				res.status(500).json({
+					errorMessage: 'The friend information could not be removed.',
 				});
 			});
 	})
@@ -80,7 +95,7 @@ router
 			})
 			.catch(error => {
 				res.status(404).json({
-					message: 'The friend with the specified ID does not exist.',
+					errorMessage: 'The friend with the specified ID does not exist.',
 				});
 			});
 	});

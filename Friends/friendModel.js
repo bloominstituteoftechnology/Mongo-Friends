@@ -17,6 +17,26 @@ const definition = {
 		type: Date,
 		default: Date.now,
 	},
+	contactInfo: {
+		type: Object,
+		required: false,
+		email: {
+			type: String,
+			required: false,
+		},
+		mobile: {
+			type: Number,
+			required: false,
+		},
+		github_username: {
+			type: String,
+			required: false,
+		},
+		twitter_handle: {
+			type: String,
+			required: false,
+		},
+	},
 };
 
 const options = {
