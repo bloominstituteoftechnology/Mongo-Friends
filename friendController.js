@@ -87,7 +87,7 @@ function post(req, res) {
       res.status(201).json(friend);
     })
     .catch(err => {
-      res.status(500).json({ errorMessage: "There was an error while saving the friend to the database."});
+      res.status(500).json({ errorMessage: "There was an error while saving the friend to the database. " + err});
     });
 }
 

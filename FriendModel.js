@@ -16,6 +16,10 @@ const definition = {
   createdOn: {
     type: Date,
     default: Date.now
+  },
+  contactInfo: {
+    email: { type: String },
+    telephone: { type: Number }
   }
 };
 
