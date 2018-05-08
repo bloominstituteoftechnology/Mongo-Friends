@@ -29,7 +29,7 @@ server.get('/', (req, res) => {
   res.status(200).json({ API: 'Running' });
 });
 
-// server.use('/api/friends', friend);
+server.use('/api/friends', friend);
 
 const port = process.env.PORT || 5000;
 server.listen(port, () => {

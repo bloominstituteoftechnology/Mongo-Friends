@@ -2,20 +2,26 @@ const router = require('express').Router();
 
 const Friend = require('./friendModel');
 
-router.post('/', function post(req, res) {
+// POST/Create New Friend
+router.post('/', (req, res) => {
     const friendData = req.body;
     const friend = new Friend(friendData);
 
     friend
         .save()
         .then(friend => {
-            res.status(201).json(friend);
+            if (friend) {
+                res.status(201).json(friend);
+              } else {
+                res.status(400).json({ msg: 'Please provide firstName, lastName and age for the friend.'});
+              }
         })
         .catch(err => {
             res.status(500).json(err);
         });
 });
 
+// GET/Read Friend
 router.get('/', function get(req, res) {
     Friend.find().then(friends => {
         res.status(200).json(friends);
@@ -48,4 +54,20 @@ router.delete('/:id', (req, res) => {
 router.put('/:id', (req, res) => {
     const { id } = req.params;
     const update = req.body;
-})
+
+    const options = {
+        new: true,
+    };
+
+    Friend.findByIdAndUpdate(id, update, options)
+        .then(friend => {
+            if (friend) {
+                res.status(200).json(friend);
+              } else {
+                res.status(404).json({ msg: 'Friend Not Found' });
+              }
+        })
+        .catch(err => res.status(500).json(err));
+});
+
+module.exports = router;
