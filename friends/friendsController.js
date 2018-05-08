@@ -11,9 +11,7 @@ router
   .route('/:id')
   .get(getter)
   .delete(del)
-  .put((req, res) => {
-    res.status(200).json({ status: 'please implement PUT functionality' });
-  });
+  .put(update);
 
 function get(req, res) {
     Friend.find().then(friends => {
@@ -47,6 +45,16 @@ function getter(req, res) {
     }).catch(err => {
         res.status(500).json({Error: "we fucked up"})
     });
-}
+};
 
+function update(req, res) {
+    const { id } = req.params;
+    const { firstName, lastName, age } = req.body;
+    const updated = { firstName: firstName, lastName: lastName, age: age }
+    Friend.findByIdAndUpdate(id, updated).then(
+        res.status(200).json(updated)
+    ).catch(err => {
+        res.status(500).json({Error: "we fucked up"})
+    });
+};
 module.exports = router;
