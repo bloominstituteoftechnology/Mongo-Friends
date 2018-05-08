@@ -1,6 +1,4 @@
-// Friend Controller
 const router = require("express").Router();
-
 const Friend = require("./friendModel");
 
 router
@@ -11,29 +9,13 @@ router
 router
 	.route("/:id")
 	.get((req, res) => {
-		// define id
 		const { id } = req.params;
-		// define query to find a friend by id
-		// const query = Friend.findById(id, function(err, friend) {
-		// 	// id is valid and friend is found
-		// 	if (friend) {
-		// 		res.status(200).json(friend);
-		// 	}
-		// 	// id not found
-		// 	if (friend === undefined) {
-		// 		res
-		// 			.status(404)
-		// 			.json({ message: "The friend with the specified ID does not exist." });
-		// 	}
-		// 	// friend could not be fetched
-		// 	if (err) {
-		// 		res.status(500).json({
-		// 			errorMessage: "The friend information could not be retrieved."
-		// 		});
-		// 	}
-		// });
+
 		Friend.findById(id)
 			.then(friend => {
+				// findById() searches for a document via _id property of type ObjectId
+				// and returns a Query object
+				// findById(undefined) results in null
 				if (!friend) {
 					res.status(404).json({
 						message: "The friend with the specified ID does not exist."
@@ -68,9 +50,7 @@ router
 			});
 	})
 	.put((req, res) => {
-		// define new information
 		const update = req.body;
-		// define id
 		const { id } = req.params;
 
 		// validate - update content can not be empty
@@ -123,9 +103,7 @@ function get(req, res) {
 }
 
 function post(req, res) {
-	// new friend
 	const newFriend = req.body;
-
 	// validate - friend must have a firstName, lastName, and age
 	if (
 		!newFriend.firstName ||
