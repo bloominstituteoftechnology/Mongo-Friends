@@ -6,19 +6,6 @@ const definition = {
         required: true,
         unique: true,
     } , // String, required
-    lastName: {
-        type: String,
-        required: true,
-    } ,  // String, required
-    age: {
-        type: Number,
-        required: true,
-
-    } , // Number, required, should be an integer between 1 and 120
-    createdOn: {
-        type: Date,
-        default: Date.now
-    }, // Date, required, defaults to current date
     contactInfo: {
         email: {
             type: String,
@@ -44,7 +31,20 @@ const definition = {
             type: String,
             required: false,
         }
-    }
+    },
+    lastName: {
+        type: String,
+        required: true,
+    } ,  // String, required
+    age: {
+        type: Number,
+        required: true,
+
+    } , // Number, required, should be an integer between 1 and 120
+    createdOn: {
+        type: Date,
+        default: Date.now
+    }, // Date, required, defaults to current date
 }
 
 const options = {

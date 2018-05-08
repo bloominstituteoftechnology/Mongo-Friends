@@ -87,13 +87,12 @@ server.delete("/api/friends/:id", (req, res) => {
       })
     }
     else {
-      Friend.findOneAndRemove(id).then(friend => {
+      Friend.findByIdAndRemove(id).then(friend => {
         res.status(200).json({
             message: "Friend has been deleted from the database"
           })
       })
     }
-      
   }).catch(err => {
     res.status(500).json({
       errorMessage: "The friend could not be removed"
@@ -120,7 +119,7 @@ server.put("/api/friends/:id", (req, res)=> {
         errorMessage: "Age must be a number between 1 and 120"
       })
     } else {
-      Friend.findOneAndUpdate(id, input).then(friend => {
+      Friend.findByIdAndUpdate(id, input).then(friend => {
         res.status(200).json({
           message: "Friend has been succesfully updated"
         })
