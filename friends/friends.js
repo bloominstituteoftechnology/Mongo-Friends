@@ -20,7 +20,35 @@ const defintion ={
         createdOn:{
             type:Date,
             default: Date.now,
+        },
+        contactInfo:{
+            email:{
+                type:String,
+                default:"N/A"
+            },
+            mobile:{
+                type:String,
+                default:"N/A"
+            },
+            number:{
+                type:String,
+                default:"N/A"
+            },
+            github_username:{
+                type:String,
+                default:"N/A"
+            },
+            facebook_username:{
+                type:String,
+                default:"N/A"
+            },
+            twitter_handle:{
+                type:String,
+                default:"N/A"
+            },
+
         }
+
 }
 const options ={
     timestamp:true,
