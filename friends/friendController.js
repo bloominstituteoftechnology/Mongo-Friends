@@ -29,14 +29,14 @@ router
     const id = req.params.id;
 
     Friend.findbyIdAndRemove(id)
-    .then(friend => {
-      if (friend) {
-        res.status(204).end();
-      } else {
-        res.status(404).json({ error: "No friend under that ID number"})
-      }
-    })
-    .catch (error => res.status(500).json(error));
+      .then(friend => {
+        if (friend) {
+          res.status(204).end();
+        } else {
+          res.status(404).json({ error: "No friend under that ID number" });
+        }
+      })
+      .catch(error => res.status(500).json(error));
   })
 
   .put((req, res) => {
@@ -49,7 +49,3 @@ router
       });
     }
   });
-
-
-
-

@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 const friendSchema = {
   firstName: {
@@ -15,9 +15,9 @@ const friendSchema = {
     max: 120,
     min: 1
   },
-  
+
   createdOn: {
     type: Date,
-    default: Date.now,
+    default: Date.now
   }
-}
+};
