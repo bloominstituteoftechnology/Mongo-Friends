@@ -2,6 +2,7 @@ import React, { Component } from "react";
 
 import { Link } from "react-router-dom";
 import axios from "axios";
+import "./friend.css";
 
 class FriendList extends Component {
   constructor(props) {
@@ -25,12 +26,14 @@ class FriendList extends Component {
   render() {
     return (
       <div>
-        <h1>Friends List</h1>
-        <div className="friendList">
+        <h2 className="friendList-title">Friends List</h2>
+        <div className="friendList-container">
           {this.state.friends.map(eachFriend => (
             <Link key={eachFriend._id} to={`/api/friends/${eachFriend._id}`}>
-              <div>
-                <h2>Name:</h2> {eachFriend.firstName} {eachFriend.lastName}
+              <div className="friendList">
+                <h2>
+                  {eachFriend.firstName} {eachFriend.lastName}
+                </h2>
               </div>
             </Link>
           ))}
