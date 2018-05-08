@@ -5,6 +5,7 @@ import './App.css';
 import axios from 'axios';
 import { Link, Route, Switch } from 'react-router-dom';
 import FriendsDisplay from './components/FriendsDisplay';
+import NewFriend from './components/NewFriend';
 
 
 class App extends Component {
@@ -14,14 +15,7 @@ class App extends Component {
       friends : []
     }
   }
-  // componentDidMount = () => {
-  //   axios.get(`http://localhost:5000/api/friends`)
-  //   .then(res => {
-  //     let frData = res.data;
-  //     console.log('response.data of project: ', res.data)
-  //     this.setState({ friends: frData })
-  //   });
-  // }
+
   componentDidMount = () => {
 
     this.fetchData()
@@ -46,8 +40,10 @@ fetchData = () => {
           To get started, edit <code>src/App.js</code> and save to reload.
         </p>
         <div>
+          {/* {<NewFriend />} */}
+          <NewFriend fetchData={() => this.fetchData()} />
           <h1>Friends </h1>
-        {  this.state.friends.map((friend,i) => {return (<div key={friend + i} >< FriendsDisplay friend={friend} fetchData={() => this.fetchData()} /> {console.log('this is each friend: ' , friend)}</div> ) } ) }
+        {  this.state.friends.map((friend,i) => {return (<div key={friend + i} > < FriendsDisplay friend={friend} fetchData={() => this.fetchData()} /> {console.log('this is each friend: ' , friend)}</div> ) } ) }
         </div>
       </div>
     );

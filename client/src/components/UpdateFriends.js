@@ -65,18 +65,6 @@ class UpdateFriends extends React.Component {
                 console.log(err);
             });
 
-
-
-        // const friend = { name: this.state.Name, email: this.state.Email, age: this.state.age };
-        // axios
-        //     .put(`http://localhost:5000/friends/${FriendID}`, friend)
-        //     .then((response) => {
-        //         this.props.getAJAX();
-        //         this.setState({ showUpdateNote: false});
-        //     })
-        //     .catch((err) => {
-        //         console.log(err);
-        //     });
     }
     render() {
         return (
