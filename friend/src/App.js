@@ -2,12 +2,14 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import './App.css';
 import Friends from './Components/friends'
+import FriendsForm from './Components/friendForm'
 
 
 
 class App extends Component {
   state={
     friends:[]
+
   }
   componentDidMount(){
     this.updateState()
@@ -28,6 +30,8 @@ class App extends Component {
     console.log(this.state)
     return (
  <div>
+   <FriendsForm updateState={this.updateState}/>
+
 <Friends friends={this.state.friends}/>
  </div>
     );

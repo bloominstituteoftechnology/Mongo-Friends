@@ -26,14 +26,17 @@ router
     Friend
     .findByIdAndRemove(id)
     .then(friend=>{
-        res.status(202).json(friend)
+        res.status(204).end()
     })
   })
   .put((req, res) => {
     const {id} = req.params
     const update = req.body;
+    const options ={
+      new:true,
+    }
     Friend
-    .findByIdAndUpdate(id,update)
+    .findByIdAndUpdate(id,update, options)
     .then(friend=>{
       res.status(200).json(friend)
         })

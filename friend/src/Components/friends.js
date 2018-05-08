@@ -8,7 +8,7 @@ const Friends = (props) =>{
   <div>
       {props.friends.map(friend=>{
           return(
-          <div> 
+          <div key={friend._id}> 
         <Friend
          id={friend._id}
          firstName={friend.firstName}

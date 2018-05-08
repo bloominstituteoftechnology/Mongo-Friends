@@ -40,7 +40,7 @@ toggle() {
               console.log(this.props)
             this.setState({
                 firstName: '',
-                lastfirstName: '',
+                lastName: '',
                 age:'',        
             });
             this.props.updateState();
@@ -55,14 +55,13 @@ toggle() {
         this.setState({[element.target.firstName]: element.target.value})
        }
 render(){
-    console.log(this.props)
-    console.log('render me?')
+
     return(<React.Fragment>
     <div> 
       <Card>
           
         <CardBody>
-          
+          <Label>age:{this.props.age}</Label>
           <CardTitle>{this.props.firstName}</CardTitle>
          
           <CardText for="exampleText">{this.props.lastName}</CardText>
@@ -81,8 +80,8 @@ render(){
           onChange={this.setInput}
           type="input" 
           placeholder="firstName"
-          firstName="firstName" 
-          id="exampleText"
+          ame="firstName" 
+     
           value={this.state.firstName}
            />
            </Col>
@@ -91,8 +90,8 @@ render(){
           onChange={this.setInput}
           type="input" 
           placeholder="lastName"
-          firstName="lastName" 
-          id="exampleText"
+          name="lastName" 
+       
           value={this.state.lastName}
            />
       </Col>
@@ -102,7 +101,7 @@ render(){
           type="input" 
           placeholder="age"
           name="age" 
-          id="exampleText"
+          
           value={this.state.age}
            />
       </Col>
