@@ -47,24 +47,3 @@ router.delete('/:id', (req, res) => {
     .catch(err => res.status(500).json(err));
 });
 
-//updates friend in db
-router.put('/:id', (req, res) => {
-    const { id } = req.params;
-    const update = req.body;
-
-    const options = {
-        new: true,
-    };
-
-    Friend.findByIdAndUpdate(id, update, options)
-    .then(friend => {
-        if (friend) {
-            res.status(200).json(friend);
-        } else {
-            res.status(404).json({ msg: 'Bear not found' });
-        }
-    })
-    .catch(err => res.status(500).json(err));
-});
-
-module.exports = router;
