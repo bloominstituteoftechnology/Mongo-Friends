@@ -13,6 +13,13 @@ router.route('/')
       });
   })
   .post((req, res) => {
+    const { firstName, lastName, age } = req.body;
+    if(!firstName || !lastName || !age) {
+      res.status(400).json({
+        errorMessage: "Please provide firstName, lastName and age for the friend."
+      });
+    }
+
     const friend = new Friend(req.body);
     friend.save()
       .then(friend => {
