@@ -2,6 +2,8 @@ import React from 'react';
 import classes from './index.css';
 import DisplayFriend from '../DisplayFriend';
 import {Link} from 'react-router-dom';
+import AddFriend from '../AddFriend';
+
 const DisplayFriends = props => {
   let friends = null;
   if (props.friends.length > 0) {
@@ -9,7 +11,7 @@ const DisplayFriends = props => {
       <React.Fragment>
         {props.friends.map((friend, i) => {
           return (
-            <Link to={`/friends/${friend._id}`} key={friend + i}>
+            <Link to={`/friends/${friend._id}`} key={friend + i} className={classes.Container__Link}>
               <DisplayFriend {...friend}/>
             </Link>
           )
@@ -19,6 +21,7 @@ const DisplayFriends = props => {
   }
   return (
     <div className={classes.Container}>
+      <AddFriend />
       {friends}
     </div>
   )

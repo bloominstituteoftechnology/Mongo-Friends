@@ -6,3 +6,11 @@
 :global(:root) {
   font-size: 62.5%;
 }
+:global(button) {
+  background: transparent;
+  min-width: 50px;
+  border: 1px solid lightgray;
+  border-radius: 5px;
+  padding: 5px;
+  margin: 0.5rem;
+}

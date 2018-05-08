@@ -9,14 +9,7 @@ class App extends Component {
   componentDidMount(){
     this.props.getFriends();
   }
-  // getFriend = (props) => {
-  //   const friend = this.props.friends.find(friend => {
-  //     return friend._id === props.match.params.id;
-  //   });
-  //   return <DisplayFriend {...friend}/>
-  // }
   render() {
-    console.log(this);
     return (
       <div className={classes.Container}>
         <header className={classes.Container__Header}>
@@ -24,7 +17,7 @@ class App extends Component {
         </header>
         <div className={classes.Container__FriendsContainer}>
           <Router>
-            <Cockpit />
+            <Cockpit friends={this.props.friends} />
           </Router>
         </div>
       </div>

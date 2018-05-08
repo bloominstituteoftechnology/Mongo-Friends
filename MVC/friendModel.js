@@ -20,30 +20,13 @@ const definition = {
     default: Date.now,
   }, // Date, required, defaults to current date
   contactInfo: {
-    email: {
-      type: String,
-      default: 'no email',
-    },
-    mobileNumber: {
-      type: String,
-      default: 'no number',
-    },
-    githubUsername: {
-      type: String,
-      default: 'Not a Github user',
-    },
-    facebookUsername: {
-      type: String,
-      default: 'not a facebook user',
-    },
-    twitterHandle: {
-      type: String,
-      default: 'apparently not a twitter user either',
-    }
   }
 };
 
-const friendSchema = new mongoose.Schema(definition);
+options = {
+  strict: false
+};
+const friendSchema = new mongoose.Schema(definition, options);
 
 const friendModel = mongoose.model('Friend', friendSchema, 'friends');
 
