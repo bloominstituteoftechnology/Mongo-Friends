@@ -20,6 +20,27 @@ const definition = {
         required: true,
         default: Date.now,
     },
+    //STRETCH for contactInfo
+    contactInfo: {
+        Email: {
+            type: String
+        },
+        phoneNumber: {
+            type: Number
+        },
+        gitHub: {
+            type: String
+        },
+        userName: {
+            type: String
+        },
+        facebook: {
+            type: String
+        },
+        twitter: {
+            type: String
+        },
+    },
 };
 
 const options = {

@@ -65,9 +65,10 @@ function get(req, res) {
 //-----------------------------------------------------------------------------------------------------
 
 //POST   /api/friends   //POSTMAN TEST OK!
+//implemented contactInfo for Stretch
 function post(req, res) {
-    const {age, firstName, lastName, createdOn} = req.body;
-    const friendData = {age, firstName, lastName, createdOn};
+    const {age, firstName, lastName, createdOn, contactInfo} = req.body;
+    const friendData = {age, firstName, lastName, createdOn, contactInfo};
 
     const friend = new Friend(friendData);
     //If the request body is missing the firstName, lastName or age property:
@@ -106,9 +107,10 @@ function post(req, res) {
 
 //-----------------------------------------------------------------------------------------------------
 
-//PUT   /api/friends/:id
+//PUT   /api/friends/:id  //Postman Test OK! Was able to successfully edit a post by ID
+//implemented contactInfo for Stretch
 function putid(req, res) {
-    const {age, firstName, lastName, createdOn} = req.body;
+    const {age, firstName, lastName, createdOn, contactInfo} = req.body;
     const id = req.params.id;
     if(!Friend.findById(id)) {
         res.status(404).json({ message: "The friend with the specified ID does not exist." })
