@@ -51,8 +51,8 @@ router
 			res
 				.status(400)
         .json({ errorMessage: 'Age must be a number between 1 and 120' });
-   else {    
-    Friend.findByIdAndUpdate(req.params.id, req.body)
+else {      
+    Friend.findByIdAndUpdate(req.params.id, req.body, { new: true })
       .then(friend => {
         console.log('put!');
         if (updated === null)
