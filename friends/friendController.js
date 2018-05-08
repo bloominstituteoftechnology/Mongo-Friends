@@ -14,17 +14,35 @@ router
   })
   .post((req, res) => {
     const friendData = req.body;
-
     const friend = new Friend(friendData);
-
-    friend
-      .save()
-      .then(friend => {
-        res.status(201).json(friend);
-      })
-      .catch(err => {
-        res.status(500).json(err);
+    if (friend.firstName && friend.lastName && friend.age) {
+      if (
+        typeof friend.age === "number" &&
+        friend.age > 0 &&
+        friend.age < 121
+      ) {
+        friend
+          .save()
+          .then(friend => {
+            res.status(201).json(friend);
+          })
+          .catch(err => {
+            res.status(500).json({
+              errorMessage:
+                "There was an error while saving the friend to the database."
+            });
+          });
+      } else {
+        res
+          .status(400)
+          .json({ errorMessage: "Age must be a number between 1 and 120" });
+      }
+    } else {
+      res.json({
+        errorMessage:
+          "Please provide firstName, lastName and age for the friend."
       });
+    }
   });
 
 router
@@ -36,10 +54,18 @@ router
         const friend = friends.filter(
           friend => friend._id.toString() === id.toString()
         );
-        res.status(200).json(friend);
+        if (friend[0]) {
+          res.status(200).json(friend);
+        }
+        //can't get this to ever display either.
+        res.status(404).json(err => {
+          message: "The friend with the specified ID does not exist.";
+        });
       })
       .catch(err => {
-        res.status(500).json(err);
+        res.status(500).json(err => {
+          errorMessage: "The friend information could not be retrieved.";
+        });
       });
   })
   .delete((req, res) => {
@@ -49,10 +75,17 @@ router
         if (friend) {
           res.status(204).end();
         } else {
-          res.status(404).json({ message: "Friend not found" });
+          res.status(404).json({
+            // this will only display with ids previously deleted it seems
+            message: "The friend with the specified ID does not exist."
+          });
         }
       })
-      .catch(err => res.status(500).json(err));
+      .catch(err =>
+        res.status(500).json(err => {
+          errorMessage: "The friend could not be removed";
+        })
+      );
   })
   .put((req, res) => {
     const { id } = req.params;
@@ -60,36 +93,41 @@ router
     const options = {
       new: true
     };
-    Friend.findByIdAndUpdate(id, update, options)
-      .then(friend => {
-        if (friend) {
-          res.status(200).json(friend);
-        } else {
-          res.status(404).json({ msg: "Friend not found" });
-        }
-      })
-      .catch(err => res.status(500).json(err));
+    if (
+      !req.body.hasOwnProperty("firstName") ||
+      !req.body.hasOwnProperty("lastName") ||
+      !req.body.hasOwnProperty("age")
+    ) {
+      res.status(400).json({
+        errorMessage:
+          "Please provide firstName, lastName and age for the friend."
+      });
+    } else if (
+      typeof req.body.age !== "number" ||
+      req.body.age < 1 ||
+      req.body.age > 120
+    ) {
+      res
+        .status(400)
+        .json({ errorMessage: "Age must be a number between 1 and 120" });
+    } else {
+      Friend.findByIdAndUpdate(id, update, options)
+        .then(friend => {
+          if (friend) {
+            res.status(200).json(friend);
+          } else {
+            // this  currently won't display if no user with the given id exists so it has to be rewritten
+            res.status(404).json(err => {
+              message: "The friend with the specified ID does not exist.";
+            });
+          }
+        })
+        .catch(err =>
+          res.status(500).json(err => {
+            errorMessage: "The friend information could not be modified.";
+          })
+        );
+    }
   });
-
-// function get(req, res) {
-//   Friend.find().then(friends => {
-//     res.status(200).json(friends);
-//   });
-// }
-
-// function post(req, res) {
-//   const friendData = req.body;
-
-//   const friend = new Friend(friendData);
-
-//   friend
-//     .save()
-//     .then(friend => {
-//       res.status(201).json(friend);
-//     })
-//     .catch(err => {
-//       res.status(500).json(err);
-//     });
-// }
 
 module.exports = router;
