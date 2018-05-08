@@ -2,14 +2,10 @@ import React from 'react';
 import {Card, CardHeader, CardBody, Button} from 'reactstrap'
 import './FriendCard.css'
 class Friend extends React.Component{
-    constructor(props) {
-        super(props)
-    }
-
     render() {
         return (
             <div>
-                <Card className='FriendCard'>
+                <Card className='FriendCard' key={this.props.friend._id}>
                     <CardHeader>{`${this.props.friend.firstName} ${this.props.friend.lastName}`}</CardHeader>
                     <CardBody>
                         <p>Age: {`${this.props.friend.age}`}</p>

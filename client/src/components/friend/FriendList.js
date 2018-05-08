@@ -3,9 +3,9 @@ import Friend from './Friend';
 import './FriendCard.css'
 
 class FriendList extends React.Component {
-    constructor(props) {
-        super(props);
-    }
+    // constructor(props) {
+    //     super(props);
+    // }
 
     // handleDetate = (e) => {
     //     this.props.onDelete(e.target.id);
@@ -16,7 +16,7 @@ class FriendList extends React.Component {
             <div className='FriendCard__list'>
 
                 {this.props.friends.map((friend) => {
-                    return <Friend friend={friend} onDelete={this.props.onDelete}/>
+                    return <Friend friend={friend} onDelete={this.props.onDelete} key={friend._id}/>
                 })}
             </div>
         );

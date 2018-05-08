@@ -41,10 +41,10 @@ class App extends Component {
 
     };
 
-    addFriend =(event) => {
-         const newFriends = this.state.friends;
+    addFriend =(firstName, lastName, age) => {
+        console.log(firstName);
          const newFriend = { firstName: firstName, lastName: lastName, age: age };
-         newFriends.push(newFriend);
+
          axios.post('http://localhost:5000/api/friends', newFriend).then(response => {
              console.log(response);
             //  this.setState({ friends: newFriends });
@@ -69,7 +69,7 @@ class App extends Component {
               {/*})}*/}
           {/*</ul>*/}
           <FriendList friends={this.state.friends} onDelete={this.deleteFriend}/>
-          <FriendForm/>
+          <FriendForm onSubmit={this.addFriend}/>
       </div>
     );
   }
