@@ -38,7 +38,7 @@ router.get('/:id', (req, res) => {
 router.delete('/:id', (req, res) => {
   const { id } = req.params;
 
-  Bear.findByIdAndRemove(id)
+  FriendModel.findByIdAndRemove(id)
     .then(friend => {
       if (friend) {
         res.status(204).end();
@@ -59,7 +59,7 @@ router.put('/:id', (req, res) => {
     new: true,
   };
 
-  FreindModel.findByIdAndUpdate(id, updateFriend, options)
+  FriendModel.findByIdAndUpdate(id, updateFriend, options)
     .then(friend => {
       if (friend) {
         res.status(200).json(friend);
