@@ -9,7 +9,7 @@ router
         res.status(200).json(friends);
       })
       .catch(err => {
-        res.json({ err });
+        res.json(err);
       });
   })
   .post((req, res) => {
@@ -39,15 +39,36 @@ router
         res.status(200).json(friend);
       })
       .catch(err => {
-        res.json({ err });
+        res.status(500).json(err);
       });
-    // res.status(200).json({ route: "/api/friends/" + req.params.id });
   })
   .delete((req, res) => {
-    res.status(200).json({ status: "please implement DELETE functionality" });
+    const id = req.params.id;
+    Friend.findByIdAndRemove(id)
+      .then(friend => {
+        if (friend) {
+          res.status(204).end();
+        } else {
+          res.status(404).json({ message: "Friend not found" });
+        }
+      })
+      .catch(err => res.status(500).json(err));
   })
   .put((req, res) => {
-    res.status(200).json({ status: "please implement PUT functionality" });
+    const { id } = req.params;
+    const update = req.body;
+    const options = {
+      new: true
+    };
+    Friend.findByIdAndUpdate(id, update, options)
+      .then(friend => {
+        if (friend) {
+          res.status(200).json(friend);
+        } else {
+          res.status(404).json({ msg: "Friend not found" });
+        }
+      })
+      .catch(err => res.status(500).json(err));
   });
 
 // function get(req, res) {
