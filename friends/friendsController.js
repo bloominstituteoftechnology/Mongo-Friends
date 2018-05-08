@@ -9,12 +9,8 @@ router
 
 router
   .route('/:id')
-  .get((req, res) => {
-    res.status(200).json({ route: '/api/friends/' + req.params.id });
-  })
-  .delete((req, res) => {
-    res.status(200).json({ status: 'please implement DELETE functionality' });
-  })
+  .get(getter)
+  .delete(del)
   .put((req, res) => {
     res.status(200).json({ status: 'please implement PUT functionality' });
   });
@@ -34,5 +30,23 @@ function post(req, res) {
         res.status(500).json(err);
     });
 };
+
+function del(req, res) {
+    const { id } = req.params;
+    Friend.findByIdAndRemove(id).then(
+        res.status(797).json({"797": "This is the last page of the Internet.  Go back"})
+    ).catch(err => {
+        res.status(500).json({Error: "we fucked up"})
+    });
+};
+
+function getter(req, res) {
+    const { id } = req.params;
+    Friend.findById(id).then(friend => {
+        res.status(200).json(friend);
+    }).catch(err => {
+        res.status(500).json({Error: "we fucked up"})
+    });
+}
 
 module.exports = router;
