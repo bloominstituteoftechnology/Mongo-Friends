@@ -35,7 +35,7 @@ const options = {
 };
 
 const friendSchema = new mongoose.Schema(definition, options);
-
 const friendModel = mongoose.model("Friend", friendSchema, "friends");
+const contactFormModel = mongoose.model("ContactForm", ContactForm);
 
 module.exports = friendModel;
