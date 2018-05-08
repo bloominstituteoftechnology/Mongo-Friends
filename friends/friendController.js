@@ -10,7 +10,23 @@ router.get('/', (req, res) => {
         res.status(200).json(friends)
     })
     .catch(err => {
-        res.status(500).json({ error:'Error Getting Friends!' })
+        res.status(500).json({ errorMessage: "The friends information could not be retrieved." })
+    })
+})
+
+//===========GET BY ID==============
+router.get('/:id', (req, res) => {
+    Friend.findById(req.params.id)
+    .then(friend => {
+        if(friend){
+            res.status(200).json(friend)
+        }
+        else {
+            res.status(404).json({ message: "The friend with the specified ID does not exist." })
+        }
+    })
+    .catch(err => {
+        res.status(500).json({ errorMessage: "The friend information could not be retrieved." })
     })
 })
 
