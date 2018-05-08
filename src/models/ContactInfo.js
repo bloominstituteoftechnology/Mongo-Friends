@@ -10,9 +10,9 @@ const {
 const ContactTypes = {
   email: { type: String, required: true },
   mobile: { type: String, required: true },
-  github: { type: Number, required: true },
-  facebook: { type: String, required: true },
-  twitter: { type: String, required: true },
+  github: { type: String, required: false },
+  facebook: { type: String, required: false },
+  twitter: { type: String, required: false },
   createdOn: { type: Date, default: Date.now, required: true }
 };
 
