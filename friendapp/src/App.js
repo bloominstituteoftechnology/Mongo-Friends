@@ -3,7 +3,8 @@ import axios from 'axios';
 
 import logo from './logo.svg';
 import './App.css';
-import { FriendsMap } from './components/friendsMap';
+import { FriendsMap } from './components/FriendsMap';
+import NewFriend from './components/NewFriend';
 
 class App extends Component {
   constructor(props) {
@@ -31,7 +32,7 @@ class App extends Component {
           <img src={logo} className="App-logo" alt="logo" />
           <h1 className="App-title">Welcome to React</h1>
         </header>
-       
+        <NewFriend />
         {this.state.friends.map((friend) => {
           return <div key={friend._id}>
            <FriendsMap friend={friend}/>
