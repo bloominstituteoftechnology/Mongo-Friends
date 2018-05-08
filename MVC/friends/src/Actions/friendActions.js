@@ -14,12 +14,17 @@ export const getFriends = () => {
       })
   }
 }
+
+
 export const createFriend = (friend) => {
   const promise = axios.post(`http://localhost:5000/api/friends`, friend);
   return dispatch => {
     promise
       .then(response => {
-        console.log(response);
+        dispatch({type: CREATEFRIEND, payload: response.data});
+      })
+      .catch(err => {
+        console.log(err);
       })
   }
 }

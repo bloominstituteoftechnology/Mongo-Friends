@@ -7,7 +7,7 @@ class Cockpit extends Component{
     const friend = this.props.friends.find(friend => {
       return friend._id === props.match.params.id;
     });
-    return <DisplayFriend {...friend}/>
+    return <DisplayFriend friend={friend} {...props}/>
   }
   render(){
     return (

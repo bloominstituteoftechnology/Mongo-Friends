@@ -12,7 +12,7 @@ const DisplayFriends = props => {
         {props.friends.map((friend, i) => {
           return (
             <Link to={`/friends/${friend._id}`} key={friend + i} className={classes.Container__Link}>
-              <DisplayFriend {...friend}/>
+              <DisplayFriend friend={friend}/>
             </Link>
           )
         })}

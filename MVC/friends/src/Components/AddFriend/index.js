@@ -20,7 +20,9 @@ class AddFriend extends Component {
     this.setState({[e.target.name]: e.target.value});
   }
   addFriend = () => {
-    const friend = {firstName: this.state.firstName, lastName: this.state.lastName, age: this.state.age}
+    const friend = {firstName: this.state.firstName, lastName: this.state.lastName, age: parseInt(this.state.age, 10)};
+    store.dispatch(createFriend(friend));
+    this.setState({firstName: '', lastName: '', age: '', addFriend: false})
   }
   render() {
     let Button = <button onClick={this.displayInput}>Add Friend</button>;
@@ -50,7 +52,7 @@ class AddFriend extends Component {
               type= 'number'
               className={classes.Container__Input}
             />
-            <button>Submit</button>
+            <button onClick={this.addFriend}>Submit</button>
           </div>
         </React.Fragment>
       )

@@ -1,5 +1,5 @@
 .Container {
-  border: 2px solid black;
+  border: 1px solid lightgray;
   border-radius: 5px;
   width: 400px;
   min-height: 10rem;
@@ -11,12 +11,6 @@
 }
 .Container__Text {
   font-size: 1.4rem;
-}
-.Container__ContactContainer {
-
-}
-.Container__Contact {
-
 }
 .Container__Subject {
   font-size: 2rem;
