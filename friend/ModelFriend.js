@@ -13,10 +13,7 @@ const definition = {
         type: Number,
         required: true,
     },
-    createdOn: {
-        type: Date,
-        default: Date.now,
-    },
+
 };
 
 const options = {
