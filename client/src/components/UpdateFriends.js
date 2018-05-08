@@ -6,7 +6,7 @@ class UpdateFriends extends React.Component {
         super(props);
         this.state = {
             // update: [],
-      
+
             // Email: [],
             // firstName: [],
             // lastName: [],
@@ -21,40 +21,40 @@ class UpdateFriends extends React.Component {
     }
     fetchData = () => {
         axios.get(`http://localhost:5000/api/friends/${this.props.id}`)
-        .then(res => {
-            let frData = res.data;
-            console.log('response.data of updateFriends, cdm: ', res.data)
-            this.setState({ friends: frData })
-        });
+            .then(res => {
+                let frData = res.data;
+                console.log('response.data of updateFriends, cdm: ', res.data)
+                this.setState({ friends: frData })
+            });
     }
     handleTextInput = (e) => {
         // this.setState({ [e.target.name]: e.target.value });
         e.preventDefault()
         const state = this.state.friend
         state[e.target.name] = e.target.value;
-        this.setState({friend:state});
+        this.setState({ friend: state });
     };
     callToUpdate = () => {
         // const friend = { 'firstName': this.state.Name, 'lastName': this.state.lastName, 'age': parseInt(this.state.age) };
-        let {firstName, lastName, age} = this.state.friend;
+        let { firstName, lastName, age } = this.state.friend;
         // console.log('the friend object is: ', friend)
         if (this.state.edit === false) {
             cstyle = {
                 color: 'red'
             }
-            this.setState({edit: !this.state.edit})
+            this.setState({ edit: !this.state.edit })
         } else {
             cstyle = {
                 color: 'blue'
             }
-            this.setState({edit: !this.state.edit})
+            this.setState({ edit: !this.state.edit })
 
         }
         age = parseInt(age);
         // `http://localhost:5000/api/friends`)
-        axios.put(`http://localhost:5000/api/friends/${this.props.id}`, {firstName, lastName, age})
+        axios.put(`http://localhost:5000/api/friends/${this.props.id}`, { firstName, lastName, age })
             .then(res => {
-                this.setState({ friend: {}})
+                this.setState({ friend: {} })
                 // this.props.history.push("/show/"+this.props.match.params.id)
                 this.props.fetchData()
                 //   let frData = res.data;
@@ -65,7 +65,19 @@ class UpdateFriends extends React.Component {
                 console.log(err);
             });
 
-    }
+    };
+    callToDelete = () => {
+        // console.log(id);
+        axios.delete(`http://localhost:5000/api/friends/${this.props.id}`)
+          .then((result) => {
+            // this.props.history.push("/")
+            this.props.fetchData()
+          })
+          .catch(err => {
+              console.log(err)
+          })
+      }
+    
     render() {
         return (
             <div>
@@ -102,6 +114,9 @@ class UpdateFriends extends React.Component {
                 <button onClick={this.callToUpdate} >
                     Save Friend Details
 							</button>
+                <button onClick={this.callToDelete} >
+                    Delete Friend
+                    </button>
 
             </div>
         )
