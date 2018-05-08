@@ -1,15 +1,26 @@
 import React from 'react';
 import Friend from './Friend';
-const friendList = props => {
+import './FriendCard.css'
 
-    return (
-        <div>
-            <ul>
-                {props.friends.map((friend) => {
-                    return <Friend friend={friend}/>
+class FriendList extends React.Component {
+    constructor(props) {
+        super(props);
+    }
+
+    // handleDetate = (e) => {
+    //     this.props.onDelete(e.target.id);
+    // };
+
+    render() {
+        return (
+            <div className='FriendCard__list'>
+
+                {this.props.friends.map((friend) => {
+                    return <Friend friend={friend} onDelete={this.props.onDelete}/>
                 })}
-            </ul>
-        </div>
-    );
-};
-export default friendList;
+            </div>
+        );
+    };
+}
+
+export default FriendList;

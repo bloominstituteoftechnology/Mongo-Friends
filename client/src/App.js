@@ -20,6 +20,13 @@ class App extends Component {
             })
     }
 
+    deleteFriend = (event) => {
+
+        const _id = event.target.id;
+        console.log(_id);
+        axios.delete(`http://localhost:5000/api/friends/${_id}`)
+    };
+
   render() {
     return (
       <div className="App">
@@ -35,7 +42,7 @@ class App extends Component {
                   {/*return <li>{`${friend.firstName} ${friend.lastName}`}</li>*/}
               {/*})}*/}
           {/*</ul>*/}
-          <FriendList friends={this.state.friends}/>
+          <FriendList friends={this.state.friends} onDelete={this.deleteFriend}/>
       </div>
     );
   }

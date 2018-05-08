@@ -22,7 +22,6 @@ router
         const friendData = req.body;
         
         const friend = new Friend(friendData);
-
         if (!friendData.firstName || !friendData.lastName || !friendData.age) {
           res
             .status(400)
@@ -75,7 +74,7 @@ router
     })
     .delete((req, res) => {
         const id = req.params.id;
-
+        console.log(id);
         Friend.findByIdAndRemove(id)
             .then(friend => {
                 if (friend.length === 0) {
