@@ -12,19 +12,20 @@ router
         res.status(200).json({ route: '/api/friends/' + req.params.id });
     })
     
-    .delete((req, res) => {const id = req.params.id;
+    .delete((req, res) => {
+        const id = req.params.id;
 
         Friend
           .findByIdAndRemove(id)
           .then(friends => {
-            if (!id) {
-              res.status(404).json({message: "The friend with the specified ID does not exist." });
+            if (friends) {
+                res.status(204).end();
             } else {
-              res.status(200).json(friend);
+                res.status(404).json({message: "The friend with the specified ID does not exist." });
             }
           })
           .catch(err => {
-            res.status(500).json({ errorMessage: "The friend could not be removed" });
+                res.status(500).json({ errorMessage: "The friend could not be removed" });
           })
     })
 
