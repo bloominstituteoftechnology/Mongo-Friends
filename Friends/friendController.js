@@ -55,14 +55,14 @@ else {
     Friend.findByIdAndUpdate(req.params.id, req.body, { new: true })
       .then(friend => {
         console.log('put!');
-        if (updated === null)
+        if (friend === null)
         res.status(404).json({
           message: 'The friend with the specified ID does not exist.',
         });
       else res.status(200).json(friend);
       })
       .catch(err=> {
-        res.status(500).json({ errorMessage: "The friend information could not be modified." }, err);
+        res.status(500).json({ errorMessage: "The friend information could not be modified." });
       })
   }});
 
