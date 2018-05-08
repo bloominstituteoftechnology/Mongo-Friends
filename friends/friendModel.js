@@ -28,6 +28,6 @@ const options = {
 
 const friendSchema = new.Mongoose.Schema(definition, options);
 
-const bearModel = mongoose.model('Friend', friendSchema, 'friends');
+const friendModel = mongoose.model('Friend', friendSchema, 'friends');
 
 module.exports = friendModel;

@@ -1,6 +1,6 @@
 const router = require('express').Router();
 
-const Friend = require('./friendModel');
+//const Friend = require('./friendModel');
 
 //pushes data to db
 router.post('/', function post(req, res) {
@@ -61,10 +61,11 @@ router.put('/:id', (req, res) => {
         if (friend) {
             res.status(200).json(friend);
         } else {
-            res.status(404).json({ msg: 'Bear not found' });
+            res.status(404).json({ msg: 'Friend not found' });
         }
     })
     .catch(err => res.status(500).json(err));
 });
+
 
 module.exports = router;
