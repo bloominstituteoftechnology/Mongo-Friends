@@ -1,16 +1,34 @@
 const express = require('express');
 const helmet = require('helmet');
-const cors = require('cors');
+const cors = require('cors'); // https://www.npmjs.com/package/cors
+const mongoose = require('mongoose');
 
 const server = express();
 
-server.use(helmet());
-server.use(cors());
-server.use(express.json());
+const friendController = require('./friends/friendController.js');
 
-server.get('/', (req, res) => {
-  res.status(200).json({ api: 'running' });
+
+server.use(helmet()); // https://helmetjs.github.io/
+server.use(cors());   // https://medium.com/trisfera/using-cors-in-express-cac7e29b005b
+
+
+server.get('/', function(req, res) {
+  res.status(200).json({ status: 'API Running' });
 });
 
-const port = process.env.PORT || 5000;
-server.listen(port, () => console.log(`\n=== API up on port: ${port} ===\n`));
+server.use('/api/friends', friendController);
+
+
+mongoose
+  .connect('mongodb://localhost/friends')
+  .then(connect => {
+    console.log('Successfully connected to MongoDB.')
+  })
+  .catch(err => {
+    console.error('Database connection failed.')
+  });
+
+const port = process.env.PORT || 5005;
+server.listen(port, () => {
+  console.log(`API running on http://localhost:${port}.`);
+});
