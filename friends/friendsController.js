@@ -5,7 +5,7 @@ router.route('/')
   .get((req, res) => {
     Friend.find()
       .then(friends => res.status(200).json(friends))
-      .catch(err => res.status(500).json({ error: "Cannot retrieve friends." }))
+      .catch(err => res.status(500).json({ errorMessage: "The friends information could not be retrieved." }))
   })
 
   .post((req, res) => {
@@ -26,7 +26,7 @@ router.route('/:id')
     const { id } = req.params;
     Friend.findById(id)
       .then(friend => res.status(200).json(friend))
-      .catch(err => res.status(500).json({ error: "Cannot retrieve any friend with the provided ID." }))
+      .catch(err => res.status(404).json({ message: "The friend with the specified ID does not exist." }))
   })
 
   .delete((req, res) => {
