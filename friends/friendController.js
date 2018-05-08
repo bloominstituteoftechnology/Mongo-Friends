@@ -12,43 +12,48 @@ router
   .get((req, res) => {
     Friend.find({ _id: req.params.id })
     .then(friend => {
-      res.status(404).json({ friend });
+      if (friend.length > 0){
+        res.status(404).json({ friend });
+      } else {
+        res.status(404).json({ message: "The friend with the specified ID does not exist." })
+      }
     })
     .catch(err => {
-      console.log(err);
-      if(err.name === 'CastError'){
-        res.status(404).json({ message: "The friend with the specified ID does not exist." })
-      } else {
         res.status(500).json({ errorMessage: "The friend information could not be retrieved." });
-      }
     });
   })
   .delete((req, res) => {
     Friend.remove({ _id: req.params.id })
-    .then(() => {
-      res.status(200).json({ status: 'Deleted friend with ID: ' + req.params.id });
+    .then((friend) => {
+      if(friend){
+        res.status(200).json({ status: 'Deleted friend with ID: ' + req.params.id });
+      } else {
+        res.status(404).json({ message: "The friend with the specified ID does not exist." })
+      }
     })
     .catch(err => {
-      console.log(err);
-      if(err.name === 'CastError'){
-        res.status(404).json({ message: "The friend with the specified ID does not exist." })
-      } else {
-        res.status(500).json({ errorMessage: "The friend could not be removed" });
-      }
+      res.status(500).json({ errorMessage: "The friend could not be removed" });
     });
   })
   .put((req, res) => {
-    Friend.where({ _id: req.params.id }).update({ $set: req.body })
-    .then(() => {
-      res.status(200).json({ status: 'Friend updated' });
+    const { id } = req.params;
+    const update = ({ $set: req.body });
+    Friend.findById(id)
+    .then(friend => {
+      if (req.body.age > 120 || req.body.age < 1) {
+        res.status(400).json({ errorMessage: "Age must be a number between 1 and 120" })
+      } else {
+        friend.update(update)
+        .then(() => {
+          res.status(201).json(req.body);
+        })
+        .catch(err => {
+          res.status(500).json({ msg: err });
+        })
+      }
     })
     .catch(err => {
-      console.log(err);
-      if(err.name === 'CastError'){
-        res.status(404).json({ message: "The friend with the specified ID does not exist." })
-      } else {
-        res.status(500).json({ errorMessage: "The friend information could not be modified." });
-      };
+      res.status(500).json({ errorMessage: "The friend information could not be modified." });
     });
   });
 
@@ -58,7 +63,7 @@ router
       res.status(200).json(friends);
     })
     .catch(err => {
-      res.status(500).json({ errorMessage: "The friend information could not be retrieved." });
+      res.status(500).json({ errorMessage: "The friends information could not be retrieved." });
     })
   }
 
@@ -66,19 +71,22 @@ router
     const friendData = req.body;
 
     const friend = new Friend(friendData);
-
-    friend
-      .save()
-      .then(friend => {
-        res.status(201).json(friend);
-      })
-      .catch(err => {
-        if (err === 19){
-          res.status(500).json({ errorMessage: "Please provide both species and latinName for the friend."  });
-        } else {
-          res.status(500).json({ errorMessage: "There was an error while saving the friend to the database" });
-        }
-      });
+    if(friend.age > 1 && friend.age < 120) {
+      friend
+        .save()
+        .then(friend => {
+          res.status(201).json(friend);
+        })
+        .catch(err => {
+          if (err.name === 'ValidationError') {
+            res.status(400).json({ errorMessage: "Please provide firstName, lastName and age for the friend." })
+          } else {
+            res.status(500).json({ errorMessage: "There was an error while saving the friend to the database" });
+          }
+        });
+    } else {
+      res.status(400).json({ errorMessage: "Age must be a number between 1 and 120" })
+    }
   }
 
 module.exports = router;
