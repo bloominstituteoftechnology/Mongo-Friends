@@ -40,12 +40,19 @@ router.route('/')
 
 router.route('/:id')
   .get((req, res) => {
-    Friend.findById(req.params.id)
-      .then(friend => {
-        res.json(friend);
-      })
+    const { id } = req.params;
+    Friend.findById(id)
+      .then(friend => res.json(friend))
       .catch(err => {
-        res.json(err);
+        if(err.name === 'CastError') {
+          res.status(404).json({
+            message: "The friend with the specified ID does not exist."
+          });
+        } else {
+          res.status(500).json({
+            errorMessage: "The friend information could not be retrieved."
+          });
+        }
       });
   })
   .delete((req, res) => {
