@@ -67,7 +67,6 @@ const postFriend = async (req, res) => {
   const newFriend = new FriendModel(body);
   try {
     const handled = await newFriend.save();
-    console.log(handled);
     res.json(handled);
   } catch (_) {
     throw userCreationFailedError;
@@ -128,12 +127,7 @@ FriendsRouter.delete('/:id', DeleteFriendRouteHandler);
  * @param {Friend} friend
  */
 const validateFriend = friend => {
-  if (
-    !friend.firstName ||
-    !friend.lastName ||
-    !friend.age ||
-    !friend.ContactInfo
-  ) {
+  if (!friend.firstName || !friend.lastName || !friend.age) {
     throw userMissingFieldError;
   }
   if (typeof friend.age !== 'number' || friend.age > 120 || friend.age < 1) {
