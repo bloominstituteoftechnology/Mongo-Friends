@@ -50,7 +50,7 @@ class App extends Component {
                   return(
                   <div key={friend._id} className="card">
                     <div className="headshot">
-                      <img alt="a photo" src="http://blogs.edweek.org/edweek/curriculum/Randall%20Munroe%20headshot.jpg"/>
+                      <img alt="Headshot" src="http://blogs.edweek.org/edweek/curriculum/Randall%20Munroe%20headshot.jpg"/>
                     </div>
 
                     <div className="w-80">
@@ -63,9 +63,19 @@ class App extends Component {
                       {friend.contactInfo === undefined ? (
                         <div></div>
                       ) : (
-                        <div>
-                          {friend.contactInfo.email}
-                        </div>
+                        <ul className="contactInfo">
+                          <li>
+                            <span>Email: </span> {friend.contactInfo.email}
+                          </li>
+
+                          <li>
+                            <span>Number: </span> {friend.contactInfo.number}
+                          </li>
+
+                          <li>
+                            <span>GitHub Handle: </span> {friend.contactInfo.githubUsername}
+                          </li>
+                        </ul>
                       )}
 
                     </div>

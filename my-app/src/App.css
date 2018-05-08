@@ -45,6 +45,7 @@
 }
 
 .name {
+  color: rgb(137, 170, 189);
   text-align: center;
   font-size: 2rem;
   text-decoration: underline;
@@ -53,6 +54,7 @@
 }
 
 h4 {
+  color: rgb(211, 134, 134);
   text-align: center;
   position: relative;
   right: 10%;
@@ -60,7 +62,20 @@ h4 {
   padding-top: 3%;
 } 
 
+.contactInfo {
+  margin: 3% 0 1% 5%;
+  font-size: 1.3rem;
+}
 
+li {
+  list-style: none;
+  color: rgb(143, 136, 136);
+}
+
+li span {
+  font-weight: bold;
+  color: rgb(77, 75, 75);
+}
 
 @keyframes App-logo-spin {
   from { transform: rotate(0deg); }
