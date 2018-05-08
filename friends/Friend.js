@@ -66,6 +66,48 @@ router
 					.status(500)
 					.json({ errorMessage: "The friend could not be removed" });
 			});
+	})
+	.put((req, res) => {
+		// define new information
+		const update = req.body;
+		// define id
+		const { id } = req.params;
+
+		// validate - update content can not be empty
+		if (
+			!update.firstName ||
+			!update.firstName.length === 0 ||
+			!update.lastName ||
+			!update.lastName.length === 0 ||
+			!update.age
+		) {
+			res.status(400).json({
+				errorMessage:
+					"Please provide firstName, lastName and age for the friend."
+			});
+		}
+		// validate age
+		if (update.age < 1 || update.age > 120) {
+			res
+				.status(400)
+				.json({ errorMessage: "Age must be a number between 1 and 120" });
+		} else {
+			Friend.findByIdAndUpdate(id, update)
+				.then(friend => {
+					if (!friend) {
+						res.status(404).json({
+							message: "The friend with the specified ID does not exist."
+						});
+					} else {
+						res.status(200).json(friend);
+					}
+				})
+				.catch(err => {
+					res.status(500).json({
+						errorMessage: "The friend information could not be modified."
+					});
+				});
+		}
 	});
 
 function get(req, res) {
