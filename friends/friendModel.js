@@ -13,6 +13,13 @@ const definition = {
     type: Number,
     required: true,
   },
+  contactInfo: {
+    email: String,
+    mobileNumber: String,
+    githubUsername: String,
+    facebookUsername: String,
+    twitterHandle: String,
+  },
   createdOn: {
     type: Date,
     default: Date.now,
