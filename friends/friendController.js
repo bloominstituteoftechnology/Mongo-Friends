@@ -9,7 +9,9 @@ router.route('/')
         res.json(friends);
       })
       .catch(err => {
-        res.status(500).json(err);
+        res.status(500).json({
+          errorMessage: "The friends information could not be retrieved."
+        });
       });
   })
   .post((req, res) => {
