@@ -2,9 +2,9 @@ const mongoose = require('mongoose');
 
 const definition = {
     friend: {
-        firstName: 'Jane',
-        lastName: 'Doe',
-        age: 18,
+        firstName: String,
+        lastName: String,
+        age: Int,
         createdOn: Date.now,
     }
 
