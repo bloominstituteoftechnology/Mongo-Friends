@@ -51,19 +51,20 @@ router
 			res
 				.status(400)
         .json({ errorMessage: 'Age must be a number between 1 and 120' });
-        
+   else {    
     Friend.findByIdAndUpdate(req.params.id, req.body)
       .then(friend => {
+        console.log('put!');
         if (updated === null)
         res.status(404).json({
           message: 'The friend with the specified ID does not exist.',
         });
       else res.status(200).json(friend);
       })
-      .catch(error => {
-        res.status(500).json({ message: "The friend information could not be modified." }, err);
+      .catch(err=> {
+        res.status(500).json({ errorMessage: "The friend information could not be modified." }, err);
       })
-  });
+  }});
 
 function get(req, res) {
   Friend.find().then(friends => {
