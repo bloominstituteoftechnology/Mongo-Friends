@@ -7,7 +7,7 @@ mongoose.connect('mongodb://localhost:27017/friends')
   .then(mongo => console.log("connected to the database"))
   .catch(err => console.log("error connecting to the database"));
 
-const friendsController = require('./friends/friendsSchema');
+const friendsController = require('./friends/friendsController');
 
 const server = express();
 

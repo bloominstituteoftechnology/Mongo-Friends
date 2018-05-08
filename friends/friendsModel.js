@@ -31,5 +31,5 @@ const options = { timestamps: true }
 const friendSchema = new mongoose.Schema(defineSchema, options)
 
 const friendsModel = mongoose.model('Friend', friendSchema, 'friends')
-
+// module.exports = mongoose.model('Friend', friendSchema, 'friends')
 module.exports = friendsModel;
