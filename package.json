@@ -4,7 +4,7 @@
   "description": "MongoDB I Project",
   "main": "server.js",
   "scripts": {
-    "start": "nodemon server.js"
+    "start": "nodemon ./server/server.js"
   },
   "repository": {
     "type": "git",
@@ -18,9 +18,11 @@
   },
   "homepage": "https://github.com/LambdaSchool/Mongo-I#readme",
   "dependencies": {
+    "body-parser": "^1.18.2",
     "cors": "^2.8.4",
     "express": "^4.16.3",
-    "helmet": "^3.12.0"
+    "helmet": "^3.12.0",
+    "mongoose": "^5.0.17"
   },
   "devDependencies": {
     "nodemon": "^1.17.3"
