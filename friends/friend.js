@@ -16,3 +16,9 @@ router.post('/', function post(req, res) {
         });
 });
 
+router.get('/', function get(req, res) {
+    Friend.find().then(friends => {
+        res.status(200).json(friends);
+    });
+});
+
