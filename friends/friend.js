@@ -31,3 +31,21 @@ router.get('/:id', (req, res) => {
         .catch(err => res.status(500).json(err));
 });
 
+router.delete('/:id', (req, res) => {
+    const { id } = req.params;
+
+    Friend.findByIdAndRemove(id)
+        .then(friend => {
+            if (friend) {
+                res.status(204).end();
+              } else {
+                res.status(404).json({ msg: 'Friend Not Found' });    
+            }
+        })
+        .catch(err => res.status(500).json(err));
+});
+
+router.put('/:id', (req, res) => {
+    const { id } = req.params;
+    const update = req.body;
+})
