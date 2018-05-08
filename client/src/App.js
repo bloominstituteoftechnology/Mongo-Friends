@@ -42,7 +42,15 @@ class App extends Component {
     };
 
     addFriend =(event) => {
-
+         const newFriends = this.state.friends;
+         const newFriend = { firstName: firstName, lastName: lastName, age: age };
+         newFriends.push(newFriend);
+         axios.post('http://localhost:5000/api/friends', newFriend).then(response => {
+             console.log(response);
+            //  this.setState({ friends: newFriends });
+         }).catch(err => {
+             console.log('error adding friend');
+         }); 
     };
 
   render() {
