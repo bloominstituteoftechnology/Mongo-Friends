@@ -34,19 +34,43 @@ class App extends Component {
     return (
       <div className="App">
         <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
+          <h1 className="App-title">Friends</h1>
         </header>
         
         <div>
           {this.state.mounted === false ? (
-            <div>Please hold</div>
+            <div> 
+              <img src={logo} className="App-logo" alt="logo" />
+            </div>
           ) : (
             <div>
+              
+
                 {this.state.friends.map(friend => {
                   return(
-                  <div key={friend._id}>
-                    <h2>{friend.firstName} {friend.lastName}</h2>
+                  <div key={friend._id} className="card">
+                    <div className="headshot">
+                      <img alt="a photo" src="http://blogs.edweek.org/edweek/curriculum/Randall%20Munroe%20headshot.jpg"/>
+                    </div>
+
+                    <div className="w-80">
+                      <div className="name">
+                        <h2>{friend.firstName} {friend.lastName}</h2>
+                      </div>
+                      <h4>Age: {friend.age}</h4>
+
+                      
+                      {friend.contactInfo === undefined ? (
+                        <div></div>
+                      ) : (
+                        <div>
+                          {friend.contactInfo.email}
+                        </div>
+                      )}
+
+                    </div>
+
+
                   </div>
                   )
                 })}
