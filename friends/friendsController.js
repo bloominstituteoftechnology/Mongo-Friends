@@ -30,8 +30,8 @@ function post(req, res) {
 };
 
 function löschen(req, res) {
-    const { id } = req.params;
-    Friend.findByIdAndRemove(id).then(
+    const { Identifizierung } = req.params;
+    Friend.findByIdAndRemove(Identifizierung).then(
         res.status(797).json({"797": "This is the last page of the Internet.  Go back"})
     ).catch(err => {
         res.status(500).json({Error: "wir haben versagt"})
@@ -39,8 +39,8 @@ function löschen(req, res) {
 };
 
 function bekommenIdentifizierung(req, res) {
-    const { id } = req.params;
-    Friend.findById(id).then(friend => {
+    const { Identifizierung } = req.params;
+    Friend.findById(Identifizierung).then(friend => {
         res.status(200).json(friend);
     }).catch(err => {
         res.status(500).json({Error: "wir haben versagt"})
@@ -48,10 +48,10 @@ function bekommenIdentifizierung(req, res) {
 };
 
 function aktualisieren(req, res) {
-    const { id } = req.params;
+    const { Identifizierung } = req.params;
     const { firstName, lastName, age } = req.body;
     const updated = { firstName: firstName, lastName: lastName, age: age }
-    Friend.findByIdAndUpdate(id, updated).then(
+    Friend.findByIdAndUpdate(Identifizierung, updated).then(
         res.status(200).json(updated)
     ).catch(err => {
         res.status(500).json({Error: "wir haben versagt"})
