@@ -61,8 +61,9 @@ server.post('/api/friends', (req, res) => {
   const firstName = req.body.firstName;
   const lastName = req.body.lastName;
   const age = req.body.age;
+  const contactInfo = req.body.contactInfo;
 
-  const friend = new Friend({ firstName, lastName, age });
+  const friend = new Friend({ firstName, lastName, age, contactInfo });
 
   friend
   .save()
