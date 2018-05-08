@@ -7,25 +7,47 @@ router.route('/').get(get).post(post);
 router
     .route('/:id')
     .get((req, res) => {
-        res.status(200).json({ route: '/api/friends/' + req.params.id });
+        // res.status(200).json({ route: '/api/friends/' + req.params.id });
             Friend.findById(req.params.id).then(friends => {
                 res.status(200).json(friend);
             })
             .catch(err => {
-                res.status(404).json({ message: "The friend with the specified ID does not exist." })
+                res.status(404).json({ message: "The friend with the specified ID does not exist." });
             })
-                // Kitten.findById(req.params.kittenId, (err, kitten) => {  
-                //     if (err) return res.status(500).send(err)
-                //     return res.status(200).send(kitten)
             .catch(err => {
                 res.status(500).json({ errorMessage: "The friend information could not be retrieved." });
             })
     })
     .delete((req, res) => {
-        res.status(200).json({ status: 'what' });
+            Friend.findByIdAndRemove(req.params.id).then(friends => {
+                res.status(200).json({ status: 'deleted' });
+            })
+            .catch(err => {
+                res.status(404).json({ message: "The friend with the specified ID does not exist." });
+            })
+            .catch(err => {
+                res.status(500).json({ errorMessage: "The friend could not be removed" });
+            })
+        
     })
     .put(( req, res) => {
-        res.status(200).json({ status: 'what' });
+            Friend.findByIdAndUpdate(req.params.id).then(friends => {
+                res.status(200).json(friend);
+            })
+            .catch(err => {
+                res.status(404).json({ message: "The friend with the specified ID does not exist." });
+            })
+            .catch(err => {
+                res.status(400).json({ errorMessage: "Please provide firstName, lastName and age for the friend." });
+            })
+            .catch(err => {
+                res.status(400).json({ errorMessage: "Age must be a number between 1 and 120" });
+            })
+            .catch(err => {
+                res.status(500).json({ errorMessage: "The friend information could not be modified." });
+            })
+            
+       
     });
 
 function get(req, res) {
@@ -46,7 +68,13 @@ function post(req, res) {
             res.status(201).json(friend);
         })
         .catch(err => {
-            res.status(400).json({ errorMessage: "Please provide firstName, lastName and age for the friend." });
+            res.status(400).json({ errorMessage: "Age must be a number between 1 and 120" })
+        })
+        .catch(err => {
+            res.status(400).json({ errorMessage: "Please provide firstName, lastName and age for the friend." })
+        })
+        .catch(err => {
+            res.status(500).json({ errorMessage: "There was an error while saving the friend to the database." })
         });
 }
 
