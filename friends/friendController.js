@@ -16,7 +16,8 @@ router.get('/', (req, res) => {
 
 //===========GET BY ID==============
 router.get('/:id', (req, res) => {
-    Friend.findById(req.params.id)
+    Friend
+    .findById(req.params.id)
     .then(friend => {
         if(friend){
             res.status(200).json(friend)
@@ -27,6 +28,23 @@ router.get('/:id', (req, res) => {
     })
     .catch(err => {
         res.status(500).json({ errorMessage: "The friend information could not be retrieved." })
+    })
+})
+
+//===========DELETE==================
+router.delete('/:id', (req, res) => {
+    Friend
+    .findByIdAndRemove(req.params.id)
+    .then(response => {
+        if(response){
+            res.status(201).json(response)
+        }
+        else {
+            res.status(404).json({ message: "The friend with the specified ID does not exist." })
+        }
+    })
+    .catch(err => {
+        res.status(500).json({ errorMessage: "The friend could not be removed" })
     })
 })
 
