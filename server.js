@@ -106,16 +106,32 @@ server.put("/api/friends/:id", (req, res)=> {
   const id = req.params.id;
   const input = req.body;
 
-  Friend.findOneAndUpdate(id, input).then(friend => {
-    res.status(200).json({
-      message: "Friend has been succesfully updated"
-    })
-  }).catch(err => {
-    res.status(500).json({
-      errorMessage: "Friend could not be updated"
-    })
+  Friend.findById(id).then(friend => {
+    if(friend == null) {
+      res.status(404).json({
+        errorMessage: "The friend with the specified id could not be found!"
+      })
+    } else if(input.firstName.length === 0 || input.lastName.length === 0 ||input.age.length === 0) {
+      res.status(400).json({
+        errorMessage: "Please provide firstName, lastName and age for the friend."
+      })
+    } else if(input.age < 1 || input.age > 120 || typeof input.age != "number") {
+      res.status(400).json({
+        errorMessage: "Age must be a number between 1 and 120"
+      })
+    } else {
+      Friend.findOneAndUpdate(id, input).then(friend => {
+        res.status(200).json({
+          message: "Friend has been succesfully updated"
+        })
+      })
+    }
+}).catch(err => {
+  res.status(500).json({
+    errorMessage: "The friend information could not be modified."
   })
 })
+});
 
 
 const port = process.env.PORT || 5000;
