@@ -13,7 +13,11 @@ class FriendForm extends React.Component {
                         <Input type="text" name="firstName"  placeholder="First Name"/>
                         <Label for="lastName">Last Name</Label>
                         <Input type="text" name="lastName"  placeholder="Last Name"/>
+
+                        <Label for="age">Age</Label>
+                        <Input type="text" name="age"  placeholder="age"/>
                     </FormGroup>
+                    <Button>Add Friend</Button>
                 </Form>
             </div>
         );

@@ -34,7 +34,14 @@ class App extends Component {
         const _id = event.target.id;
         console.log(_id);
         axios.delete(`http://localhost:5000/api/friends/${_id}`)
+            .then(friend => {
+                console.log(friend);
+            });
 
+
+    };
+
+    addFriend =(event) => {
 
     };
 
