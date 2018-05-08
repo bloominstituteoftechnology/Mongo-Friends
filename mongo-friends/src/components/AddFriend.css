@@ -1,0 +1,45 @@
+.saveButton {
+    margin-right: 15px;
+}
+
+.inputFields {
+    width: 25%;
+    border: 3px double black;
+    margin: 10px auto;
+    display: inline-block;
+    padding: 30px 25px;
+    background-color: white;
+}
+
+::-webkit-input-placeholder {
+  color: white;
+}
+
+::-webkit-input-placeholder:focus {
+  color: black;
+}
+
+    input {
+      background:black;
+      color:#fff;
+      border: none;
+      font-size: 1em;
+      padding: .5em .5em;
+      cursor:pointer;
+      transition: 1500ms ease all;
+      outline: none;
+      width: 80%;
+    }
+      
+    input:focus {
+      background:#fff;
+      color:black;
+    }
+
+    .inputSecond {
+      margin-top: 15px;
+    }
+
+    .inputThird {
+      margin-top: 15px;
+    }

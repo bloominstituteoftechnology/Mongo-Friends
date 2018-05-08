@@ -15,6 +15,16 @@ const definition = {
             min: 1,
             max: 120
         },
+        contactInfo: {
+            phoneNum: {
+                type: String,
+                default: 'none'
+            },
+            email: {
+                type: String,
+                default: 'none'
+            },
+        },
         createdOn: {
             type: Date,
             default: Date.now

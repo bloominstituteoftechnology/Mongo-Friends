@@ -1,0 +1,38 @@
+.mainList {
+    width: 80%;
+    margin: 0 auto;
+}
+
+.overall {
+    display: inline-flex;
+    justify-content: center;
+    width: 25%;
+    margin: 10px;
+    text-decoration: none;
+}
+
+.friendList {
+    height: 225px;
+    width: 100%;
+    border: 3px double black;
+    background-color: white;
+    color: black;
+}
+
+.friendTitle {
+    font-size: 18px;
+    padding: 10px;
+}
+
+.friendContent {
+    font-size: 18px;
+    margin-top: 15px;
+    padding-bottom: 5px;
+    font-weight: bold;
+}
+
+hr {
+    border: 0;
+    height: 1px;
+    background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0));
+}
