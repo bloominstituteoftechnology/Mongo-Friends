@@ -17,10 +17,10 @@ server.use(cors());
 server.use(express.json());
 
 server.get('/', (req, res) => {
-  res.status(200).json({ api: 'running' });
+  res.status(200).json({ api: 'rennen' });
 });
 
 server.use('/api/friends', friendsController);
 
 const port = process.env.PORT || 666;
-server.listen(port, () => console.log(`\n=== API up on port: ${port} ===\n`));
+server.listen(port, () => console.log(`\n=== API rennen auf: ${port} ===\n`));

@@ -4,16 +4,16 @@ const Friend = require('./friendsModel');
 
 router
   .route('/')
-  .get(get)
+  .get(bekommen)
   .post(post);
 
 router
   .route('/:id')
-  .get(getter)
-  .delete(del)
-  .put(update);
+  .get(bekommenIdentifizierung)
+  .delete(löschen)
+  .put(aktualisieren);
 
-function get(req, res) {
+function bekommen(req, res) {
     Friend.find().then(friends => {
         res.status(200).json(friends);
     });
@@ -29,32 +29,32 @@ function post(req, res) {
     });
 };
 
-function del(req, res) {
+function löschen(req, res) {
     const { id } = req.params;
     Friend.findByIdAndRemove(id).then(
         res.status(797).json({"797": "This is the last page of the Internet.  Go back"})
     ).catch(err => {
-        res.status(500).json({Error: "we fucked up"})
+        res.status(500).json({Error: "wir haben versagt"})
     });
 };
 
-function getter(req, res) {
+function bekommenIdentifizierung(req, res) {
     const { id } = req.params;
     Friend.findById(id).then(friend => {
         res.status(200).json(friend);
     }).catch(err => {
-        res.status(500).json({Error: "we fucked up"})
+        res.status(500).json({Error: "wir haben versagt"})
     });
 };
 
-function update(req, res) {
+function aktualisieren(req, res) {
     const { id } = req.params;
     const { firstName, lastName, age } = req.body;
     const updated = { firstName: firstName, lastName: lastName, age: age }
     Friend.findByIdAndUpdate(id, updated).then(
         res.status(200).json(updated)
     ).catch(err => {
-        res.status(500).json({Error: "we fucked up"})
+        res.status(500).json({Error: "wir haben versagt"})
     });
 };
 module.exports = router;
