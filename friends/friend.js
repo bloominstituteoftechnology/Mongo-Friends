@@ -22,3 +22,12 @@ router.get('/', function get(req, res) {
     });
 });
 
+router.get('/:id', (req, res) => {
+    const { id } = req.params;
+    friend.findById(id)
+        .then(friends => {
+            res.status(200).json(friends);
+        })
+        .catch(err => res.status(500).json(err));
+});
+
