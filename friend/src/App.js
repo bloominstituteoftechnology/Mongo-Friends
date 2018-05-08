@@ -32,7 +32,7 @@ class App extends Component {
  <div>
    <FriendsForm updateState={this.updateState}/>
 
-<Friends friends={this.state.friends}/>
+<Friends friends={this.state.friends} updateState={this.updateState}/>
  </div>
     );
   }
