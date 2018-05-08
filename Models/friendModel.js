@@ -2,13 +2,24 @@
 const mongoose = require('mongoose');
 
 const definition = {
-    friend: {
-        firstName: String,
-        lastName: String,
-        age: Int,
-        createdOn: Date.now,
+    
+    firstName: {
+        type: String,
+        required:true
+    },
+    lastName: {
+        type: String,
+        required: true
+    },
+    age: {
+        type: Number,
+        required: true,
+    },
+    createdOn: {
+        type: Date,
+        required: true, 
+        default: new Date()
     }
-
     
 
 };

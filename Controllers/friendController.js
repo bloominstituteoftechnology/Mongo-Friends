@@ -1,6 +1,6 @@
 const router = require('express').Router();
 
-const FriendModel = require('./Models/friendModel');
+const FriendModel = require('../Models/friendModel');
 
 //pushes the data to the database
 router.post('/', function post(req, res) {
