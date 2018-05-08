@@ -12,7 +12,7 @@ mongoose
     console.log('Error connecting to database', err);
   });
 
-const friendServer = require('./friend/friendController');
+const friendController = require('./friends/friendController');
 
 const server = express();
 
