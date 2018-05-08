@@ -1,4 +1,5 @@
 const router = require('express').Router();
+const mongoose = require('mongoose');
 
 const Friend = require('./friendModel');
 
@@ -41,28 +42,49 @@ router.route('/')
 router.route('/:id')
   .get((req, res) => {
     const { id } = req.params;
-    Friend.findById(id)
-      .then(friend => res.json(friend))
-      .catch(err => {
-        if(err.name === 'CastError') {
-          res.status(404).json({
-            message: "The friend with the specified ID does not exist."
-          });
-        } else {
+    if(mongoose.Types.ObjectId.isValid(id)) {
+      Friend.findById(id)
+        .then(friend => {
+          if(friend) res.json(friend);
+          else {
+            res.status(404).json({
+              message: "The friend with the specified ID does not exist."
+            });
+          }
+        })
+        .catch(err => {
           res.status(500).json({
             errorMessage: "The friend information could not be retrieved."
           });
-        }
+        });
+    } else {
+      res.status(400).json({
+        errorMessage: "You must input an id with valid format."
       });
+    }
   })
   .delete((req, res) => {
-    Friend.findByIdAndRemove(req.params.id)
-      .then(friend => {
-        res.json(friend);
-      })
-      .catch(err => {
-        res.json(err);
-      });
+    const { id } = req.params;
+    if(mongoose.Types.ObjectId.isValid(id)) {
+      Friend.findByIdAndRemove(id)
+        .then(friend => {
+          if(friend) res.json(friend);
+          else {
+            res.status(404).json({
+              message: "The friend with the specified ID does not exist."
+            });
+          }
+        })
+        .catch(err => {
+          res.status(500).json({
+            errorMessage: "The friend information could not be retrieved."
+          }); 
+        });
+      } else {
+        res.status(400).json({
+          errorMessage: "You must input an id with valid format."
+        });
+      }
   })
   .put((req, res) => {
     Friend.findByIdAndUpdate(req.params.id, req.body, { new: true })
