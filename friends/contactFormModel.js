@@ -5,7 +5,7 @@ const Schema = mongoose.Schema;
 // required properties for a contact info document
 // email, mobile number, github username, facebook username, twitter handle
 
-const contactForm = new Schema(
+const ContactForm = new Schema(
 	{
 		email: {
 			type: String,
@@ -28,11 +28,7 @@ const contactForm = new Schema(
 			required: true
 		}
 	},
-	options
+	{ timestamps: true }
 );
 
-const options = {
-	timestamps: true
-};
-
-module.exports = contactForm;
+module.exports = ContactForm;

@@ -1,5 +1,7 @@
 // define a schema with mongoose
 const mongoose = require("mongoose");
+// contactForm is a sub document of FriendModel
+const ContactForm = require("./contactFormModel");
 
 // {
 //   firstName: "Jane", // String, required
@@ -24,7 +26,8 @@ const definition = {
 		min: 1,
 		max: 120,
 		required: true
-	}
+	},
+	contactForm: [ContactForm]
 };
 
 const options = {
