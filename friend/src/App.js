@@ -26,13 +26,26 @@ class App extends Component {
       console.log(err)
     })
   }
+  
+  delete = id =>{
+    axios
+    .delete(`http://localhost:5000/friends/${id}`)
+    .then(response =>{
+      console.log("deleted")
+        this.updateState();
+    })
+    .catch(err =>{
+        console.log(err);
+    });
+  };
+  
   render() {
     console.log(this.state)
     return (
- <div>
+ <div className="App">
    <FriendsForm updateState={this.updateState}/>
 
-<Friends friends={this.state.friends} updateState={this.updateState}/>
+<Friends friends={this.state.friends} updateState={this.updateState} delete={this.delete}/>
  </div>
     );
   }

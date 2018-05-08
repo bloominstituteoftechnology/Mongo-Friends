@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
-import { Card, Collapse, CardText, CardBody,
-    CardTitle, CardSubtitle, Button,Label,FormGroup,Input, Col,Row, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
+import {  Collapse, Button,FormGroup,Input, Col,Row,  } from 'reactstrap';
 import axios from 'axios';
-const count = 0;
 class FriendForm extends Component {
   constructor(props) {
     super(props);
@@ -65,7 +63,8 @@ class FriendForm extends Component {
       console.log(this.state)
       return(<React.Fragment>
        
-
+<Row>
+    <Col xs="12">
           <Button color="success" className="friendBtn-style" onClick={this.checkToggle} type="submit">Add Friend</Button>
           <Collapse isOpen={this.state.collapse}>
           <FormGroup>
@@ -98,7 +97,8 @@ class FriendForm extends Component {
            </Row>
         </FormGroup>
         </Collapse>
-
+        </Col>
+</Row>
     </React.Fragment>);
   }
 }
