@@ -3,6 +3,7 @@ import axios from 'axios';
 import logo from './logo.svg';
 import './App.css';
 import FriendList from './components/friend/FriendList';
+import FriendForm from  './components/friend/FriendForm';
 class App extends Component {
 
     constructor(props){
@@ -14,10 +15,18 @@ class App extends Component {
     }
 
     componentDidMount() {
+        this.getdata();
+    }
+
+    getdata() {
         axios.get('http://localhost:5000/api/friends')
             .then(friend => {
                 this.setState({friends: friend.data})
             })
+    }
+
+    componentDidUpdate() {
+      // this.getdata();
     }
 
     deleteFriend = (event) => {
@@ -25,6 +34,8 @@ class App extends Component {
         const _id = event.target.id;
         console.log(_id);
         axios.delete(`http://localhost:5000/api/friends/${_id}`)
+
+
     };
 
   render() {
@@ -43,6 +54,7 @@ class App extends Component {
               {/*})}*/}
           {/*</ul>*/}
           <FriendList friends={this.state.friends} onDelete={this.deleteFriend}/>
+          <FriendForm/>
       </div>
     );
   }
