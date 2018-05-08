@@ -1,5 +1,31 @@
 const mongoose = require('mongoose');
 
+const contactInfo = {
+  type: Object,
+  required: true,
+
+  email: {
+    type: String,
+    required: false
+  },
+  mobileNumber: {
+    type: Number,
+    required: false
+  },
+  githubUsername: {
+    type: String,
+    required: false
+  },
+  facebookUsername: {
+    type: String,
+    required: false
+  },
+  twitterHandle: {
+    type: String,
+    required: false
+  }
+}
+
 const defineSchema = {
   firstName: {
     type: String,
@@ -19,31 +45,7 @@ const defineSchema = {
     type: Date,
     default: Date.now
   },
-  contactInfo: {
-    type: Object,
-    required: true,
-
-    email: {
-      type: String,
-      required: false
-    },
-    mobileNumber: {
-      type: Number,
-      required: false
-    },
-    githubUsername: {
-      type: String,
-      required: false
-    },
-    facebookUsername: {
-      type: String,
-      required: false
-    },
-    twitterHandle: {
-      type: String,
-      required: false
-    }
-  }
+  contactInfo
 }
 
 const options = { timestamps: true }
