@@ -77,7 +77,7 @@ router.route('/:id')
         })
         .catch(err => {
           res.status(500).json({
-            errorMessage: "The friend information could not be retrieved."
+            errorMessage: "The friend information could not be removed."
           }); 
         });
       } else {
@@ -87,13 +87,38 @@ router.route('/:id')
       }
   })
   .put((req, res) => {
-    Friend.findByIdAndUpdate(req.params.id, req.body, { new: true })
-      .then(friend => {
-        res.json(friend);
-      })
-      .catch(err => {
-        res.json(err);
+    const { firstName, lastName, age } = req.body;
+    if(!firstName || !lastName || !age) {
+      res.status(400).json({
+        errorMessage: "Please provide firstName, lastName and age for the friend."
       });
+    } else if(age < 1 || age > 120) {
+      res.status(400).json({
+        errorMessage: "Age must be a number between 1 and 120"
+      });
+    }
+
+    const { id } = req.params;
+    if(mongoose.Types.ObjectId.isValid(id)) {
+      Friend.findByIdAndUpdate(id, req.body, { new: true })
+        .then(friend => {
+          if(friend) res.json(friend);
+          else {
+            res.status(404).json({
+              message: "The friend with the specified ID does not exist."
+            });
+          }
+        })
+        .catch(err => {
+          res.status(500).json({
+            errorMessage: "The friend information could not be modified."
+          }); 
+        });
+    } else {
+      res.status(400).json({
+        errorMessage: "You must input an id with valid format."
+      });
+    }
   });
 
 module.exports = router;
