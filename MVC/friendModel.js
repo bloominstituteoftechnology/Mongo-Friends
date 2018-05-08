@@ -22,11 +22,11 @@ const definition = {
   contactInfo: {
     email: {
       type: String,
-      default: 'N/A',
+      default: 'no email',
     },
     mobileNumber: {
       type: String,
-      default: 'N/A',
+      default: 'no number',
     },
     githubUsername: {
       type: String,
