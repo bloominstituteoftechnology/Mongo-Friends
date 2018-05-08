@@ -18,6 +18,10 @@ router.route('/')
       res.status(400).json({
         errorMessage: "Please provide firstName, lastName and age for the friend."
       });
+    } else if(age < 1 || age > 120) {
+      res.status(400).json({
+        errorMessage: "Age must be a number between 1 and 120"
+      });
     }
 
     const friend = new Friend(req.body);
