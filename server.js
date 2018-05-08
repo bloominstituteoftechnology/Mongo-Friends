@@ -17,7 +17,7 @@ mongoose
     console.log('Error Connecting to Database');
   });
 
-// const friend = require('./friends/friend');
+const friend = require('./friends/friend');
 
 const server = express();
 
