@@ -18,6 +18,14 @@ const definition = {
     type: Date,
     default: Date.now,
   },
+  contactInfo: {
+    email: {
+      type: String
+    },
+    mobile: {
+      type: Number
+    },
+  }
 }
 
 const options = {
@@ -27,5 +35,7 @@ const options = {
 
 const friendSchema = new  mongoose.Schema(definition, options);
 const friendModel = mongoose.model('Friend', friendSchema, 'friends');
+// const friendModel = mongoose.model('model_name', Schema_name, 'collection_name');
+//.connect('mongodb://host_name/database_name')
 
 module.exports = friendModel;

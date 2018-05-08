@@ -11,6 +11,7 @@ server.use(express.json());
 
 mongoose
   .connect('mongodb://localhost/frienddb')
+  // .connect('mongodb://host_name/database_name')
   .then(mongo => {
     console.log('connected to database');
   })
@@ -58,8 +59,8 @@ res.status(500).json(`{ errorMessage: "The friend information could not be retri
 //post
 
 server.post('/api/friends', (req, res) => {
-  const body = req.body;
-  const friend = new model(body);
+
+  const friend = new model(req.body);
   friend.save()
   .then(response => res.status(201).json(response))
   .catch(err => console.log(err))
