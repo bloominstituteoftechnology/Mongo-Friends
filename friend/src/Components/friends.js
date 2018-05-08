@@ -2,7 +2,7 @@ import React from 'react';
 import Friend from './friend';
 
 const Friends = (props) =>{
-    console.log(props.friends)
+    console.log(props)
     return(<React.Fragment>
   <div>friends</div>
   <div>
@@ -15,6 +15,7 @@ const Friends = (props) =>{
          lastName={friend.lastName}
          age={friend.age}
          contactinfo={friend.contactinfo}
+         updateState={props.updateState}
         />
 
           </div>

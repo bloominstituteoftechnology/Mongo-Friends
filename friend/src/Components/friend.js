@@ -12,36 +12,35 @@ class Friend extends Component{
         this.state={  
         firstName:'',
         lastfirstName:'',
-        age:''
-  
+        age:'',
+        collapse: false
     }
     this.toggle = this.toggle.bind(this);
-    this.state = { collapse: false };
-
 }
 toggle() {
     this.setState({ collapse: !this.state.collapse });
   }
-    updateProject = id => {
-        const project = {};
+
+    updateFriend = id => {
+    console.log(id)
+        const friend = {};
         if (this.state.firstName !== '') {
-          project.firstName = this.state.firstName;
+          friend.firstName = this.state.firstName;
         }
          if (this.state.lastName !== '') {
-          project.lastName = this.state.lastName;
+          friend.lastName = this.state.lastName;
         }
         if (this.state.age !== '') {
-            project.age = this.state.age;
+            friend.age = this.state.age;
           }
        
         axios
-          .put(`http://localhost:5000/projects/${id}`, project)
+          .put(`http://localhost:5000/friends/${id}`, friend)
           .then(response => {
-              console.log(this.props)
             this.setState({
                 firstName: '',
                 lastName: '',
-                age:'',        
+                age:'',           
             });
             this.props.updateState();
           })
@@ -51,11 +50,21 @@ toggle() {
       };
 
 
+      checkToggle =(id)=>{
+        console.log(this.state)
+      if(this.state.collapse === false){ 
+      this.toggle()
+    }else{
+      this.updateFriend(id);
+      this.toggle();
+    }
+  }
+
     setInput = (element)=>{
         this.setState({[element.target.firstName]: element.target.value})
        }
 render(){
-
+console.log(this.props.id)
     return(<React.Fragment>
     <div> 
       <Card>
@@ -71,7 +80,8 @@ render(){
           <Button color="danger">Delete</Button>
           </Col>
           <Col xs="12">
-          <Button color="success" onClick={this.toggle} style={{ marginBottom: '1rem' }}>update</Button>
+          <Button color="success" onClick={this.updateFriend(this.props.id)} >update</Button>
+
           <Collapse isOpen={this.state.collapse}>
           <FormGroup>
           <Row>
