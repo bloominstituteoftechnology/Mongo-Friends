@@ -2,6 +2,21 @@ const router = require('express').Router();
 
 const Friend = require('./friendModel');
 
+//===============POST====================
+router.post('/', (req, res) => {
+    const friendData = req.body;
+    const friend = new Friend(friendData);
+
+    friend
+    .save()
+    .then(friend => {
+        res.status(201).json(friend)
+    })
+    .catch(err => {
+        res.status(500).json({ errorMessage: "There was an error while saving the friend to the database." })
+    }) 
+})
+
 //============GET===============
 router.get('/', (req, res) => {
     Friend
@@ -37,7 +52,7 @@ router.delete('/:id', (req, res) => {
     .findByIdAndRemove(req.params.id)
     .then(response => {
         if(response){
-            res.status(201).json(response)
+            res.status(200).end()
         }
         else {
             res.status(404).json({ message: "The friend with the specified ID does not exist." })
