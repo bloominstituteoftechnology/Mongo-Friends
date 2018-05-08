@@ -19,6 +19,23 @@ const definition = {
         type: Date, 
         default: Date.now, 
     },
+    contactInfo: {
+        email: {
+          type: String
+        },
+        mobile: {
+          type: Number
+        },
+        github: {
+          type: String
+        },
+        facebook: {
+          type: String
+        },
+        twitter: {
+          type: String
+        }
+      }
 };
 
 const options = {
