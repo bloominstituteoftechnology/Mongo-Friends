@@ -9,11 +9,16 @@ router.route('/')
   })
 
   .post((req, res) => {
-    const friendData = req.body;
-    const friend = new Friend(friendData);
+    const { firstName, lastName, age } = req.body;    
+    if (firstName === "" || lastName === "" || typeof age !== "number") { 
+      res.status(400).json({ errorMessage: "Please provide firstName, lastName and age for the friend." }) 
+    }
+    if (age < 1 || age > 120) { res.status(400).json({ errorMessage: "Age must be a number between 1 and 120" }) }
+    
+    const friend = new Friend(req.body);
     friend.save()
-      .then(friend => res.status(200).json(friend))
-      .catch(err => res.status(500).json({ error: "Failed to save friend. Check requirements for new friend." }))
+      .then(friend => res.status(201).json(friend)) // returns new friend object
+      .catch(err => res.status(500).json({ errorMessage: "There was an error while saving the friend to the database." }))
   });
 
 router.route('/:id')
