@@ -23,7 +23,7 @@ class FriendsList extends Component {
                                                 <hr></hr>
                                                 <div className="friendTitle">{friend.contactInfo.email}</div>
                                             </div>
-                                        </Link>)}<div><Link to='/create'><button className="button">+ Create New Note</button></Link></div>
+                                        </Link>)}<div><Link to='/create'><button className="button">+ Create New Friend</button></Link></div>
         </div>
     );
   }
