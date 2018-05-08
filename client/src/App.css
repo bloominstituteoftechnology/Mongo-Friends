@@ -1,5 +1,64 @@
 .App {
   text-align: center;
+  background-image: url(https://www.colourbox.com/preview/22041263-abstract-blue-vector-background.jpg);
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+
+.buddy-card {
+  border: 5px dotted darkblue;
+  padding: 55px;
+  background-color: lightgray;
+  cursor: pointer;
+  width: 30%;
+  margin: 2rem auto;
+  font-size: 26px;
+  position: center;
+  font-family: 'Shadows Into Light', cursive;
+}
+
+.h1 {
+  color: white;
+}
+
+.name {
+  font-size: 28px;
+  font-family: 'Shadows Into Light', cursive;
+}
+
+.age {
+  font-size: 28px;
+  font-family: 'Shadows Into Light', cursive;
+}
+
+.email {
+  font-size: 28px;
+  font-family: 'Shadows Into Light', cursive;
+}
+
+.phone {
+  font-size: 28px;
+  font-family: 'Shadows Into Light', cursive;
+}
+
+.github {
+  font-size: 28px;
+  font-family: 'Shadows Into Light', cursive;
+}
+
+.user {
+  font-size: 28px;
+  font-family: 'Shadows Into Light', cursive;
+}
+
+.facebook {
+  font-size: 28px;
+  font-family: 'Shadows Into Light', cursive;
+}
+
+.twitter {
+  font-size: 28px;
+  font-family: 'Shadows Into Light', cursive;
 }
 
 .App-logo {
@@ -10,12 +69,21 @@
 .App-header {
   background-color: #222;
   height: 150px;
-  padding: 20px;
+  padding: 30px;
   color: white;
 }
 
 .App-title {
-  font-size: 1.5em;
+  font-size: 60px;
+  margin-top: 3px;
+  margin-bottom: 5px;
+  text-shadow:
+    -10px -3px 0 #000,
+    1px -1px 0 #000,
+    -10px 3px 0 #000,
+    1px 1px 0 #000;
+    text-shadow: 3px 3px 4px cyan;
+  font-family: 'Shadows Into Light', cursive;
 }
 
 .App-intro {

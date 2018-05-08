@@ -28,26 +28,23 @@ getFriends = () => {
   render() {
     return (
       <div className="App">
-      {/* <header className="App-header">
+      <header className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
+          <h1 className="App-title">Friend List</h1>
         </header>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p> */}
       {this.state.friendInfo.map(friend => {
         return (
           <div className = "buddy-card" key={friend.id}>
-            <h2>Name: {friend.firstName} {friend.lastName}</h2>
-            <h2>Age: {friend.age}</h2>
+            <p className="name"><b>Name:</b> {friend.firstName} {friend.lastName}</p>
+            <p className="age"><b>Age:</b> {friend.age}</p>
             {friend.contactInfo ? (
               <div><h3>Contact Info:</h3>
-              <h4>Email: {friend.contactInfo.Email ? friend.contactInfo.Email : null}</h4>
-              <h4>Phone Number: {friend.contactInfo.phoneNumber}</h4>
-              <h4>Github Address: {friend.contactInfo.gitHub}</h4>
-              <h4>User Name: {friend.contactInfo.userName}</h4>
-              <h4>Facebook: {friend.contactInfo.facebook}</h4>
-              <h4>Twitter: {friend.contactInfo.twitter}</h4></div> 
+              <p className="email"><b>Email:</b> {friend.contactInfo.Email ? friend.contactInfo.Email : null}</p>
+              <p className="phone"><b>Phone Number:</b> {friend.contactInfo.phoneNumber}</p>
+              <p className="github"><b>Github Address:</b> {friend.contactInfo.gitHub}</p>
+              <p className="user"><b>User Name:</b> {friend.contactInfo.userName}</p>
+              <p className="facebook"><b>Facebook:</b> {friend.contactInfo.facebook}</p>
+              <p className="twitter"><b>Twitter:</b> {friend.contactInfo.twitter}</p></div> 
             ) : null}
           </div>
         )
