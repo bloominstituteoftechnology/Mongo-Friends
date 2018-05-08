@@ -25,14 +25,31 @@ router
       });
   })
 
+  .delete((req, res) => {
+    const id = req.params.id;
+
+    Friend.findbyIdAndRemove(id)
+    .then(friend => {
+      if (friend) {
+        res.status(204).end();
+      } else {
+        res.status(404).json({ error: "No friend under that ID number"})
+      }
+    })
+    .catch (error => res.status(500).json(error));
+  })
+
   .put((req, res) => {
     const friendData = req.body;
     if (!friendData.firstName || !friendData.lastName || friendData.age) {
       return res.status(400).json({ error: "Please fill out all fields." });
-    } else if (age < 1 || age > 120 ) {
+    } else if (age < 1 || age > 120) {
       res.status(400).json({
         error: "Age must be between 1 to 120."
       });
     }
-    
   });
+
+
+
+
