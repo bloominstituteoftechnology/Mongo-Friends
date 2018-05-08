@@ -9,10 +9,10 @@ router
     .get((req, res) => {
         // res.status(200).json({ route: '/api/friends/' + req.params.id });
             Friend.findById(req.params.id).then(friends => {
-                res.status(200).json(friend);
+                res.status(200).json(friends);
             })
             .catch(err => {
-                res.status(404).json({ message: "The friend with the specified ID does not exist." });
+                res.status(404).json({ message: "The friend with the specified ID does not exist." })
             })
             .catch(err => {
                 res.status(500).json({ errorMessage: "The friend information could not be retrieved." });
@@ -31,8 +31,8 @@ router
         
     })
     .put(( req, res) => {
-            Friend.findByIdAndUpdate(req.params.id).then(friends => {
-                res.status(200).json(friend);
+            Friend.findByIdAndUpdate(req.params.id, req.body).then(friends => {
+                res.status(200).json(friends);
             })
             .catch(err => {
                 res.status(404).json({ message: "The friend with the specified ID does not exist." });
@@ -65,7 +65,7 @@ function post(req, res) {
     friend
         .save()
         .then(friend => {
-            res.status(201).json(friend);
+            res.status(201).json(friends);
         })
         .catch(err => {
             res.status(400).json({ errorMessage: "Age must be a number between 1 and 120" })
