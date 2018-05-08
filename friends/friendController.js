@@ -25,8 +25,8 @@ function get(req, res) {
 }
 
 function post(req, res) {
-    const {age, firstName, lastName, createdOn} = req.body;
-    const friendData = {age, firstName, lastName, createdOn};
+    const {age, firstName, lastName, createdOn, contactInfo} = req.body;
+    const friendData = {age, firstName, lastName, createdOn, contactInfo};
 
     const friend = new Friend(friendData);
 
@@ -79,7 +79,7 @@ function deleteid(req, res) {
 }
 
 function putid(req, res) {
-    const {age, firstName, lastName, createdOn} = req.body;
+    const {age, firstName, lastName, createdOn, contactInfo} = req.body;
     const id = req.params.id;
     if(!Friend.findById(id)) {
         res.status(404).json({ message: "The friend with the specified ID does not exist." })
