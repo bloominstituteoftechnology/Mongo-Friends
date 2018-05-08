@@ -43,7 +43,7 @@ router.route('/:id')
       });
   })
   .put((req, res) => {
-    Friend.findByIdAndUpdate(req.params.id, req.body)
+    Friend.findByIdAndUpdate(req.params.id, req.body, { new: true })
       .then(friend => {
         res.json(friend);
       })
