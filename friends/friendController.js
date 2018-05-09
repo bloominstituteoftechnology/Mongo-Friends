@@ -56,6 +56,7 @@ router
     })
   })
 
+  //delete a friend with a unique _id--------------------------------------------------------------------------------
   .delete((req, res) => {
     const { id } = req.params;
     Friend.findByIdAndRemove(id)
@@ -78,13 +79,24 @@ router
     const options = {
       new: true
     };
-    Friend.findByIdAndUpdate(id, update, options).then(friend => {
-      if (friend) {
-        res.status(204).end();
-      } else {
-        res.status(404).json({ msg: "friend not found" });
-      }
-    });
+    Friend.findByIdAndUpdate(id, update, options)
+    .then(friend => {
+        if (!friend) {
+          res.status(404).json({ message: "The friend with the specified ID does not exist."})
+        }
+        if (!update.firstName || !update.lastName || !update.age) {
+          res.status(400).json({ errorMessage: "Please provide firstName, lastName and age for the friend."})
+        }
+        if ((update.age < 1)||(update.age > 120)) {
+          res.status(400).json({ errorMessage: "Age must be a number between 1 and 120"})
+        } else {
+          //if friend is found valid
+          res.status(200).json(friend)
+        }
+    })
+    .catch(err => {
+      res.status(500).json({ errorMessage: "The friend information could not be modified"})
+    })
   });
 
 module.exports = router;
