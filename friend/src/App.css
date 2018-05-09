@@ -38,7 +38,8 @@
   width: 300px;
 
   margin: 0 auto;
-  margin-bottom: 44px;
+  margin-top: 20px;
+  margin-bottom: 20px;
 }
 
 
@@ -52,6 +53,9 @@ color:#B93A32;
    width: 100px;
    background:#F2552C;
    border:none;
+}
+.btn-success:hover{
+background:#92B558;
 }
 
 .uppertext{
@@ -75,4 +79,13 @@ color:#B93A32;
 }
 .danger{
   background:#B93A32
+}
+.contact-styles{
+  font-weight: bold;
+ font-size:10px;
+
+}
+.fa-caret-square-down{
+color:#92B558;
+margin:0;
 }

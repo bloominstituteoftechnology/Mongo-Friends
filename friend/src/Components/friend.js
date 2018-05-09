@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import ContactInfo from './contactInfo'
 import { Card, Collapse, CardText, CardBody,
     CardTitle,  Button,Label,FormGroup,Input, Col,Row, Modal,  ModalBody, ModalFooter } from 'reactstrap';
 
@@ -143,6 +144,18 @@ console.log(this.props)
         </CardBody>
       </Card>
     </div>
+
+    <ContactInfo
+    firstName={this.props.firstName}
+    lastName={this.props.lastName}
+    email={this.props.email}
+    mobile={this.props.mobile}
+    number={this.props.number}
+    github={this.props.github}
+    facebook={this.props.facebook}
+    twitter={this.props.twitter}
+    
+    />
    </React.Fragment> )
 }
 
