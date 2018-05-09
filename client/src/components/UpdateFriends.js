@@ -19,7 +19,7 @@ class UpdateFriends extends React.Component {
         axios.get(`http://localhost:5000/api/friends/${this.props.id}`)
             .then(res => {
                 let frData = res.data;
-                console.log('response.data of updateFriends, cdm: ', res.data)
+                // console.log('response.data of updateFriends, cdm: ', res.data)
                 this.setState({ friends: frData })
             });
     }
@@ -72,7 +72,6 @@ class UpdateFriends extends React.Component {
 
 
 
-                <h5 style={cstyle}>Edit friends </h5>
                 <input
                     type="text"
                     onChange={this.handleTextInput}
