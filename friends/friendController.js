@@ -58,13 +58,17 @@ router
 
   .delete((req, res) => {
     const { id } = req.params;
-    Friend.findByIdAndRemove(id).then(friend => {
-      if (friend) {
-        res.status(204).end();
+    Friend.findByIdAndRemove(id)
+    .then(friend => {
+      if (!friend) {
+        res.status(404).json({ message: "The friend with the specified ID does not exist."})
       } else {
-        res.status(404).json({ msg: "friend not found" });
-      }
-    });
+        res.status(204).json({ message: "The friend was successfully deleted."})
+      } // need to figure out why above wont work..
+    })
+    .catch(err => {
+      res.status(500).json({ errorMessage: "The friend could not be removed"})
+    })
   })
 
   //update a friend-----------------------------------------------------------------------------------------------
