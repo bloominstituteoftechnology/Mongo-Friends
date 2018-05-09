@@ -6,9 +6,13 @@ router
 
   //Get all friends--------------------------------------------------------------------------------------------
   .get((req, res) => {
-    Friend.find().then(friends => {
-      res.status(200).json(friends);
-    });
+    Friend.find()
+      .then(friends => {
+        res.status(200).json(friends);
+      })
+      .catch(err => {
+        res.status(500).json({ errorMessage: "The friends information could not be retrieved."}).end();
+      })
   })
   
   //Add a friend-----------------------------------------------------------------------------------------------
