@@ -21,6 +21,7 @@ const definition = {
 
 const options = {
     timestamps: true,
+    strict: false
 };
 
 const friendSchema = new mongoose.Schema(definition, options);

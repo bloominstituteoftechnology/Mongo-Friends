@@ -25,7 +25,7 @@ function post(req, res) {
     const friend = new Friend(friendInfo)
 
     friend
-        .save(friend)
+        .save()
         .then(friend => {
             Friend.find().then(friends => {
                 res.status(200).json(friends);
@@ -48,10 +48,10 @@ function getById(req, res) {
 
 function put(req, res) {
     const { id } = req.params;
-    const newInfo = req.body;
+    const update = req.body;
 
     Friend
-        .findByIdAndUpdate(id, newInfo)
+        .findByIdAndUpdate(id, update)
         .then(friends => {
             Friend.find().then(friends => {
                 res.status(200).json(friends);
