@@ -13,26 +13,38 @@ router
       })
       .catch(error => {
         res.status(500).json({
-          error: "Friends info could not be retrieved."
+          error: "The friends information could not be retrieved."
         });
       });
   })
   // POST /api/friends
   .post((req, res) => {
-    const friendData = req.body;
+    const { firstName, lastName, age } = req.body;
 
-    const friend = new Friend(friendData);
-
-    friend
-      .save()
-      .then(friend => {
-        res.status(201).json(friend);
-      })
-      .catch(error => {
-        res.status(500).json({
-          error: "There was an error while posting a friend."
-        });
+    if (!firstName || !lastName || !age) {
+      res.status(400).json({
+        error: "Please provide firstName, lastName and age for the friend."
       });
+      return;
+    }
+    if (age < 1 || age > 120) {
+      res.status(400).json({
+        error: "Age must be a number between 1 and 120."
+      });
+    } else {
+      const friend = new Friend(req.body);
+
+      friend
+        .save()
+        .then(friend => {
+          res.status(201).json(friend);
+        })
+        .catch(error => {
+          res.status(500).json({
+            error: "There was an error while saving the friend to the database."
+          });
+        });
+    }
   });
 
 // CRUD /api/friends/:id
