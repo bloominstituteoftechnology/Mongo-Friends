@@ -14,6 +14,17 @@ const definition = {
       required: true
 
   },
+  contactInfo: {
+    email: {
+      type:String
+    },
+    mobile: {
+      type:Number
+    },
+    githubUsername: {
+      type:String
+    },
+  },
   createdOn: {
     type: Date,
     default: Date.now,
