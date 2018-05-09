@@ -13,7 +13,6 @@ const Friends = props => {
               name={friend.name}
               id={friend.id}
               age={friend.age}
-              height={friend.height}
               key={friend.id}
               deleteFriend={props.deleteFriend}
             />

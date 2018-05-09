@@ -21,7 +21,7 @@ class App extends Component {
 
   getFriends = () => {
     axios
-      .get('http://localhost:3333/smurfs')
+      .get('http://localhost:5000/api/friends')
       .then(res => {
         this.setState({ friends: res.data });
       })
@@ -32,7 +32,7 @@ class App extends Component {
 
   deleteFriend = id => {
     axios
-    .delete(`http://localhost:3333/smurfs/${id}`)
+    .delete(`http://localhost:5000/api/friends/${id}`)
     .then(response => {
       this.getFriends();
     })

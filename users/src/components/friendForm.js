@@ -1,33 +1,32 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 
-class SmurfForm extends Component {
+class FriendForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      name: '',
+      firstName: '',
+      lastName: '',
       age: '',
-      height: ''
     };
   }
 
   addSmurf = event => {
     event.preventDefault();
-    // add code to create the smurf using the api
-    const { name, age, height } = this.state;
-    const smurf = { name, age, height };
+    const { firstName, lastName, age } = this.state;
+    const friend = { firstName, lastName, age };
     axios
-      .post('http://localhost:3333/smurfs', smurf)
+      .post('http://localhost:5000/api/friends', friend)
       .then(response => {
-        this.props.addSmurfsOnCreate(response.data);
+        this.props.addFriendsOnCreate(response.data);
       })
       .catch(err => {
         console.log(err);
       });
     this.setState({
-      name: '',
+      firstName: '',
+      lastName: '',
       age: '',
-      height: ''
     });
   };
 
@@ -37,12 +36,18 @@ class SmurfForm extends Component {
 
   render() {
     return (
-      <div className="SmurfForm">
-        <form onSubmit={this.addSmurf}>
+      <div className="FriendForm">
+        <form onSubmit={this.addFriend}>
           <input
             onChange={this.handleInputChange}
-            placeholder="name"
-            value={this.state.name}
+            placeholder="First Name"
+            value={this.state.firstName}
+            name="name"
+          />
+          <input
+            onChange={this.handleInputChange}
+            placeholder="lastName"
+            value={this.state.lastName}
             name="name"
           />
           <input
@@ -51,17 +56,11 @@ class SmurfForm extends Component {
             value={this.state.age}
             name="age"
           />
-          <input
-            onChange={this.handleInputChange}
-            placeholder="height"
-            value={this.state.height}
-            name="height"
-          />
-          <button type="submit">Add to the village</button>
+          <button type="submit">Add Friend</button>
         </form>
       </div>
     );
   }
 }
 
-export default SmurfForm;
+export default FriendForm;
