@@ -56,11 +56,17 @@ router
 
     Friend.findById(id)
       .then(friend => {
-        res.status(200).json(friend);
+        if (!friend) {
+          res.status(404).json({
+            error: "The friend with the specified ID does not exist."
+          });
+        } else {
+          res.status(200).json(friend);
+        }
       })
       .catch(error => {
         res.status(500).json({
-          error: "There was an error retrieving friend info."
+          error: "The friends information could not be retrieved."
         });
       });
   })
@@ -89,7 +95,7 @@ router
       })
       .catch(error => {
         res.status(500).json({
-          error: "There was an error deleting a friend."
+          error: "The friend with the specified ID does not exist."
         });
       });
   });
