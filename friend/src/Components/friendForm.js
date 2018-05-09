@@ -15,7 +15,7 @@ class FriendForm extends Component {
   }
 
   addFriend = event => { 
-      console.log('clicked')
+  
     const friend ={}
     if (this.state.firstName !== '') {
         friend.firstName = this.state.firstName;
@@ -25,11 +25,11 @@ class FriendForm extends Component {
       }if (this.state.age !== '') {
         friend.age = this.state.age;
       }
-    console.log(friend)
+ 
     axios
     .post('http://localhost:5000/friends', friend)
     .then(response =>{
-      console.log(response);
+ 
       this.props.updateState();
     })
     .catch(err =>{
@@ -46,7 +46,6 @@ class FriendForm extends Component {
     this.setState({ collapse: !this.state.collapse });
   }
   checkToggle =()=>{
-      console.log(this.state)
     if(this.state.collapse === false){ 
     this.toggle()
   }else{
@@ -60,7 +59,6 @@ class FriendForm extends Component {
   };
 
   render() {
-      console.log(this.state)
       return(<React.Fragment>
        
 <Row>

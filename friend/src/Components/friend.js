@@ -24,7 +24,7 @@ toggle() {
   }
 
     updateFriend = id => {
-    console.log(id)
+
         const friend = {};
         if (this.state.firstName !== '') {
           friend.firstName = this.state.firstName;
@@ -32,7 +32,7 @@ toggle() {
          if (this.state.lastName !== '') {
           friend.lastName = this.state.lastName;
         }
-        if (this.state.age !== '') {
+        if (this.state.age !== ''&& this.state.age <120 && this.state.age >1) {
             friend.age = this.state.age;
           }
        
@@ -70,7 +70,7 @@ toggle() {
     this.setState({ [e.target.name]: e.target.value });
   };
 render(){
-console.log("i sss")
+console.log(this.props)
     return(<React.Fragment>
     <div>  
       <Card>
