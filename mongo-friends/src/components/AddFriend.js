@@ -10,12 +10,12 @@ class AddFriend extends Component {
         lastName: '',
         age: '',
         contactInfo: {
-            phoneNum: '',
-            email: '',
-        }
+        phoneNum: '',
+        email: ''}
       };
 
   render() {
+      console.log(this.state.phoneNum)
     return (
          
         <div className="addFriendContainer">
@@ -56,7 +56,7 @@ class AddFriend extends Component {
                 type="text"
                 className="phoneNum"
                 name="phoneNum"
-                value={this.state.contactInfo.phoneNum}
+                value={this.state.phoneNum}
                 placeholder="Enter your phone number..."
                 onChange={e => this.setState({ [e.target.name]: e.target.value })}
             />
@@ -66,7 +66,7 @@ class AddFriend extends Component {
                 type="text"
                 className="email"
                 name="email"
-                value={this.state.contactInfo.email}
+                value={this.state.email}
                 placeholder="Enter your email..."
                 onChange={e => this.setState({ [e.target.name]: e.target.value })}
             />
@@ -75,8 +75,8 @@ class AddFriend extends Component {
         <div>
         <button className="saveButton"
           onClick={() => {
-            this.props.addFriend({ firstName: this.state.firstName, lastName: this.state.lastName, age: this.state.age, phoneNum: this.state.contactInfo.phoneNum, email: this.state.contactInfo.email });
-            this.setState({ firstName: '', lastName: '', age: '', phoneNum: '', email: '' });
+            this.props.addFriend({ firstName: this.state.firstName, lastName: this.state.lastName, age: this.state.age, contactInfo: {phoneNum: this.state.phoneNum, email: this.state.email} });
+            this.setState({ firstName: '', lastName: '', age: '', phoneNum: '', email: ''});
           }}>Save</button><Link to='/'><button className="button">Back</button></Link>
         </div>
    </div>);
