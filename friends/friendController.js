@@ -2,29 +2,41 @@ const router = require("express").Router();
 const Friend = require("./friendModel");
 
 router
-  .route("/")
+  .route("/") //These routes will be /api/friends
+
+  //Get all friends--------------------------------------------------------------------------------------------
   .get((req, res) => {
     Friend.find().then(friends => {
       res.status(200).json(friends);
     });
   })
   
+  //Add a friend-----------------------------------------------------------------------------------------------
   .post((req, res) => {
     const friendData = req.body;
-    const friend = new Friend (friendData);
-    friend
-      .save()
-      .then(friend => {
-        res.status(201).json(friend);
-      })
-      .catch(err => {
-        res.status(500).json(err);
-      });
-  });
+    if (!friendData.firstName || !friendData.lastName || !friendData.age) {
+      res.status(400).json({ errorMessage: "Please provide firstName, lastName and age for the friend."}).end();
+    }
+    if ((friendData.age < 1) || (friendData.age > 120)) {
+      res.status(400).json({ errorMessage: "Age must be a number between 1 and 120"}).end();
+    }
+    //need to validate here.
+      const friend = new Friend (friendData);
+      friend
+        .save()
+        .then(friend => {
+          res.status(201).json(friend);
+        })
+        .catch(err => {
+          res.status(500).json({ errorMessage: "There was an error while saving the friend to the database."}).end();
+        });
+      }
+  );
 
 router
-  .route("/:id")
+  .route("/:id") //these routes will be /api/friends/:id
 
+  //get a friend with unique _id---------------------------------------------------------------------------------
   .get((req, res) => {
     res.status(200).json({ route: "/api/friends/" + req.params.id });
   })
@@ -40,6 +52,7 @@ router
     });
   })
 
+  //update a friend-----------------------------------------------------------------------------------------------
   .put((req, res) => {
     const { id } = req.params;
     const update = req.body;
