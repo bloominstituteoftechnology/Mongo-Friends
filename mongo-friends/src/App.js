@@ -10,7 +10,7 @@ class App extends Component {
     return (
       <div className="App">
        <Route exact path="/" component={FriendsList} />
-       <Route path="/friends/:id" component={FriendView} />
+       <Route path="/friend/:id" component={FriendView} />
        <Route path="/create" component={AddFriend} />
       </div>
     );

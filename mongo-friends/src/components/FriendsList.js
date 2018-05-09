@@ -13,7 +13,7 @@ class FriendsList extends Component {
   render() {
     return (
         <div className="mainList"><h3 className="headerfriends">Friends:</h3>
-          {this.props.friends.map(friend => <Link to={`/friends/${friend.id}`} key={friend.id} className="overall">
+          {this.props.friends.map(friend => <Link to={`/friend/${friend._id}`} key={friend.id} className="overall">
                                             <div key={friend.id} className="friendList">
                                                 <div className="friendContent">{friend.firstName} {friend.lastName}</div>
                                                 <hr></hr>
@@ -32,6 +32,7 @@ class FriendsList extends Component {
 const mapStateToProps = state => {
   return {
     friends: state.friends,
+    friend: state.friend,
     fetchingFriends: state.fetchingFriends,
     error: state.error
   };
