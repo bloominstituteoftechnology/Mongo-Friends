@@ -3,10 +3,12 @@ const router = express.Router();
 const db = require("./models");
 
 router.get("/", (req, res) => {
-  console.log(req);
   db
     .find()
     .then(p => {
+      if (p === null) {
+        return res.status(404).json({ msg: "there is no friends found " });
+      }
       res.status(200).json(p);
     })
     .catch(err => {
@@ -20,6 +22,9 @@ router.get("/:id", (req, res) => {
   db
     .findById(id)
     .then(p => {
+      if (p === null) {
+        return res.status(404).json({ msg: "friend not found" });
+      }
       res.status(200).json(p);
     })
     .catch(err => {
@@ -28,11 +33,7 @@ router.get("/:id", (req, res) => {
 });
 
 router.post("/", (req, res) => {
-  const obj = {
-    firstName: req.body.firstName,
-    lastName: req.body.lastName,
-    age: req.body.age
-  };
+  const obj = req.body;
 
   newDB = new db(obj);
   newDB
@@ -60,6 +61,9 @@ router.put("/:id", (req, res) => {
     // .findById(id)
     .update(id, obj)
     .then(p => {
+      if (p === null) {
+        return res.status(404).json({ msg: "friend not found" });
+      }
       res.status(200).json(" a friend is updated ");
     })
     .catch(err => {
@@ -73,6 +77,9 @@ router.delete("/:id", (req, res) => {
     // .findById(id)
     .remove(id)
     .then(p => {
+      if (p === null) {
+        return res.status(404).json({ msg: "friend not found" });
+      }
       res.status(200).json(" a friend is deleted ");
     })
     .catch(err => {
