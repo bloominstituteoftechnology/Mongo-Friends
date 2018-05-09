@@ -29,52 +29,51 @@ server.get('/', (req, res) => {
 server.get('/api/friends', (req, res) => {
   model.find()
   .then(response => res.status(200).json({response}) )
-  .catch(err => console.log(err))
+  .catch(err => res.status(500).json({ errorMessage: "The friends information could not be retrieved." }))
 });
-
-// server.get('/api/friends/:id', (req, res) => {
-//   const id = req.params.id;
-//   model.findById(id)
-//   .then(response => res.status(200).json({response}) )
-//   .catch(err => console.log(err))
-// });
 
 
 
 server.get('/api/friends/:id', (req, res) => {
-const id = req.params.id;
-
-model
-.findById(id)
-.then(response => {
-  res.status(200).json({response})
-})
-.catch(err => {
-  console.log(err)
-  // res.status(404).json({msg: 'something wrong..'})
-res.status(500).json(`{ errorMessage: "The friend information could not be retrieved." }`)
-})
+  model.findById(req.params.id)
+  .then(friend => {
+    if(friend){
+      res.status(200).json(friend)
+    } else {
+      res.status(404).json({ message: "The friend with the specified ID does not exist." })
+    }
+  })
+  .catch(err => res.status(500).json({ errorMessage: "The friend information could not be retrieved." }))
 })
 
 //post
 
 server.post('/api/friends', (req, res) => {
 
+  const {firstName, lastName, age} = req.body;
+  if(!firstName || !lastName || !age){
+    res.status(400).json({ errorMessage: "Please provide firstName, lastName and age for the friend." })
+  } else if(isNaN(age)){
+    res.status(400).json({ errorMessage: "Age must be a number between 1 and 120" })
+  }
   const friend = new model(req.body);
   friend.save()
-  .then(response => res.status(201).json(response))
-  .catch(err => console.log(err))
+  .then(friend => res.status(201).json(friend))
+  .catch(err => res.status(500).json({ errorMessage: "There was an error while saving the friend to the database." }))
 })
 
 
 
 
 server.delete('/api/friends/:id', (req, res) => {
-  const id = req.params.id;
-  model.findByIdAndRemove(id)
-  .then(response => {
-    console.log(response)
-    res.status(200)
+  model.findByIdAndRemove(req.params.id)
+  .then(resp =>{
+    console.log(resp)
+    if(resp){
+      res.status(204).end()
+    } else {
+      res.status(404).json({ message: "The friend with the specified ID does not exist." })
+    }
   })
   .catch(err => res.status(500).json({ errorMessage: "The friend could not be removed" }))
 })
