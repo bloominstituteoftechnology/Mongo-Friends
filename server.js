@@ -28,7 +28,9 @@ server.get('/', (req, res) => {
 //get all
 server.get('/api/friends', (req, res) => {
   model.find()
-    .then(response => res.status(200).json(friends))
+    .then(friends => {
+      res.status(200).json(friends);
+    })
     .catch(err => res.status(500).json({ errorMessage: "This friend could not be retrieved." }))
 });
 
