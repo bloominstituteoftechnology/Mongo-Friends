@@ -42,7 +42,18 @@ router
 
   //get a friend with unique _id---------------------------------------------------------------------------------
   .get((req, res) => {
-    res.status(200).json({ route: "/api/friends/" + req.params.id });
+    const { id } = req.params;
+    Friend.findById(id)
+    .then(friend => {
+      if (!friend) {
+        res.status(404).json({ errorMessage: "The friend with specified ID does not exist."});
+      } else {
+        res.status(200).json(friend);
+      }
+    })
+    .catch(err => {
+      res.status(500).json({ errorMessage: "The friend information could not be retrieved."});
+    })
   })
 
   .delete((req, res) => {
