@@ -23,11 +23,8 @@ class NewFriend extends React.Component {
         axios.post(`http://localhost:5000/api/friends/`, {firstName, lastName, age})
             .then(res => {
                 this.setState({ friend: {}})
-                // this.props.history.push("/show/"+this.props.match.params.id)
                 this.props.fetchData()
-                //   let frData = res.data;
-                //   console.log('response.data of project: ', res.data)
-                //   this.setState({ friends: frData })
+           
             })
             .catch((err) => {
                 console.log(err);
