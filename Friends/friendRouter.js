@@ -7,7 +7,7 @@ router
     .get((req, res) => {
         Friend.find()
             .then(friendsArray => {
-                res.status(200).json({ friendsArray });1
+                res.status(200).json({ friendsArray });
             })
             .catch(err => {
                 res.status(500).json({ errorMessage: "The friends information could not be retrieved." });
