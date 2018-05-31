@@ -53,6 +53,35 @@ router
                     res.status(500).json({ errorMessage: "The friend information could not be retrieved." })
                 })
         })
+        .delete((req, res) => {
+            const { id } = req.params;
+            Friend.findByIdAndRemove(id)
+                .then(friend => {
+                    if(friend === null) {
+                        res.status(404).json( { message: "The friend with the specified ID does not exist." });
+                    } else {
+                        res.status(200).json(friend);
+                    }
+                })
+                .catch(err => {
+                    res.status(500).json({ errorMessage: "The friend could not be removed" });
+                })
+        })
+        .put((req, res) => {
+            const { id } = req.params;
+            const friendData = req.body;
+
+            Friend.findByIdAndUpdate(id, friendData)
+                .then(updatedFriend => {
+                    res.status(200).json(updatedFriend);
+                })
+                .catch(err => {
+                    res.status(500).json(err);
+                })
+        });
+
+
+
 
 
 
