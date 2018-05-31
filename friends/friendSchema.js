@@ -25,8 +25,9 @@ const options = {
     timestamps: true 
 };
 
+// what is this line doing?
 const FriendSchema = new mongoose.Schema(schema, options);
-
+// and what is this line doing? what's the connection between
+// lines 29 and 32? 
 const friendModel = mongoose.model('Friend', FriendSchema);
 
-module.exports = friendModel;
