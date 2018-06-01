@@ -1,4 +1,4 @@
-# Mongo I Project
+# Mongo Friends
 
 ## Topics
 
