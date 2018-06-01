@@ -85,15 +85,14 @@ function post(req, res) {
     const friend = new Friend(friendData);
 
      
-    // if (friendData.age > 120 || friendData.age < 1) {
-    //     return res.status(400).json({
-    //         errorMessage: "Your friend is either too young or too old for you. Age must be a number between 1 and 120!"
-    //     })
-    // }
-    if (!friendData.firstName || !friendData.lastName) {
+    if (friendData.age > 120 || friendData.age < 1) {
+        return res.status(400).json({
+            errorMessage: "Your friend is either too young or too old for you. Age must be a number between 1 and 120!"
+        })
+    }
+    if (!friendData.firstName || !friendData.lastName || !friendData.age) {
         return res.status(400).json({ errorMessage: "Please provide the name, last name, and age for the homie." })
-    } else {
-        }
+    } 
     friend
         .save().then(friend => {
             res.status(201).json(friend)
