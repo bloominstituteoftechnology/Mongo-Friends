@@ -1,33 +1,30 @@
 const mongoose = require('mongoose');
 
-const schema = {
+const definition = {
     firstName: {
         type: String,
         required: true
     },
     lastName: {
         type: String,
-        required: true 
+        required: true
     },
     age: {
         type: Number,
+        required: true,
         min: 1,
-        max: 120,
-        required: true
+        max: 120
     },
     createdOn: {
         type: Date,
-        default: Date.now
+        default: Date.now,
     }
 }
 
 const options = {
-    timestamps: true 
-};
+    timestamps: true
+}
 
-// what is this line doing?
-const FriendSchema = new mongoose.Schema(schema, options);
-// and what is this line doing? what's the connection between
-// lines 29 and 32? 
-const friendModel = mongoose.model('Friend', FriendSchema);
+const friendSchema = new mongoose.Schema(definition, options);
 
+module.exports = mongoose.model('Friend', friendSchema);

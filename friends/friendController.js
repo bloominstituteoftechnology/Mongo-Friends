@@ -2,79 +2,86 @@ const router = require('express').Router();
 
 const Friend = require('./friendSchema');
 
-router
-    .route('/')
-    .get(get)
-    .post(post);
-
-router
-    .route('/:id')
+router.route('/')
     .get((req, res) => {
-        Friend.find({ _id: req.params.id })
+        Friend
+            .find()
+            .then(friends => {
+                res.status(200).json(friends);
+            })
+            .catch(err => {
+                res.status(500).json({ errorMessage: "The friends information could not be retrieved." })
+            })
+    })
+    .post((req, res) => {
+        const friendData = req.body;
+        const friend = new Friend(friendData);
+        console.log(req.body);
+        if (!req.body.firstName || !req.body.lastName || !req.body.age) {
+            res.status(400).json({ error: "firstName, lastName, and age are required!"});
+        }
+
+        friend
+            .save()
             .then(friend => {
-                res.status(404).json({ friend });
+                res.status(201).json(friend)
             })
             .catch(err => {
-                console.log(err);
-                if (err.name === 'CastError') {
-                    res.status(404).json({ message: "The friend with the specified ID does not exist." })
-                } else {
-                    res.status(500).json({ errorMessage: "The friend information could not be retrieved." });
-                }
-            });
-    })
-    .delete((req, res) => {
-        Friend.remove({ _id: req.params.id })
-            .then(() => {
-                res.status(200).json({ status: 'Deleted friend with ID: ' + req.params.id });
-            })
-            .catch(err => {
-                console.log(err);
-                if (err.name === 'CastError') {
-                    res.status(404).json({ message: "The friend with the specified ID does not exist." })
-                } else {
-                    res.status(500).json({ errorMessage: "The friend could not be removed" });
-                }
-            });
-    })
-    .put((req, res) => {
-        Friend.where({ _id: req.params.id }).update({ $set: req.body })
-            .then(() => {
-                res.status(200).json({ status: 'Friend updated' });
-            })
-            .catch(err => {
-                console.log(err);
-                if (err.name === 'CastError') {
-                    res.status(404).json({ message: "The friend with the specified ID does not exist." })
-                } else {
-                    res.status(500).json({ errorMessage: "The friend information could not be modified." });
-                };
+                res.status(500).json({ errorMessage: "There was an error while saving the friend to the database." });
             });
     });
 
-function get(req, res) {
-    Friend.find()
-        .then(friends => {
-            res.status(200).json(friends);
-        })
-        .catch(err => {
-            res.status(500).json({ errorMessage: "The friend information could not be retrieved." });
-        })
-}
+router.route('/:id')
+    .get((req, res) => {
+        const friendId = req.params.id;
 
-function post(req, res) {
-    const friendData = req.body;
+        Friend.findById(friendId)
+            .then(friend => {
+                if (friend !== null) {
+                    res.status(200).json(friend);
+                } else {
+                    res.status(404).json({ message: "The friend with the specified ID does not exist." });
+                }
+            })
+            .catch(err => {
+                res.status(500).json({ errorMessage: "The friend information could not be retrieved." })
+            })
+    })
+    .delete((req, res) => {
+        const friendId = req.params.id;
 
-    const friend = new Bear(friendData);
+        Friend.findByIdAndRemove(friendId)
+            .then(deleted => {
+                if (deleted !== null) {
+                    res.status(200).json(deleted)
+                } else {
+                    return res.status(404).json({ message: "The friend with that ID does not exist" })
+                }
+            })
+            .catch(err => {
+                res.status(500).json({ error: "The friend could not be removed" })
+            })
+    })
+    .put((req, res) => {
+        const friendId = req.params.id;
+        const friendData = req.body;
+        const options = {
+            new: true,
+        }
 
-    friend
-        .save()
-        .then(friend => {
-            res.status(201).json(friend);
-        })
-        .catch(err => {
-            res.status(500).json({ errorMessage: "There was an error while saving the friend to the database" });
-        });
-}
+        Friend.findByIdAndUpdate(friendId, friendData, options)
+            .then(friend => {
+                if (friend.firstName === "" || friend.lastName === "" || friend.age === "") {
+                    res.status(400).json({ errorMessage: "Please provide firstName, lastName and age for the friend." })
+                } else if (friend !== null) {
+                    res.status(200).json(friend);
+                } else {
+                    res.sendStatus(404).json({ message: "The friend with the specified ID does not exist." });
+                }
+            })
+            .catch(err => {
+                res.status(500).json(err);
+            })
+    });
 
 module.exports = router;
