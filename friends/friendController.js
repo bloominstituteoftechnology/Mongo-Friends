@@ -19,6 +19,7 @@ router.route('/')
         console.log(req.body);
         if (!req.body.firstName || !req.body.lastName || !req.body.age) {
             res.status(400).json({ error: "firstName, lastName, and age are required!"});
+            return;
         }
 
         friend
