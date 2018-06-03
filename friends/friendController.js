@@ -2,6 +2,10 @@ const router = require('express').Router();
 
 const Friend = require('./friendSchema');
 
+// so below we have something slightly different,
+// we first establish our route and then add our methods to it
+
+// the root endpoint has two methods attached to it, get and post
 router.route('/')
     .get((req, res) => {
         Friend
@@ -32,6 +36,7 @@ router.route('/')
             });
     });
 
+// while id specific routes have get, delete, and put methods attached to them.
 router.route('/:id')
     .get((req, res) => {
         const friendId = req.params.id;
