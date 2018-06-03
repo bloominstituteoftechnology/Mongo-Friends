@@ -11,4 +11,16 @@ just add our methods to them.
 
 Seems more efficient and easier to read this way.
 
+We then import our routes into the server.js file.
 
+Now I know what cors stands for but I'm still fuzzy on what it's actually doing.
+
+I need to review cors, helmet, and mongoose.
+
+From what I understand mongoose is connecting our server and its related data to a persistent database called mongodb
+We can access that database via http requests with Postman
+And we can access it directly with Compass.
+
+This stuff is pretty cool.
+
+Well I'm going to have to go to work now, gonna go clock in. 
