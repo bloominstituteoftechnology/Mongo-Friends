@@ -1,0 +1,14 @@
+So first in server.js we imported express, mongoose, helmet and cors
+
+Then we created our server
+
+We created our database schema in friendsSchema.js
+
+We then import our schema into our routes file, or friendController.js
+
+Now in our routes file we do something very different, we establish our routes and then 
+just add our methods to them.
+
+Seems more efficient and easier to read this way.
+
+

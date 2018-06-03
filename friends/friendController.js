@@ -8,6 +8,7 @@ const Friend = require('./friendSchema');
 // the root endpoint has two methods attached to it, get and post
 router.route('/')
     .get((req, res) => {
+        console.log(req);
         Friend
             .find()
             .then(friends => {
