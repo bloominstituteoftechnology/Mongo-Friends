@@ -61,11 +61,46 @@ router
                 }
             })
             .catch( err => {
-                console.log(err)
                 if (err.name === "CastError") {
                     res.status(404).json({ errorMessage: "The friend with the specified ID does not exist." })
                 } else {
                     res.status(500).json({ errorMessage: "The friend could not be removed." })    
+                }
+            })
+    })
+    .put((req, res) => {
+        const { id } = req.params
+        const changes = req.body
+        if (changes.age && (isNaN(changes.age) || changes.age<1 || changes.age>120)) {
+            res.status(400).json({ errorMessage: "Age must be a number between 1 and 120" })
+        }
+        Friend.findByIdAndUpdate(id, changes)
+            .then( friend => {
+                if (friend === null) {
+                    res.status(404).json({ errorMessage: "The friend with the specified ID does not exist." })
+                } else {
+                    Friend.findById(id)
+                        .then(friend => {
+                            if (friend === null) {
+                                res.status(404).json({ errorMessage: "The friend with the specified ID does not exist." })
+                            } else {
+                                res.status(200).json(friend)
+                            }
+                        })
+                        .catch( err => {
+                            if (err.name === "CastError") {
+                                res.status(404).json({ errorMessage: "The friend with the specified ID does not exist." })
+                            } else {
+                                res.status(500).json({ errorMessage: "The friend information could not be retrieved." })    
+                            }
+                        })
+                }
+            })
+            .catch( err => {
+                if (err.name === "CastError") {
+                    res.status(404).json({ errorMessage: "The friend with the specified ID does not exist." })
+                } else {
+                    res.status(500).json({ errorMessage: "The friend information could not be modified." })    
                 }
             })
     })
