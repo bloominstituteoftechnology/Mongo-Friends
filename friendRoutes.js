@@ -52,17 +52,20 @@ router
   .put('/:id', (req, res) => {
     const { id } = req.params;
     const { firstName, lastName, age } = req.body;
-    if (age < 1 || age > 120)
-      return res.json({ err: 'A friends age must be between 1 and 120' });
-    const friend = { firstName, lastName, age };
-    const options = { new: true };
-    Friend.findByIdAndUpdate(id, friend, options, (err, dbRes) => {
+    Friend.findById(id, (err, raw) => {
       if (err)
         return res.status(500).json({ err });
-      if (!dbRes)
+      if (!raw)
         return res.status(404).json({ err: 'That friend doesnt exist' });
-      res.json(dbRes);
-    });
-  });
+      raw.firstName = firstName || raw.firstName;
+      raw.lastName  = lastName || raw.lastName;
+      raw.age       = age || raw.age;
+      raw.save((err, newRaw) => {
+        if (err)
+          return res.status(500).json({ err });
+        res.json(newRaw);
+      });
+    })
+  })
   
 module.exports = router;
