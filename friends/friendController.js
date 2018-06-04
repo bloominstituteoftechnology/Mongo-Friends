@@ -55,7 +55,12 @@ router
         res.status(200).json(deletedFriend);
       })
       .catch(err => {
-        res.status(404).json({ error: 'No friend by that id in DB' });
+        if(err.name = 'CastError'){
+            res.status(404).json({ errorMessage: "The friend with the specified ID does not exist." })
+            return;
+        }
+        res.status(500).json({ errorMessage: "The friend could not be removed" });
+        console.log(err);
       });
   })
   .put((req, res) => {
