@@ -23,8 +23,14 @@ const FriendSchema = new mongoose.Schema({
 
     contact: {
         phone: {
-            type: Number,
-            required: false
+            type: String,
+            validate: {
+                validator: function (v) {
+                    return /\d{4}-\d{4}-\d{8}/.test(v);
+                },
+                message: '{VALUE} is not a valid phone number!'
+            },
+            required: [true, 'User phone number required']
         },
         email: {
             type: String,
