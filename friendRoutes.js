@@ -28,4 +28,41 @@ router
     });
   });
 
+router
+  .get('/:id', (req, res) => {
+    const { id } = req.params;
+    Friend.findById(id, (err, dbRes) => {
+      if (err)
+        return res.status(500).json({ err });
+      if (!dbRes)
+        return res.status(404).json({ err: 'That friend doesnt exist' });
+      res.json(dbRes);
+    });
+  })
+  .delete('/:id', (req, res) => {
+    const { id } = req.params;
+    Friend.findByIdAndDelete(id, (req, res) => {
+      if (err)
+        return res.status(500).json({ err });
+      if (dbRes.length === 0)
+        return res.status(404).json({ err: 'That friend doesnt exist' });
+      res.json(dbRes);
+    });
+  })
+  .put('/:id', (req, res) => {
+    const { id } = req.params;
+    const { firstName, lastName, age } = req.body;
+    if (age < 1 || age > 120)
+      return res.json({ err: 'A friends age must be between 1 and 120' });
+    const friend = { firstName, lastName, age };
+    const options = { new: true };
+    Friend.findByIdAndUpdate(id, friend, options, (err, dbRes) => {
+      if (err)
+        return res.status(500).json({ err });
+      if (!dbRes)
+        return res.status(404).json({ err: 'That friend doesnt exist' });
+      res.json(dbRes);
+    });
+  });
+  
 module.exports = router;
