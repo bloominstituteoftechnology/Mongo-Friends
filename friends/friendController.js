@@ -37,12 +37,26 @@ router
       });
   })
   .delete((req, res) => {
-    res.status(200).json({ status: 'please implement DELETE functionality' });
-    // findByIdAndRemove
+    const { id } = req.params
+    Friend.findByIdAndRemove(id)
+      .then(deletedFriend => {
+        res.status(200).json(deletedFriend);
+      })
+      .catch(err => {
+        res.status(404).json({ error: 'No friend by that id in DB' });
+      });
   })
   .put((req, res) => {
-    res.status(200).json({ status: 'please implement PUT functionality' });
-    // findByIdAndUpdate
+    const { id } = req.params;
+    const { firstName, lastName, age } = req.body;
+      Friend.findByIdAndUpdate(id, { firstName, lastName, age })
+        .then(updatedFriend => {
+            res.status(200).json(updatedFriend);
+        })
+        .catch(err => {
+            res.status(404).json({ error: 'No friend by that id in DB' });
+            console.log(err);
+        });    
   });
 
 module.exports = router;
