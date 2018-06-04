@@ -66,14 +66,26 @@ router
   .put((req, res) => {
     const { id } = req.params;
     const { firstName, lastName, age } = req.body;
-      Friend.findByIdAndUpdate(id, { firstName, lastName, age })
-        .then(updatedFriend => {
-            res.status(200).json(updatedFriend);
-        })
-        .catch(err => {
-            res.status(404).json({ error: 'No friend by that id in DB' });
-            console.log(err);
-        });    
+    if (!firstName || !lastName || !age) {
+        res.status(400).json({ errorMessage: "Please provide firstName, lastName and age for the friend." })
+        return;
+    }
+    if (typeof age !== 'number' || age > 120 || age < 1) {
+        res.status(400).json({ errorMessage: "Age must be a number between 1 and 120" })
+        return;
+    }
+    Friend.findByIdAndUpdate(id, { firstName, lastName, age })
+      .then(updatedFriend => {
+          res.status(200).json(updatedFriend);
+      })
+      .catch(err => {
+          if(err.name = 'CastError'){
+              res.status(404).json({ errorMessage: "The friend with the specified ID does not exist." })
+              return;
+          }
+          res.status(500).json({ errorMessage: "The friend information could not be modified." });
+          console.log(err);
+      });    
   });
 
 module.exports = router;
