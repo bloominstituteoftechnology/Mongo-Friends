@@ -40,14 +40,36 @@ router
         Friends.findById(id) 
             .then(foundFriend => {
                 if(foundFriend) {
+                    console.log(foundFriend)
                     res.json(foundFriend);
                     return;
-                } else {
+                } 
+            })
+            .catch(error => {
+                // console.log(error)
+                if (error.name ==='CastError') { // Cast Error: https://stackoverflow.com/questions/14940660/whats-mongoose-error-cast-to-objectid-failed-for-value-xxx-at-path-id
                     res.status(404).json({error: 'The friend with the specified ID does not exist.'})
+                    return;
+                }
+                res.status(500).json({error: 'The friend information could not be retrieved.'})  
+            })
+    })
+
+    .delete((req, res) => {
+        const { id } = req.params;
+        Friends.findByIdAndRemove(id)
+            .then(response => {
+                if(response) {
+                    console.log(response)
+                    res.json({success: 'The friend with the specified ID was removed.'})
                 }
             })
             .catch(error => {
-                res.status(500).json({error: 'The friend information could not be retrieved.'})
+                if (error.name ==='CastError') {
+                    res.status(404).json({error: 'The friend with the specified ID does not exist.'})
+                    return;
+                }
+                res.status(500).json({error: 'The friend could not be removed.'})
             })
     })
 
