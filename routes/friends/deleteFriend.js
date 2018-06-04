@@ -14,7 +14,7 @@ module.exports = (req, res) => {
       if (error.name === 'CastError') {
         res.status(404).json({ error: 'The friend with the specified ID does not exist.' });
       } else {
-        res.status(500).json({ error: 'The friend information could not be retrieved.' });
+        res.status(500).json({ error: 'The friend could not be removed.' });
       }
     });
 };
