@@ -13,6 +13,14 @@ router
   })
   .post((req, res) => {
     const { firstName, lastName, age } = req.body;
+    if (!firstName || !lastName || !age) {
+        res.status(400).json({ errorMessage: "Please provide firstName, lastName and age for the friend." })
+        return;
+    }
+    if (typeof age !== 'number' || age > 120 || age < 1) {
+        res.status(400).json({ errorMessage: "Age must be a number between 1 and 120" })
+        return;
+    }
     const newFriend = new Friend({ firstName, lastName, age });
     newFriend
       .save() 
@@ -20,7 +28,7 @@ router
         res.status(201).json(savedFriend);
       })
       .catch(err => {
-        res.status(422).json({ error: err });
+        res.status(500).json({ errorMessage: "There was an error while saving the friend to the database." });
       });
   });
 
