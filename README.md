@@ -112,7 +112,7 @@ When the client makes a `GET` request to `/api/friends/:id`:
 * If the _friend_ with the specified `id` is not found:
 
   * return HTTP status code `404` (Not Found).
-  * return the following JSON object: `{ message: "The friend with the specified ID does not exist." }`.
+  * return the following JSON object: `{ errorMessage: "The friend with the specified ID does not exist." }`.
 
 * If there's an error in retrieving the _friend_ from the database:
   * cancel the request.
@@ -124,7 +124,7 @@ When the client makes a `DELETE` request to `/api/friends/:id`:
 * If the _friend_ with the specified `id` is not found:
 
   * return HTTP status code `404` (Not Found).
-  * return the following JSON object: `{ message: "The friend with the specified ID does not exist." }`.
+  * return the following JSON object: `{ errorMessage: "The friend with the specified ID does not exist." }`.
 
 * If there's an error in removing the _friend_ from the database:
   * cancel the request.
@@ -136,7 +136,7 @@ When the client makes a `PUT` request to `/api/friends/:id`:
 * If the _friend_ with the specified `id` is not found:
 
   * return HTTP status code `404` (Not Found).
-  * return the following JSON object: `{ message: "The friend with the specified ID does not exist." }`.
+  * return the following JSON object: `{ errorMessage: "The friend with the specified ID does not exist." }`.
 
 * If the request body is missing the `firstName`, `lastName` or `age` property:
 
