@@ -30,5 +30,21 @@ router
         }
     })
 
+router
+    .route('/:id')
+    .get((req, res) => {
+        const { id } = req.params
+        Friend.findById(id)
+            .then( friend => {
+                res.status(200).json(friend)
+            })
+            .catch( err => {
+                if (err.name === "CastError") {
+                    res.status(404).json({ errorMessage: "The friend with the specified ID does not exist." })
+                } else {
+                    res.status(500).json({ errorMessage: "The friend information could not be retrieved." })    
+                }
+            })
+    })
 
 module.exports = router;
