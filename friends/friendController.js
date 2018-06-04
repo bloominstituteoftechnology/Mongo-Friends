@@ -17,11 +17,51 @@ router
             newFriend.save()
                 .then(friend => {
                     res.status(201).json(friend)
-            })
+                })
                 .catch(err => {
                     res.status(500).json({ errorMessage: "There was an error while saving the friend to the database." })
                 })
         }
+    })
+    .get((req,res) => {
+        Friends.find()
+            .then(friends => {
+                res.json(friends)
+            })
+            .catch(err => {
+                res.status(500).json({ errorMessage: "The friends information could not be retrieved." })
+            })
+    })
+
+router
+    .route('/:id')
+    .get((req, res) => {
+        const { id } = req.params;
+        Friends.findById(id)
+            .then(friend => {
+                res.json(friend)
+            })
+            .catch(err => {
+                if (err.name === "CastError") {
+                    res.status(404).json({ errorMessage: "The friend with the specified ID does not exist." })
+                    return;
+                }
+                res.status(500).json({ errorMessage: "The friend information could not be retrieved." })
+            })
+    })
+    .delete((req, res) => {
+        const { id } = req.params;
+        Friends.findByIdAndRemove(id)
+            .then(friend => {
+                res.json(friend)
+            })
+            .catch(err => {
+                if (err.name === "CastError") {
+                    res.status(404).json({ errorMessage: "The friend with the specified ID does not exist." })
+                    return;
+                }
+                res.status(500).json({ errorMessage: "The friend could not be removed." })
+            })
     })
 
 module.exports = router;
