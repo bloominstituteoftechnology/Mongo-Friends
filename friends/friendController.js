@@ -23,7 +23,7 @@ router.route('/')
         const friend = new Friend(req.body);
         // console.log(req.body);
         if (!firstName || !lastName || !age) {
-            res.status(400).json({ error: "firstName, lastName, and age are required!"});
+            res.status(400).json({ error: "firstName, lastName, and age are required!" });
             return;
         }
 
@@ -77,11 +77,13 @@ router.route('/:id')
             new: true,
         }
 
+        if (!firstName || !lastName || !age) {
+            res.status(400).json({ error: "Please provide firstName, lastName and age for the friend." });
+        }
+
         Friend.findByIdAndUpdate(friendId, req.body, options)
             .then(friend => {
-                if (!firstName || !lastName || !age) {
-                    res.status(400).json({ error: "Please provide firstName, lastName and age for the friend." })
-                } else if (friend !== null) {
+                if (friend) {
                     res.status(200).json(friend);
                 } else {
                     res.sendStatus(404).json({ error: "The friend with the specified ID does not exist." });
