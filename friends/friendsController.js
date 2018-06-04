@@ -42,6 +42,10 @@ router
       friendModel.findById(id)
         .then(friend => {
           console.log(friend)
+          if(friend === null){
+            res.status(404).json({ errorMessage: "The friend with the specified ID does not something." })
+            return;
+          }
           res.status(200).json(friend)
         })
         .catch(err => {
@@ -84,6 +88,10 @@ router
       }
       friendModel.findByIdAndUpdate(id, { firstName, lastName, age })
         .then(friend => {
+          if(friend === null){
+            res.status(404).json({ errorMessage: "The friend with the specified ID does not something." })
+            return;
+          }
           res.status(200).json(friend)
         })
         .catch(err => {
