@@ -30,7 +30,7 @@ const FriendSchema = new mongoose.Schema({
                 },
                 message: '{VALUE} is not a valid phone number!'
             },
-            required: [true, 'User phone number required']
+            required: false
         },
         email: {
             type: String,
@@ -43,9 +43,10 @@ const FriendSchema = new mongoose.Schema({
         facebookUser: {
             type: String,
             required: false
-        }
+        },
+        default: {}
     }
-})
+}, { minimize: false })
 
 const friendModel = mongoose.model('Friend', FriendSchema)
 module.exports = friendModel;

@@ -1,5 +1,7 @@
 .App {
-  text-align: center;
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
 }
 
 .App-logo {
@@ -20,6 +22,16 @@
 
 .App-intro {
   font-size: large;
+}
+.card-img-top {
+  width: 318px;
+  height: 180px;;
+}
+.card {
+  width: 400px;
+  padding: 30px;
+  margin: 30px;
+  text-align: center;
 }
 
 @keyframes App-logo-spin {
