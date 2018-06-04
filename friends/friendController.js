@@ -8,7 +8,7 @@ const Friend = require('./friendSchema');
 // the root endpoint has two methods attached to it, get and post
 router.route('/')
     .get((req, res) => {
-        console.log(req);
+        // console.log(req);
         Friend
             .find()
             .then(friends => {
@@ -19,10 +19,10 @@ router.route('/')
             })
     })
     .post((req, res) => {
-        const friendData = req.body;
-        const friend = new Friend(friendData);
+        const { firstName, lastName, age } = req.body;
+        const friend = new Friend(req.body);
         // console.log(req.body);
-        if (!req.body.firstName || !req.body.lastName || !req.body.age) {
+        if (!firstName || !lastName || !age) {
             res.status(400).json({ error: "firstName, lastName, and age are required!"});
             return;
         }
@@ -44,7 +44,7 @@ router.route('/:id')
 
         Friend.findById(friendId)
             .then(friend => {
-                if (friend !== null) {
+                if (friend) {
                     res.status(200).json(friend);
                 } else {
                     res.status(404).json({ error: "The friend with the specified ID does not exist." });
@@ -72,13 +72,14 @@ router.route('/:id')
     .put((req, res) => {
         const friendId = req.params.id;
         const friendData = req.body;
+        // console.log(req);
         const options = {
             new: true,
         }
 
         Friend.findByIdAndUpdate(friendId, friendData, options)
             .then(friend => {
-                if (friend.firstName === "" || friend.lastName === "" || friend.age === "") {
+                if (!friendData.firstName || !friendData.lastName || !friendData.age) {
                     res.status(400).json({ error: "Please provide firstName, lastName and age for the friend." })
                 } else if (friend !== null) {
                     res.status(200).json(friend);
