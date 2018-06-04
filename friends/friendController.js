@@ -9,7 +9,7 @@ router
       .then(friends => {
         res.status(200).json(friends);
       })
-      .catch(err => res.status(500).json({ error: 'Error fetching friends' }));
+      .catch(err => res.status(500).json({ errorMessage: "The friends information could not be retrieved." }));
   })
   .post((req, res) => {
     const { firstName, lastName, age } = req.body;
@@ -41,7 +41,11 @@ router
         res.status(200).json(foundFriend);
       })
       .catch(err => {
-        res.status(404).json({ error: 'No friend by that id in DB' });
+        if(err.name = 'CastError'){
+            res.status(404).json({ errorMessage: "The friend with the specified ID does not exist." })
+            return;
+        }
+        res.status(500).json({ errorMessage: "The friend information could not be retrieved." });
       });
   })
   .delete((req, res) => {
