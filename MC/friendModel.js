@@ -14,6 +14,11 @@ const FriendSchema = new mongoose.Schema({
         required: true,
         min: 1,
         max: 120
+    },
+    createdOn: {
+        type: Date,
+        default: Date.now(),
+        required: true
     }
 })
 
