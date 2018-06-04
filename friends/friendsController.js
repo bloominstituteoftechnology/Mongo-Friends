@@ -36,13 +36,36 @@ router
         const { id } = req.params
         Friend.findById(id)
             .then( friend => {
-                res.status(200).json(friend)
+                if (friend === null) {
+                    res.status(404).json({ errorMessage: "The friend with the specified ID does not exist." })
+                } else {
+                    res.status(200).json(friend)
+                }
             })
             .catch( err => {
                 if (err.name === "CastError") {
                     res.status(404).json({ errorMessage: "The friend with the specified ID does not exist." })
                 } else {
                     res.status(500).json({ errorMessage: "The friend information could not be retrieved." })    
+                }
+            })
+    })
+    .delete((req, res) => {
+        const { id } = req.params
+        Friend.findByIdAndRemove(id)
+            .then( friend => {
+                if (friend === null) {
+                    res.status(404).json({ errorMessage: "The friend with the specified ID does not exist." })
+                } else {
+                    res.status(200).json(friend)
+                }
+            })
+            .catch( err => {
+                console.log(err)
+                if (err.name === "CastError") {
+                    res.status(404).json({ errorMessage: "The friend with the specified ID does not exist." })
+                } else {
+                    res.status(500).json({ errorMessage: "The friend could not be removed." })    
                 }
             })
     })
