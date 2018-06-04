@@ -18,11 +18,11 @@ const FriendSchema = new mongoose.Schema({
     },
     lastName: {
         type: String,
-        require: true
+        required: true
     },
     age: {
         type: Number,
-        require: true
+        required: true
     },
     createOn: {
         type: Date,
