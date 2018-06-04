@@ -71,15 +71,15 @@ router.route('/:id')
     })
     .put((req, res) => {
         const friendId = req.params.id;
-        const friendData = req.body;
+        const { firstName, lastName, age } = req.body;
         // console.log(req);
         const options = {
             new: true,
         }
 
-        Friend.findByIdAndUpdate(friendId, friendData, options)
+        Friend.findByIdAndUpdate(friendId, req.body, options)
             .then(friend => {
-                if (!friendData.firstName || !friendData.lastName || !friendData.age) {
+                if (!firstName || !lastName || !age) {
                     res.status(400).json({ error: "Please provide firstName, lastName and age for the friend." })
                 } else if (friend !== null) {
                     res.status(200).json(friend);
