@@ -11,7 +11,9 @@ const FriendSchema = new mongoose.Schema({
     },
     age: {
         type: Number,
-        required: true
+        required: true,
+        min: 1,
+        max: 120
     },
     createdOn: {
         type: Date,
@@ -19,3 +21,7 @@ const FriendSchema = new mongoose.Schema({
         default: Date.now()
     },
 })
+
+const friendsModel = mongoose.model('Friend', FriendSchema);
+
+module.exports = friendsModel;
