@@ -8,7 +8,7 @@ const FriendsList = (props) => {
 
 
     return (
-        <div>
+        <div className="friendslist-container">
             {props.friends.map(e => {
                 let { email, phone, facebookUser, ghUser } = e.contact
                 return (
