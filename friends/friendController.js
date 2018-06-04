@@ -79,6 +79,7 @@ router.route('/:id')
 
         if (!firstName || !lastName || !age) {
             res.status(400).json({ error: "Please provide firstName, lastName and age for the friend." });
+            return;
         }
 
         Friend.findByIdAndUpdate(friendId, req.body, options)
