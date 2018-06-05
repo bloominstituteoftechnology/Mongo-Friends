@@ -2,7 +2,7 @@ const express = require('express');
 const helmet = require('helmet');
 const cors = require('cors');
 const mongoose = require('mongoose');
-const friendController = require('./friends/friendController.js');
+const friendController = require('./data/friendController.js');
 const server = express();
 
 server.use(helmet());
