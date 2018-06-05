@@ -7,10 +7,10 @@ router
         Friend
             .find()
             .then(response=> {
-                res.status(200).json({ data: response })
+                res.status(200).json(response)
             })
             .catch(error => {
-                res.status(500).json({ error: "error" })
+                res.status(500).json({ error: error })
             })
     })
     .post((req, res) => {
@@ -22,8 +22,8 @@ router
                 res.status(201).json(response);
             })
             .catch(error => {
-                res.status(422).json({ error: error });
+                res.status(500).json({ error: error });
             })
     })
-    
+
 module.exports = router;

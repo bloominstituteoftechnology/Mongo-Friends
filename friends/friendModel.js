@@ -1,5 +1,16 @@
 const mongoose = require('mongoose');
 
+const localHost = 'localhost:27017';
+const database = 'frienddb';
+mongoose
+    .connect(`mongodb://${localHost}/${database}`)
+    .then(response => {
+        console.log("Connection Successful")
+    })
+    .catch(error => {
+        console.log("Connection Failed")
+    });
+
 const FriendSchema = new mongoose.Schema({
     firstName: {type: String, required: true},
     lastName: {type: String, required: true},
