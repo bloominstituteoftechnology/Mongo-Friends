@@ -27,10 +27,13 @@ function handlePOST(req, res, next) {
   newFriend
     .save()
     .then(response => {
-      res.status(200).json();
+      res.status(200).json(response);
     })
     .catch(e => {
-      next(e);
+      // if there were an Error validatin the data in the Schema:
+      if (e.name === 'ValidationError') next(createError(400, e.message));
+      // If there were any other problem POSTING to the data base: send custom-default Error.
+      next(createError());
     });
 }
 /**
@@ -40,7 +43,7 @@ function handleError(err, req, res, next) {
   !err.status ? next(err) : res.status(err.status).json({ errorMessage: err.message });
   next();
 }
-function createError(code = 500, message = 'Ups, there were a problem fetching the info from the database') {
+function createError(code = 500, message = 'Oh, oh.... there is a problem bargain with the dababase, try again!') {
   let e = new Error();
   e.status = code;
   e.message = message;

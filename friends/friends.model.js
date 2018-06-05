@@ -7,13 +7,13 @@ const friendSchema = mongoose.Schema({
     required: true,
     validate: {
       validator: ageValidator,
-      message: 'Age must be a number between 1 and 120',
+      message: '{VALUE} must be a number between 1 and 120',
     },
   }, // Number, required, should be an integer between 1 and 120
   createdOn: { type: Date, required: true, default: Date.now }, // Date, required, defaults to current date
 });
 
 function ageValidator(age) {
-  return Nuber.isinteger(age) && 1 <= age <= 120 ? true : false;
+  return Number.isInteger(age) && (1 <= age && age <= 120) ? true : false;
 }
 module.exports = mongoose.model('friends', friendSchema);
