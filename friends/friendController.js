@@ -10,7 +10,7 @@ router
                 res.status(200).json(response)
             })
             .catch(error => {
-                res.status(500).json(error)
+                res.status(500).json("error")
             })
     })
     .post((req, res) => {
@@ -22,7 +22,7 @@ router
                 res.status(201).json({ success: "New Friend Added", response});
             })
             .catch(error => {
-                res.status(500).json(error);
+                res.status(500).json("error");
             })
     })
 router
@@ -38,21 +38,21 @@ router
                 }
             })
             .catch(error => {
-                res.status(500).json(error)
+                res.status(500).json("error")
             })
     })
     .delete((req, res) => {
         Friend
             .findByIdAndRemove(req.params.id)
-            .then(reponse => {
+            .then(response => {
                 if(response === null) {
                     res.status(404).json({ error: "No Friend with that ID"})
                 } else {
-                    res.json({ success: "Friend Removed", resource: response })
+                    res.json({ status: `Friend Removed`, resource: response })
                 }
             })
             .catch(error => {
-                res.status(500).json(error)
+                res.status(500).json({ error: error })
             })
     })
     .put((req, res) => {
@@ -67,7 +67,7 @@ router
                 }
             }) 
             .catch(error => {
-                res.status(500).json(error)
+                res.status(500).json("error")
             })
     })
 
