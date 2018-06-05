@@ -2,17 +2,18 @@ const mongoose = require('mongoose');
 
 const FriendSchema = new mongoose.Schema({
   firstName: {
-    type: String
+    type: String,
+    required: true
   },
   lastName: {
     type: String,
-    require: true
+    required: true
   },
   age: {
     type: Number,
     min: 1,
     max: 120,
-    require: true
+    required: true
   },
   createOn: {
     type: Date,
