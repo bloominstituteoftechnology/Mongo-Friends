@@ -29,8 +29,9 @@ const options = {
     timestamps: true,
 };
 
+// const friendSchema = new mongoose.Schema(options);
 
-const friendModel = mongoose.model('Friend', FriendSchema);
+const friendModel = mongoose.model('Friend', friendSchema, 'friends');
 
 
 module.exports = friendModel;
