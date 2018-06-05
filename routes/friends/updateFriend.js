@@ -3,9 +3,9 @@ const sendErrorMessage = require('./helpers');
 
 module.exports = (req, res) => {
   const { id } = req.params;
-  const { firstName, lastName, age } = req.body;
+  const updates = ({ firstName, lastName, age } = req.body);
 
-  Friend.findByIdAndUpdate(id, { firstName, lastName, age }, { new: true })
+  Friend.findByIdAndUpdate(id, updates, { new: true })
     .then(updatedFriend => {
       if (updatedFriend) {
         res.status(200).json(updatedFriend);
