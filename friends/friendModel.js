@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 
 
-const FriendSchema = new friend.Schema ({
+const FriendSchema = new mongoose.Schema({
     firstName: {
         type: String,
         required: true,
@@ -10,8 +10,8 @@ const FriendSchema = new friend.Schema ({
     },
     lastName: {
         type: String,
-        required: true,
-        unique: true
+        required: true
+        //unique: true
     },
     age: {
         type: Number,

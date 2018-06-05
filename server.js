@@ -14,6 +14,8 @@ server.get('/', (req, res) => {
   res.status(200).json({ api: 'running' });
 });
 
+server.use('/api/friends', friendController);
+
 const port = process.env.PORT || 5000;
 
 mongoose.Promise = global.Promise;// configure the mongoose promise to use Native JS Promises
