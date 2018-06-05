@@ -19,7 +19,7 @@ routerFriends.use(handleError);
  */
 function handlePOST(req, res, next) {
   const data = ({ firstName, lastName, age } = req.body);
-  if (!firstName || !lastName || !age)
+  if (!firstName || !lastName || (age !== 0 && !age))
     // create an error and past it to "handleError"
     next(createError(400, 'Please provide firstName, lastName and age for the friend.'));
 
