@@ -21,7 +21,9 @@ const FriendSchema = new mongoose.Schema({
     },
     age: {
         type: Number,
-        required: true
+        required: true,
+        min: 1,
+        max: 120
     },
     contactInfo: {
             email: {

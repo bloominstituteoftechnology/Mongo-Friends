@@ -9,7 +9,7 @@ router
       .then(friends => {
         res.json(friends);
       })
-      .catch(err => res.status(500).json({ error: 'Error fetching friends' }));
+      .catch(err => res.status(500).json({ error: 'Error reading the DB' }));
   })
   .post((req, res) => {
     const { firstName, lastName, age, contactInfo } = req.body;
@@ -51,7 +51,7 @@ router
             }
         })
         .catch(err => {
-            res.status(500).json({ error: 'No friend by that id in DB' });
+            res.status(500).json({ error: 'Error updating the DB' });
         })
     })
     .put((req, res) => {
