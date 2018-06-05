@@ -13,3 +13,5 @@ router
         res.status(500).json({ error: "The friend information could not be retrieved." });
       })
   });
+
+module.exports = router;
