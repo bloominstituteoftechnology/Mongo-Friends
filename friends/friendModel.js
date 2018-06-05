@@ -28,7 +28,7 @@ const FriendSchema = new mongoose.Schema({
     createdOn: {
         type: Date,
         required: true,
-        defualt: Date.now()
+        default: Date.now()
     } 
 });
 

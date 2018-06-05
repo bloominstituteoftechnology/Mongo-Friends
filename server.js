@@ -10,14 +10,19 @@ server.use(helmet());
 server.use(cors());
 server.use(express.json());
 
-// server.get('/', (req, res) => {
-//   res.status(200).json({ api: 'running' });
-// });
+server.get('/', (req, res) => {
+  res.status(200).json({ api: 'running' });
+});
+
+server.use('/api/friends', friendController);
 
 mongoose.Promise = global.Promise; //added to implement promise functionality (thenify)
 
 mongoose.connect('mongodb://localhost/dbFriends', {}, (err) => { //operational check 
-  if(err) console.log(err);
+  if(err) {
+    console.log(err);
+    return;
+  } 
   console.log("Successfully Connected to MongoDB");
 }); 
 

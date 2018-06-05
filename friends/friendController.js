@@ -17,7 +17,15 @@ router
     .post((req, res) => {
         const { firstName, lastName, age, createdOn} = req.body;
         const newFriend = new Friends ({ firstName, lastName, age, createdOn});
-        newFriend
+
+        if (!firstName || !lastName || !age) {
+        res.status(400).json({error: 'Please provide firstName, lastName and age for the friend.'});
+        return; 
+        } else if (age < 1 || age > 120) {
+            res.status(400).json({error: 'Age must be a number between 1 and 120'});
+            return;
+        } else {
+            newFriend
             .save() // this will 'insert' a document into the Friend collection
             .then(friend => {
                 console.log(friend);
@@ -26,6 +34,7 @@ router
             .catch(err => {
                 res.status(422).json({error: err}) //422: Unproc­essable Entity
             })
+        }
     })
 
 module.exports = router; 
