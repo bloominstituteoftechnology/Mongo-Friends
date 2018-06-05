@@ -10,7 +10,7 @@ routerFriends
   .route('/:id')
   .get(isIdValid, handleGET)
   .put(isIdValid)
-  .delete(isIdValid);
+  .delete(isIdValid, handleDELETE);
 
 routerFriends.use(handleError);
 
@@ -45,7 +45,20 @@ function handleGET(req, res, next) {
       res.status(200).json(response);
     })
     .catch(e => {
-      !id ? next(createError(500, 'The friends information could not be retrieved.')) : next(e);
+      !id
+        ? next(createError(500, 'The friends information could not be retrieved.'))
+        : next(500, 'The friend information could not be retrieved.');
+    });
+}
+function handleDELETE(req, res, next) {
+  const { id } = req.params;
+
+  Friend.findByIdAndRemove(id)
+    .then(response => {
+      res.status(200).json(response);
+    })
+    .catch(e => {
+      next(createError(500, 'The friend could not be removed'));
     });
 }
 /**
