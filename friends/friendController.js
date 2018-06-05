@@ -48,13 +48,12 @@ router
           }
         })
       .catch(err => {
-        res.status(404).json({ error: 'No friend by that id in DB' });
+        res.status(500).json({ error: 'No friend by that id in DB' });
       })
   })
   .put((req, res) => {
     const { id } = req.params;
-    const { firstName, lastName, age } = req.body;
-    const friend = { firstName, lastName, age };
+    const friend = ({ firstName, lastName, age } = req.body);
     Friend.findByIdAndUpdate(id, friend)
       .then(friend => {
         Friend.findById(id)
