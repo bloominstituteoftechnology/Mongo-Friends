@@ -33,7 +33,7 @@ router
         newFriend
             .save()
             .then(savedFriend => {
-                res.status(201).json(newFriend);
+                res.status(201).json(savedFriend);
             })
             .catch(err => {
                 res.status(500).json({ error: "There was an error saving the friend to the database" })
