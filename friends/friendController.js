@@ -31,4 +31,26 @@ router
   });
   
 
+router
+  .route('/:id')
+  .get((req, res) => {
+    const { id } = req.params;
+    if (id.length !== 24) {
+      res.status(400).send({ error: "The ID entered is too short or too long in length." });
+      return;
+    }
+    Friend.findById(id)
+      .then(friend => {
+        if (friend === null) {
+          res.status(404).json({ error: "Friend cannot be found with given ID." });
+          return;
+        }
+        res.status(200).json(friend);
+      })
+      .catch(err => {
+        res.status(500).json({ error: "Something went terribly wrong!" });
+      });
+  })
+  
+
 module.exports = router;
