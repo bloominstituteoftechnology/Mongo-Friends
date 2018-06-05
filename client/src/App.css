@@ -1,0 +1,60 @@
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  animation: App-logo-spin infinite 20s linear;
+  height: 80px;
+}
+
+.App-header {
+  background-color: #222;
+  height: 150px;
+  padding: 20px;
+  color: white;
+}
+
+.App-title {
+  font-size: 1.5em;
+}
+
+.App-intro {
+  font-size: large;
+}
+
+.App-content {
+  
+}
+
+@keyframes App-logo-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.friends-list {
+  max-width: 900px;
+  width: 85%;
+  margin: 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+
+.friend {
+  flex-basis: 22%;
+  height: 200px;
+  overflow: scroll;
+  border: 1px dotted black;
+  margin-top: 10px;
+}
+
+.name-age {
+  background-color: teal;
+  color: white;
+  padding: 10px; 
+}
+
+a {
+  color: white;
+  text-decoration: none;
+}
