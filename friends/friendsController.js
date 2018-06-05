@@ -28,15 +28,24 @@ newFriend
         res.status(201).json(savedFriend)
     })
     .catch(err => {
-        res.status(422).json({error: err })
+        res.status(500).json({errorMessage: 'There was an error while saving the friend to the database.' });
     })};
 });
 
 router
 .route('/:id')
 .get((req, res) => {
-
-})
+    const { id } = req.params;
+    Friend.findById(id)
+        .then(foundFriend => {
+            console.log(foundFriend);
+            if (foundFriend === null) {
+                res.status(404).json({ errorMessage: 'The friend with the specified ID does not exist.'});
+                return;
+            }
+            res.status(500).json({ errorMessage: 'The friend information could not be retrieved.'})
+        })
+    })
 .delete((req, res) => {
 
 })
