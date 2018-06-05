@@ -1,15 +1,15 @@
-const mongoose = required('mongoose');
+const mongoose = require('mongoose');
 
-const FriendSchemea = new.mongoose.Schema({
+const FriendSchemea = new mongoose.Schema({
    firstName: {
        type: String,
        required: true
    },
    lastName: {
-       type: Stirng,
+       type: String,
        required: true
    },
-   age {
+   age: {
        type: Number,
        required: true
    },
