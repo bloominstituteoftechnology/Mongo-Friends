@@ -18,7 +18,11 @@ router
         const { firstName, lastName, age } = req.body;
         const newFriend = new Friend({ firstName, lastName, age });
         if(!firstName || !lastName || !age){
-            res.status(400).json({ error: "Please provide a first name, last name and age for your friend" });
+            res.status(400).json({ error: "Please provide a first name, last name and age for the friend" });
+            return;
+        }
+        if(isNaN(age) == true || age < 1 || age > 120 ){
+            res.status(400).json({ error: "Age must be a number between 1 and 120" });
             return;
         }
         newFriend
