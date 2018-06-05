@@ -73,7 +73,7 @@ Configure the following API endpoints:
 
 #### Endpoint Specifications
 
-When the client makes a `POST` request to `/api/friends`:
+<!-- When the client makes a `POST` request to `/api/friends`:
 
 * If the request body is missing the `firstName`, `lastName` or `age` property:
 
@@ -105,7 +105,7 @@ When the client makes a `GET` request to `/api/friends`:
   * respond with HTTP status code `500`.
   * return the following JSON object: `{ errorMessage: "The friends information could not be retrieved." }`.
 
-- On success return status code `200` (OK) and the list of all friends contained in the friends collection.
+- On success return status code `200` (OK) and the list of all friends contained in the friends collection. -->
 
 When the client makes a `GET` request to `/api/friends/:id`:
 
