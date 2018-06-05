@@ -27,7 +27,7 @@ function handlePOST(req, res, next) {
   newFriend
     .save()
     .then(response => {
-      res.status(200).json(response);
+      res.status(201).json(response);
     })
     .catch(e => {
       // if there were an Error validatin the data in the Schema:
