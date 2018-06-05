@@ -25,6 +25,10 @@ const friendSchema = new mongoose.Schema({
     
 });
 
+const options = {
+    timestamps: true,
+};
+
 
 const friendModel = mongoose.model('Friend', FriendSchema);
 
