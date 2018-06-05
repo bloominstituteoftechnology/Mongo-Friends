@@ -36,13 +36,13 @@ router
   .get((req, res) => {
     const { id } = req.params;
     if (id.length !== 24) {
-      res.status(400).send({ error: "The ID entered is too short or too long in length." });
+      res.status(400).send({ error: `${id} is too short or too long in length.` });
       return;
     }
     Friend.findById(id)
       .then(friend => {
         if (friend === null) {
-          res.status(404).json({ error: "Friend cannot be found with given ID." });
+          res.status(404).json({ error: `Friend cannot be found with given ID of ${id}.` });
           return;
         }
         res.status(200).json(friend);
@@ -54,13 +54,13 @@ router
   .delete((req, res) => {
     const { id } = req.params;
     if (id.length !== 24) {
-      res.status(400).send({ error: "The ID entered is too short or too long in length." });
+      res.status(400).send({ error: `${id} is too short or too long in length.` });
       return;
     }
     Friend.findByIdAndRemove(id)
       .then(friend => {
         if (friend === null) {
-          res.status(404).json({ error: "Friend cannot be found with given ID." });
+          res.status(404).json({ error: `Friend cannot be found with given ID of ${id}.` });
           return;
         }
         res.status(200).json({ success: `${friend.firstName} is no longer a friend` });
@@ -74,13 +74,13 @@ router
     const { firstName, lastName, age } = req.body;
     const updatedFriend = { firstName, lastName, age };
     if (id.length !== 24) {
-      res.status(400).send({ error: "The ID entered is too short or too long in length." });
+      res.status(400).send({ error: `${id} is too short or too long in length.` });
       return;
     }
     Friend.findByIdAndUpdate(id, updatedFriend)
       .then(update => {
         if (update === null) {
-          res.status(404).send({ error: "Friend cannot be found with given ID." });
+          res.status(404).send({ error: `Friend cannot be found with given ID of ${id}.` });
           return;
         }
         res.status(200).json({ success: "Friend Updated", dataReceived: update });
