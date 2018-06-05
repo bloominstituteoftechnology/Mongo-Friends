@@ -47,10 +47,19 @@ router
         })
     })
 .delete((req, res) => {
-
+    const { id } = req.params;
+    Friend.findByIdAndRemove(id)
+    .then(removedFriend => {
+        console.log(removedFriend);
+        if (removedFriend === null) {
+            res.status(400).json({ errorMessage: 'The friend with the specified ID does not exist.'});
+            return;
+        }
+        res.status(500).json({errorMessage: 'The friend could not be removed'});
+    })
 })
 .put((req, res) => {
-
+    
 })
 
 module.exports = router;
