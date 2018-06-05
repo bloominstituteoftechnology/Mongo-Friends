@@ -38,7 +38,6 @@ router
   })
   .delete((req, res) => {
     const { id } = req.params;
-    console.log(id);
     Friend.findByIdAndRemove(id)
       .then(friend => {
         if (friend === null) {
@@ -53,7 +52,7 @@ router
   })
   .put((req, res) => {
     const { id } = req.params;
-    const friend = ({ firstName, lastName, age } = req.body);
+    const friend = ({ firstName, lastName, age, contactInfo } = req.body);
     Friend.findByIdAndUpdate(id, friend)
       .then(friend => {
         Friend.findById(id)
