@@ -33,7 +33,7 @@ function handlePOST(req, res, next) {
       // if there were an Error validatin the data in the Schema:
       if (e.name === 'ValidationError') next(createError(400, e.message));
       // If there were any other problem POSTING to the data base: send custom-default Error.
-      next(createError());
+      next(createError(500, 'There was an error while saving the friend to the database.'));
     });
 }
 /**
