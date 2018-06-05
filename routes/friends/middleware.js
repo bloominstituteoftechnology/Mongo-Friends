@@ -24,10 +24,10 @@ const validAge = (age, res) => {
 }
 
 const validAgeRange = (age) => {
-  if (age < 1 && age > 120){
-    return false;
+  if (age > 0 && age < 121){
+    return true;
   }
-  return true;
+  return false;
 }
 
 module.exports = {

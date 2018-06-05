@@ -14,7 +14,7 @@ const updateFriend = require('./updateFriend');
 friends.post('/', middleware.validateRequestData, createFriend);
 friends.get('/', getAllFriends);
 friends.get('/:id', getSingleFriend);
-friends.put('/:id', updateFriend);
+friends.put('/:id', middleware.validateRequestData, updateFriend);
 friends.delete('/:id', deleteFriend);
 
 module.exports = friends;
