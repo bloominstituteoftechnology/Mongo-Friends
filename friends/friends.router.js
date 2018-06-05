@@ -1,4 +1,5 @@
 const routerFriends = require('express').Router();
+const Friend = require('./friends.model');
 
 routerFriends
   .route('/')
