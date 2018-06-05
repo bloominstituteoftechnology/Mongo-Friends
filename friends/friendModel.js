@@ -1,0 +1,28 @@
+const mongoose = require('mongoose');
+
+
+
+const FriendSchema = new friend.Schema ({
+    firstName: {
+        type: String,
+        required: true,
+        unique: true
+    },
+    lastName: {
+        type: String,
+        required: true,
+        unique: true
+    },
+    age: {
+        type: Number,
+        required: true
+    },
+    createOn: {
+        type: Date,
+        default: Date.now()
+    }
+});
+
+const friendsModel = mongoose.model('Friend', FriendSchema);
+
+module.exports = friendsModel;
