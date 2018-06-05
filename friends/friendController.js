@@ -59,12 +59,10 @@ router
         const friend = ({ firstName, lastName, age, contactInfo } = req.body);
         Friend.findByIdAndUpdate(id, friend, {new: true})
         .then(friend => {
-            console.log(friend);
             if (friend === null) {
                 res.status(404).json({ errorMessage: "The friend with the specified ID does not exist." })
             } else {
-
-                    res.json(friend); 
+                res.json(friend); 
             }
         })
         .catch(err => {
