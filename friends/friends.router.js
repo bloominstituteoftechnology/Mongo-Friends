@@ -9,7 +9,7 @@ routerFriends
 routerFriends
   .route('/:id')
   .get(isIdValid, handleGET)
-  .put(validateParameters, isIdValid)
+  .put(isIdValid, validateParameters, handlePUT)
   .delete(isIdValid, handleDELETE);
 
 routerFriends.use(handleError);
@@ -58,7 +58,18 @@ function handleDELETE(req, res, next) {
       next(createError(500, 'The friend could not be removed'));
     });
 }
-function handlePUT(req, res, next) {}
+function handlePUT(req, res, next) {
+  const data = ({ firstName, lastName, age } = req.body);
+  const { id } = req.params;
+
+  Friend.findByIdAndUpdate({ _id: id }, { $set: { ...data } }, { new: true })
+    .then(response => {
+      res.status(200).json(response);
+    })
+    .catch(e => {
+      next(createError(500, 'The friend information could not be modified.'));
+    });
+}
 /**
  * ERROR: Handle Error
  */
