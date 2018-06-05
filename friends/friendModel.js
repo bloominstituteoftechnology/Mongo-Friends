@@ -27,13 +27,19 @@ const FriendSchema = new mongoose.Schema({
     },
     createdOn: {
         type: Date,
+        required: true,
         defualt: Date.now()
     } 
 });
 
-const friendsModel = mongoose.model('Friend', FriendSchema); //lowercase 'Friend'
+const friendsModel = mongoose.model('Friend', FriendSchema); 
 
-module.exports = bearsModel;
+module.exports = friendsModel;
+
+//create dbFriends database
+    //use dbFriends
+    //db.createCollection('friends');
+    //db.friends.insert({firstName: "Jane", lastName: "Doe", age: 18 });
 
 
 

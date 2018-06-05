@@ -10,9 +10,9 @@ server.use(helmet());
 server.use(cors());
 server.use(express.json());
 
-server.get('/', (req, res) => {
-  res.status(200).json({ api: 'running' });
-});
+// server.get('/', (req, res) => {
+//   res.status(200).json({ api: 'running' });
+// });
 
 mongoose.Promise = global.Promise; //added to implement promise functionality (thenify)
 
@@ -21,7 +21,7 @@ mongoose.connect('mongodb://localhost/dbFriends', {}, (err) => { //operational c
   console.log("Successfully Connected to MongoDB");
 }); 
 
-const port = process.env.PORT || 6000;
+const port = process.env.PORT || 8888;
 server.listen(port, () => console.log(`\n=== API up on port: ${port} ===\n`)); //operational check
 
 //project set up
