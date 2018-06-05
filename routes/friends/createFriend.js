@@ -1,4 +1,5 @@
 const Friend = require('../../models/friend');
+const sendErrorMessage = require('./helpers');
 
 module.exports = (req, res) => {
   const { firstName, lastName, age } = req.body;
@@ -9,10 +10,6 @@ module.exports = (req, res) => {
       res.status(201).send(friend);
     })
     .catch(error => {
-      if (error.name === 'ValidationError'){
-        res.status(400).json({ error: error.message })
-      } else {
-        res.status(500).json({ error: 'There was an error while saving the friend to the database.' });
-      }
+      sendErrorMessage(error, res, 'There was an error while saving the friend to the database.' );
     });
 };

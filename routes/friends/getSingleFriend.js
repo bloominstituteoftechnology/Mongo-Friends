@@ -1,4 +1,5 @@
 const Friend = require('../../models/friend');
+const sendErrorMessage = require('./helpers');
 
 module.exports = (req, res) => {
   const { id } = req.params;
@@ -11,10 +12,6 @@ module.exports = (req, res) => {
       }
     })
     .catch(error => {
-      if(error.name === 'CastError'){
-        res.status(404).json({ error: 'The friend with the specified ID does not exist.' });
-      } else {
-        res.status(500).json({ error: 'The friend information could not be retrieved.' });
-      }
+      sendErrorMessage(error, res, 'The friend information could not be retrieved.');
     });
 };
