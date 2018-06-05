@@ -16,8 +16,8 @@ router
         .catch(err => res.status(500).json({ errorMessage: "The friends information could not be retrieved." }))
     })
     .post((req, res) => {
-        const { firstName, lastName, age } = req.body;
-        const newFriend = new Friend({ firstName, lastName, age });
+        const { firstName, lastName, age, contactInfo } = req.body;
+        const newFriend = new Friend({ firstName, lastName, age, contactInfo });
         if (!firstName || !lastName || !age) {
             sendUserError(400, "Please provide firstName, lastName, and age for the friend.", res)
         } else if (typeof age !== 'number' || age > 120 || age < 1) {
@@ -64,13 +64,13 @@ router
     })
     .put((req, res) => {
         const { id } = req.params;
-        const { firstName, lastName, age } = req.body;
+        const updates = ({ firstName, lastName, age, contactInfo } = req.body);
         if (!firstName || !lastName) {
             sendUserError(400, "Please provide firstName, lastName, and age for the friend.", res)
         } else if (typeof age !== 'number' || age > 120 || age < 1) {
             sendUserError(400, "Age must be a number between 1 and 120", res)
         } else {
-             Friend.findByIdAndUpdate(id, { firstName, lastName, age }, { new: true })
+             Friend.findByIdAndUpdate(id, updates, { new: true })
                 .then(updatedFriend => {
                     res.status(200).json({ updatedFriend })
                 })

@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const ContactSchema = require('./contactModel')
 
 const FriendSchema = new mongoose.Schema({
     firstName: {
@@ -16,7 +17,8 @@ const FriendSchema = new mongoose.Schema({
     createdOn: {
         type: Date,
         default: Date.now()
-    }
+    },
+    contactInfo: ContactSchema
 })
 
 const friendModel = mongoose.model('Friend', FriendSchema);
