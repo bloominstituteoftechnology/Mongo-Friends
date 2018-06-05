@@ -13,5 +13,17 @@ router
                 res.status(500).json({ error: "error" })
             })
     })
-
+    .post((req, res) => {
+        const { firstName, lastName, age } = req.body;
+        const newFriend = new Friend({ firstName, lastName, age });
+        newFriend
+            .save()
+            .then(response => {
+                res.status(201).json(response);
+            })
+            .catch(error => {
+                res.status(422).json({ error: error });
+            })
+    })
+    
 module.exports = router;
