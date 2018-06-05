@@ -13,10 +13,10 @@ router
             })
     })
     .post((req, res) => {
-        const { firstName, lastName, age } = req.body
-        const newFriend = Friend({ firstName, lastName, age })
-        if (!firstName || !lastName || !age) {
-            res.status(400).json({ errorMessage: "Please provide firstName, lastName and age for the friend." })
+        const { firstName, lastName, age, contactInfo } = req.body
+        const newFriend = Friend({ firstName, lastName, age, contactInfo })
+        if (!firstName || !lastName || !age || !contactInfo["email"]) {
+            res.status(400).json({ errorMessage: "Please provide firstName, lastName, age, and email for the friend." })
         } else if (isNaN(age) || age<1 || age>120) {
             res.status(400).json( { errorMessage: "Age must be a number between 1 and 120" })
         } else {
@@ -71,6 +71,8 @@ router
     .put((req, res) => {
         const { id } = req.params
         const changes = req.body
+        // the specs say to make sure that a first name, last name, and age are provided, but I didn't include this
+        // because findByIdAndUpdate only affects fields that have been changed and keeps the old values otherwise.
         if (changes.age && (isNaN(changes.age) || changes.age<1 || changes.age>120)) {
             res.status(400).json({ errorMessage: "Age must be a number between 1 and 120" })
         }
