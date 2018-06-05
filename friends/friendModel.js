@@ -14,7 +14,6 @@ const FriendSchema = new mongoose.Schema({
     firstName: {
         type: String,
         required: true,
-        unique: true
     },
     lastName: {
         type: String,
@@ -24,6 +23,28 @@ const FriendSchema = new mongoose.Schema({
         type: Number,
         required: true
     },
+    contactInfo: {
+            email: {
+                type: String,
+                required: false
+            },
+            mobileNumber: {
+                type: String,
+                required: false
+            },
+            githubUsername: {
+                type: String,
+                required: false
+            },
+            facebookUsername: {
+                type: String,
+                required: false
+            },
+            twitterHandle: {
+                type: String,
+                required: false
+            },
+        },
     createOn: {
         type: Date,
         default: Date.now()

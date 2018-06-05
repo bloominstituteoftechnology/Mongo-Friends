@@ -12,8 +12,8 @@ router
       .catch(err => res.status(500).json({ error: 'Error fetching friends' }));
   })
   .post((req, res) => {
-    const { firstName, lastName, age } = req.body;
-    const newFriend = new Friend({ firstName, lastName, age });
+    const { firstName, lastName, age, contactInfo } = req.body;
+    const newFriend = new Friend({ firstName, lastName, age, contactInfo });
     newFriend
       .save()
       .then(savedFriend => {
