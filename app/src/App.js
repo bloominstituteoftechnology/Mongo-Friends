@@ -31,6 +31,7 @@ class App extends Component {
           {friends && friends.map(friend =>
             <div className='friend-card' key={friend._id}>
               <h2>{friend.firstName + " " + friend.lastName}</h2>
+              <p>Age: {friend.age}</p>
             </div>
           )}
         </div>
