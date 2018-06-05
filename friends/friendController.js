@@ -69,7 +69,26 @@ router
         res.status(500).json({ error: "Something went terribly wrong!" });
       })
   })
-  
+  .put((req, res) => {
+    const { id } = req.params;
+    const { firstName, lastName, age } = req.body;
+    const updatedFriend = { firstName, lastName, age };
+    if (id.length !== 24) {
+      res.status(400).send({ error: "The ID entered is too short or too long in length." });
+      return;
+    }
+    Friend.findByIdAndUpdate(id, updatedFriend)
+      .then(update => {
+        if (update === null) {
+          res.status(404).send({ error: "Friend cannot be found with given ID." });
+          return;
+        }
+        res.status(200).json({ success: "Friend Updated", dataReceived: update });
+      })
+      .catch(err => {
+        res.status(500).json({ error: "Something went terribly wrong!" });
+      })
+  });
   
 
 module.exports = router;
