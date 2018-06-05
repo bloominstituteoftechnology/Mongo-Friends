@@ -21,7 +21,7 @@ const port = process.env.PORT || 5000;
 mongoose.Promise = global.Promise;
 mongoose.connect('mongodb://localhost/dbFriends', {}, (error) => {
   if (error) console.log(error);
-  console.log('Mongoose connected us to our DB');
+  console.log('Mongoose connected us to our DB')
 })
 
 server.listen(port, () => console.log(`\n=== API up on port: ${port} ===\n`));

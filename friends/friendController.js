@@ -84,17 +84,17 @@ router
 
     .put((req, res) => {
         const { id } = req.params;
-        const { firstName, lastName, age } = req.body;
-        const updatedFriend = { firstName, lastName, age }
+        const updatedFriend = ({ firstName, lastName, age } = req.body); // this syntax allows you to update any given item in the body without sending/updating the others 
+        // const updatedFriend = { firstName, lastName, age } // this syntax will update whichever field you update, but if the rest are omitted, it returns null for those
 
         if (id.length < 24) { 
             res.status(400).json({error: 'The database requires an ID with 24 characters.'})
         }
 
-        if(!firstName || !lastName || !age) {
-            res.status(400).json({error: 'Please provide firstName, lastName and age for the friend.'})
-            return;
-        }
+        // if(!firstName || !lastName || !age) {
+        //     res.status(400).json({error: 'Please provide firstName, lastName and age for the friend.'})
+        //     return;
+        // }
 
         if(age < 1 || age > 120) {
             res.status(400).json({error: 'Age must be a number between 1 and 120'})
