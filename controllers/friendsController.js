@@ -18,14 +18,14 @@ router
         })
     })
     .post((req, res) => {
-        const { firstName, lastName, age, } = req.body;
+        const { firstName, lastName, age, contactInfo} = req.body;
         if(!firstName || !lastName || !age) {
             errorMessage(400, "Please provide first name last name and age", res);
         }
         if(age < 0 || age > 120 ) {
             errorMessage(400, "Age should be between 0 and 120", res);
         }
-        const newFriend = new Friend({firstName, lastName, age});
+        const newFriend = new Friend({firstName, lastName, age, contactInfo});
         newFriend.save()
             .then(savedFriend => {
                 res.status(201).json(savedFriend);
