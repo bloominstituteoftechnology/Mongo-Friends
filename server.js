@@ -16,7 +16,7 @@ server.get('/', (req, res) => {
 });
 
 server.use('/api/friends', friendController);
-server.use((req, res) => res.status(404).json({ error: "Terribly sorry, the requested resource does not exist." }))
+server.use((req, res) => res.status(404).json({ error: "Terribly sorry, the requested friend/resource does not exist." }))
 
 const port = process.env.PORT || 5000;
 
