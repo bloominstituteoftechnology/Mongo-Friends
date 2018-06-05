@@ -16,10 +16,11 @@ const FriendsSchema = new mongoose.Schema({
     },
     createdOn: {
         type: Date,
+        required: true,
         default: Date.now()
     }
 })
 
-const friendsModel = mongoose.model('Friend', FriendSchema);
+const friendsModel = mongoose.model('Friend', FriendsSchema);
 
-modules.export = friendsModel;
+module.exports = friendsModel;
