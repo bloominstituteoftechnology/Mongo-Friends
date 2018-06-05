@@ -5,7 +5,7 @@ const Friend = require('./friendModel'); // pull in our Bear model
 router
   .route('/')
   .get((req, res) => {
-    Friend.find() // This will find ALL resources at that model.
+    Friend.find() 
       .then(friends => {
         res.status(200).json(friends);
       })
@@ -52,6 +52,10 @@ router
     const { id } = req.params
     Friend.findByIdAndRemove(id)
       .then(deletedFriend => {
+        if (deletedFriend === null) {
+          res.status(404).json({ errorMessage: "The friend with the specified ID does not exist." })
+          return;
+        }
         res.status(200).json(deletedFriend);
       })
       .catch(err => {
@@ -76,6 +80,10 @@ router
     }
     Friend.findByIdAndUpdate(id, { firstName, lastName, age })
       .then(updatedFriend => {
+          if (updatedFriend === null) {
+            res.status(404).json({ errorMessage: "The friend with the specified ID does not exist." })
+            return;
+          }
           res.status(200).json(updatedFriend);
       })
       .catch(err => {
