@@ -29,7 +29,7 @@ router
         res.status(500).json({ error: "There was an error while saving the friend to the database." });
       })
   });
-  
+
 
 router
   .route('/:id')
@@ -63,7 +63,7 @@ router
           res.status(404).json({ error: `Friend cannot be found with given ID of ${id}.` });
           return;
         }
-        res.status(200).json({ success: `${friend.firstName} is no longer a friend` });
+        res.status(200).json({ success: `${friend.firstName} is no longer a friend`, "removedFriend": friend });
       })
       .catch(err => {
         res.status(500).json({ error: "Something went terribly wrong!" });
@@ -89,6 +89,6 @@ router
         res.status(500).json({ error: "Something went terribly wrong!" });
       })
   });
-  
+
 
 module.exports = router;
