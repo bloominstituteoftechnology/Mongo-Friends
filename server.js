@@ -3,7 +3,7 @@ const helmet = require('helmet');
 const cors = require('cors');
 const mongoose = require('mongoose');
 
-const friendAPI = require('./friendRoutes');
+const friendAPI = require('./routes/friendRoutes');
 
 const server = express();
 
