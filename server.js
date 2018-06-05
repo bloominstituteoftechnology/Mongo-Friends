@@ -8,7 +8,7 @@ const friendController = require('./friends/friendController');
 const server = express();
 
 server.use(helmet());
-server.use(cors());
+server.use(cors({ origin: 'http://localhost:3000'}));
 server.use(express.json());
 
 server.get('/', (req, res) => {

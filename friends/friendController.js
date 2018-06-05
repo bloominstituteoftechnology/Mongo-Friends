@@ -72,7 +72,7 @@ router
     })
     .put((req, res) => {
         const { id } = req.params;
-        const newFriend = ( { firstName, lastName, age, createdOn, contactInfo } = req.body );
+        const newFriend = ( { firstName, lastName, age, createdOn, contactInfo: {email, mobileNumber, twitterHandle} } = req.body );
         if (age && (typeof age !== 'number' || age < 1 || age > 120)) {
             res.status(400).json({ errorMessage: "Age must be a number between 1 and 120" })
             return;
