@@ -12,24 +12,32 @@ router
   .get('/', (req, res) => {
     Friend.find({}, (err, dbRes) => {
       if (err)
-        return error(res, 500, 'ERROR');
-      if (dbRes.length === 0)
+        return error(res, 500, err.message);
+
+      if (!dbRes.length)
         return error(res, 404, 'Looks like you dont have any friends');
+
       res.json(dbRes);
     })
   })
   // post
   .post('/', (req, res) => {
-    const { firstName, lastName, age } = req.body;
-    if (!firstName || !lastName || !age)
-      return error(res, 400, 'Please provide a first and last name as well as an age');
-    if (age < 1 || age > 120)
-      return error(res, 400, 'A friends age must be between 1 and 120');
-    const friend = { firstName, lastName, age }
+    const friend = ({ firstName, lastName, age, contactInfo: { email, mobileNum, github, facebook, twitter } } = req.body);
     const newFriend = new Friend(friend);
+
     newFriend.save({}, (err, dbRes) => {
-      if (err)
-      return error(res, 500, 'ERROR');
+      if (err) {
+        const { errors, message } = err;
+        
+        if (errors.firstName || errors.lastName)
+          return error(res, 400, 'Please provide a first and last name');
+
+        if (errors.age)
+          return error(res, 400, 'Please provide an age that is between 1 and 120');
+          
+        return error(res, 500, message);
+      }
+
       res.json(dbRes);
     });
   });
@@ -41,40 +49,51 @@ router
   // get
   .get('/:id', (req, res) => {
     const { id } = req.params;
+
     Friend.findById(id, (err, dbRes) => {
       if (err)
-        return error(res, 500, 'ERROR');
+        return error(res, 500, err.message);
+
       if (!dbRes)
         return error(res, 404, 'That friend doesnt exist');
+
       res.json(dbRes);
     });
   })
   // delete
   .delete('/:id', (req, res) => {
     const { id } = req.params;
-    Friend.findByIdAndDelete(id, (req, res) => {
+
+    Friend.findByIdAndDelete(id, (err, raw) => {
       if (err)
-        return error(res, 500, 'ERROR');
-      if (dbRes.length === 0)
+        return error(res, 500, err.message);
+
+      if (!raw)
         return error(res, 404, 'That friend doesnt exist');
-      res.json(dbRes);
+
+      res.json(raw);
     });
   })
   // put
   .put('/:id', (req, res) => {
     const { id } = req.params;
-    const { firstName, lastName, age } = req.body;
+    const { firstName, lastName, age, contactInfo: { email, mobileNum, github, facebook, twitter } } = req.body;
+    
     Friend.findById(id, (err, raw) => {
       if (err)
-        return error(res, 500, 'ERROR');
+        return error(res, 500, err.message);
+
       if (!raw)
         return error(res, 404, 'That friend doesnt exist');
+        
       raw.firstName = firstName || raw.firstName;
       raw.lastName  = lastName || raw.lastName;
       raw.age       = age || raw.age;
+      
       raw.save((err, newRaw) => {
         if (err)
-          return error(res, 500, 'ERROR');
+          return error(res, 500, err.message);
+
         res.json(newRaw);
       });
     })
