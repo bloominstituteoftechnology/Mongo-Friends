@@ -2,6 +2,7 @@
   box-sizing: border-box;
 }
 
+
 .App {
   display: flex;
   flex-flow: column wrap;
@@ -30,4 +31,30 @@
 .friend-card:hover {
     box-shadow: 2px 2px slategray;
     cursor: pointer;
+}
+
+.friend-card .contact {
+  color: gray;
+  padding-bottom: 6px;
+  font-style: italic;
+  letter-spacing: 0.02rem;
+  border-bottom: 1px solid gray;
+}
+
+.friend-card h3 {
+  font-weight: 300;
+  font-size: 24px;
+}
+
+.friend-card p {
+  margin: 5px 0;
+}
+
+.no-info {
+  color: lightgray;
+  font-style: italic;
+}
+
+.twitter-handle {
+  color: #1dcaff;
 }
