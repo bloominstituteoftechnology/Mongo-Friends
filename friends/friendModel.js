@@ -22,6 +22,6 @@ const FriendSchema = new mongoose.Schema({
   }
 });
 
-const bearsModel = mongoose.model('Friend', FriendSchema);
+const friendModel = mongoose.model('Friend', FriendSchema);
 
 module.exports = friendModel;
