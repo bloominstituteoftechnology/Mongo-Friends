@@ -14,6 +14,27 @@ router
         });
       });
   })
-  
+  .post((req, res) => {
+    const { firstName, lastName, age } = req.body;
+    const newFriend = new Friend({ firstName, lastName, age });
+    if (!firstName || !lastName || !age) {
+      res
+        .status(400)
+        .json({
+          error: "Please provide firstName, lastName and age for the friend."
+        });
+      return;
+    }
+    newFriend
+      .save() 
+      .then(savedFriend => {
+        res.status(201).json({ "success": "Friend saved successfully", "savedFriend": savedFriend });
+      })
+      .catch(err => {
+        res.status(500).json({
+          error: "There was an error while saving the friend to the database."
+        });
+      });
+  });
 
 module.exports = router;
