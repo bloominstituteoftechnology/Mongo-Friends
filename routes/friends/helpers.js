@@ -4,7 +4,7 @@ const CAST_ERROR = 'CastError';
 const sendErrorMessage = (err, res, defaultErr) => {
   switch (err.name) {
     case VALIDATION_ERROR:
-      res.status(400).json({ error: err.message })
+      res.status(400).json({ error: err.message });
       return;
     
     case CAST_ERROR:

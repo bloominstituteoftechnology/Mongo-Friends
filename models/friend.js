@@ -3,17 +3,17 @@ const mongoose = require('mongoose');
 const friendSchema = new mongoose.Schema({
   firstName: {
     type: String,
-    required: true
+    required: [true, 'Please provide a firstName']
   },
   lastName: {
     type: String,
-    required: true
+    required: [true, 'Please provide a lastName']
   },
   age: {
     type: Number,
-    required: true,
-    min: 1,
-    max: 120
+    required: [true, 'Please provide an age'],
+    min: [1, 'Age must be a number between 1 and 120'],
+    max: [120, 'Age must be a number between 1 and 120']
   },
   createdOn: {
     type: Date,
