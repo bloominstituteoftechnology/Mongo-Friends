@@ -15,12 +15,11 @@ router
             })
     })
     .post((req, res) => {
-        const { firstName, lastName, age, createdOn, contactInfo: {email, phoneNumber} } = req.body;
+        const { firstName, lastName, age, contactInfo: {email, phoneNumber} } = req.body;
         const newFriend = new Friend({ 
             firstName, 
             lastName, 
-            age, 
-            createdOn, 
+            age,  
             contactInfo: { email, phoneNumber}
         });
         if(!firstName || !lastName || !age){
@@ -72,7 +71,7 @@ router
             })
     })
     .put((req, res) => {
-        const { firstName, lastName, age, createdOn, contactInfo: {email, phoneNumber}  } = req.body;
+        const { firstName, lastName, age, contactInfo: {email, phoneNumber}  } = req.body;
         if(!firstName || !lastName || !age){
             res.status(400).json({ error: "Please provide a first name, last name and age for the friend" });
             return;
@@ -82,7 +81,7 @@ router
             return;
         }
         Friend
-            .findByIdAndUpdate(req.params.id, { firstName, lastName, age, createdOn, contactInfo: {email, phoneNumber}  })
+            .findByIdAndUpdate(req.params.id, { firstName, lastName, age, contactInfo: {email, phoneNumber}  })
             .then(friend => {
                 if(!friend){
                     res.status(404).json({ error: "The friend with the specified ID does not exist." })

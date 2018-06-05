@@ -32,6 +32,8 @@ class App extends Component {
             <div className='friend-card' key={friend._id}>
               <h2>{friend.firstName + " " + friend.lastName}</h2>
               <p>Age: {friend.age}</p>
+              <p>Email: {friend.contactInfo.email}</p>
+              <p>Phone Number: {friend.contactInfo.phoneNumber}</p>
             </div>
           )}
         </div>
