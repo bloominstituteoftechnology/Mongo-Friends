@@ -7,6 +7,7 @@ const cors = require('cors');
  */
 const mongoose = require('mongoose');
 const db_name = 'friends';
+const routerFriends = require('./friends/friends.router');
 
 const server = express();
 
@@ -18,9 +19,14 @@ server.get('/', (req, res) => {
   res.status(200).json({ api: 'running' });
 });
 
-mongoose.connect(`mongodb://localhost/${db_name}`, (err, success) => {
-  err ? console.error({ err }) : console.log('Success: We are connected to MongoDB!');
-});
+server.use('/api/friends', routerFriends);
+
+mongoose.connect(
+  `mongodb://localhost/${db_name}`,
+  (err, success) => {
+    err ? console.error({ err }) : console.log('Success: We are connected to MongoDB!');
+  }
+);
 
 const port = process.env.PORT || 5000;
 server.listen(port, () => console.log(`\n=== API up on port: ${port} ===\n`));
