@@ -5,11 +5,11 @@ body {
 }
 
 .card-img-top {
-  width: 318px;
-  height: 180px;;
+  width: 250px;
+  height: 180px;
 }
 .card {
-  width: 350px;
+  width: 300px;
   padding: 15px;
   margin: 15px;
   text-align: center;
@@ -46,4 +46,9 @@ body {
 .header {
   background: lightblue;
   height: 80px;
+}
+
+.btn-secondary {
+  height: 30px;
+  margin: 35px 0px;
 }

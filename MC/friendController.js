@@ -26,16 +26,16 @@ router
 
         // Checks for bad Userinput
         // if (firstName === undefined || lastName === undefined || age === undefined) res.status(400).json({ errorMessage: "Please provide firstName, lastName and age for the friend." })
-        typeof (age) !== "number" || age > 120 || age < 1 ? res.status(400).json({ errorMessage: "Age must be a number between 1 and 120" }) : null
 
         const newFriend = new Friend({ firstName, lastName, age, createdOn, contact })
 
         newFriend.save()
             .then(friend => {
-                res.status(201).json(friend)
+                res.status(201).json({ friend })
             })
             .catch(err => {
-                err.message === "ValidationError" ? res.status(400).json({ errorMessage: "Please provide firstName, lastName and age for the friend." }) : res.status(500).json({ err })
+                console.log(err)
+                // err.message === "ValidationError" ? res.status(400).json({ errorMessage: "Please provide firstName, lastName and age for the friend." }) : res.status(500).json({ err })
             })
     })
 
@@ -63,7 +63,6 @@ router
             ...(facebookUser && { facebookUser: facebookUser }),
             ...(phone && { phone: phone }),
         }
-        console.log(contact)
 
 
         if (firstName === undefined || lastName === undefined || age === undefined) res.status(400).json({ errorMessage: "Please provide firstName, lastName and age for the friend." })
