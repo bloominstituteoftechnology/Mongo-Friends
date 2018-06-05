@@ -14,6 +14,7 @@ server.use(express.json());
 server.get('/', (req, res) => {
   res.status(200).json({ api: 'running' });
 });
+server.use('/api/friends', friendController);
 
 const port = process.env.PORT || 5000;
 
