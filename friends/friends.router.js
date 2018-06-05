@@ -8,9 +8,9 @@ routerFriends
 
 routerFriends
   .route('/:id')
-  .get()
-  .put()
-  .delete();
+  .get(isIdValid)
+  .put(isIdValid)
+  .delete(isIdValid);
 
 routerFriends.use(handleError);
 
@@ -36,6 +36,19 @@ function handlePOST(req, res, next) {
       next(createError(500, 'There was an error while saving the friend to the database.'));
     });
 }
+function handleGET(req, res, next) {
+  const { id } = req.params;
+
+  /**
+   * CONTEXT: because this function handle either a request for all documents into the collection or a single document.
+   * DEFINE Error: here we define a customError for database error fetching the information required for each posible use of this function.
+   */
+  const dbError = id
+    ? createError('The friend information could not be retrieved.')
+    : createError(500, 'The friends information could not be retrieved.');
+
+  Friend.findById(id);
+}
 /**
  * ERROR: Handle Error
  */
@@ -43,6 +56,7 @@ function handleError(err, req, res, next) {
   !err.status ? next(err) : res.status(err.status).json({ errorMessage: err.message });
   next();
 }
+// return a new custom Error
 function createError(code = 500, message = 'Oh, oh.... there is a problem bargain with the dababase, try again!') {
   let e = new Error();
   e.status = code;
@@ -52,4 +66,16 @@ function createError(code = 500, message = 'Oh, oh.... there is a problem bargai
 /**
  * MIDDLEWARES: Custom middlewears
  */
+function isIdValid(req, res, next) {
+  const { id } = req.params;
+  return !id && next();
+
+  Friend.findById(id)
+    .then(idFound => {
+      return idFound ? next() : next(createError(404, 'The friend with the specified ID does not exist.'));
+    })
+    .catch(e => {
+      next(createError());
+    });
+}
 module.exports = routerFriends;
