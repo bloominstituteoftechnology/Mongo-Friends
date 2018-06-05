@@ -70,9 +70,30 @@ router
                         res.status(500).json({error: 'The friend could not be removed'});
                 })
             })
+            .put((req, res) => {
+                const { id } = req.params;
+                const newFriend = { firstName, lastName, age, createdOn } = req.body;
+
+               if ((age && (typeof age !== 'number' || age < 1 || age > 120))) {
+                res.status(400).json({error: 'Please provide firstName, lastName and age'});
+                return;
+               } 
+               Friends.findByIdAndUpdate(id, newFriend, {new: true})
+               .then(friend => {
+                   res.status(200).json(friend);
+               })
+               .catch(err => {
+                   if(err.name === null) {
+                       res.status(404).json({error: 'The friend with the specified ID does not exist.'});
+                       return;
+                   } else {
+                       res.status(500).json({error: 'The friend information could not be modified.'});
+                   }
+               })
+            })
 
 
-
+ 
 
 module.exports = router; 
 
