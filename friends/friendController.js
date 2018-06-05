@@ -37,26 +37,50 @@ router
       });
   });
 
-  router.route("/:id").get((req, res) => {
-    const { id } = req.params;
-    Friend.findById(id)
-      .then(foundFriend => {
-        console.log(foundFriend);
-        if (foundFriend === null) {
+  router
+    .route("/:id")
+    .get((req, res) => {
+      const { id } = req.params;
+      Friend.findById(id)
+        .then(foundFriend => {
+          console.log(foundFriend);
+          if (foundFriend === null) {
+            res
+              .status(404)
+              .json({
+                error: `No friend with id${id} found. Can't retrieve it!`
+              });
+            return;
+          }
+          res.json({ requestedFriend: foundFriend });
+        })
+        .catch(err => {
+          res
+            .status(500)
+            .json({
+              error: "The friend information could not be retrieved."
+            });
+        });
+    })
+    .delete((req, res) => {
+      const { id } = req.params;
+      Friend.findByIdAndRemove(id)
+        .then(friend => {
+          if (friend === null) {
+            res
+              .status(404)
+              .json({
+                error: `No friend with id${id} found. Can't delete it!`
+              });
+            return;
+          }
+          res.json({ "success": "Friend deleted successfully", "removedFriend": friend });
+        })
+        .catch(err => {
           res
             .status(404)
-            .json({
-              error: `No friend with id${id} found. Can't retrieve it!`
-            });
-          return;
-        }
-        res.json(foundFriend);
-      })
-      .catch(err => {
-        res
-          .status(500)
-          .json({ error: "The friend information could not be retrieved." });
-      });
-  });
+            .json({ error: `No friend with id${id} found. Can't delete it!` });
+        });
+    });
 
 module.exports = router;
