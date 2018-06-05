@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import { Redirect } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 
 class FriendForm extends Component {
   constructor() {
@@ -17,11 +17,38 @@ class FriendForm extends Component {
     }
   }
 
+  componentDidMount () {
+    if (this.props.match.path === "/edit/:id") {
+      const id = this.props.match.params.id;
+      console.log("FriendForm CDM id:",id);
+      axios.get(`http://localhost:5000/api/friends/${id}`)
+        .then(friend => {
+          const { _id, firstName, lastName, age, contactInfo } = friend.data;
+          const { email, mobileNumber, githubHandle } = contactInfo;
+          this.setState({
+            _id,
+            firstName,
+            lastName,
+            age,
+            email,
+            mobileNumber,
+            githubHandle
+          });
+        })
+        .catch(err => {
+          console.log("FriendForm CDM GET ERROR:",err);
+          this.setState({ go: "new" });
+        })
+    }
+  }
+
   handleTextChange = e => {
     this.setState({ [e.target.name]: e.target.value });
   }
 
   submitFriend = () => {
+    const id = this.props.match.params.id;
+
     const friendToSend = {
       firstName: this.state.firstName,
       lastName: this.state.lastName,
@@ -43,15 +70,27 @@ class FriendForm extends Component {
       githubHandle: "",
     };
 
+    console.log("this.props.match.path",this.props.match.path);
+    console.log("friendToSend",friendToSend);
     if (this.props.match.path === "/new") {
       axios.post('http://localhost:5000/api/friends', friendToSend)
         .then(friend => {
-          myResetObj.go = "new";
+          this.props.updateFriends();
+        })
+        .catch(err => {
+          console.log("submitFriend new ERROR:",err);
         })
     } else {
-      
+      axios.put(`http://localhost:5000/api/friends/${id}`, friendToSend)
+      .then(friend => {
+        this.props.updateFriends();
+      })
+      .catch(err => {
+        console.log("submitFriend new ERROR:",err);
+      })
     }
     this.setState(myResetObj);
+    this.setState({ go: "new" });
 
   }
 
@@ -61,7 +100,10 @@ class FriendForm extends Component {
       <article style={{width:"85%"}} className=" center ma3 hidden ba mv4">
         <h1 className="f4 bg-near-black white mv0 pv2 ph3">Let's Meet Your New Friend!</h1>
         <div className="pa3 bt">
-          <form autocomplete="off" className="measure center">
+          <form autoComplete="off" onSubmit={(e) => {
+            e.preventDefault();
+            this.submitFriend();
+          }} className="measure center">
             <fieldset id="new_friend" className="ba b--transparent ph0 mh0">
               <legend className="f4 fw6 ph0 mh0">New Friend</legend>
               <div className="mt3">
@@ -77,8 +119,8 @@ class FriendForm extends Component {
                 <input className="b pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100" onChange={this.handleTextChange} value={this.state.age} type="number" name="age"  id="age" />
               </div>
               <div className="mv3">
-                <label className="db fw6 lh-copy f6" htmlFor="emailAddress">Email</label>
-                <input className="pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100" onChange={this.handleTextChange} value={this.state.emailAddress} type="email" name="emailAddress"  id="emailAddress" />
+                <label className="db fw6 lh-copy f6" htmlFor="email">Email</label>
+                <input className="pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100" onChange={this.handleTextChange} value={this.state.email} type="email" name="email"  id="email" />
               </div>
               <div className="mv3">
                 <label className="db fw6 lh-copy f6" htmlFor="mobileNumber">Mobile Number</label>
@@ -90,8 +132,8 @@ class FriendForm extends Component {
               </div>
             </fieldset>
             <div className="">
-              <input className="b ph3 pv2 input-reset ba b--black bg-transparent grow pointer f6 dib" type="submit" value="Sign in" />
-              <a href="#0" className="mv3 f6 link dim black db">Go Back</a>
+              <input className="b ph3 pv2 input-reset ba b--black bg-transparent grow pointer f6 dib" type="submit" value="Go!" />
+              <Link to="/" className="mv3 f6 link dim black db">Go Back</Link>
             </div>
           </form>
         </div>

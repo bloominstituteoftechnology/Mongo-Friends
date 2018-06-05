@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import './App.css';
 /* --- */
 import axios from 'axios';
@@ -16,21 +16,34 @@ class App extends Component {
   }
   
   componentDidMount() {
+    this.updateFriends();
+  }
+
+  updateFriends = () => {
     axios.get('http://localhost:5000/api/friends')
-      .then(friends => {
-        console.log(friends);
-        this.setState({ friends: friends.data, loading: false });
+    .then(friends => {
+      console.log(friends);
+      this.setState({ friends: friends.data, loading: false });
+    })
+    .catch(err => {
+      console.log("CDM GET from /api/friends ERROR:",err);
+    });
+  }
+
+  deleteFriend(id) {
+    axios.delete(`http://localhost:5000/api/friends/${id}`)
+      .then(res => {
+        this.updateFriends();
       })
-      .catch(err => {
-        console.log("CDM GET from /api/friends ERROR:",err);
-      });
+      .catch(err =>{
+        console.log("App deleteFriend ERROR:",err);
+      })
   }
 
   render() {
     return (
       <div className="App">
-        <button className="b mh3 mt3 ph3 pv2 input-reset ba b--black bg-transparent grow pointer f6 dib">Make a new friend!</button>
-
+        <Link to="/new"><button className="b mh3 mt3 ph3 pv2 input-reset ba b--black bg-transparent grow pointer f6 dib">Make a new friend!</button></Link>
         <Route exact path="/" render={() => {
           return (
             <div className="friend-list flex flex-wrap justify-content-center">
@@ -39,11 +52,14 @@ class App extends Component {
                 <h2>Loading</h2>
                 :
                 this.state.friends.map(friend => {
-                return <FriendCard key={friend["_id"]} friend={friend} />;
-              })
+                  console.log(friend);
+                  return <FriendCard key={friend["_id"]} deleteFriend={this.deleteFriend} friend={friend} />;
+                })
             }
             </div>
           )}} />
+        <Route path="/new" render={(props) => <FriendForm {...props} updateFriends={this.updateFriends} />} />
+        <Route path="/edit/:id" render={(props) => <FriendForm {...props} updateFriends={this.updateFriends} />} />
       </div>
     );
   }
@@ -73,7 +89,7 @@ class FriendCard extends React.PureComponent {
   };
 
   render() {
-    const { firstName, lastName, age, contactInfo } = this.state.friend;
+    const { _id, firstName, lastName, age, contactInfo } = this.state.friend;
     const { email, mobileNumber, githubHandle } = contactInfo;
     console.log("FriendCard rendering");
     return (
@@ -86,6 +102,8 @@ class FriendCard extends React.PureComponent {
             <li>Mobile Number: {mobileNumber}</li>
             <li>GitHub Handle: {githubHandle}</li>
           </ul>
+          <Link to={`/edit/${_id}`}><button className="ma2">Edit</button></Link>
+          <button onClick={() => this.props.deleteFriend(_id)} className="ma2">Delete</button>
         </div>
       </article>
     )
