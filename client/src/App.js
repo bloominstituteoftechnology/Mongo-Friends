@@ -4,10 +4,12 @@ import './App.css';
 import axios from "axios";
 import FriendsList from "./components/FriendsList";
 import FriendFrom from "./components/FriendForm";
+import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import ShowFriend from "./components/ShowFriend";
 
 class App extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       friends: []
     }
@@ -16,7 +18,6 @@ class App extends Component {
   componentDidMount() {
     axios.get("http://localhost:5000/api/friends")
       .then(friends => {
-        console.log(friends);
         this.setState({...this.state, friends: friends.data});
       })
       .catch(err => {
@@ -37,16 +38,20 @@ class App extends Component {
     return (
       <div className="App">
         <header className="App-header">
+          
           <img src={logo} className="App-logo" alt="logo" />
           <h1 className="App-title">Welcome to React</h1>
         </header>
         <p className="App-intro">
           To get started, edit <code>src/App.js</code> and save to reload.
         </p>
-        <FriendFrom addFriend={this.addFriend}/>
-        <div>
-          <FriendsList friends={this.state.friends} />
-        </div>
+        <Router>
+          <div>
+            <Route path="/" exact render={() => <FriendsList friends={this.state.friends} />} />
+            <Route path="/addfriends/new" exact render={() => <FriendFrom addFriend={this.addFriend}/>} />
+            <Route path="/friends/:id" component={ShowFriend}/>
+          </div>
+        </Router>
       </div>
     );
   }

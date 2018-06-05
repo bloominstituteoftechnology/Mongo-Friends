@@ -41,8 +41,20 @@
 }
 
 .friend {
-  flex-basis: 30%;
+  flex-basis: 22%;
   height: 200px;
   overflow: scroll;
   border: 1px dotted black;
+  margin-top: 10px;
+}
+
+.name-age {
+  background-color: teal;
+  color: white;
+  padding: 10px; 
+}
+
+a {
+  color: white;
+  text-decoration: none;
 }
