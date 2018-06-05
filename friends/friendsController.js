@@ -33,7 +33,7 @@ router
 router
     .route('/:id')
     .get((req, res) => {
-        const {id} = req.parms;
+        const {id} = req.params;
         if(id.length !== 24 || typeof id === String || typeof id === Number){
             res.status(400).json({error: "IDs need to be 24 chars long."})
             }
