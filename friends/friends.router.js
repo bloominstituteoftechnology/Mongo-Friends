@@ -4,12 +4,12 @@ const Friend = require('./friends.model');
 routerFriends
   .route('/')
   .get(handleGET)
-  .post(handlePOST);
+  .post(validateParameters, handlePOST);
 
 routerFriends
   .route('/:id')
   .get(isIdValid, handleGET)
-  .put(isIdValid)
+  .put(validateParameters, isIdValid)
   .delete(isIdValid, handleDELETE);
 
 routerFriends.use(handleError);
@@ -19,9 +19,6 @@ routerFriends.use(handleError);
  */
 function handlePOST(req, res, next) {
   const data = ({ firstName, lastName, age } = req.body);
-  if (!firstName || !lastName || (age !== 0 && !age))
-    // create an error and past it to "handleError"
-    next(createError(400, 'Please provide firstName, lastName and age for the friend.'));
 
   const newFriend = new Friend(data);
   newFriend
@@ -61,6 +58,7 @@ function handleDELETE(req, res, next) {
       next(createError(500, 'The friend could not be removed'));
     });
 }
+function handlePUT(req, res, next) {}
 /**
  * ERROR: Handle Error
  */
@@ -89,5 +87,14 @@ function isIdValid(req, res, next) {
     .catch(e => {
       next(e);
     });
+}
+function validateParameters(req, res, next) {
+  const data = ({ firstName, lastName, age } = req.body);
+  // if any is not in the req.body
+  !firstName || !lastName || (age !== 0 && !age)
+    ? // create an error and past it to "handleError"
+      next(createError(400, 'Please provide firstName, lastName and age for the friend.'))
+    : // else pass to the next hanldler
+      next();
 }
 module.exports = routerFriends;
