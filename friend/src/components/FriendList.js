@@ -6,11 +6,17 @@ const FriendList = props => {
             {props.friends.map(friend => {
                 return (
                     <div key={friend.id} className="friend-card">
+                    <div>
                         <h3>{friend.firstName} {friend.lastName}</h3>
                         <p>Age: {friend.age}</p>
                         <h5 className="contact">Contact Info</h5>
-                        <p>{friend.contactInfo.email}</p>
-                        <p>Twitter: <span className="twitter-handle">{friend.contactInfo.twitter_handle ? friend.contactInfo.twitter_handle  : <span className="no-info">`No Twitter account`</span>}</span></p>
+                    </div>
+                    <div>
+                        <p>Email: {friend.contactInfo.email}</p>
+                        {friend.contactInfo.twitter_handle ? 
+                            <p>Twitter: <span className="twitter-handle">{friend.contactInfo.twitter_handle}</span></p>  
+                        : null}
+                    </div>
                     </div>
                 );
             })}

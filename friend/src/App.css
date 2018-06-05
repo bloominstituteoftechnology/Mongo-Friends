@@ -22,23 +22,39 @@
   display: flex;
   flex-flow: column wrap;
   background: white;
-  padding: 20px;
+  padding: 20px 0 0;
   margin: 10px;
   border-radius: 2px;
   min-width: 260px;
+  overflow: hidden;
 }
 
 .friend-card:hover {
     box-shadow: 2px 2px slategray;
-    cursor: pointer;
+    transition: all 0.05s ease-out;
 }
 
 .friend-card .contact {
   color: gray;
+  margin-bottom: 0;
   padding-bottom: 6px;
   font-style: italic;
   letter-spacing: 0.02rem;
-  border-bottom: 1px solid gray;
+}
+
+.friend-card div:nth-child(1) {
+  padding: 0 20px;
+}
+
+.friend-card div:nth-child(2) {
+  background: #eee;
+  padding: 10px 20px;
+  border-top: 1px solid gray;
+  box-shadow: 0 40px #eee;
+}
+
+.friend-card .contact ~ div {
+  background: #eee;
 }
 
 .friend-card h3 {
@@ -57,4 +73,8 @@
 
 .twitter-handle {
   color: #1dcaff;
+}
+
+.twitter-handle:hover {
+  cursor: pointer;
 }
