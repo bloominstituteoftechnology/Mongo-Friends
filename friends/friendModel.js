@@ -20,6 +20,20 @@ const FriendSchema = new mongoose.Schema({
         required: true,
         default: Date.now()
     },
+    contactInfo: {
+        email: {
+            type: String,
+            required: false
+        },
+        mobileNumber: {
+            type: Number,
+            required: false
+        },
+        twitterHandle: {
+            type: String,
+            required: false
+        }
+    }
 })
 
 const friendsModel = mongoose.model('Friend', FriendSchema);

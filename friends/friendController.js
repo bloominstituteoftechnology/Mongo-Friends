@@ -5,8 +5,7 @@ const Friends = require('./friendModel');
 router
     .route('/')
     .post((req, res) => {
-        const { firstName, lastName, age, createdOn } = req.body;
-        const newFriend = new Friends({ firstName, lastName, age, createdOn });
+        const newFriend = (new Friends({ firstName, lastName, age, createdOn } = req.body));
         if (!firstName || !lastName || !age) {
             res.status(400).json({ errorMessage: "Please provide firstName, lastName and age for the friend." })
             return;
@@ -65,16 +64,12 @@ router
     })
     .put((req, res) => {
         const { id } = req.params;
-        const { firstName, lastName, age, createdOn } = req.body;
-        const newFriend = { firstName, lastName, age, createdOn };
-        if (!firstName || !lastName || !age) {
-            res.status(400).json({ errorMessage: "Please provide firstName, lastName and age for the friend." })
-            return;
-        } else if (typeof age !== 'number' || age < 1 || age > 120) {
+        const newFriend = ( { firstName, lastName, age, createdOn } = req.body );
+        if (age && (typeof age !== 'number' || age < 1 || age > 120)) {
             res.status(400).json({ errorMessage: "Age must be a number between 1 and 120" })
             return;
         }
-        Friends.findByIdAndUpdate(id, newFriend)
+        Friends.findByIdAndUpdate(id, newFriend, {new: true})
             .then(friend => {
                 res.json(friend)
             })
