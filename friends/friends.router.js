@@ -3,12 +3,12 @@ const Friend = require('./friends.model');
 
 routerFriends
   .route('/')
-  .get()
+  .get(handleGET)
   .post(handlePOST);
 
 routerFriends
   .route('/:id')
-  .get(isIdValid)
+  .get(isIdValid, handleGET)
   .put(isIdValid)
   .delete(isIdValid);
 
@@ -38,16 +38,15 @@ function handlePOST(req, res, next) {
 }
 function handleGET(req, res, next) {
   const { id } = req.params;
+  const fetching = !id ? Friend.find() : Friend.findById(id);
 
-  /**
-   * CONTEXT: because this function handle either a request for all documents into the collection or a single document.
-   * DEFINE Error: here we define a customError for database error fetching the information required for each posible use of this function.
-   */
-  const dbError = id
-    ? createError('The friend information could not be retrieved.')
-    : createError(500, 'The friends information could not be retrieved.');
-
-  Friend.findById(id);
+  fetching
+    .then(response => {
+      res.status(200).json(response);
+    })
+    .catch(e => {
+      !id ? next(createError(500, 'The friends information could not be retrieved.')) : next(e);
+    });
 }
 /**
  * ERROR: Handle Error
@@ -68,14 +67,14 @@ function createError(code = 500, message = 'Oh, oh.... there is a problem bargai
  */
 function isIdValid(req, res, next) {
   const { id } = req.params;
-  return !id && next();
+  if (!id) return next();
 
   Friend.findById(id)
     .then(idFound => {
       return idFound ? next() : next(createError(404, 'The friend with the specified ID does not exist.'));
     })
     .catch(e => {
-      next(createError());
+      next(e);
     });
 }
 module.exports = routerFriends;
