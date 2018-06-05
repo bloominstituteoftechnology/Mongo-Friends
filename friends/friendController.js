@@ -48,15 +48,27 @@ router
                 if(response === null) {
                     res.status(404).json({ error: "No Friend with that ID"})
                 } else {
-                    res.status(201).json({ success: "Friend Removed", resource: response })
+                    res.json({ success: "Friend Removed", resource: response })
                 }
             })
             .catch(error => {
                 res.status(500).json(error)
             })
     })
-
-
-
+    .put((req, res) => {
+        const updates = ({ firstName, lastName, age } = req.body)
+        Friend
+            .findByIdAndUpdate(req.params.id, updates, { new: true })
+            .then(response => {
+                if(response === null) {
+                    res.status(404).json({ error: "No Friend with that ID"})
+                } else {
+                    res.json({ success: "Friend Updated", resource: response })
+                }
+            }) 
+            .catch(error => {
+                res.status(500).json(error)
+            })
+    })
 
 module.exports = router;
