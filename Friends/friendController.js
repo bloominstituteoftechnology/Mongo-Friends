@@ -23,21 +23,24 @@ router
       .catch(err => errorHandle(res, err, "GET", '/api/friends', "The friends information could not be retrieved."));
   })
   .post((req, res) => {
-    const { firstName, lastName, age } = req.body;
-    if (!firstName || !lastName || !age) {
-      res.status(400).json({ errorMessage: "Please provide firstName, lastName and age for the friend." });
-      return;
-    }
-    if (age < 1 || age > 120) {
-      res.status(400).json({ errorMessage: "Age must be a number between 1 and 120" });
-      return;
-    }
+    // const { firstName, lastName, age } = req.body;
+    // if (!firstName || !lastName || !age) {
+    //   res.status(400).json({ errorMessage: "Please provide firstName, lastName and age for the friend." });
+    //   return;
+    // }
+    // if (age < 1 || age > 120) {
+    //   res.status(400).json({ errorMessage: "Age must be a number between 1 and 120" });
+    //   return;
+    // }
     //==>
-    friendModel.create({ firstName, lastName, age })
+    friendModel.create(req.body)
       .then(friend =>{
         res.status(201).json(friend);
       })
-      .catch(err => errorHandle(res, err, "POST", '/api/friends', "There was an error while saving the friend to the database."));
+      .catch(err => {
+        // errorHandle(res, err, "POST", '/api/friends', "There was an error while saving the friend to the database.");
+        res.status(500).json({ error: err });
+      });
   });
 
 router
@@ -69,28 +72,36 @@ router
       .catch(err => errorHandle(res, err, "DELETE", `/api/friends/${id}`, "The friend could not be removed"));
   })
   .put((req, res) => {
+    // Previously had code to check for undefined's and filter them out, so only
+    // fields intended to be updated will be updated. After Ryan's lecture today,
+    // I found out that was completely unecessary. Mongoose handles that stuff OK.
+    // i.e. if a field is undefined, mongoose leaves it alone. Thanks, mongoose.
+    //==>
     const { id } = req.params;
-    const editObj = {
-      firstName: req.body.firstName,
-      lastName: req.body.lastName,
-      age: req.body.age
+    const nestedUpdate = (friend, request) => {
+      for (let key in request) {
+        console.log("REQUEST[KEY]:",request[key]);
+        if (typeof request[key] === "object") {
+          nestedUpdate(friend[key], request[key]);
+        } else {
+          friend[key] = request[key];
+        }
+      }
     };
     //==>
     friendModel.findById(id)
       .then(friend => {
         if (friend === null) {
           res.status(404).json({ errorMessage: "The friend with the specified ID does not exist." });
+          return;
         }
-        for (let key in editObj) {
-          if (editObj[key] !== undefined) {
-            friend[key] = editObj[key];
-          }
-        }
+        nestedUpdate(friend, req.body);
+        console.log("Friend:\n",friend,"\nRequest:\n",req.body);
         friend.save()
-          .then(friend =>{
-            res.status(201).json(friend);
+          .then(updFriend =>{
+            res.status(201).json(updFriend);
           })
-          .catch(err => errorHandle(res, err, "PUT", `/api/friends/${id}`, "The friend information could not be modified."));
+          .catch(err => res.status(500).json({ errorMessage: err.message }));
       })
       .catch(err => {
         console.log(`/api/friends/${id} PUT error:`, err);
@@ -98,7 +109,7 @@ router
           res.status(400).json({ errorMessage: "Age must be a number between 1 and 120" });
           return;
         }
-        res.status(500).json({ errorMessage: "The friend information could not be modified." })
+        res.status(500).json({ errorMessage: err.message })
       });
 
 
