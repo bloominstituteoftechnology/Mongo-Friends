@@ -1,5 +1,24 @@
 const mongoose = require('mongoose');
 
+const contactSchema = new mongoose.Schema({
+    email: {
+        type: String,
+        required: true,
+    },
+    mobileNumber: {
+        type: Number
+    },
+    github: {
+        type: String
+    },
+    facebook: {
+        type: String
+    },
+    twitter: {
+        type: String
+    }
+})
+
 const friendSchema = new mongoose.Schema({
     firstName: {
         type: String,
@@ -20,24 +39,7 @@ const friendSchema = new mongoose.Schema({
         required: true,
         default: Date.now()
     },
-    contactInfo: {
-        email: {
-            type: String,
-            required: true,
-        },
-        mobileNumber: {
-            type: Number
-        },
-        github: {
-            type: String
-        },
-        facebook: {
-            type: String
-        },
-        twitter: {
-            type: String
-        }
-    }
+    contactInfo: contactSchema
 });
 
 const friendsModel = mongoose.model("Friend", friendSchema);

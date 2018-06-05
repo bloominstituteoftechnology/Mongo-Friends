@@ -14,8 +14,9 @@ router
     })
     .post((req, res) => {
         const { firstName, lastName, age, contactInfo } = req.body
-        const newFriend = Friend({ firstName, lastName, age, contactInfo })
-        if (!firstName || !lastName || !age || !contactInfo["email"]) {
+        const newFriend = new Friend({ firstName, lastName, age, contactInfo })
+        const email = contactInfo.email
+        if (!firstName || !lastName || !age || !email) {
             res.status(400).json({ errorMessage: "Please provide firstName, lastName, age, and email for the friend." })
         } else if (isNaN(age) || age<1 || age>120) {
             res.status(400).json( { errorMessage: "Age must be a number between 1 and 120" })
@@ -70,32 +71,22 @@ router
     })
     .put((req, res) => {
         const { id } = req.params
-        const changes = req.body
+        const changes = { firstName, lastName, age } = req.body
+        const contactInfo = { email, mobileNumber, github, facebook, twitter } = req.body.contactInfo
         // the specs say to make sure that a first name, last name, and age are provided, but I didn't include this
         // because findByIdAndUpdate only affects fields that have been changed and keeps the old values otherwise.
         if (changes.age && (isNaN(changes.age) || changes.age<1 || changes.age>120)) {
             res.status(400).json({ errorMessage: "Age must be a number between 1 and 120" })
         }
-        Friend.findByIdAndUpdate(id, changes)
+        Friend.findByIdAndUpdate(id, {
+            $set: {...changes, contactInfo: {...contactInfo}}
+            
+        }, {new: true})
             .then( friend => {
                 if (friend === null) {
                     res.status(404).json({ errorMessage: "The friend with the specified ID does not exist." })
                 } else {
-                    Friend.findById(id)
-                        .then(friend => {
-                            if (friend === null) {
-                                res.status(404).json({ errorMessage: "The friend with the specified ID does not exist." })
-                            } else {
-                                res.status(200).json(friend)
-                            }
-                        })
-                        .catch( err => {
-                            if (err.name === "CastError") {
-                                res.status(404).json({ errorMessage: "The friend with the specified ID does not exist." })
-                            } else {
-                                res.status(500).json({ errorMessage: "The friend information could not be retrieved." })    
-                            }
-                        })
+                    res.status(200).json(friend)
                 }
             })
             .catch( err => {
