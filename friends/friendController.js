@@ -30,3 +30,5 @@ router
                 res.status(500).json({ error: "There was an error saving the friend to the database" })
             })
     });
+
+module.exports = router;
