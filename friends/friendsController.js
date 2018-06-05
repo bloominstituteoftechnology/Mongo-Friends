@@ -15,8 +15,8 @@ router
   })
 
   .post((req, res) => {
-    const { firstName, lastName, age } = req.body;
-    const newFriend = new friendModel({ firstName, lastName, age })
+    const { firstName, lastName, age,contact } = req.body;
+    const newFriend = new friendModel({ firstName, lastName, age,  contact})
     if(!firstName || !lastName || !age){
       res.status(400).json({ errorMessage: "Please provide firstName, lastName and age for the friend." })
       return;
@@ -38,7 +38,7 @@ router
     .route('/:id')
     .get((req, res) => {
       const { id } = req.params
-      
+
       friendModel.findById(id)
         .then(friend => {
           console.log(friend)
@@ -60,10 +60,10 @@ router
 
     .delete((req, res) => {
       const { id } = req.params
-      
+
       friendModel.findByIdAndRemove(id)
         .then(friend => {
-          
+
           if(friend === null){
             res.status(404).json({ errorMessage: "The friend with the specified ID does not something." })
             return;
@@ -77,7 +77,7 @@ router
 
     .put((req, res) => {
       const { id } = req.params;
-      const { firstName, lastName, age } = req.body;
+      const { firstName, lastName, age, contact } = req.body;
       if(!firstName || !lastName || !age){
         res.status(400).json({ errorMessage: "Please provide firstName, lastName and age for the friend." })
         return;
@@ -86,7 +86,7 @@ router
         res.status(400).json({ errorMessage: "Age must be a number between 1 and 120" })
         return;
       }
-      friendModel.findByIdAndUpdate(id, { firstName, lastName, age })
+      friendModel.findByIdAndUpdate(id, { firstName, lastName, age, contact })
         .then(friend => {
           if(friend === null){
             res.status(404).json({ errorMessage: "The friend with the specified ID does not something." })
@@ -104,8 +104,8 @@ router
         })
 
     })
-    
-       
+
+
 
 
 module.exports = router;
