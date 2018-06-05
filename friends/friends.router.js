@@ -9,7 +9,7 @@ routerFriends
 routerFriends
   .route('/:id')
   .get(isIdValid, handleGET)
-  .put(isIdValid, validateParameters, handlePUT)
+  .put(isIdValid, validateParameters, validateAge, handlePUT)
   .delete(isIdValid, handleDELETE);
 
 routerFriends.use(handleError);
@@ -19,6 +19,12 @@ routerFriends.use(handleError);
  */
 function handlePOST(req, res, next) {
   const data = ({ firstName, lastName, age } = req.body);
+
+  /**
+   * VALIDATE 'AGE':
+   * Mongoose do not validate on PUT: So I define a custom middleware for this purpose.
+   * POST: validates via the Schema.
+   */
 
   const newFriend = new Friend(data);
   newFriend
@@ -62,11 +68,20 @@ function handlePUT(req, res, next) {
   const data = ({ firstName, lastName, age } = req.body);
   const { id } = req.params;
 
+  /**
+   * VALIDATE 'AGE':
+   * Mongoose do not validate on PUT: So I define a custom middleware for this purpose.
+   * POST: validates via the Schema.
+   */
+
   Friend.findByIdAndUpdate({ _id: id }, { $set: { ...data } }, { new: true })
     .then(response => {
       res.status(200).json(response);
     })
     .catch(e => {
+      // if there were an Error validatin the data in the Schema:
+      if (e.name === 'ValidationError') next(createError(400, e.message));
+      // If there were any other problem POSTING to the data base: send custom-default Error.
       next(createError(500, 'The friend information could not be modified.'));
     });
 }
@@ -107,5 +122,11 @@ function validateParameters(req, res, next) {
       next(createError(400, 'Please provide firstName, lastName and age for the friend.'))
     : // else pass to the next hanldler
       next();
+}
+function validateAge(req, res, next) {
+  const { age } = req.body;
+  Number.isInteger(age) && (1 <= age && age <= 120)
+    ? next()
+    : next(createError(400, 'Age must be a number between 1 and 120'));
 }
 module.exports = routerFriends;
