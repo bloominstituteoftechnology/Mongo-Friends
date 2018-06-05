@@ -74,12 +74,47 @@ router
               });
             return;
           }
-          res.json({ "success": "Friend deleted successfully", "removedFriend": friend });
+          res.json({
+            success: "Friend deleted successfully",
+            removedFriend: friend
+          });
         })
         .catch(err => {
           res
             .status(404)
-            .json({ error: `No friend with id${id} found. Can't delete it!` });
+            .json({
+              error: `No friend with id${id} found. Can't delete it!`
+            });
+        });
+    })
+    .put((req, res) => {
+      const { id } = req.params;
+      const { firstName, lastName, age } = req.body;
+      if (!firstName || !lastName || !age) {
+        sendError(400, "Must provide firstName, lastName and age to update a friend", res);
+        return;
+      }
+      Friend.findByIdAndUpdate(id, req.body)
+        .then(updatedFriend => {
+          if (updatedFriend === null) {
+            res
+              .status(404)
+              .json({
+                error: `No friend with id${id} found. Can't update it!`
+              });
+            return;
+          }
+          res.json({
+            success: "Friend updated successfully",
+            updatedFriend: updatedFriend
+          });
+        })
+        .catch(err => {
+          res
+            .status(500)
+            .json({
+              error: "The friend information could not be updated."
+            });
         });
     });
 
