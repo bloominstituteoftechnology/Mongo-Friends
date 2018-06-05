@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const FriendSchema = new mongoose.Schema({
     firstName:{
         type: String,
-        required: tue,
+        required: true,
         unique: true 
     },
     lastName: {
