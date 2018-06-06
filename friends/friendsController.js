@@ -53,7 +53,7 @@ router
             .then(removeFriend => {
                 res.json(removeFriend);
             })
-            .catch(err => res.status(500).json({ errorMessage: 'The friend could not be removed because the friend with the specified ID does not exist.' }));
+            .catch(err => res.status(404).json({ errorMessage: 'The friend could not be removed because the friend with the specified ID does not exist.' }));
     })
     .put((req, res) => {
         const { id } = req.params;
@@ -71,7 +71,7 @@ router
                 .then(updatedFriend => {
                     res.json(updatedFriend)
                 })
-                .catch(err => res.status(500).json({ errorMessage: 'The friend information could not be modified the friend with the specified ID does not exist.' }))
+                .catch(err => res.status(404).json({ errorMessage: 'The friend information could not be modified the friend with the specified ID does not exist.' }))
         }
     });
 
