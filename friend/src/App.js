@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
 import axios from "axios";
-import { Route } from "react-router-dom";
+import { Route, Link } from "react-router-dom";
 import FriendList from "./components/FriendList.js";
 import Friend from "./components/Friend.js";
 
@@ -29,6 +29,7 @@ class App extends Component {
     const { friends } = this.state;
     return (
       <div className="App">
+        <Link to="/">Home</Link>
         <Route exact path="/" render={props => <FriendList friends={friends}/>}/>
         <Route path="/friend/:id" render={({match}) => <Friend match={match}/>}/>
       </div>

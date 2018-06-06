@@ -79,3 +79,12 @@
 .twitter-handle:hover {
   cursor: pointer;
 }
+
+/* Friend Edit */
+
+.friend-edit form {
+  display: flex;
+  flex-flow: column wrap;
+  padding: 10px;
+  background: white;
+}

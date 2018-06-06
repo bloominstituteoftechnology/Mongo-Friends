@@ -15,7 +15,7 @@ router
                 res.json(response);
             })
             .catch(err => {
-                return sendUserError(500, `errorMessage: The friends information could not be retrieved.`, res);
+                return sendUserError(500, `The friends information could not be retrieved.`, res);
             });
     })
     .post((req, res) => {
@@ -30,7 +30,7 @@ router
                 res.status(201).json(response);
             })
             .catch(err => {
-                return sendUserError(500, `errorMessage: There was an error while saving the friend to the database.`, res);
+                return sendUserError(500, `There was an error while saving the friend to the database.`, res);
             });
     });
 
@@ -45,7 +45,7 @@ router
                 res.json(response);
             })
             .catch(err => {
-                return sendUserError(500, `errorMessage: The friend information could not be retrieved.`, res);
+                return sendUserError(500, `The friend information could not be retrieved.`, res);
             });
     })
     .delete((req, res) => {
@@ -57,12 +57,14 @@ router
                 res.json(response);
             })
             .catch(err => {
-                return sendUserError(500, `errorMessage: The friend could not be removed`, res);
+                return sendUserError(500, `The friend could not be removed`, res);
             });
     })
     .put((req, res) => {
         const { id } = req.params;
         const updatedFriend = ({ firstName, lastName, age, contactInfo } = req.body);
+        if (age < 1 || age > 120) return sendUserError(400, `Age must be a number between 1 and 120`, res);
+
         Friend
             .findByIdAndUpdate(id, updatedFriend, {new: true})
             .then(response => {
@@ -70,7 +72,7 @@ router
                 res.json(response);
             })
             .catch(err => {
-                return sendUserError(500, `errorMessage: The friend information could not be modified.`, res);
+                return sendUserError(500, `The friend information could not be modified.`, res);
             });
     });
     
