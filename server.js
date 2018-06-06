@@ -21,7 +21,9 @@ const port = process.env.PORT || 5005;
 
 mongoose.Promise = global.Promise;
 mongoose.connect('mongodb://localhost/dbFriends', {}, err => {
-  if (err) console.log(err);
+  if (err) {
+    console.log(err);
+  }
   console.log('Mongoose connected us to our DB');
 });
 
