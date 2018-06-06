@@ -26,7 +26,17 @@ class App extends Component {
   };
 
   handleEdit = (friend) => {
-    this.props.editFriend(friend._id, this.state);
+    let tempFriend = friend;
+    if (this.state.firstName !== "") {
+      tempFriend.firstName = this.state.firstName;
+    }
+    if (this.state.lastName !== "") {
+      tempFriend.lastName = this.state.lastName;
+    }
+    if (this.state.age !== "") {
+      tempFriend.age = this.state.age;
+    }
+    this.props.editFriend(friend._id, tempFriend);
     this.setState({
       firstName: '',
       lastName: '',

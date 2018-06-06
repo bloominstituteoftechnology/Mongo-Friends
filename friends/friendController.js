@@ -85,8 +85,8 @@ router
   })
   .put((req, res) => {
     const { id } = req.params;
-    const { firstName, lastName, age } = req.body;
-    const updatedFriend = { firstName, lastName, age };
+    const updatedFriend = ({ firstName, lastName, age } = req.body);
+    // const { firstName, lastName, age } = req.body;
     if (id.length !== 24) {
       res.status(400).send([{ error: `${id} is too short or too long in length.` }]);
       return;
