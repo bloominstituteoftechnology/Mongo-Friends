@@ -10,7 +10,7 @@ router
                 res.status(200).json(response)
             })
             .catch(error => {
-                res.status(500).json("error")
+                res.status(500).json({ errorMessage: "The friends information could not be retrieved." })
             })
     })
     .post((req, res) => {
@@ -22,7 +22,7 @@ router
                 res.status(201).json({ success: "New Friend Added", response});
             })
             .catch(error => {
-                res.status(500).json("error");
+                res.status(500).json({ errorMessage: "There was an error while saving the friend to the database." });
             })
     })
 router
@@ -32,13 +32,13 @@ router
             .findById(req.params.id)
             .then(response => {
                 if(response === null) {
-                    res.status(404).json({ error: "No Friend with that ID" })
+                    res.status(404).json({ errorMessage: "The friend with the specified ID does not exist." })
                 } else {
                     res.status(200).json(response)
                 }
             })
             .catch(error => {
-                res.status(500).json("error")
+                res.status(500).json({ errorMessage: "The friend information could not be retrieved." })
             })
     })
     .delete((req, res) => {
@@ -46,13 +46,13 @@ router
             .findByIdAndRemove(req.params.id)
             .then(response => {
                 if(response === null) {
-                    res.status(404).json({ error: "No Friend with that ID"})
+                    res.status(404).json({ errorMessage: "The friend with the specified ID does not exist." })
                 } else {
-                    res.json({ status: `Friend Removed`, resource: response })
+                    res.json({ status: "Friend Removed", resource: response })
                 }
             })
             .catch(error => {
-                res.status(500).json({ error: error })
+                res.status(500).json({ errorMessage: "The friend could not be removed" })
             })
     })
     .put((req, res) => {
@@ -61,13 +61,13 @@ router
             .findByIdAndUpdate(req.params.id, updates, { new: true })
             .then(response => {
                 if(response === null) {
-                    res.status(404).json({ error: "No Friend with that ID"})
+                    res.status(404).json({ errorMessage: "The friend with the specified ID does not exist." })
                 } else {
                     res.json({ success: "Friend Updated", resource: response })
                 }
             }) 
             .catch(error => {
-                res.status(500).json("error")
+                res.status(500).json({ errorMessage: "The friend information could not be modified." })
             })
     })
 
