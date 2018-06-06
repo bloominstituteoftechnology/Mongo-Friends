@@ -20,7 +20,15 @@ const friendSchema = new mongoose.Schema({
      createdOn: {
             type: Date,
             default: Date.now,
+    },
+    contactInfo: {
+        email: {
+            type: String
         },
+        phoneNumber: {
+            type: Number
+        }
+    }
     
     
 });
