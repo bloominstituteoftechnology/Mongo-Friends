@@ -13,7 +13,7 @@ const FriendSchema = new mongoose.Schema({
     },
 
     age: {
-        type: number,
+        type: Number,
         required: true,
     },
 
