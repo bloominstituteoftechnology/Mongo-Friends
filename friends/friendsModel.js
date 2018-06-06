@@ -22,7 +22,8 @@ const FriendSchema = new mongoose.Schema({
         type: Date,
         required: true,
         default: Date.now()
-    }
+    },
+    contactInfo: ContactSchema
 });
 const friendsModel = mongoose.model('Friend', FriendSchema);
 
