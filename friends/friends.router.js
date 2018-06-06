@@ -9,7 +9,7 @@ routerFriends
 routerFriends
   .route('/:id')
   .get(isIdValid, handleGET)
-  .put(isIdValid, validateParameters, validateAge, handlePUT)
+  .put(isIdValid, validateParameters, handlePUT)
   .delete(isIdValid, handleDELETE);
 
 routerFriends.use(handleError);
@@ -34,7 +34,8 @@ function handlePOST(req, res, next) {
     })
     .catch(e => {
       // if there were an Error validatin the data in the Schema:
-      if (e.name === 'ValidationError') next(createError(400, e.message));
+      if (e.name === 'ValidationError' || e instanceof Error)
+        return next(createError(400, (e.message = `Age:${age} -> must be a number between 1 and 120`)));
       // If there were any other problem POSTING to the data base: send custom-default Error.
       next(createError(500, 'There was an error while saving the friend to the database.'));
     });
