@@ -1,14 +1,11 @@
 import React, { Component } from 'react';
-import './App.css';
-import { fetchFriends, createFriend, terminateFriend, editFriend } from '../actions';
 import { connect } from 'react-redux';
+
+import { fetchFriends, createFriend, terminateFriend, editFriend } from '../actions';
 import AddFriend from './AddFriend';
-/*
- to wire this component up you're going to need a few things.
- I'll let you do this part on your own. 
- Just remember, `how do I `connect` my components to redux?`
- `How do I ensure that my component links the state to props?`
- */
+
+import './App.css';
+
 class App extends Component {
 
   state = {
@@ -17,7 +14,7 @@ class App extends Component {
     age: ''
   }
 
-  componentWillMount() {
+  componentDidMount() {
     this.props.fetchFriends();
   }
 
@@ -48,15 +45,6 @@ class App extends Component {
       </div>
       <div className="friend-container">
         {this.props.friends.map(friend => {
-          // if (friend.firstName === "Error") {
-          //   return (
-          //     <div>
-          //       {friend.firstName}
-          //       {friend.lastName}
-          //       {friend.age}
-          //     </div>
-          //   )
-          // }
           return (
             <div className="flip-container" ontouchstart="this.classList.toggle('hover');">
               <div className="flipper">
