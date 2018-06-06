@@ -1,0 +1,7 @@
+.friends-container {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    width: 50%;
+    margin: 30px auto;
+}

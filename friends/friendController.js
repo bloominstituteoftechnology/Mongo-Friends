@@ -14,7 +14,7 @@ router
             })
     })
     .post((req, res) => { 
-        const { firstName, lastName, age, createdOn, contactInfo} = req.body;
+        const { firstName, lastName, age, createdOn, imageUrl, contactInfo} = req.body;
         const newFriend = new Friends ({firstName, lastName, age, createdOn, contactInfo });
         if (!firstName || !lastName || !age) {
             res.status(400).json({error: 'Please provide firstName, lastName and age for the friend.'})
@@ -84,7 +84,7 @@ router
 
     .put((req, res) => {
         const { id } = req.params;
-        const updatedFriend = ({ firstName, lastName, age, contactInfo} = req.body); // this syntax allows you to update any given item in the body without sending/updating the others 
+        const updatedFriend = ({ firstName, lastName, age, imageUrl, contactInfo} = req.body); // this syntax allows you to update any given item in the body without sending/updating the others 
         // const updatedFriend = { firstName, lastName, age } // this syntax will update whichever field you update, but if the rest are omitted, it returns null for those
 
         if (id.length < 24) { 

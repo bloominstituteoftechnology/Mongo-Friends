@@ -28,6 +28,10 @@ const FriendSchema = new mongoose.Schema({
         required: true,
         default: Date.now()
     },
+    imageUrl: {
+        type: String,
+        required: true
+    },
     contactInfo: {
         email: {
             type: String, 
