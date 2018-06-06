@@ -15,22 +15,22 @@ router
   })
 
   .post((req, res) => {
-    const { firstName, lastName, age,contact } = req.body;
+    const { firstName, lastName, age, contact } = req.body;
     const newFriend = new friendModel({ firstName, lastName, age,  contact})
     if(!firstName || !lastName || !age){
       res.status(400).json({ errorMessage: "Please provide firstName, lastName and age for the friend." })
       return;
     }
-    if(typeof age !== 'number' || age > 120 || age < 1){
-      res.status(400).json({ errorMessage: "Age must be a number between 1 and 120" })
-      return;
-    }
+    // if(typeof age !== 'number' || age > 120 || age < 1){
+    //   res.status(400).json({ errorMessage: "Age must be a number between 1 and 120" })
+    //   return;
+    // }
     newFriend.save()
       .then(friend => {
         res.status(201).json(friend)
       })
       .catch(err => {
-        res.status(500).json({ errorMessage: "There was an error while saving the friend to the database." })
+        res.status(500).json({ errorMessage: "There was an error while saving the friend to the database.", err: err.message })
       })
   })
 
@@ -82,10 +82,10 @@ router
         res.status(400).json({ errorMessage: "Please provide firstName, lastName and age for the friend." })
         return;
       }
-      if(typeof age !== 'number' || age > 120 || age < 1){
-        res.status(400).json({ errorMessage: "Age must be a number between 1 and 120" })
-        return;
-      }
+      // if(typeof age !== 'number' || age > 120 || age < 1){
+      //   res.status(400).json({ errorMessage: "Age must be a number between 1 and 120" })
+      //   return;
+      // }
       friendModel.findByIdAndUpdate(id, { firstName, lastName, age, contact })
         .then(friend => {
           if(friend === null){
