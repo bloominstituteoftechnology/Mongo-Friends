@@ -23,17 +23,21 @@ class Friends extends Component {
 
   render() {
     return (
-      <div style={{ backgroundColor: "#c4d4ed" }}>
+      <div style={{ backgroundColor: "#c4d4ed", height: '700px' }}>
         <CardColumns style={{ display: "flex" }}>
           {this.state.friends.map(friend => (
             <Col sm="3">
               <Card
                 style={{
+                  fontSize: '1.3rem',
+                  color: "#cbd0eb",
+                  fontWeight: "bold",
+                  backgroundColor: "#85a3d4",
                   paddingTop: "20px",
                   paddingBottom: "20px",
                   marginTop: "20px",
                   border: "2px solid grey",
-                  boxShadow: "2px 2px 5px #6b6f75"
+                  boxShadow: "3px 3px 6px #44536b"
                 }}
               >
                 {friend.firstName}
