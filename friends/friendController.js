@@ -56,7 +56,7 @@ router
   })
   .delete((req, res) => {
     const { id } = req.params;
-    Friend.findByIdAndRemove(id)
+    Friend.findByIdAndRemove(id, { runValidators: true })
       .then(deleteFriend => {
         if (deleteFriend === null) {
           res.status(404).json({ error: "No friend by that ID" });
@@ -72,7 +72,7 @@ router
   .put((req, res) => {
     const { id } = req.params;
     const update = ({ firstName, lastName, age, contactInfo, createdOn } = req.body);
-    Friend.findByIdAndUpdate(id, update, { new: true })
+    Friend.findByIdAndUpdate(id, update, { new: true, runValidators: true })
       .then(friendUpdated => {
         if (friendUpdated === null) {
           res.status(404).json({ error: "No friend with that ID" });
