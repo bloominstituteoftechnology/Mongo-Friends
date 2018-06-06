@@ -1,4 +1,6 @@
 const mongoose = require('mongoose');
+const ContactSchema = require('./contactModel');
+
 
 const FriendSchema = new mongoose.Schema({
     firstName:{
