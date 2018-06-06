@@ -15,6 +15,7 @@ router
     .post((req, res) => {
         const { firstName, lastName, age } = req.body;
         const newFriend = new Friend({ firstName, lastName, age });
+        console.log(newFriend);
         newFriend
             .save()
             .then(savedFriend => {
