@@ -3,6 +3,7 @@ import './App.css';
 import axios from "axios";
 import { Route } from "react-router-dom";
 import FriendList from "./components/FriendList.js";
+import Friend from "./components/Friend.js";
 
 class App extends Component {
   constructor() {
@@ -25,9 +26,11 @@ class App extends Component {
   }
 
   render() {
+    const { friends } = this.state;
     return (
       <div className="App">
-        <Route exact path="/" render={props => <FriendList friends={this.state.friends}/>}/>
+        <Route exact path="/" render={props => <FriendList friends={friends}/>}/>
+        <Route path="/friend/:id" render={({match}) => <Friend match={match}/>}/>
       </div>
     );
   }

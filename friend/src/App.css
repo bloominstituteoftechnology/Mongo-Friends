@@ -17,7 +17,6 @@
   width: 100%;
   max-width: 840px;
 }
-
 .friend-card {
   display: flex;
   flex-flow: column wrap;
@@ -27,6 +26,8 @@
   border-radius: 2px;
   min-width: 260px;
   overflow: hidden;
+  text-decoration: none;
+  color: black;
 }
 
 .friend-card:hover {
