@@ -18,7 +18,7 @@ router
         const { firstName, lastName, age } = req.body;
         const newFriend = new Friend ({ firstName, lastName, age });
         if (!firstName || !lastName || !age) {
-            res.status(404).json({ error: `Please provide friend's first name, last name, aand age.` });
+            res.status(400).json({ error: `Please provide friend's first name, last name, aand age.` });
             return;
         }
         newFriend
