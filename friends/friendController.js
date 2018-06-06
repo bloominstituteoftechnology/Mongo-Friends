@@ -71,7 +71,7 @@ router
 
   .put((req, res) => {
     const { id } = req.params;
-    const update = ({ firstName, lastName, age, createdOn } = req.body);
+    const update = ({ firstName, lastName, age, contactInfo, createdOn } = req.body);
     Friend.findByIdAndUpdate(id, update, { new: true })
       .then(friendUpdated => {
         if (friendUpdated === null) {
