@@ -168,5 +168,5 @@ When the client makes a `PUT` request to `/api/friends/:id`:
 
 ## Stretch Problems
 
-1.  Add a field called `contactInfo` to store all the contact information for the friend (email, mobile number, github username, facebook username, twitter handle, etc).
+1.  Add a f called `contactInfo` to store all the contact information for the friend (email, mobile number, github username, facebook username, twitter handle, etc).
 1.  Add a front end application.
