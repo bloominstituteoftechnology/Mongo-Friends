@@ -7,7 +7,7 @@ router
     .get((req, res) => {
        Friend.find()
         .then(friends => {
-            res.status(200).json(friend);
+            res.status(200).json(friends);
         })
         .catch(err => res.status(500).json({error: 'Error fetching friends'}))
     })
@@ -15,12 +15,13 @@ router
     .post((req, res) => {
         const { firstName, lastName, age } = req.body;
         const newFriend = new Friend({ firstName, lastName, age });
+        console.log(newFriend);
         newFriend
             .save()
             .then(savedFriend => {
                 res.status(201).json(savedFriend);
             })
-            .catch(err => {
+            .catch(error => {
                 res.status(422).json({ error: 'Error saving friends'});
             });
     });
