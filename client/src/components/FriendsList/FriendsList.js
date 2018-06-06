@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import axios from 'axios';
 
 import './FriendsList.css';
 
@@ -8,13 +9,24 @@ class FriendsList extends Component {
     }
 
     componentDidMount() {
-
+        axios
+            .get('http://localhost:5000/api/friends')
+            .then(friends => {
+                this.setState({friends: friends.data})
+            })
+            .catch(error => {
+                console.log(error)
+            });
     }
 
 
     render() {
         return (
-            <div>Hello</div>
+            <div>
+                {this.state.friends.map(friend => {
+                    return <div key={friend['_id']}>{friend.firstName}</div>
+                })}
+            </div>
         )
     }
 }
