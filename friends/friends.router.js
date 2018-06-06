@@ -24,6 +24,7 @@ function handlePOST(req, res, next) {
    * VALIDATE 'AGE':
    * Mongoose do not validate on PUT: So I define a custom middleware for this purpose.
    * POST: validates via the Schema.
+   * REFACTORED: Now POST && PUT get 'age' validationo vía a 'setter'
    */
 
   const newFriend = new Friend(data);
@@ -73,6 +74,7 @@ function handlePUT(req, res, next) {
    * VALIDATE 'AGE':
    * Mongoose do not validate on PUT: So I define a custom middleware for this purpose.
    * POST: validates via the Schema.
+   * REFACTORED: Now POST && PUT get 'age' validationo vía a 'setter'
    */
 
   Friend.findByIdAndUpdate({ _id: id }, { $set: { ...data } }, { new: true })
