@@ -29,7 +29,26 @@ const FriendSchema = new mongoose.Schema({
         default: Date.now()
     },
     contactInfo: {
-        
+        email: {
+            type: String, 
+            required: true 
+        },
+        mobileNumber: {
+            type: Number,
+            required: false
+        },
+        githubUsername: {
+            type: String,
+            required: false
+        },
+        facebookUsername: {
+            type: String,
+            required: false
+        },
+        twitterHandle: {
+            type: String,
+            required: false
+        }
     }
 })
 
