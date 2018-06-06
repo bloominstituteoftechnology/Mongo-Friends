@@ -4,25 +4,26 @@ const FriendSchema = new mongoose.Schema({
 
     firstName: {
         type: String,
-        require: true,
+        required: true,
         unique: true
     },
 
     lastName: {
         type: String,
-        require: true,
+        required: true,
+        unique: true
     },
 
     age: {
         type: Number,
-        require: true,
+        required: true,
         min: [1, 'Too young to be a friend'],
         max: [120, 'Too old to be a friend']
     },
 
     createOn: {
         type: Date,
-        require: true,
+        required: true,
         default: Date.now()
     }
 });
