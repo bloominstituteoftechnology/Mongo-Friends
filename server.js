@@ -3,7 +3,7 @@ const helmet = require('helmet');
 const cors = require('cors');
 const mongoose = require('mongoose');
 const friendsController = require('./friends/friendsController');
-
+const contactController = require('./friends/contactController');
 const server = express();
 
 server.use(helmet());
@@ -15,6 +15,7 @@ server.get('/', (req, res) => {
 });
 
 server.use('/api/friends', friendsController);
+server.use('/api/contacts', contactController);
 
 const port = process.env.PORT || 5000;
 mongoose.promise = global.Promise;

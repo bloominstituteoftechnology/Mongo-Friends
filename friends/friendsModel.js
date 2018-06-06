@@ -23,7 +23,10 @@ const FriendSchema = new mongoose.Schema({
         required: true,
         default: Date.now()
     },
-    contactInfo: ContactSchema
+    contactInfo: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Contact"
+    }
 });
 const friendsModel = mongoose.model('Friend', FriendSchema);
 

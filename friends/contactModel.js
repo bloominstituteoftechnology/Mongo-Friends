@@ -11,17 +11,18 @@ const ContactSchema = new mongoose.Schema({
             required: false
         },
         githubUser: {
-            type: Number,
+            type: String,
             required: false
         },
         facebookUser: {
-            type: Number,
+            type: String,
             required: false
         },
         twitterUser: {
-            type: Number,
+            type: String,
             required: false
         }
     
 })
-module.exports = ContactSchema;
+const contactModel = mongoose.model('Contact', ContactSchema);
+module.exports = contactModel;
