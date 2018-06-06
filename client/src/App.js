@@ -20,6 +20,7 @@ class App extends Component {
   }
 
   updateFriends = () => {
+    this.setState({ loading: true });
     axios.get('http://localhost:5000/api/friends')
     .then(friends => {
       console.log(friends);
@@ -30,7 +31,7 @@ class App extends Component {
     });
   }
 
-  deleteFriend(id) {
+  deleteFriend = (id) => {
     axios.delete(`http://localhost:5000/api/friends/${id}`)
       .then(res => {
         this.updateFriends();
@@ -80,7 +81,7 @@ class FriendCard extends React.PureComponent {
 
   componentWillReceiveProps(nextProps) {
     if (this.props.friend !== nextProps.friend) {
-      this.setFriend(nextProps);
+      this.setFriend(nextProps.friend);
     }
   }
 
