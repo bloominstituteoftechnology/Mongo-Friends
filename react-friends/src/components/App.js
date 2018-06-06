@@ -17,7 +17,7 @@ class App extends Component {
     age: ''
   }
 
-  componentDidMount() {
+  componentWillMount() {
     this.props.fetchFriends();
   }
 
@@ -25,6 +25,15 @@ class App extends Component {
     // e.preventDefault();
     this.setState({
       [e.target.name]: e.target.value
+    });
+  };
+
+  handleEdit = (friend) => {
+    this.props.editFriend(friend._id, this.state);
+    this.setState({
+      firstName: '',
+      lastName: '',
+      age: ''
     });
   };
 
@@ -39,6 +48,15 @@ class App extends Component {
       </div>
       <div className="friend-container">
         {this.props.friends.map(friend => {
+          // if (friend.firstName === "Error") {
+          //   return (
+          //     <div>
+          //       {friend.firstName}
+          //       {friend.lastName}
+          //       {friend.age}
+          //     </div>
+          //   )
+          // }
           return (
             <div className="flip-container" ontouchstart="this.classList.toggle('hover');">
               <div className="flipper">
@@ -54,7 +72,7 @@ class App extends Component {
                     <input onChange={this.handleEditFriend} value={this.state.firstName} name='firstName' placeholder={friend.firstName} />
                     <input onChange={this.handleEditFriend} value={this.state.lastName} name='lastName' placeholder={friend.lastName} />
                     <input onChange={this.handleEditFriend} value={this.state.age} name='age' placeholder={friend.age} />
-                    <button onClick={() => this.props.editFriend(friend._id, this.state)}
+                    <button onClick={() => this.handleEdit(friend)}
                     >Edit Friend
                     </button>
                     <button className="remove-button" onClick={() => this.props.terminateFriend(friend._id)}>Remove</button>

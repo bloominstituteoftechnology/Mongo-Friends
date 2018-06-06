@@ -18,7 +18,7 @@ export const friendsReducer = (state = initialState, action) => {
     case ERROR_FRIENDS:
       return Object.assign({}, state, {
         pending: false,
-        error: action.payload
+        friends: action.payload
       });
     default:
       return state;

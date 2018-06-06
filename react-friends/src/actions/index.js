@@ -4,10 +4,6 @@ export const PENDING_FRIENDS = "PENDING_FRIENDS";
 export const SUCCESS_FRIENDS = "SUCCESS_FRIENDS";
 export const ERROR_FRIENDS = "ERROR_FRIENDS";
 /*
-  For this project you'll need at least 2 action creators for the main portion,
-   and 2 more for the stretch problem.
-   Be sure to include action types for each type of action creator. Also, be sure to mind
-     the "pending" states like, fetching, creating, updating and deleting.
    C - addFriend
    R - getFriends
    U - updateFriend
@@ -22,11 +18,8 @@ export const fetchFriends = () => {
         console.log(response);
         dispatch({ type: SUCCESS_FRIENDS, payload: response.data });
       })
-      .catch(err => {
-        dispatch({
-          type: ERROR_FRIENDS,
-          payload: "Something went wrong with fetching Friends"
-        });
+      .catch(response => {
+        dispatch({ type: ERROR_FRIENDS, payload: response.data });
       });
   };
 };
@@ -40,10 +33,13 @@ export const createFriend = data => {
         console.log(response);
         dispatch({ type: SUCCESS_FRIENDS, payload: response.data });
       })
-      .catch(err => {
+      .catch(response => {
         dispatch({
-          type: ERROR_FRIENDS,
-          payload: "Something went wrong with posting friend"
+          type: ERROR_FRIENDS, payload: [{
+            firstName: "error: " + data.firstName,
+            lastName: "error: " + data.lastName,
+            age: "error: " + data.age,
+          }]
         });
       });
   };
@@ -55,14 +51,10 @@ export const terminateFriend = _id => {
     dispatch({ type: PENDING_FRIENDS });
     friends
       .then(response => {
-        console.log(response);
-        dispatch({ type: SUCCESS_FRIENDS, payload: response.data.removedFriend });
+        dispatch({ type: SUCCESS_FRIENDS, payload: response.data });
       })
-      .catch(err => {
-        dispatch({
-          type: ERROR_FRIENDS,
-          payload: "Something went wrong with deleting friend"
-        });
+      .catch(response => {
+        dispatch({ type: ERROR_FRIENDS, payload: response.data });
       });
   };
 }
@@ -76,11 +68,8 @@ export const editFriend = (_id, friendObj) => {
         console.log(response);
         dispatch({ type: SUCCESS_FRIENDS, payload: response.data });
       })
-      .catch(err => {
-        dispatch({
-          type: ERROR_FRIENDS,
-          payload: "Something went wrong with updating friend"
-        });
+      .catch(response => {
+        dispatch({ type: ERROR_FRIENDS, payload: response.data });
       });
   };
 }

@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+
 import { createFriend } from '../actions';
 
 
 class AddFriend extends Component {
   state = {
-    name: '',
-    age: '',
-    height: ''
+    firstName: '',
+    lastName: '',
+    age: ''
   }
 
   handleFriendInput = e => {
@@ -30,9 +31,9 @@ class AddFriend extends Component {
     return (
       <div>
         <div className="form">
-          <input onChange={this.handleFriendInput} value={this.state.name} name='firstName' placeholder="First Name" />
-          <input onChange={this.handleFriendInput} value={this.state.age} name='lastName' placeholder="Last Name" />
-          <input onChange={this.handleFriendInput} value={this.state.height} name='age' placeholder="Age" />
+          <input onChange={this.handleFriendInput} value={this.state.firstName} name='firstName' placeholder="First Name" />
+          <input onChange={this.handleFriendInput} value={this.state.lastName} name='lastName' placeholder="Last Name" />
+          <input onChange={this.handleFriendInput} value={this.state.age} name='age' placeholder="Age" />
           <button onClick={this.handleClick}
           >Add Friend
                     </button>
