@@ -72,13 +72,13 @@ router
             })
             .put((req, res) => {
                 const { id } = req.params;
-                const newFriend = { firstName, lastName, age, createdOn } = req.body;
+                const newFriend = { firstName, lastName, age, createdOn } = req.body; //shortand syntax is a best practice to guard against undefined value in keys
 
                if ((age && (typeof age !== 'number' || age < 1 || age > 120))) {
                 res.status(400).json({error: 'Please provide firstName, lastName and age'});
                 return;
                } 
-               Friends.findByIdAndUpdate(id, newFriend, {new: true})
+               Friends.findByIdAndUpdate(id, newFriend, {new: true}) //new: true, sends us the updated resource not the one we operated on
                .then(friend => {
                    res.status(200).json(friend);
                })
