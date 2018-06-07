@@ -84,9 +84,41 @@ router
 
     .put((req, res) => {
         const { id } = req.params;
-        const updatedFriend = ({ firstName, lastName, age, imageUrl, contactInfo} = req.body); // this syntax allows you to update any given item in the body without sending/updating the others 
+        const updatedFriend = ({ firstName, lastName, age, imageUrl, contactInfo} = req.body); // this syntax allows you to update any given item in the body without sending/updating the others (only applies to non-nested schema)
         // const updatedFriend = { firstName, lastName, age } // this syntax will update whichever field you update, but if the rest are omitted, it returns null for those
 
+        // ######## START ######## --> Below code will prevent nested schema values from being nullified if not sent in the req body as part of the update
+        let updates = {};
+        if(firstName) { // i.e. only include firstName if it exists on the req.body being sent via put request (indicating it has been updated) otherwise leave it alone and dont set value to null....initially anything that was not updated/not included in req body would get set to null per console.log in VS Code and keys with null values would not even show up in postman
+            updates= Object.assign({}, updates, {firstName})
+        }
+        if(lastName) {
+            updates= Object.assign({}, updates, {lastName})
+        }
+        if(age) {
+            updates= Object.assign({}, updates, {age})
+        }
+        if(imageUrl) {
+            updates= Object.assign({}, updates, {imageUrl})
+        }
+        if (contactInfo.email) {
+            updates = Object.assign({}, updates, {'contactInfo.email': contactInfo.email})
+        }
+        if(contactInfo.mobileNumber) {
+            updates = Object.assign({}, updates, {'contactInfo.mobileNumber': contactInfo.mobileNumber}) 
+        }
+        if(contactInfo.githubUsername) {
+            updates = Object.assign({}, updates, {'contactInfo.githubUsername': contactInfo.githubUsername})
+        }
+        if(contactInfo.facebookUsername) {
+            updates = Object.assign({}, updates, {'contactInfo.facebookUsername': contactInfo.facebookUsername})
+        }
+        if(contactInfo.twitterHandle) {
+            updates = Object.assign({}, updates, {'contactInfo.twitterHandle': contactInfo.twitterHandle})
+        }
+        console.log(updates)
+        // ######## END ########
+    
         if (id.length < 24) { 
             res.status(400).json({error: 'The database requires an ID with 24 characters.'})
         }
@@ -96,7 +128,7 @@ router
             return;
         }
 
-        Friends.findByIdAndUpdate(id, updatedFriend, {new: true}) //new: true will give you the updated resource, not the previous one
+        Friends.findByIdAndUpdate(id, updates, {new: true, runValidators: true}) //new: true will give you the updated resource, not the previous one // runValidators: true will run the validators established in the schema on the update as well
         .then(response => {
             if(response) {
                 res.json({success: 'The friend has been updated successfully', resource: response})

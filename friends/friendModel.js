@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-
+const Schema = mongoose.Schema;
 // Schema
 // {
 //     firstName: "Jane", // String, required
@@ -8,7 +8,34 @@ const mongoose = require('mongoose');
 //     createdOn: Mon Aug 14 2017 12:50:16 GMT-0700 (PDT) // Date, required, defaults to current date
 //   }
 
-const FriendSchema = new mongoose.Schema({
+const contactInfoSchema = new Schema ({
+    email: {
+        type: String
+        // required: true,
+        // unique: true 
+    },
+    mobileNumber: {
+        type: Number
+        // required: false
+    },
+    githubUsername: {
+        type: String
+        // required: false,
+        // unique: true
+    },
+    facebookUsername: {
+        type: String
+        // required: false,
+        // unique: true
+    },
+    twitterHandle: {
+        type: String
+        // required: false,
+        // unique: true
+    }
+})
+
+const FriendSchema = new Schema({
     firstName: {
         type: String, 
         required: true,
@@ -32,28 +59,7 @@ const FriendSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    contactInfo: {
-        email: {
-            type: String, 
-            required: true 
-        },
-        mobileNumber: {
-            type: Number,
-            required: false
-        },
-        githubUsername: {
-            type: String,
-            required: false
-        },
-        facebookUsername: {
-            type: String,
-            required: false
-        },
-        twitterHandle: {
-            type: String,
-            required: false
-        }
-    }
+    contactInfo: contactInfoSchema // nested schema
 })
 
 const friendsModel = mongoose.model('Friend', FriendSchema);
