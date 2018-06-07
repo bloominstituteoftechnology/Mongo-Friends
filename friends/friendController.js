@@ -7,7 +7,9 @@ router.route('/').post((req, res) => {
     const newFriend = new Friend({ firstName, lastName, age });
     if (!firstName || !lastName || !age) {
         res.status(400).json({ error: 'Please provide firstName, lastName and age for the friend.' })
-     }
+    } else if (age < 1 || age > 120) { 
+        res.status(400).json({error:'Age must be a number between 1 and 120'})
+    }
     newFriend
         .save()
         .then(savedFriend => {
@@ -46,6 +48,19 @@ router.route('/:id').delete((req, res) => {
         .then(friends => {
             res.status(404).json({ status: 'The friends with the specified ID does not exist.' });
         })
+        .catch(err => res.status(500).json(err));
+});
+
+router.route('/:id').put((req, res) => {
+    const { id } = req.params;
+    const { firstName, lastName, age } = req.body;
+    Friend.findbyIdAndUpdate(id, update, options).then(friends => {
+        if (friend) {
+            res.status(200).json(friend);
+        } else {
+            res.status(404).json({ status: 'The friend with the specified ID does not exist' });
+        }
+    })
         .catch(err => res.status(500).json(err));
 });
 
