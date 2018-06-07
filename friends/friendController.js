@@ -5,6 +5,9 @@ const Friend = require('./friendModel');
 router.route('/').post((req, res) => {
     const { firstName, lastName, age } = req.body;
     const newFriend = new Friend({ firstName, lastName, age });
+    if (!firstName || !lastName || !age) {
+        res.status(400).json({ error: 'Please provide firstName, lastName and age for the friend.' })
+     }
     newFriend
         .save()
         .then(savedFriend => {
@@ -20,7 +23,7 @@ router.route('/').post((req, res) => {
 router.route('/').get((req, res) => {
     Friend.find()
         .then(friends => {
-            res.status(202).json(friend);
+            res.status(200).json(friends);
         })
         .catch(error => {
             res.status(500).json({ error: 'The friends information could not be retrieved.' });
