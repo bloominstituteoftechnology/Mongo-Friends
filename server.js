@@ -5,7 +5,7 @@ const mongoose = require('mongoose');
 
 //connecting to mongo
 mongoose
-  .connect('mongodb://localhost/beardb')
+  .connect('mongodb://localhost/frienddb')
   .then(mongo => {
     console.log('connected to database');
   })
