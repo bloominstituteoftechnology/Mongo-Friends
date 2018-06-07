@@ -30,6 +30,25 @@ router.route('/').get((req, res) => {
         })
 });
 
+router.route('/:id').get((req, res) => {
+    const { id } = req.params;
+    Friend.findByIdAndRemove(id)
+        .then(friends => {
+            res.status(404).json({ status: '"The friend with the specified ID does not exist' });
+        })
+        .catch(err => res.status(500).json(err));
+});
+
+router.route('/:id').delete((req, res) => {
+    const { id } = req.params;
+
+    Friend.findByIdAndRemove(id)
+        .then(friends => {
+            res.status(404).json({ status: 'The friends with the specified ID does not exist.' });
+        })
+        .catch(err => res.status(500).json(err));
+});
+
 
 
 module.exports = router;
