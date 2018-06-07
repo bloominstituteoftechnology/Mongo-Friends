@@ -11,7 +11,7 @@ router
                 res.status(200).json(friends); 
             })
             .catch(error => {
-                res.status(500).json({error: 'The information could not be found.'})
+                res.status(500).json({error: 'The friends information could not be retrieved.'})
             })
     })
     .post ((req, res) => {
