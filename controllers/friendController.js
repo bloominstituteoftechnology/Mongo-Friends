@@ -22,7 +22,8 @@ router
                 res.status(201).json({ savedFriend });
             })
             .catch(error => {
-                res.status(422).json({ error: 'Error saving friends'});
+                console.log(error)
+                res.status(422).json({ errorMessage: error.message });
             });
     });
 
@@ -56,7 +57,7 @@ router
                 res.status(200).json({ success: `Friend exterminated. Qapla!`, resources: exterminatedFriend })
                 return;
             })
-            .catch(err => res.status(500).json({ error: err}));
+            .catch(err => res.status(500).json( err ))
     })
 
     .put((req, res) => {
@@ -76,14 +77,14 @@ router
                         res.status(200).json({ friends })
                     })
                     .catch(err => {
-                        res.status(500).json({ error: err })
+                        res.status(500).json({ err })
                     })
                 // res.status(200).json({
                 //     success: 'Updated the friend',
                 //     resource: friendUpdated
                 // })
             })
-            .catch(err => res.status(500).json({ error: err }));
+            .catch(err => res.status(500).json({ err }));
     });
 
     module.exports = router;
