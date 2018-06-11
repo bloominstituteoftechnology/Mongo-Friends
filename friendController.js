@@ -81,7 +81,7 @@ router
   .post(post)
 
 router
-  .route('./:id')
+  .route('/:id')
   .get(getId)
   .delete(deleteId)
   .put(updateId);
