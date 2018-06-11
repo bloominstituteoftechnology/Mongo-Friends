@@ -24,11 +24,9 @@ const definition =
     } // Date, required, defaults to current date
   };
 
-  const options = {
-      timestamps = true
-  };
 
-  const friendSchema = new mongoose.Schema(definition, options);
+
+  const friendSchema = new mongoose.Schema(definition);
 
   const friendModel = mongoose.model("Friend", friendSchema, "friends");
 

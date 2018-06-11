@@ -10,6 +10,7 @@ const sendUserError = (status, message, res, err="Not From Catch") => {
 //get friends
 
 const get = (req, res) =>{
+    
     Friend
         .find()
         .then(friends =>{
@@ -22,6 +23,13 @@ const get = (req, res) =>{
 
 const post = (req, res) =>{
     const { firstName, lastName, age } = req.body;
+
+    if(!firstName || !lastName || !age){
+        sendUserError(400, `Please provide firstName, lastName and age for the friend.`, res);
+    }
+    if((age < 1 || age > 120) && age.typeof !==Number){
+        sendUserError(400, "Age must be a number between 1 and 120", res)
+    }
     const friend = new Friend({firstName, lastName, age});
     friend
     .save()
@@ -47,10 +55,13 @@ const getId = (req, res) =>{
 
 const deleteId = (req, res) =>{
     const { id } = req.params;
+    if(!id ===null){
+        sendUserError(400, "There is no ID to delete", res)
+    }
     Friend
         .remove({ _id: id } )
         .then(result =>{
-            res.status(204).json(`Successful removal of ${id}`)
+            res.status(204).json(result)
         })
         .catch(err =>{
             sendUserError(500, `There was an error in the deletion of ${id}`, res, err)

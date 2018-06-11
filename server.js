@@ -17,6 +17,10 @@ server.use(helmet());
 server.use(cors());
 server.use(express.json());
 
+const friendController = require('./friendController');
+
+server.use('/api/friends', friendController);
+
 server.get('/', (req, res) => {
   res.status(200).json({ api: 'running' });
 });
