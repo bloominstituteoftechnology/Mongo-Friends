@@ -46,6 +46,9 @@ const getId = (req, res) =>{
     Friend
     .findById(id)
     .then(friend =>{
+        if(!friend){
+            res.status(404).json({Message: "Friend is not found"})
+        }
         res.status(200).json(friend)
     })
     .catch(err =>{
@@ -55,13 +58,16 @@ const getId = (req, res) =>{
 
 const deleteId = (req, res) =>{
     const { id } = req.params;
-    if(!id ===null){
-        sendUserError(400, "There is no ID to delete", res)
-    }
+
     Friend
-        .remove({ _id: id } )
+        .findByIdAndRemove({ _id: id } )
         .then(result =>{
-            res.status(204).json(result)
+            if(result){
+                res.status(200).json({Success: `${id} was successfully removed`})
+            }
+            else{
+                res.status(404).json({Message: "Friend is not found"})
+            }
         })
         .catch(err =>{
             sendUserError(500, `There was an error in the deletion of ${id}`, res, err)
@@ -76,7 +82,8 @@ const updateId = (req, res) =>{
         sendUserError(400, `There was an error in retrieving ${id}`, res, err)
     }
       // Tank.update({ _id: id }, { $set: { size: 'large' }}, callback);
-    Friend.update({ _id: id }, { $set: { firstName, lastName, age }})
+    Friend
+        .update({ _id: id }, { $set: { firstName, lastName, age }})
         .then(friend =>{
             res.status(200).json(friend)
         })
