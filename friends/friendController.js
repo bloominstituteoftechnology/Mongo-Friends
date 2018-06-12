@@ -20,8 +20,8 @@ router
     })
 
     .post((req, res) => {
-        const { firstName, lastName, age } = req.body;
-        const newFriend = new Friend ({ firstName, lastName, age });
+        const { firstName, lastName, age, contactInfo } = req.body;
+        const newFriend = new Friend ({ firstName, lastName, age, contactInfo });
 
         if(!firstName || !lastName || !age) {
             errorMessage(400, 'Please provide your information.', res);

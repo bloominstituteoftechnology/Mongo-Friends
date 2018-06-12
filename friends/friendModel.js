@@ -18,6 +18,11 @@ const FriendSchema = new mongoose.Schema({
     createdOn: {
         type: Date,
         default: Date.now()
+    },
+    contactInfo: {
+        email: [String],
+        gitHubUserName: String,
+        facebook: [String]
     }
 });
 
