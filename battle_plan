@@ -1,0 +1,15 @@
+-------BATTLE PLAN-------
+BATTLE-PLAN!!
+[x]After MongoDB is installed - start server
+[x]run mongo shell `show dbs`
+[x]make GET request to localhost
+[x]In a separate file, create a Schema for the bears collection
+[x]Use mongoose to generate a Bear model that can be used to perform operations on bear documents
+[xx]Configure the API to perform CRUD
+----------CONNECT FRONT-END BATTLE PLAN--------
+[]creat-react-app named: react-bears
+    [x]run `yarn install` or npm
+    [x]make sure browser is up and running (not just API)
+    [x]install all dependencies
+    [x]DON'T FORGET Axios
+
