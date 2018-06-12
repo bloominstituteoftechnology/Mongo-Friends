@@ -15,7 +15,7 @@ router
     .post((req, res) => {
         const { firstName, lastName, age } = req.body;
         const newFriend = new Friend({ firstName, lastName, age });
-        console.log(newFriend);
+        console.log('New Friend: ', newFriend);
         newFriend
             .save()
             .then(savedFriend => {
@@ -23,7 +23,7 @@ router
             })
             .catch(error => {
                 console.log(error)
-                res.status(422).json({ errorMessage: error.message });
+                res.status(422).json( error.message );
             });
     });
 
@@ -34,8 +34,9 @@ router
         const { id } = req.params;
         Friend.findById(id)
             .then(friend => {
+                console.log('friend', friend)
                 if (friend === null) {
-                    res.status(404).json({ error: 'You don\'t have a friend at least in DB'})
+                    res.status(404).json({ error: 'This id is not in the DB'})
                 }
                 res.status(200).json(friend);
             })
@@ -54,7 +55,7 @@ router
                 if (removeFriend === null) {
                     res.status(404).json({ error: 'No friend found in DB to exterminate' });
                 } 
-                res.status(200).json({ success: `Friend exterminated. Qapla!`, resources: exterminatedFriend })
+                res.status(200).json({ success: `Friend exterminated. Qapla!`, resources: removeFriend })
                 return;
             })
             .catch(err => res.status(500).json( err ))
@@ -69,7 +70,7 @@ router
             .then(friendUpdated => {
                 console.log('friendUpdated', friendUpdated)
                 if (friendUpdated === null) {
-                    res.status(404).json({ error: 'No friend found in DB to exterminate'});
+                    res.status(404).json({ error: 'No friend found in DB'});
                     return;                    
                 }
                 Friend.find()

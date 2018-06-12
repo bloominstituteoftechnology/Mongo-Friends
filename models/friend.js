@@ -17,7 +17,7 @@ const FriendSchema = new mongoose.Schema({
     age: {
         type: Number,
         required: true,
-        min: [1, 'Too young to be a friend'],
+        min: [1, 'Not old enough to be a friend'],
         max: [120, 'Too old to be a friend']
     },
 
