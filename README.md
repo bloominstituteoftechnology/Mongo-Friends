@@ -31,12 +31,12 @@ After MongoDB is installed, follow the instructions on the documentation to star
 
 ### Getting the Starter Files
 
-1.  **Fork** and **Clone** this repository.
-1.  **CD into the folder** where you cloned the repository.
-1.  Type `yarn` or `npm install` to download all dependencies listed inside `package.json`.
-1.  To start the server, type `yarn start` or `npm start`. The server will restart automatically as you make changes.
-1.  **Use _Postman_ to Test the API.**
-1.  make a GET request to http://localhost:5000. The response should be the following JSON object:
+[x]1.  **Fork** and **Clone** this repository.
+[x]1.  **CD into the folder** where you cloned the repository.
+[x]1.  Type `yarn` or `npm install` to download all dependencies listed inside `package.json`.
+[x]1.  To start the server, type `yarn start` or `npm start`. The server will restart automatically as you make changes.
+[x]1.  **Use _Postman_ to Test the API.**
+[x]1.  make a GET request to http://localhost:5000. The response should be the following JSON object:
 
 ```json
 {
