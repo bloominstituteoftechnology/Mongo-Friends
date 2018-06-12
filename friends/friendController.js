@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const Friend = require('./friendModel'); f
+const Friend = require('./friendModel'); 
 
 router
   .route('/')
