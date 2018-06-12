@@ -1,8 +1,12 @@
 const mongoose = require('mongoose');
 
-const definition = {
+// Schema: Model || Like React Proptypes
+// Capitalize types
+
+const FriendSchema = new mongoose.Schema({
     firstName: {
         type: String,
+        // Vaildates
         required: true
     },
     lastName: {
@@ -11,24 +15,23 @@ const definition = {
     },
     age: {
         type: Number,
-        required: true,
         minlength: 1,
-        maxlength: 120
+        maxlength: 120,
+        validate: {
+            validator: function(v) {
+                return /\d{3}-\d{3}-\d{4}/.test(v);
+            },
+            message: '{VALUE} is not a valid age!'
+        },
+        required: [true, 'Friend age required']
     },
     createdOn: {
         type: Date,
-        required: true,
-        default: Date.now,
+        default: Date.now()
     },
-};
+});
 
-const options = {
-    timestamps: true,
-};
-
-const friendSchema = new mongoose.Schema(definition, options);
-
-const friendModel = mongoose.model('Friend', friendSchema, 'friends');
+const friendModel = mongoose.model('Friend', FriendSchema);
 
 // Export
 module.exports = friendModel;
