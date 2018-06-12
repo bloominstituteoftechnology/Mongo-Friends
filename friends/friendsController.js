@@ -72,7 +72,7 @@ router
     // findByIdAndUpdate
     Friend
       .findByIdAndRemove( id, updates, { firstName, lastName, age } = req.body )
-      .then( friendRemove =>
+      .then( friendRemoved =>
       {
         res.json( friendRemoved );
       } )
