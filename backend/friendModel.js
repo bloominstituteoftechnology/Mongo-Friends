@@ -17,31 +17,25 @@ const definition =
     },
     age: {
         type: Number,
-        required: true // Number, required, should be an integer between 1 and 120
+        required: true
     },
-
     contact_info :{
 
         email: {
             type: String,
-            required: false
             
         },
         mobileNumber: {
             type: String,
-            required: false
         },
         githubUserName: {
             type: String,
-            required: false
         },
         facebookUserName: {
             type: String,
-            required: false
         },
         twitterHandle: {
             type: String,
-            required: false
         }
 
     },
@@ -50,7 +44,7 @@ const definition =
         type: Date,
         default: Date.now
     } // Date, required, defaults to current date
-  };
+};
 
   const options ={
       timestamps:true,

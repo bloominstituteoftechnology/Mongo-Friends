@@ -11,7 +11,7 @@ class App extends Component {
     return (
       <div className="App-intro">
         <Switch>
-          <Route exact path='/' component={Header}/>
+          <Route exact path='/' component={CreateFriend}/>
           <Route path='/friends' component={FriendsList} />
           <Route path='/friends/:id' component={SingleFriendView} />
           <Route path='/friends/create' component={CreateFriend} />

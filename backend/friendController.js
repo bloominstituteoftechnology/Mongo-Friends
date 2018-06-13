@@ -81,6 +81,13 @@ const updateId = (req, res) =>{
     if(!id){
         sendUserError(400, `There was an error in retrieving ${id}`, res, err)
     }
+
+    if(!firstName || !lastName || !age){
+        sendUserError(400, `Please provide firstName, lastName and age for the friend.`, res);
+    }
+    if((age < 1 || age > 120) && age.typeof !==Number){
+        sendUserError(400, "Age must be a number between 1 and 120", res)
+    }
       // Tank.update({ _id: id }, { $set: { size: 'large' }}, callback);
     Friend
         .update({ _id: id }, { $set: { firstName, lastName, age }})

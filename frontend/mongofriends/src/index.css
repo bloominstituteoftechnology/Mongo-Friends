@@ -48,22 +48,34 @@ h1, h2, h3, h4, h5{
   padding:15px;
   font-size:.9rem;
 }
-.entrance{
+.button-link{
   height: 50px;
-  width:100px;
+  width:75px;
   margin: 0 auto;
+  padding:10px;
   background-color:gainsboro;
   display: flex;
   align-items: center;
+  justify-content: center;
   text-decoration: none;
 
 }
 
 
+.entrance {
+  text-align:center;
+  display: flex;
+  justify-content: center;
+}
+
+
 .card-container{
   display:flex;
+  padding:50px;
+  width:770px;
   flex-wrap:wrap;
   margin: 50px;
+  background-color: rgb(58, 6, 141);
 }
 .card{
   list-style: none;
@@ -77,4 +89,40 @@ h1, h2, h3, h4, h5{
   flex-direction: column;
   align-items:center;
   justify-content: center;
+}
+
+.create-friend-form{
+  display:flex;
+  flex-direction:column;
+  padding:50px;
+  width:770px;
+  flex-wrap:wrap;
+  margin: 50px;
+  background-color: rgb(58, 6, 141);
+}
+.create-friend-header{
+  color:white;
+}
+.create-friend-body{
+  color:white;
+}
+.label-form{
+  width:120px;
+  padding:10px;
+}
+.form{
+  display:flex;
+  
+}
+.button-submit{
+  height:30px;
+  width:60px;
+  background: lightblue;
+  color:black;
+  padding:5px;
+  display:flex;
+  align-items:center;
+  border: 2px solid white;
+  margin-left: 240px;
+  margin-top:30px;
 }
