@@ -29,6 +29,7 @@ class App extends Component {
            
         this.getData()
       })
+      .catch(err => console.log(err));
   }
 
   handleChange = (e) => {
@@ -52,7 +53,7 @@ class App extends Component {
   }
 
   render() {
-    console.log(this.state)
+    //console.log(this.state)
     return (
       <div className="App">
         <input 
@@ -76,13 +77,13 @@ class App extends Component {
           return ( 
             <div key={friend._id + ''}>
               <div>
-                {friend.firstName}
+                First Name: {friend.firstName}
               </div>
               <div>
-                {friend.lastName}
+                Last Name:{friend.lastName}
               </div>
               <div>
-                {friend.age}
+                Age: {friend.age}
               </div>
               <button onClick={() => this.handleDelete(friend._id)}>X</button>
             </div>
