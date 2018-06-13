@@ -3,7 +3,10 @@ import axios from 'axios';
 
 class App extends Component {
   state = {
-    friends: [{}]
+    friends: [{}],
+    firstName: '',
+    lastName: '',
+    age: ''
   }
 
   componentWillMount() { 
@@ -16,6 +19,7 @@ class App extends Component {
       .then((response) => {
         this.setState({friends: response.data})
       })
+      .catch(err => console.log(err));
   }
 
   handleDelete = (id) => {
@@ -27,41 +31,63 @@ class App extends Component {
       })
   }
 
-  // handleSubmit = (id) => {
-  //   axios
-  //     post(`http://localhost:5005/api/friends/${id}`, {
+  handleChange = (e) => {
+    this.setState({
+      [e.target.name]: e.target.value
+    })
+  }
 
-  //     })
-  //     .this.getData()
-
-  // }
+  handleSubmit = () => {
+    axios
+      .post(`http://localhost:5005/api/friends/`, {
+        firstName: this.state.firstName,
+        lastName: this.state.lastName,
+        age: this.state.age
+      })
+      .then(response => {
+        console.log('post data', response.data)
+        this.getData()
+      })
+      .catch(err => console.log(err));
+  }
 
   render() {
     console.log(this.state)
     return (
       <div className="App">
-        First Name:<input name="first-name" type="text" />
-        Last Name:<input name="last-name" type="text" />
-        Age:<input name="age" type="text" />
-        <button onClick={this.handleSubmit}>Submit</button>
+        <input 
+          name="firstName" 
+          type="text" 
+          placeholder="First Name" 
+          onChange={(e) => this.handleChange(e)} /><br />
+        <input 
+          name="lastName" 
+          type="text" 
+          placeholder="Last Name" 
+          onChange={(e) => this.handleChange(e)} /><br />
+        <input 
+          name="age" 
+          type="text" 
+          placeholder="Age" 
+          onChange={(e) => this.handleChange(e)} /><br />
+        <button onClick={() => this.handleSubmit()}>Submit</button>
 
         {this.state.friends.map(friend => {
           return ( 
             <div key={friend._id + ''}>
-                <div>
-                  {friend.firstName}
-                </div>
-                <div>
-                  {friend.lastName}
-                </div>
-                <div>
-                  {friend.age}
-                </div>
-                <button onClick={() => this.handleDelete(friend._id)}>X</button>
+              <div>
+                {friend.firstName}
+              </div>
+              <div>
+                {friend.lastName}
+              </div>
+              <div>
+                {friend.age}
+              </div>
+              <button onClick={() => this.handleDelete(friend._id)}>X</button>
             </div>
           )
         })}
-
       </div>
     );
   }
