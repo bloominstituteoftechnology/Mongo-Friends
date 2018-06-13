@@ -19,25 +19,20 @@ const definition =
         type: Number,
         required: true
     },
-    contact_info :{
-
-        email: {
-            type: String,
-            
-        },
-        mobileNumber: {
-            type: String,
-        },
-        githubUserName: {
-            type: String,
-        },
-        facebookUserName: {
-            type: String,
-        },
-        twitterHandle: {
-            type: String,
-        }
-
+    email: {
+        type: String
+    },
+    mobileNumber: {
+        type: String
+    },
+    githubUserName: {
+        type: String
+    },
+    facebookUserName: {
+        type: String
+    },
+    twitterHandle: {
+        type: String
     },
 
     createdOn: {
@@ -48,7 +43,6 @@ const definition =
 
   const options ={
       timestamps:true,
-      strict: false
     };
 
   const friendSchema = new mongoose.Schema(definition, options).index({lastName: 1, createdOn: -1});

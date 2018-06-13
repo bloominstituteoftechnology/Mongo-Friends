@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 
-class CreateFriend extends Component {
+class EditFriend extends Component {
     render() {
         return (
             <div className="create-friend-form">
                 <div className="create-friend-header">
-                <h3>Enter New Character Into Database</h3>
+                <h3>Edit Friend</h3>
                 </div>
                 <div className="create-friend-body">
                     <div className="required-info-wrapper">
@@ -44,11 +44,11 @@ class CreateFriend extends Component {
                         <label className="label-form">Twitter Handle:</label>
                         <input className="input-form" type="text" name="twitter" required/>
                     </div>
-                    <div className="button-submit">Submit</div>
+                    <div className="button-submit">Update</div>
                 </div>
             </div>
         );
     }
 }
 
-export default CreateFriend;
+export default EditFriend;

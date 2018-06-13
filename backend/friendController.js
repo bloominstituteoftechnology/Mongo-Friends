@@ -5,7 +5,7 @@ const Friend = require("./friendModel");
 const sendUserError = (status, message, res, err="Not From Catch") => {
     res.status(status).json({Error: message, err});
     return;
-  }
+}
 
 //get friends
 
@@ -22,7 +22,7 @@ const get = (req, res) =>{
 }
 
 const post = (req, res) =>{
-    const { firstName, lastName, age } = req.body;
+    const { firstName, lastName, age, email, mobileNumber, githubUserName, facebookUserName, twitterHandle  } = req.body;
 
     if(!firstName || !lastName || !age){
         sendUserError(400, `Please provide firstName, lastName and age for the friend.`, res);
@@ -30,7 +30,7 @@ const post = (req, res) =>{
     if((age < 1 || age > 120) && age.typeof !==Number){
         sendUserError(400, "Age must be a number between 1 and 120", res)
     }
-    const friend = new Friend({firstName, lastName, age});
+    const friend = new Friend({ firstName, lastName, age, contact_info:{email, mobileNumber, githubUserName, facebookUserName, twitterHandle}  });
     friend
     .save()
     .then(friend =>{
@@ -47,9 +47,9 @@ const getId = (req, res) =>{
     .findById(id)
     .then(friend =>{
         if(!friend){
-            res.status(404).json({Message: "Friend is not found"})
+            res.status(404).json({Message: "Friend is not found"});
         }
-        res.status(200).json(friend)
+        res.status(200).json(friend);
     })
     .catch(err =>{
         sendUserError(500, `There was an error in retrieving ${id}`, res, err)
@@ -63,10 +63,10 @@ const deleteId = (req, res) =>{
         .findByIdAndRemove({ _id: id } )
         .then(result =>{
             if(result){
-                res.status(200).json({Success: `${id} was successfully removed`})
+                res.status(200).json({Success: `${id} was successfully removed`});
             }
             else{
-                res.status(404).json({Message: "Friend is not found"})
+                res.status(404).json({Message: "Friend is not found"});
             }
         })
         .catch(err =>{
@@ -76,7 +76,7 @@ const deleteId = (req, res) =>{
 
 const updateId = (req, res) =>{
     const { id } = req.params;
-    const { firstName, lastName, age } = req.body;
+    const { firstName, lastName, age, email, mobileNumber, githubUserName, facebookUserName, twitterHandle  }= req.body;
 
     if(!id){
         sendUserError(400, `There was an error in retrieving ${id}`, res, err)
@@ -90,7 +90,7 @@ const updateId = (req, res) =>{
     }
       // Tank.update({ _id: id }, { $set: { size: 'large' }}, callback);
     Friend
-        .update({ _id: id }, { $set: { firstName, lastName, age }})
+        .update({ _id: id }, { $set: { firstName, lastName, age, contact_info:{email, mobileNumber, githubUserName, facebookUserName, twitterHandle}  }})
         .then(friend =>{
             res.status(200).json(friend)
         })
