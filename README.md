@@ -40,7 +40,7 @@ After MongoDB is installed, follow the instructions on the documentation to star
 
 ```json
 {
-  "api": "running"
+  "api": "running from Mongo-I"
 }
 ```
 
