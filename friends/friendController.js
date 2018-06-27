@@ -9,34 +9,36 @@ const errorMessage = (status, message, res) => {
 router
 // GET (/api/friends)
     .route('/')
-    .get((req, res) =>
+    .get((req, res) => {
         Friend
-        .find()
-        .then(friends => {
-            res.status(200).json({ friends })
+            .find()
+            .then(friends => {
+                res.status(200).json({ friends })
         })
         // Retrieval Error from Database
         .catch(err => {
             res.status(500).json({ errorMessage: 'Information could not be retrieved.' })
         })
+    })
 
 // GET (by id, /api/friends/:id)
+router
     .route('/:id')
     .get((req, res) => {
         const { id } = req.params;
-    Friend
-        .findById(id)
-        .then(foundFriend => {
+        Friend
+            .findById(id)
+            .then(foundFriend => {
         // Specified ID Not Found
-        if (!foundFriend) {
-            res.status(404).json({ errorMessage: 'Specified ID does not exist.' })
+            if (!foundFriend) {
+                res.status(404).json({ errorMessage: 'Specified ID does not exist.' })
         }
         res.status(200).json(friends);
     })
     // Retrieval Error from Database
     .catch(err => {
         res.status(500).json({ errorMessage: 'Could not be retrieved.' })
-    });
+    })
 
 // POST
     .post((req, res) => {
@@ -60,18 +62,33 @@ router
             })
         })
 
-        .delete((rew, res) => {
+        .delete((req, res) => {
             const { id } = req.params;
             Friend
                 .findByIdAndRemove(id)
                 .then(deletedFriend => {
-                    if(!deletedFriend => {
-                        errorMessag(404, 'No friend with this id found.' , res);
+                    if(!deletedFriend) {
+                        errorMessage(404, 'No friend with this id found.' , res);
                     }
                     res.status({ deletedFriend })
                 })
                 .catch(error => {
                     errorMessage(500, 'Something went wrong with the server.', res);
                 })
-            })
-                });
+        })
+        
+        .put((req, res) => {
+            const { id } = req.params;
+            const { firstName, lasName, age } = req.body;
+
+            if(!firstName || !lastName || !age) {
+                res.status(400).json({ errorMessage: 'Please provide your information.' })
+            }
+            if(age < 1 || age > 120) {
+                errorMessage(400, 'Please enter age between 1 to 120', res)
+            }
+        })
+    });
+                
+
+module.exports = router;

@@ -15,15 +15,15 @@ const FriendSchema = new mongoose.Schema({
     },
     age: {
         type: Number,
-        minlength: 1,
-        maxlength: 120,
+        min: 1,
+        max: 120,
         validate: {
             validator: function(v) {
-                return /\d{3}-\d{3}-\d{4}/.test(v);
+                // return /\d{3}-\d{3}-\d{4}/.test(v);
             },
             message: '{VALUE} is not a valid age!'
         },
-        required: [true, 'Friend age required']
+        required: [true, 'Age required']
     },
     createdOn: {
         type: Date,
