@@ -1,0 +1,20 @@
+.App {
+  text-align: center;
+  background-image: url("http://image.tmdb.org/t/p/original/5YtO7dEn6SJimgNG7ECQIIDzfaF.jpg");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+}
+
+.friend-container{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.friend-card{
+  border: 1px solid black;
+  width: 400px;
+  margin: 20px;
+  background-color: rgba(255, 255, 255, 0.726)
+}
