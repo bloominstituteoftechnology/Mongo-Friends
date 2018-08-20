@@ -1,5 +1,9 @@
 # Mongo Friends
 
+### Additional Notes
+
+**Stop the MongoDB database server when not in use to save computer resources**.
+
 ## Topics
 
 * Databases.
@@ -158,13 +162,10 @@ When the client makes a `PUT` request to `/api/friends/:id`:
 
 * If the friend is found and the new information is valid:
 
-  * update the friend document in the database using the new information sent in the `reques body`.
+  * update the friend document in the database using the new information sent in the `request body`.
   * return HTTP status code `200` (OK).
   * return the newly updated _friend document_.
 
-### Additional Notes
-
-**Stop the MongoDB database server when not in use to save computer resources**.
 
 ## Stretch Problems
 
