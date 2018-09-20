@@ -2,6 +2,7 @@ const router = require('express').Router();
 
 const Friend = require('./friendModel');
 
+// Configuring API to enable it to perform CRUD operations on endpoints.
 router
     .route('/')
     .get((req, res) => {

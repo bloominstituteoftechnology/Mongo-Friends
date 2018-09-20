@@ -7,6 +7,7 @@ const mongoose = require('mongoose');
 //     createdOn: Mon Aug 14 2017 12:50:16 GMT-0700 (PDT) // Date, required, defaults to current date
 // }
 
+// Creating schema.
 const FriendSchema = new mongoose.Schema({
     firstName: {
         type: String,
@@ -27,6 +28,8 @@ const FriendSchema = new mongoose.Schema({
     }
 });
 
+
+// Generating model.
 const friendsModel = mongoose.model('Friend', FriendSchema);
 
 module.exports = friendsModel;
