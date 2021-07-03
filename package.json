@@ -1,28 +1,29 @@
 {
-  "name": "mongo-1-project",
-  "version": "1.0.0",
-  "description": "MongoDB I Project",
-  "main": "server.js",
-  "scripts": {
-    "start": "nodemon server.js"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/LambdaSchool/Mongo-I.git"
-  },
-  "keywords": [],
-  "author": "Lambda School",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/LambdaSchool/Mongo-I/issues"
-  },
-  "homepage": "https://github.com/LambdaSchool/Mongo-I#readme",
-  "dependencies": {
-    "cors": "^2.8.4",
-    "express": "^4.16.3",
-    "helmet": "^3.12.0"
-  },
-  "devDependencies": {
-    "nodemon": "^1.17.3"
-  }
+    "name": "mongo-1-project",
+    "version": "1.0.0",
+    "description": "MongoDB I Project",
+    "main": "server.js",
+    "scripts": {
+        "start": "nodemon server.js"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/LambdaSchool/Mongo-I.git"
+    },
+    "keywords": [],
+    "author": "Lambda School",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/LambdaSchool/Mongo-I/issues"
+    },
+    "homepage": "https://github.com/LambdaSchool/Mongo-I#readme",
+    "dependencies": {
+        "cors": "^2.8.4",
+        "express": "^4.16.3",
+        "helmet": "^3.12.0",
+        "mongoose": "^5.0.14"
+    },
+    "devDependencies": {
+        "nodemon": "^1.17.3"
+    }
 }
