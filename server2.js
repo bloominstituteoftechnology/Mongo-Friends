@@ -5,14 +5,14 @@ const mongoose = require('mongoose');
 
 const server = express();
 
-const friendController = require('./controllers/friendController');
+const friendController = require('./controller/friendController');
 
 server.use(helmet());
 server.use(cors());
 server.use(express.json());
 
 server.get('/', (req, res) => {
-  res.status(200).json({ api: 'running' });
+  res.status(200).json({ api: 'running'});
 });
 
 server.use('/api/friends', friendController);
@@ -20,6 +20,7 @@ server.use('/api/friends', friendController);
 const port = process.env.PORT || 5005;
 
 mongoose.Promise = global.Promise;
+
 mongoose.connect('mongodb://localhost/dbFriends', {}, err => {
   if (err) {
     console.log(err);
@@ -28,5 +29,5 @@ mongoose.connect('mongodb://localhost/dbFriends', {}, err => {
 });
 
 server.listen(port, () => {
-  console.log(`\n=== API up on port: ${port} ===\n`)
+  console.log(`\n === API up on port: ${port} ===\n`)
 });
