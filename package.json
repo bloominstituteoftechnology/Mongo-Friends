@@ -4,25 +4,40 @@
   "description": "MongoDB I Project",
   "main": "server.js",
   "scripts": {
-    "start": "nodemon server.js"
+    "babel-node": "babel-node --presets=env",
+    "start": "nodemon --exec npm run babel-node -- src/server.js",
+    "build": "babel src -d dist"
+  },
+  "babel": {
+    "presets": ["env"]
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/LambdaSchool/Mongo-I.git"
+    "url": "git+https://github.com/axhon/Mongo-I.git"
   },
   "keywords": [],
-  "author": "Lambda School",
+  "author": "Lambda School, @axhon",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/LambdaSchool/Mongo-I/issues"
   },
-  "homepage": "https://github.com/LambdaSchool/Mongo-I#readme",
+  "homepage": "https://github.com/axhon/Mongo-I#readme",
   "dependencies": {
     "cors": "^2.8.4",
     "express": "^4.16.3",
-    "helmet": "^3.12.0"
+    "express-serve-static-core": "^0.1.1",
+    "helmet": "^3.12.0",
+    "mongoose": "^5.0.17",
+    "morgan": "^1.9.0"
   },
   "devDependencies": {
+    "@types/cors": "^2.8.4",
+    "@types/express": "^4.11.1",
+    "@types/helmet": "0.0.37",
+    "@types/mongoose": "^5.0.12",
+    "babel-cli": "^6.26.0",
+    "babel-preset-env": "^1.6.1",
+    "dotenv": "^5.0.1",
     "nodemon": "^1.17.3"
   }
 }
