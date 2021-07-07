@@ -1,0 +1,39 @@
+
+.friendList-title {
+  background: rgb(147, 233, 89);
+  border: 3px solid black;
+  border-bottom: 0;
+  border-radius: 5px 5px 0 0;
+  width: 12%;
+  margin-left: 31%;
+  margin-right: auto;
+}
+
+.friendList-container {
+  background: rgba(235, 219, 0, 0.637);
+  margin: 29.5%;
+  margin-top: -22.5px;
+  width: 40%;
+  padding: 50px 0;
+  border: 3px solid black;
+  border-radius: 5px;
+  position: absolute;
+  z-index: -1;
+}
+
+.friendList {
+  width: 70%;
+  border-left: 7px solid rgb(236, 66, 66);
+  background: rgb(88, 167, 194);
+  margin: auto;
+  padding: 5px 0;
+  margin-top: 10px;
+  color: rgb(255, 255, 255);
+}
+
+
+a:hover, a:visited, a:link, a:active
+{
+    text-decoration: none;
+}
+
