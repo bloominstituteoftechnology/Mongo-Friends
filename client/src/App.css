@@ -1,0 +1,11 @@
+.App {
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+  text-align: center;
+
+}
+
+.App__heading {
+  margin: 0 0 1rem 0;
+}
