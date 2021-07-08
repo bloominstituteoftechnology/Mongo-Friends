@@ -1,0 +1,16 @@
+.Container {
+  max-width: 800px;
+  margin: 0 auto;
+}
+.Container__Header{
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  background: rgb(40, 40, 40);
+  min-height: 10rem;
+}
+.Container__HeaderText {
+  font-size: 3rem;
+  text-align: center;
+  color: white;
+}

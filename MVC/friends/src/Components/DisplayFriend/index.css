@@ -1,0 +1,28 @@
+.Container {
+  border: 1px solid lightgray;
+  border-radius: 5px;
+  width: 400px;
+  min-height: 10rem;
+  margin: 2rem auto 0;
+  padding: 1rem;
+}
+.Container__Header {
+  text-align: center;
+}
+.Container__Text {
+  font-size: 1.4rem;
+}
+.Container__Subject {
+  font-size: 2rem;
+  font-weight: bold;
+}
+.Container__ContactType {
+  font-size: 1.8rem;
+  font-weight: 300;
+}
+.Container__Margin_top {
+  margin-top: 1rem;
+}
+.Container__Padding_left {
+  padding-left: 1rem;
+}
